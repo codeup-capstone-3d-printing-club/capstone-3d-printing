@@ -1,25 +1,25 @@
-package come.codeup.capstone3dprinting.controllers;
+package com.codeup.capstone3dprinting.controllers;
 
-import come.codeup.capstone3dprinting.repos.UserRepository;
+import com.codeup.capstone3dprinting.repos.FileRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-class UserController {
+class FileController {
 
     // These two next steps are often called dependency injection, where we create a Repository instance and initialize it in the controller class constructor.
-    private final UserRepository userDao;
+    private final FileRepository fileDao;
 
-    public UserController(UserRepository userDao) {
-        this.userDao = userDao;
+    public FileController(FileRepository fileDao) {
+        this.fileDao = fileDao;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/files")
     @ResponseBody
     public String index() {
 
-        return "users index page";
+        return "files index page";
     }
 
 }

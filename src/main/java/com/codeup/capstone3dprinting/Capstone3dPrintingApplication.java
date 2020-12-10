@@ -1,4 +1,4 @@
-package come.codeup.capstone3dprinting;
+package com.codeup.capstone3dprinting;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
