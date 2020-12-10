@@ -1,7 +1,6 @@
-package come.codeup.capstone3dprinting.controllers;
+package com.codeup.capstone3dprinting.controllers;
 
-import come.codeup.capstone3dprinting.repos.MessageRepository;
-import come.codeup.capstone3dprinting.repos.UserRepository;
+import com.codeup.capstone3dprinting.repos.MessageRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

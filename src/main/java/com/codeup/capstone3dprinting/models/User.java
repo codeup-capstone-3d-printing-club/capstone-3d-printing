@@ -1,37 +1,34 @@
-package come.codeup.capstone3dprinting.models;
+package com.codeup.capstone3dprinting.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-        @Column(nullable = false, length = 45)
-        private String username;
+    @Column(nullable = false, length = 45)
+    private String username;
 
-        @Column(length = 45)
-        private String first_name;
+    @Column(length = 45)
+    private String first_name;
 
-        @Column(length = 45)
-        private String last_name;
+    @Column(length = 45)
+    private String last_name;
 
-        @Column(nullable = false)
-        private String email;
+    @Column(nullable = false)
+    private String email;
 
-        @Column(nullable = false)
-        private String password;
+    @Column(nullable = false)
+    private String password;
 
-        @Column(nullable = false)
-        private boolean is_verified;
-
-        @OneToMany
-        private List<Message> messages;
+    @Column(nullable = false)
+    private boolean is_verified;
 
     public String getUsername() {
         return username;
@@ -106,12 +103,12 @@ public class User {
     }
 
     @Column(nullable = false)
-        private Timestamp joined_at;
+    private Timestamp joined_at;
 
-        @Column(nullable = false)
-        private boolean is_admin;
+    @Column(nullable = false)
+    private boolean is_admin;
 
-        @Column
-        private String avatar_url;
+    @Column
+    private String avatar_url;
 
 }
