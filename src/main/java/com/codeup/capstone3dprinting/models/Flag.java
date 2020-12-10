@@ -1,6 +1,8 @@
 package com.codeup.capstone3dprinting.models;
 
 import javax.persistence.*;
+import java.util.Collection;
+
 @Entity
 @Table(name="flags")
 public class Flag {
@@ -9,18 +11,13 @@ public class Flag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany
-    @JoinColumn(nullable = false)
+    @ManyToOne
     private File file_id;
 
-    @OneToOne
-    @JoinColumn(nullable = false)
+    @ManyToOne
     private User reporter_id;
 
-    @Column(nullable = false)
-    public enum reason{
-        Inapropriate,
-        WrongCategory,
-        other
-    }
+    @ManyToOne
+    private Reason reason;
+
 }

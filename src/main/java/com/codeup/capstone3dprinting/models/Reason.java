@@ -1,21 +1,16 @@
 package com.codeup.capstone3dprinting.models;
 
 import javax.persistence.*;
+
 @Entity
-@Table(name="ratings")
-public class Rating {
+@Table(name = "reasons")
+public class Reason {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private long id;
-
-    @ManyToOne
-    private User rater_id;
-
-    @ManyToOne
-    private File file_id;
+    private long id;
 
     @Column(nullable = false)
-    private int rating;
+    private String reason_description;
 
 }
