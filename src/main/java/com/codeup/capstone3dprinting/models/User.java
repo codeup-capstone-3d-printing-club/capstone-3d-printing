@@ -30,6 +30,33 @@ public class User {
     @Column(nullable = false)
     private boolean is_verified;
 
+    @Column(nullable = false)
+    private Timestamp joined_at;
+
+    @Column(nullable = false)
+    private boolean is_admin;
+
+    @Column
+    private String avatar_url;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "follows",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "follow_id") })
+    private List<User> users;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "favorites",
+            joinColumns = { @JoinColumn(name = "liker_id") },
+            inverseJoinColumns = { @JoinColumn(name = "file_id") })
+    private List<File> files;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_settings",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "setting_id") })
+    private List<Setting> settings;
+
     public String getUsername() {
         return username;
     }
@@ -102,13 +129,6 @@ public class User {
         this.avatar_url = avatar_url;
     }
 
-    @Column(nullable = false)
-    private Timestamp joined_at;
 
-    @Column(nullable = false)
-    private boolean is_admin;
-
-    @Column
-    private String avatar_url;
 
 }
