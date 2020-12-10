@@ -1,4 +1,4 @@
-package come.codeup.capstone3dprinting.models;
+package com.codeup.capstone3dprinting.models;
 
 import javax.persistence.*;
 @Entity
