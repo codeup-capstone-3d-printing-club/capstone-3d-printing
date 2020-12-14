@@ -12,6 +12,17 @@ public class Reason {
 
     @Column(nullable = false)
     private String reason_description;
+  
+    public Reason(){}
+
+    public Reason(long id, String reason_description){
+        this.id = id;
+        this.reason_description = reason_description;
+    }
+
+    public Reason(String reason_description){
+        this.reason_description = reason_description;
+    }
 
     public long getId() {
         return id;
@@ -21,6 +32,7 @@ public class Reason {
         this.id = id;
     }
 
+
     public String getReason_description() {
         return reason_description;
     }
@@ -28,4 +40,6 @@ public class Reason {
     public void setReason_description(String reason_description) {
         this.reason_description = reason_description;
     }
+  
+   
 }

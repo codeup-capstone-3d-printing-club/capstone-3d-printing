@@ -1,0 +1,21 @@
+.navbar {
+
+}
+.welcome{
+    color: white;
+}
+.navbar{
+    background-color: black;
+}
+footer{
+    margin-top: 500px;
+}
+.links{
+    color: white;
+}
+li {
+    color: white;
+}
+#example1{
+   height:150px !important;
+}
