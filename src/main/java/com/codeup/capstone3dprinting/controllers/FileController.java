@@ -1,9 +1,12 @@
 package com.codeup.capstone3dprinting.controllers;
 
+import com.codeup.capstone3dprinting.models.File;
 import com.codeup.capstone3dprinting.repos.FileRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -21,5 +24,18 @@ class FileController {
     model.addAttribute("allEntries", fileDao.findAll());
         return "index";
     }
-
+    @GetMapping("/files/{id}")
+    public String showPost(@PathVariable long id, Model model) {
+        File filedb = fileDao.getOne(id);
+        model.addAttribute("file", filedb);
+        model.addAttribute("user",filedb.getOwner());
+        return "files/showFile";
+    }
+    @PostMapping("/files/{id}")
+    public String postIndividual(@PathVariable long id, Model model) {
+        File filedb = fileDao.getOne(id);
+        model.addAttribute("file", filedb);
+        model.addAttribute("user",filedb.getOwner());
+        return "files/showFile";
+    }
 }

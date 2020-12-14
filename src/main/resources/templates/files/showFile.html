@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>show individual file</title>
 </head>
 <body>
+<h1>Individual File</h1>
+<div>
+    <h3 th:text="${file.file_title}"></h3>
+    <br>
+    <div th:value="${file.img_url}"></div>
+<!--    TODO:rendering needs to go in to the following tag-->
+    <div th:value="${file.file_url}"></div>
+    <p th:text="${file.description}"></p>
+    <br>
+    <hr>
+<!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
+    Created By: <p th:text="${file.getOwner().getUsername()}">
+</div>
 
+
+<!--    TODO:only show when user is owner-->
+<form th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
+    <button type="button" ><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
+</form>
+</div>
 </body>
 </html>
