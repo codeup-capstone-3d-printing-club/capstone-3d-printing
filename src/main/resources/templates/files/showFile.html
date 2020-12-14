@@ -13,6 +13,11 @@
 <!--    TODO:rendering needs to go in to the following tag-->
     <div th:value="${file.file_url}"></div>
     <p th:text="${file.description}"></p>
+    Date post was created:
+    <p th:text="${file.created_at}"></p>
+    Date last updated:
+    <p th:text="${file.updated_at}"></p>
+    <p>Is private = </p><p th:text="${file.is_private}"></p>
     <br>
     <hr>
 <!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
