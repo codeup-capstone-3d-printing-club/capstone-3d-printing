@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 class UserController {
 
@@ -30,13 +32,11 @@ class UserController {
     }
 
     @GetMapping("/profile/{id}")
-    @ResponseBody
     public String showProfile(@PathVariable long id, Model model) {
     User userdb = userDao.getOne(id);
-        File files = fileDao.findByOwner(userdb);
     model.addAttribute("user", userdb);
-    model.addAttribute("thisUsersFiles",files);
-        return "profile";
+    model.addAttribute("thisUsersFiles", fileDao.findAllByOwner_Id(id));
+        return "users/profile";
     }
 
 
