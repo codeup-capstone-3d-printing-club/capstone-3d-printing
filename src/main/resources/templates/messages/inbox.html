@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head th:include="partials/header_partial::head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:if="${param.sent}">Message Sent!</div>
+
+<div>
+    <a th:href="@{/messages/compose}">Compose an email</a>
+</div>
+
+Inbox
+<div th:each="message : ${received}">
+    <div>
+        <a th:href="@{/messages/{id}(id=${message.id})}"><span th:text="${message.message}"></span></a> from
+        <span th:text="${message.sender.username}"></span>
+    </div>
+</div>
+
+Sent Messages
+<div th:each="message : ${sent}">
+    <div>
+        <a th:href="@{/messages/{id}(id=${message.id})}"><span th:text="${message.message}"></span></a> to <span
+            th:text="${message.recipient.username}"></span>
+    </div>
+</div>
+
+<!-- TODO: delete/trash functionality -->
+
+</body>
+<footer th:include="partials/footer_partial::footer"></footer>
+</html>
