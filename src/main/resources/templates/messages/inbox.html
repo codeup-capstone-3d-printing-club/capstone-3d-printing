@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:include="partials/header_partial::head">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-inbox test
+<!-- iterates though a list of messages -->
+<div th:each="message : ${messages}">
+
+    <div>
+        <span th:text="${message.message}"> from </span><span th:text="${message.sender.username}"></span>
+    </div>
+
+
+</div>
+
 </body>
+<footer th:include="partials/footer_partial::footer"></footer>
 </html>

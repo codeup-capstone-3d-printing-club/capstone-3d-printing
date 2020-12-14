@@ -5,6 +5,7 @@ import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.MessageRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,15 +25,13 @@ class MessageController {
     }
 
     @GetMapping("/messages")
-    public String index() {
+    public String index(Model model) {
         
         User user = userDao.findByIdEquals(1L);
         List<Message> list = messageDao.findByRecipientEquals(user);
 
-        for (Message message: list) {
-            System.out.println("message.getMessage() = " + message.getMessage());
-        }
-        
+        model.addAttribute("messages", list);
+
         return "messages/inbox";
     }
 
@@ -41,6 +40,11 @@ class MessageController {
     public String viewMessage(@PathVariable Long id) {
 
         return id.toString() + " is the id";
+    }
 
+    @GetMapping("/messages/send")
+    @ResponseBody
+    public String sendMessage() {
+        return "send message placeholder";
     }
 }
