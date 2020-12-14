@@ -5,8 +5,9 @@
     <title>Profile</title>
 </head>
 <body>
-<h1>Your profile</h1>
+<h1><span th:text="${user.username}"></span>'s Profile</h1>
 <img th:src="${user.avatar_url}" alt="user profile picture">
+<form th:replace="partials/follow-button::follow"></form>
 
 <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post">
     <label for="avatar">New Img URL (Later we can use api to be able to upload pictures and then save pictures as

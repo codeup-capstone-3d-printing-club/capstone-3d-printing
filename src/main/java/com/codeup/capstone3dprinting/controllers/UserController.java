@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 class UserController {
 
@@ -29,11 +27,32 @@ class UserController {
         return "users index page";
     }
 
+    @PostMapping("/users/follow/{id}")
+    public String followUser(@PathVariable long id,
+                             @RequestParam(name = "following") boolean following) {
+
+        User user = userDao.findByIdEquals(1L);
+
+        if (following) {
+            user.getUsers().remove(userDao.findByIdEquals(id));
+        } else {
+            user.getUsers().add(userDao.findByIdEquals(id));
+        }
+
+        userDao.save(user);
+
+        return "redirect:/profile/" + id;
+    }
+
     @GetMapping("/profile/{id}")
     public String showProfile(@PathVariable long id, Model model) {
+        //assuming logged in as a hard-coded user
+        User user = userDao.findByIdEquals(1L);
+
         User userdb = userDao.getOne(id);
         model.addAttribute("user", userdb);
         model.addAttribute("thisUsersFiles", fileDao.findAllByOwner_Id(id));
+        model.addAttribute("following", user.getUsers().contains(userDao.findByIdEquals(id)));
         return "users/profile";
     }
 
