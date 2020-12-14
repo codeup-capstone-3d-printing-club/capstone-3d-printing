@@ -9,7 +9,7 @@
 <div>
     <h3 th:text="${file.file_title}"></h3>
     <br>
-    <div th:value="${file.img_url}"></div>
+    <img th:src="${file.img_url}"/>
 <!--    TODO:rendering needs to go in to the following tag-->
     <div th:value="${file.file_url}"></div>
     <p th:text="${file.description}"></p>

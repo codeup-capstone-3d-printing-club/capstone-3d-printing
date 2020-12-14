@@ -50,6 +50,8 @@ class FileController {
         File file = fileDao.getOne(id);
         file.setFile_title(fileEdit.getFile_title());
         file.setDescription(fileEdit.getDescription());
+        file.setIs_private(fileEdit.isIs_private());
+        file.setImg_url(fileEdit.getImg_url());
         fileDao.save(file);
         return "redirect:/files/" + file.getId();
     }
