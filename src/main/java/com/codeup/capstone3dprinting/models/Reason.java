@@ -12,7 +12,7 @@ public class Reason {
 
     @Column(nullable = false)
     private String reason_description;
-
+  
     public Reason(){}
 
     public Reason(long id, String reason_description){
@@ -28,14 +28,18 @@ public class Reason {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+
     public String getReason_description() {
         return reason_description;
     }
 
-    public void setId(long id){
-        this.id = id;
-    }
-    public void setReason_description(String reason_description){
+    public void setReason_description(String reason_description) {
         this.reason_description = reason_description;
     }
+  
+   
 }

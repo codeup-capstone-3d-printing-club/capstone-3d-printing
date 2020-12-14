@@ -2,6 +2,7 @@ package com.codeup.capstone3dprinting.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "files")
@@ -35,6 +36,8 @@ public class File {
     @OneToOne
     private User owner;
 
+   public File() {}
+  
     //Create
     public File(long id, String file_url, String file_title, Timestamp created_at,
                 Timestamp updated_at, String description, String img_url, boolean is_private, User owner) {
@@ -47,9 +50,6 @@ public class File {
         this.img_url = img_url;
         this.is_private = is_private;
         this.owner = owner;
-    }
-
-    public File() {
     }
 
     //Read
@@ -77,5 +77,84 @@ public class File {
         owner = copy.owner;
     }
 
+
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "file_category",
+            joinColumns = { @JoinColumn(name = "file_id") },
+            inverseJoinColumns = { @JoinColumn(name = "category_id") })
+    private List<Category> categories;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getFile_url() {
+        return file_url;
+    }
+
+    public void setFile_url(String file_url) {
+        this.file_url = file_url;
+    }
+
+    public String getFile_title() {
+        return file_title;
+    }
+
+    public void setFile_title(String file_title) {
+        this.file_title = file_title;
+    }
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImg_url() {
+        return img_url;
+    }
+
+    public void setImg_url(String img_url) {
+        this.img_url = img_url;
+    }
+
+    public boolean isIs_private() {
+        return is_private;
+    }
+
+    public void setIs_private(boolean is_private) {
+        this.is_private = is_private;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 
 }
