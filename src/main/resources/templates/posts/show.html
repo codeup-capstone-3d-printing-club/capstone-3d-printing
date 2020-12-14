@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header_partial :: head"></head>
+<body>
+<nav th:replace="partials/navbar :: navbar"></nav>
+<h1>Welcome to our page!</h1>
+
+
+<footer th:replace="partials/footer_partial :: footer"></footer>
+<div th:replace="partials/partials_scripts :: script"></div>
+<script type="module" src="/js/renderer.js">
+</script>
+</body>
+</html>
