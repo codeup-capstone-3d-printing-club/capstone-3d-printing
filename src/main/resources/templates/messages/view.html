@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head th:include="partials/header_partial::head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--TODO: make usernames clickable to view profiles -->
+<!-- reply button -->
+<div>
+    TO: <span th:text="${message.recipient.username}"></span>
+</div>
+
+<div>
+    FROM: <span th:text="${message.sender.username}"></span>
+</div>
+
+<div>
+    MESSAGE: <span th:text="${message.message}"></span>
+</div>
+
+<div>
+    SENT AT: <span th:text="${message.sent_at}"></span>
+</div>
+
+
+</body>
+<footer th:include="partials/footer_partial::footer"></footer>
+</html>

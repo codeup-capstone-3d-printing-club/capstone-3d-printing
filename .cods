@@ -1,0 +1,2 @@
+BUILD_COMMAND='./mvnw package'
+JAR_FILE=target/capstone-3d-printing-0.0.1-SNAPSHOT.jar
