@@ -12,14 +12,14 @@
     <h3>Hello, <h3 th:text="${user.username}"></h3></h3>
     <h2 th:text="user.first_name"></h2><h2 th:text="user.last_name"></h2>
     <br>
-     Admin status:<p th:text="${post.is_admin}"></p>
+     Admin status:<p th:text="${user.is_admin}"></p>
     <br>
     <hr>
     Joined at: <p th:text="${user.joined_at}">
 </div>
 <div>
-    <form th:action="@{/posts/{id}/edit(id=${post.ID})}" th:value="${post.ID}" method="post">
-        <button type="button" class="btn btn-success"><a th:href="@{/posts/{id}/edit(id=${post.ID})}">Edit</a></button>
+    <form th:action="@{/profile/{id}/edit(id=${user.id})}" th:value="${user.id}" method="post">
+        <button type="button" class="btn btn-success"><a th:href="@{/profile/{id}/edit(id=${user.id})}">Edit</a></button>
     </form>
 </div>
 
