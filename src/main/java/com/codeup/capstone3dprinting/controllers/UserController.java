@@ -22,4 +22,12 @@ class UserController {
         return "users index page";
     }
 
+    @GetMapping("/profile")
+    @ResponseBody
+    public String showProfile() {
+
+        return "profile";
+    }
+
+
 }
