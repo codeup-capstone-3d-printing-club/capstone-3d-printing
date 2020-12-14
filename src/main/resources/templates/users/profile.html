@@ -6,7 +6,8 @@
 </head>
 <body>
 <h1>Your profile</h1>
-<img th:src="@{user.avatar_url}" alt="user profile picture">
+<img src="https://picsum.photos/200" alt="user profile picture">
+
 
 <div class="col-8">
     <h3>Hello, <h3 th:text="${user.username}"></h3></h3>
@@ -18,9 +19,10 @@
     Joined at: <p th:text="${user.joined_at}">
 </div>
 <div>
-<!--    <form th:action="@{/profile/{id}/edit(id=${user.id})}" th:value="${user.id}" method="post">-->
-<!--        <button type="button" class="btn btn-success"><a th:href="@{/profile/{id}/edit(id=${user.id})}">Edit</a></button>-->
-<!--    </form>-->
+    <form th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" th:value="*{id}" method="post">
+        <button type="button" class="btn btn-success"><a th:href="@{/profile/{id}/edit(id=*{id})}">Edit</a></button>
+    </form>
+
 </div>
 <h3>Your uploaded files</h3>
 <div th:each="file : ${thisUsersFiles}">

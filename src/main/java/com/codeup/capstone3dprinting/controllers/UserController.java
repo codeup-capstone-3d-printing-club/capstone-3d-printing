@@ -39,5 +39,10 @@ class UserController {
         return "users/profile";
     }
 
-
+    @GetMapping("/profile/{id}/edit")
+    public String showEditForm(@PathVariable long id, Model model) {
+        User userdb = userDao.getOne(id);
+        model.addAttribute("user", userdb);
+        return "users/editProfile";
+    }
 }
