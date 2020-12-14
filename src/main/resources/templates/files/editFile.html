@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editing your file post</title>
+</head>
+<body>
+<h1>Editing your file post</h1>
+
+<form th:object="${file}" th:action="@{/files/{id}/edit(id=${file.id})}"  method="post">
+    Post Title:
+    <input name="title" th:value="${file.file_title}" th:field="*{file_title}"/>
+    <br>
+    Your file post:
+    <input type="text" name="description" th:value="${file.description}" th:field="*{description}"/>
+    <br>
+    <label for="isPrivate">set to private</label>
+    <input type="checkbox" id="isPrivate" th:checked="${file.is_private} == true" name="isPrivate" th:field="*{is_private}"/>
+    <br>
+
+    <!--    TODO: maybe change db to allow multiple pictures for each picture-->
+<!--    <div th:each="img : ${allImgs}">-->
+<!--        <div th:value="${file.img.img_url}"></div>-->
+<!--    </div>-->
+
+    <img th:src="${file.img_url}"/>
+    <label for="fileImg">Add Images URL</label>
+<!--    TODO: eventually should upload pictures rather than pasting URLs-->
+    <input name="fileImg" id="fileImg" th:field="*{img_url}" placeholder="Paste img url here" >
+    <br>
+    <button th:type="submit" class="btn">Submit</button>
+</form>
+<form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="delete">
+    <button th:type="submit" class="btn btn-danger">Delete</button>
+</form>
+
+</body>
+</html>
