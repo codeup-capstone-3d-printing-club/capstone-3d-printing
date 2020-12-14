@@ -41,10 +41,11 @@ class MessageController {
     }
 
     @GetMapping("/messages/{id}")
-    @ResponseBody
-    public String viewMessage(@PathVariable Long id) {
+    public String viewMessage(@PathVariable Long id, Model model) {
 
-        return id.toString() + " is the id";
+        Message message = messageDao.findMessageById(id);
+        model.addAttribute("message", message);
+        return "messages/view";
     }
 
     @GetMapping("/messages/compose")
@@ -63,8 +64,10 @@ class MessageController {
                               @RequestParam(name = "message") String message,
                               Model model) {
 
+        Long senderID = 1L;
+
         User user = userDao.findByUsernameEquals(recipient);
-        Message newMessage = new Message(message, new Timestamp(new Date().getTime()), user, userDao.findByIdEquals(3L));
+        Message newMessage = new Message(message, new Timestamp(new Date().getTime()), user, userDao.findByIdEquals(senderID));
 
         messageDao.save(newMessage);
 
