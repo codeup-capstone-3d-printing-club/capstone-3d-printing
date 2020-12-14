@@ -23,7 +23,7 @@
     </form>
 </div>
 <h3>Your uploaded files</h3>
-<div th:each="post : ${thisUsersFiles}">
+<div th:each="file : ${thisUsersFiles}">
     <div class="card">
         <div class="card-title" th:text="${file.title}"></div>
         <div class="card-body" th:text="${file.body}"></div>

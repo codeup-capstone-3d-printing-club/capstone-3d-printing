@@ -33,9 +33,9 @@ class UserController {
     @ResponseBody
     public String showProfile(@PathVariable long id, Model model) {
     User userdb = userDao.getOne(id);
-//        File files = fileDao.
+        File files = fileDao.findByOwner(userdb);
     model.addAttribute("user", userdb);
-
+    model.addAttribute("thisUsersFiles",files);
         return "profile";
     }
 
