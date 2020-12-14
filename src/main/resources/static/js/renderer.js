@@ -14,8 +14,9 @@ animate();
 
 function init() {
 
-    container = document.createElement( 'div' );
-    document.body.appendChild( container );
+    // container = document.createElement( 'div' );
+    // document.body.appendChild( container );
+    container = document.getElementById('renderer');
 
     camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 1, 15 );
     camera.position.set( 3, 0.15, 3 );
@@ -29,7 +30,7 @@ function init() {
     // Ground
 
     const plane = new THREE.Mesh(
-        new THREE.PlaneBufferGeometry( 40, 40 ),
+        new THREE.PlaneBufferGeometry( 10, 10 ),
         new THREE.MeshPhongMaterial( { color: 0x999999, specular: 0x101010 } )
     );
     plane.rotation.x = - Math.PI / 2;
@@ -128,7 +129,7 @@ function init() {
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( window.innerWidth / 2, window.innerHeight / 2 );
     renderer.outputEncoding = THREE.sRGBEncoding;
 
     renderer.shadowMap.enabled = true;
