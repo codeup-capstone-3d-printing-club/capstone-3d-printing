@@ -31,9 +31,9 @@ class UserController {
 
     @GetMapping("/profile/{id}")
     public String showProfile(@PathVariable long id, Model model) {
-    User userdb = userDao.getOne(id);
-    model.addAttribute("user", userdb);
-    model.addAttribute("thisUsersFiles", fileDao.findAllByOwner_Id(id));
+        User userdb = userDao.getOne(id);
+        model.addAttribute("user", userdb);
+        model.addAttribute("thisUsersFiles", fileDao.findAllByOwner_Id(id));
         return "users/profile";
     }
 
@@ -45,7 +45,7 @@ class UserController {
     }
 
     @PostMapping("/profile/{id}/edit")
-    public String editProfile(@PathVariable long id, @ModelAttribute User userEdit){
+    public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
         User user = userDao.getOne(id);
         user.setUsername(userEdit.getUsername());
         user.setFirst_name(userEdit.getFirst_name());
@@ -55,5 +55,11 @@ class UserController {
         return "redirect:/profile/" + user.getId();
     }
 
-
+    @PostMapping("/profile/{id}/changeAvatar")
+    public String changeAvatar(@PathVariable long id, @RequestParam(name = "avatar") String avatarURL) {
+        User user = userDao.getOne(id);
+        user.setAvatar_url(avatarURL);
+        userDao.save(user);
+        return "redirect:/profile/" + user.getId();
+    }
 }

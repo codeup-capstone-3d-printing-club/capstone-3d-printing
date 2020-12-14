@@ -6,14 +6,21 @@
 </head>
 <body>
 <h1>Your profile</h1>
-<img src="https://via.placeholder.com/200" alt="user profile picture">
+<img th:src="${user.avatar_url}" alt="user profile picture">
 
+<form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post">
+    <label for="avatar">New Img URL (Later we can use api to be able to upload pictures and then save pictures as
+        URL)</label>
+    <input name="avatar" id="avatar">
+    <button th:type="submit" class="btn btn-danger">Change Avatar</button>
+</form>
 
 <div class="col-8">
     <h3>Hello, <h3 th:text="${user.username}"></h3></h3>
-    <h2 th:text="${user.first_name}"></h2><h2 th:text="${user.last_name}"></h2>
+    <h2 th:text="${user.first_name}"></h2>
+    <h2 th:text="${user.last_name}"></h2>
     <br>
-     Admin status:<p th:text="${user.is_admin}"></p>
+    Admin status:<p th:text="${user.is_admin}"></p>
     <br>
     <hr>
     Joined at: <p th:text="${user.joined_at}">
@@ -30,10 +37,10 @@
         <div class="card-title" th:text="${file.file_title}"></div>
         <div class="card-body" th:text="${file.description}"></div>
         <div class="card-body" th:text="${file.created_at}"></div>
-<!--        TODO: need to create a page that displays individual files/posts and use form below to link to each individual post/file-->
-<!--        <form th:action="@{/files/{id}(id=${file.ID})}" th:value="${file.ID}" method="post">-->
-<!--            <button type="submit">see post</button>-->
-<!--        </form>-->
+        <!--        TODO: need to create a page that displays individual files/posts and use form below to link to each individual post/file-->
+        <!--        <form th:action="@{/files/{id}(id=${file.ID})}" th:value="${file.ID}" method="post">-->
+        <!--            <button type="submit">see post</button>-->
+        <!--        </form>-->
     </div>
 </div>
 
