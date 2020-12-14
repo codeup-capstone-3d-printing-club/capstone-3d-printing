@@ -6,10 +6,11 @@ import com.codeup.capstone3dprinting.repos.MessageRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -26,11 +27,15 @@ class MessageController {
 
     @GetMapping("/messages")
     public String index(Model model) {
-        
-        User user = userDao.findByIdEquals(1L);
-        List<Message> list = messageDao.findByRecipientEquals(user);
 
-        model.addAttribute("messages", list);
+        Long id = 1L;
+
+        User user = userDao.findByIdEquals(id);
+        List<Message> receivedList = messageDao.findByRecipientEquals(user);
+        List<Message> sentList = messageDao.findBySenderEquals(user);
+
+        model.addAttribute("received", receivedList);
+        model.addAttribute("sent", sentList);
 
         return "messages/inbox";
     }
@@ -42,9 +47,29 @@ class MessageController {
         return id.toString() + " is the id";
     }
 
-    @GetMapping("/messages/send")
-    @ResponseBody
-    public String sendMessage() {
-        return "send message placeholder";
+    @GetMapping("/messages/compose")
+    public String composeMessage(Model model) {
+
+        Message message = new Message();
+        User user = new User();
+        model.addAttribute("message", message);
+        model.addAttribute("user", user);
+
+        return "messages/compose";
     }
+
+    @PostMapping("/messages/send")
+    public String sendMessage(@RequestParam(name = "recipient") String recipient,
+                              @RequestParam(name = "message") String message,
+                              Model model) {
+
+        User user = userDao.findByUsernameEquals(recipient);
+        Message newMessage = new Message(message, new Timestamp(new Date().getTime()), user, userDao.findByIdEquals(3L));
+
+        messageDao.save(newMessage);
+
+
+        return "redirect:/messages/?sent";
+    }
+
 }

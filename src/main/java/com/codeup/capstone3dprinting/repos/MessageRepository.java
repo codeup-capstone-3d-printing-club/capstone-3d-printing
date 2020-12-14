@@ -9,5 +9,6 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
     List<Message> findByRecipientEquals(User user);
+    List<Message> findBySenderEquals(User user);
 }
 

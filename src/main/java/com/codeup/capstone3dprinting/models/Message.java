@@ -26,6 +26,18 @@ public class Message {
     @Column(nullable = false)
     private boolean unread;
 
+    public Message() {
+
+    }
+
+    public Message(String message, Timestamp timestamp, User recipient, User sender) {
+        this.message = message;
+        this.sent_at = timestamp;
+        this.recipient = recipient;
+        this.sender = sender;
+        this.unread = true;
+    }
+
     public long getId() {
         return id;
     }
