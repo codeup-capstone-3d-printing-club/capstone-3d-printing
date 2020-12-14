@@ -73,7 +73,6 @@ public class User {
         this.username = username;
 
     }
-
     //Read
     public User(long id, String email, String first_name, boolean is_admin, boolean is_verified,
                 Timestamp joined_at, String last_name, String password, String username) {
@@ -87,6 +86,21 @@ public class User {
         this.password = password;
         this.username = username;
     }
+
+
+    public User(User copy) {
+        id = copy.id;
+        avatar_url = copy.avatar_url;
+        email = copy.email;
+        first_name = copy.first_name;
+        is_admin = copy.is_admin;
+        is_verified = copy.is_verified;
+        joined_at = copy.joined_at;
+        last_name = copy.last_name;
+        password = copy.password;
+        username = copy.username;
+    }
+
     public long getId(){
         return this.id;
     }
