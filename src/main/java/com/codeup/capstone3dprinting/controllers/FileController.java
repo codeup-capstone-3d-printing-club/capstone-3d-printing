@@ -22,9 +22,9 @@ class FileController {
         return "files index page";
     }
 
-    @GetMapping("/file/1")
+    @GetMapping("/file/id")
     public String show() {
-        return "posts/show";
+        return "files/show";
     }
 
 }
