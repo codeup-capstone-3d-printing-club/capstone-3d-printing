@@ -41,21 +41,72 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "follows",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "follow_id") })
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "follow_id")})
     private List<User> users;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "favorites",
-            joinColumns = { @JoinColumn(name = "liker_id") },
-            inverseJoinColumns = { @JoinColumn(name = "file_id") })
+            joinColumns = {@JoinColumn(name = "liker_id")},
+            inverseJoinColumns = {@JoinColumn(name = "file_id")})
     private List<File> files;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_settings",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "setting_id") })
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "setting_id")})
     private List<Setting> settings;
+
+    public User() {
+    }
+
+    //Create
+    public User(String email, String first_name, boolean is_admin, boolean is_verified,
+                Timestamp joined_at, String last_name, String password, String username) {
+        this.email = email;
+        this.first_name = first_name;
+        this.is_verified = false;
+        this.is_admin = false;
+        this.joined_at = joined_at;
+        this.last_name = last_name;
+        this.password = password;
+        this.username = username;
+
+    }
+    //Read
+    public User(long id, String email, String first_name, boolean is_admin, boolean is_verified,
+                Timestamp joined_at, String last_name, String password, String username) {
+        this.id = id;
+        this.email = email;
+        this.first_name = first_name;
+        this.is_verified = false;
+        this.is_admin = false;
+        this.joined_at = joined_at;
+        this.last_name = last_name;
+        this.password = password;
+        this.username = username;
+    }
+
+
+    public User(User copy) {
+        id = copy.id;
+        avatar_url = copy.avatar_url;
+        email = copy.email;
+        first_name = copy.first_name;
+        is_admin = copy.is_admin;
+        is_verified = copy.is_verified;
+        joined_at = copy.joined_at;
+        last_name = copy.last_name;
+        password = copy.password;
+        username = copy.username;
+    }
+
+    public long getId(){
+        return this.id;
+    }
+    public void setId(long id){
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -128,7 +179,6 @@ public class User {
     public void setAvatar_url(String avatar_url) {
         this.avatar_url = avatar_url;
     }
-
 
 
 }

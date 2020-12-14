@@ -23,6 +23,9 @@ public class Message {
     @Column(nullable = false)
     private Timestamp sent_at;
 
+    @Column(nullable = false)
+    private boolean unread;
+
     public long getId() {
         return id;
     }
@@ -61,5 +64,13 @@ public class Message {
 
     public void setSent_at(Timestamp sent_at) {
         this.sent_at = sent_at;
+    }
+
+    public boolean isUnread() {
+        return unread;
+    }
+
+    public void setUnread(boolean unread) {
+        this.unread = unread;
     }
 }
