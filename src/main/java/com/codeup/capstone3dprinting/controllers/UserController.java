@@ -38,6 +38,12 @@ class UserController {
     model.addAttribute("thisUsersFiles",files);
         return "profile";
     }
+    @GetMapping("/sign-up")
+    public String showSignupForm(Model model){
+        model.addAttribute("user", new User());
+        return "users/sign-up";
+    }
+
 
 
 }
