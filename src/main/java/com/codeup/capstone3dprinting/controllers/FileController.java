@@ -2,6 +2,7 @@ package com.codeup.capstone3dprinting.controllers;
 
 import com.codeup.capstone3dprinting.repos.FileRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,10 +17,9 @@ class FileController {
     }
 
     @GetMapping("/files")
-    @ResponseBody
-    public String index() {
-
-        return "files index page";
+    public String showAllFiles(Model model) {
+    model.addAttribute("allEntries", fileDao.findAll());
+        return "index";
     }
 
 }
