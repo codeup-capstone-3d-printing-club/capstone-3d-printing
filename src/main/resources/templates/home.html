@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/header_partial :: head"></head>
-<body>
+<head th:replace="partials/header_partial :: head">
+
+</head>
+<body th:replace="partials/body_partials :: body"></body>
+<!--<img th:src="@{/image/3d_bg.jpg}">-->
+
 <nav th:replace="partials/navbar :: navbar"></nav>
-<h1>Welcome to our page!</h1>
+<h1 class="welcome">Welcome to our page!</h1>
 
 
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <div th:replace="partials/partials_scripts :: script"></div>
-</body>
+
 </html>
