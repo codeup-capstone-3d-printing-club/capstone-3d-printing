@@ -43,6 +43,12 @@ class UserController {
         model.addAttribute("user", userdb);
         return "users/editProfile";
     }
+    @GetMapping("/sign-up")
+    public String showSignupForm(Model model){
+        model.addAttribute("user", new User());
+        return "users/sign-up";
+    }
+
 
     @PostMapping("/profile/{id}/edit")
     public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
@@ -55,6 +61,7 @@ class UserController {
         return "redirect:/profile/" + user.getId();
     }
 
+
     @PostMapping("/profile/{id}/changeAvatar")
     public String changeAvatar(@PathVariable long id, @RequestParam(name = "avatar") String avatarURL) {
         User user = userDao.getOne(id);
@@ -63,3 +70,4 @@ class UserController {
         return "redirect:/profile/" + user.getId();
     }
 }
+

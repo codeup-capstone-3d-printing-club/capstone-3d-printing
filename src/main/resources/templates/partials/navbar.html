@@ -15,7 +15,7 @@
 
 <nav th:fragment="navbar">
     <nav class="navbar-expand-lg  navbar-dark navbar">
-<!--         style="background-color: #CE4912"-->
+        <!--         style="background-color: #CE4912"-->
 
         <div class="container-fluid">
             <a class="navbar-brand">3-D Print Club</a>
@@ -32,7 +32,7 @@
                         <a class="nav-link icon " href="/posts/create">Create</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link icon" href="/posts">3-D Objects</a>
+                        <a class="nav-link icon" href="/files">3-D Objects</a>
                     </li>
 
                     <li class="nav-item">
@@ -48,6 +48,15 @@
                             </button>
                         </form>
                     </li>
+                    <li id="messages" class="nav-item">
+
+                        <button type="button" class="btn btn-primary position-relative image d-flex justify-content-end">
+                            Messages <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99 <span
+                                class="visually-hidden">unread messages</span></span>
+                        </button>
+
+                    </li>
                 </ul>
             </div>
         </div>
@@ -55,7 +64,6 @@
     </nav>
 
 </nav>
-
 
 
 </body>

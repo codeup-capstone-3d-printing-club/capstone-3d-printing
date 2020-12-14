@@ -5,8 +5,17 @@
     color: white;
 }
 .navbar{
-    background-color: #CE4912;
+    background-color: black;
 }
 footer{
-margin-top: 500px;
+    margin-top: 500px;
+}
+.links{
+    color: white;
+}
+li {
+    color: white;
+}
+#example1{
+   height:150px !important;
 }
