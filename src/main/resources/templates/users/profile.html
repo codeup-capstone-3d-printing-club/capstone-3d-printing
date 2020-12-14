@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<h1>Your profile</h1>
+<img th:src="@{user.avatar_url}" alt="user profile picture">
+
+<div class="col-8">
+    <h3>Hello, <h3 th:text="${user.username}"></h3></h3>
+    <h2 th:text="user.first_name"></h2><h2 th:text="user.last_name"></h2>
+    <br>
+     Admin status:<p th:text="${user.is_admin}"></p>
+    <br>
+    <hr>
+    Joined at: <p th:text="${user.joined_at}">
+</div>
+<div>
+    <form th:action="@{/profile/{id}/edit(id=${user.id})}" th:value="${user.id}" method="post">
+        <button type="button" class="btn btn-success"><a th:href="@{/profile/{id}/edit(id=${user.id})}">Edit</a></button>
+    </form>
+</div>
+<h3>Your uploaded files</h3>
+<div th:each="file : ${thisUsersFiles}">
+    <div class="card">
+        <div class="card-title" th:text="${file.title}"></div>
+        <div class="card-body" th:text="${file.body}"></div>
+        <form th:action="@{/files/{id}(id=${file.ID})}" th:value="${file.ID}" method="post">
+            <button type="submit">see post</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

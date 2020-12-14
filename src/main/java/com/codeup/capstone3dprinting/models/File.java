@@ -36,15 +36,58 @@ public class File {
     @OneToOne
     private User owner;
 
-    public long getId() {
-        return id;
+   public File() {}
+  
+    //Create
+    public File(long id, String file_url, String file_title, Timestamp created_at,
+                Timestamp updated_at, String description, String img_url, boolean is_private, User owner) {
+        this.id = id;
+        this.file_url = file_url;
+        this.file_title = file_title;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.description = description;
+        this.img_url = img_url;
+        this.is_private = is_private;
+        this.owner = owner;
     }
 
+    //Read
+    public File(String file_url, String file_title, Timestamp created_at,
+                Timestamp updated_at, String description, String img_url, boolean is_private, User owner) {
+        this.file_url = file_url;
+        this.file_title = file_title;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.description = description;
+        this.img_url = img_url;
+        this.is_private = is_private;
+        this.owner = owner;
+    }
+
+    public File(File copy) {
+        id = copy.id;
+        file_url = copy.file_url;
+        file_title = copy.file_title;
+        created_at = copy.created_at;
+        updated_at = copy.updated_at;
+        description = copy.description;
+        img_url = copy.img_url;
+        is_private = copy.is_private;
+        owner = copy.owner;
+    }
+
+
+    
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "file_category",
             joinColumns = { @JoinColumn(name = "file_id") },
             inverseJoinColumns = { @JoinColumn(name = "category_id") })
     private List<Category> categories;
+
+    public long getId() {
+        return id;
+    }
 
     public void setId(long id) {
         this.id = id;
@@ -113,4 +156,5 @@ public class File {
     public void setOwner(User owner) {
         this.owner = owner;
     }
+
 }
