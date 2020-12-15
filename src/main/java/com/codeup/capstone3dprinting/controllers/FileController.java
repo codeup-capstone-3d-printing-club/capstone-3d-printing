@@ -1,21 +1,32 @@
 package com.codeup.capstone3dprinting.controllers;
 
+import com.codeup.capstone3dprinting.models.Comment;
 import com.codeup.capstone3dprinting.models.File;
 import com.codeup.capstone3dprinting.models.User;
+import com.codeup.capstone3dprinting.repos.CommentRepository;
 import com.codeup.capstone3dprinting.repos.FileRepository;
+import com.codeup.capstone3dprinting.repos.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 class FileController {
 
     // These two next steps are often called dependency injection, where we create a Repository instance and initialize it in the controller class constructor.
     private final FileRepository fileDao;
+    private final CommentRepository commentDao;
+    private final UserRepository userDao;
 
-    public FileController(FileRepository fileDao) {
+    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao) {
         this.fileDao = fileDao;
+        this.commentDao = commentdao;
+        this.userDao = userdao;
     }
 
     @GetMapping("/files")
@@ -27,14 +38,9 @@ class FileController {
     @GetMapping("/files/{id}")
     public String showPost(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
-        model.addAttribute("file", filedb);
-//        model.addAttribute("user", filedb.getOwner());
-        return "files/showFile";
-    }
+        List<Comment> thisFilesComments = commentDao.getAllByFile_Id(id);
 
-    @PostMapping("/files/{id}")
-    public String postIndividual(@PathVariable long id, Model model) {
-        File filedb = fileDao.getOne(id);
+        model.addAttribute("allCommentsForThisPost", thisFilesComments);
         model.addAttribute("file", filedb);
         model.addAttribute("user", filedb.getOwner());
         return "files/showFile";
@@ -96,4 +102,20 @@ class FileController {
         fileDao.save(file);
         return "redirect:/admin";
     }
+
+
+    @PostMapping("files/{id}/comment")
+    public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
+        Comment newComment = new Comment();
+        System.out.println("commentText = " + commentText);
+        newComment.setComment(commentText);
+        newComment.setCreatedAt(new Timestamp(new Date().getTime()));
+        newComment.setFile(fileDao.getOne(id));
+//        newComment.setOwner(auth.getPrincipal());
+        newComment.setOwner(userDao.getOne(1L));
+        commentDao.save(newComment);
+        File file = fileDao.getOne(id);
+        return "redirect:/files/" + file.getId();
+    }
 }
+
