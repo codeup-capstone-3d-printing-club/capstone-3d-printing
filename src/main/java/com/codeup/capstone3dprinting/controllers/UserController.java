@@ -109,6 +109,7 @@ class UserController {
         return "users/editProfile";
     }
 
+
     @PostMapping("/profile/{id}/edit")
     public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
         User user = userDao.getOne(id);
