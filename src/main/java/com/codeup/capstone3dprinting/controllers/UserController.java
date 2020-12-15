@@ -51,27 +51,27 @@ class UserController {
     public String showProfile(@PathVariable long id, Model model) {
         //assuming logged in as a hard-coded user
         User user = userDao.findByIdEquals(1L);
-        List<File> files = new ArrayList<>();
-        
-        for (User followed: user.getUsers()) {
-            
-            List<File> list = fileDao.findAllByOwner(followed);
-            System.out.println("followed.getUsername() = " + followed.getUsername());
-            files.addAll(list);
-            
-        }
-        
-        for (File file: files) {
-            System.out.println("file.getFile_title() = " + file.getFile_title());
-        }
-        
 
         User userdb = userDao.getOne(id);
         model.addAttribute("user", userdb);
         model.addAttribute("thisUsersFiles", fileDao.findAllByOwner_Id(id));
         model.addAttribute("following", user.getUsers().contains(userDao.findByIdEquals(id)));
-
+        model.addAttribute("feed", getFollowFeed());
         return "users/profile";
+    }
+
+    private List<File> getFollowFeed() {
+        //assuming logged in as a hard-coded user
+        User user = userDao.findByIdEquals(1L);
+        List<File> files = new ArrayList<>();
+
+        for (User followed: user.getUsers()) {
+            List<File> list = fileDao.findAllByOwner(followed);
+            files.addAll(list);
+        }
+
+        return files;
+
     }
 
     @GetMapping("/profile/{id}/edit")

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:include="partials/header_partial::head">
     <meta charset="UTF-8">
     <title>Profile</title>
 </head>
@@ -44,5 +44,6 @@
     </div>
 </div>
 
+<div th:replace="partials/follow-feed::feed"></div>
 </body>
 </html>
