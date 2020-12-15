@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -66,7 +65,7 @@ class MessageController {
 
         Long senderID = 1L;
 
-        User user = userDao.findByUsernameEquals(recipient);
+        User user = userDao.findByUsernameIgnoreCase(recipient);
         Message newMessage = new Message(message, new Timestamp(new Date().getTime()), user, userDao.findByIdEquals(senderID));
 
         messageDao.save(newMessage);
