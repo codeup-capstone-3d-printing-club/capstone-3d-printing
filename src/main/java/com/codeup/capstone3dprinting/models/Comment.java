@@ -14,8 +14,8 @@ public class Comment {
     @JoinColumn(nullable = false)
     private User owner;
 
-    @OneToOne
-    @JoinColumn(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "file_id")
     private File file;
 
     @Column(nullable = false, length = 1000)
