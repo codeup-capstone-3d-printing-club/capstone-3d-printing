@@ -11,17 +11,17 @@ public class Reason {
     private long id;
 
     @Column(nullable = false)
-    private String reason_description;
+    private String description;
   
     public Reason(){}
 
-    public Reason(long id, String reason_description){
+    public Reason(long id, String description){
         this.id = id;
-        this.reason_description = reason_description;
+        this.description = description;
     }
 
-    public Reason(String reason_description){
-        this.reason_description = reason_description;
+    public Reason(String description){
+        this.description = description;
     }
 
     public long getId() {
@@ -33,12 +33,12 @@ public class Reason {
     }
 
 
-    public String getReason_description() {
-        return reason_description;
+    public String getDescription() {
+        return description;
     }
 
-    public void setReason_description(String reason_description) {
-        this.reason_description = reason_description;
+    public void setDescription(String description) {
+        this.description = description;
     }
   
    

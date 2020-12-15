@@ -10,10 +10,10 @@ public class Rating {
         private long id;
 
     @ManyToOne
-    private User rater_id;
+    private User rater;
 
     @ManyToOne
-    private File file_id;
+    private File file;
 
     @Column(nullable = false)
     private int rating;
@@ -26,20 +26,20 @@ public class Rating {
         this.id = id;
     }
 
-    public User getRater_id() {
-        return rater_id;
+    public User getRater() {
+        return rater;
     }
 
-    public void setRater_id(User rater_id) {
-        this.rater_id = rater_id;
+    public void setRater(User rater) {
+        this.rater = rater;
     }
 
-    public File getFile_id() {
-        return file_id;
+    public File getFile() {
+        return file;
     }
 
-    public void setFile_id(File file_id) {
-        this.file_id = file_id;
+    public void setFile(File file) {
+        this.file = file;
     }
 
     public int getRating() {
@@ -49,4 +49,6 @@ public class Rating {
     public void setRating(int rating) {
         this.rating = rating;
     }
+
+
 }

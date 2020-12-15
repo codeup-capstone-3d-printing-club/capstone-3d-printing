@@ -33,8 +33,15 @@ public class File {
     @Column(nullable = false)
     private boolean is_private;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "file_category",
+            joinColumns = { @JoinColumn(name = "file_id") },
+            inverseJoinColumns = { @JoinColumn(name = "category_id") })
+    private List<Category> categories;
 
    public File() {}
   
@@ -76,14 +83,6 @@ public class File {
         is_private = copy.is_private;
         owner = copy.owner;
     }
-
-
-    
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "file_category",
-            joinColumns = { @JoinColumn(name = "file_id") },
-            inverseJoinColumns = { @JoinColumn(name = "category_id") })
-    private List<Category> categories;
 
     public long getId() {
         return id;
