@@ -15,6 +15,8 @@
             Date last updated:
             <p th:text="${file.updated_at}"></p>
             <p>Is private = </p><p th:text="${file.is_private}"></p>
+            <!--    TODO: only show this if admin-->
+            <p>Is flagged = </p><p th:text="${file.isFlagged()}"></p>
             <!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
             Created By: <p th:text="${file.getOwner().getUsername()}">
             <button class="btn btn-outline-secondary">follow</button>
@@ -37,37 +39,14 @@
             <div></div>
         </div>
     </div>
-
-<div>
-    <h3 th:text="${file.title}"></h3>
-    <br>
-    <img th:src="${file.imgUrl}" alt="file img"/>
-<!--    TODO:rendering needs to go in to the following tag-->
-    <div th:value="${file.fileUrl}"></div>
-    <p th:text="${file.description}"></p>
-    Date post was created:
-    <p th:text="${file.createdAt}"></p>
-    Date last updated:
-    <p th:text="${file.updatedAt}"></p>
-    <p>Is private = </p><p th:text="${file.isPrivate()}"></p>
-<!--    TODO: only show this if admin-->
-    <p>Is flagged = </p><p th:text="${file.isFlagged()}"></p>
-    <br>
-    <hr>
-<!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
-    Created By: <p th:text="${file.getOwner().getUsername()}">
-    <form th:action="@{/files/{id}/flag(id=${file.id})}" th:method="post">
-        <button th:type="submit" class="btn btn-danger">Flag Post</button>
-    </form>
 </div>
 
 <!--    TODO:only show when user is owner-->
-<!--<form th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">-->
-<!--    <button type="button" ><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>-->
-<!--</form>-->
+<form th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
+    <button type="button" ><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
+</form>
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <script th:replace="partials/partials_scripts :: script"></script>
 <script type="module" th:src="@{/js/renderer.js}"></script>
-
 </body>
 </html>
