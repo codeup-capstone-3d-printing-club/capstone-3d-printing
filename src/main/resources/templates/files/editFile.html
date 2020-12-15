@@ -9,13 +9,13 @@
 
 <form th:object="${file}" th:action="@{/files/{id}/edit(id=${file.id})}"  method="post">
     Post Title:
-    <input name="title" th:value="${file.file_title}" th:field="*{file_title}"/>
+    <input name="title" th:value="${file.title}" th:field="*{title}"/>
     <br>
     Your file post:
     <input type="text" name="description" th:value="${file.description}" th:field="*{description}"/>
     <br>
     <label for="isPrivate">set to private</label>
-    <input type="checkbox" id="isPrivate" th:checked="${file.is_private} == true" name="isPrivate" th:field="*{is_private}"/>
+    <input type="checkbox" id="isPrivate" th:checked="${file.isPrivate} == true" name="isPrivate" th:field="*{isPrivate}"/>
     <br>
 
     <!--    TODO: maybe change db to allow multiple pictures for each picture-->
@@ -23,10 +23,10 @@
 <!--        <div th:value="${file.img.img_url}"></div>-->
 <!--    </div>-->
 
-    <img th:src="${file.img_url}"/>
+    <img th:src="${file.imgUrl}"/>
     <label for="fileImg">Add Images URL</label>
 <!--    TODO: eventually should upload pictures rather than pasting URLs-->
-    <input name="fileImg" id="fileImg" th:field="*{img_url}" placeholder="Paste img url here" >
+    <input name="fileImg" id="fileImg" th:field="*{imgUrl}" placeholder="Paste img url here" >
     <br>
     <button th:type="submit" class="btn">Submit</button>
 </form>

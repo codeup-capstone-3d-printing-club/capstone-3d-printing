@@ -7,28 +7,43 @@
 <body>
 <h1>Individual File</h1>
 <div>
-    <h3 th:text="${file.file_title}"></h3>
+    <h3 th:text="${file.title}"></h3>
     <br>
-    <img th:src="${file.img_url}"/>
+    <img th:src="${file.imgUrl}" alt="file img"/>
 <!--    TODO:rendering needs to go in to the following tag-->
-    <div th:value="${file.file_url}"></div>
+    <div th:value="${file.fileUrl}"></div>
     <p th:text="${file.description}"></p>
     Date post was created:
-    <p th:text="${file.created_at}"></p>
+    <p th:text="${file.createdAt}"></p>
     Date last updated:
-    <p th:text="${file.updated_at}"></p>
-    <p>Is private = </p><p th:text="${file.is_private}"></p>
+    <p th:text="${file.updatedAt}"></p>
+    <p>Is private = </p><p th:text="${file.isPrivate()}"></p>
+<!--    TODO: only show this if admin-->
+    <p>Is flagged = </p><p th:text="${file.isFlagged()}"></p>
     <br>
     <hr>
 <!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
     Created By: <p th:text="${file.getOwner().getUsername()}">
 </div>
+<div class="commentbox" style="border: grey solid 2px" th:each="comment : ${allCommentsForThisPost}">
+    <h2 th:text="${comment.getOwner().getUsername()}"></h2>
+    <p th:text="${comment.comment}"></p>
+    <p th:text="${comment.createdAt}"></p>
+</div>
+<form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
+    Your comment:
+    <input th:name="commentText">
+    <button th:type="submit">post comment</button>
+</form>
 
 
+<form th:action="@{/files/{id}/flag(id=${file.id})}" th:method="post">
+    <button th:type="submit" class="btn btn-danger">Flag Post</button>
+</form>
 <!--    TODO:only show when user is owner-->
 <form th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
     <button type="button" ><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
 </form>
-</div>
+
 </body>
 </html>
