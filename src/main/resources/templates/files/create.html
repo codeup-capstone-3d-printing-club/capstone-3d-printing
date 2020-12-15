@@ -9,7 +9,7 @@
 <div id="inline" style="width:600px;height:500px;padding:20px;"></div>
 
 <footer th:replace="partials/footer_partial :: footer"></footer>
-<div th:replace="partials/partials_scripts :: script"></div>
+<script th:replace="partials/partials_scripts :: script"></script>
 <script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
 <script>
     window.addEventListener('DOMContentLoaded', function () {
@@ -28,6 +28,10 @@
         openBtn.addEventListener('click', () => picker.open());
         closeBtn.addEventListener('click', () => picker.close());
     });
+    function uploadFile(result) {
+        const fileData = result.filesUploaded[0];
+        console.log(fileData);
+    }
 </script>
 </body>
 </html>

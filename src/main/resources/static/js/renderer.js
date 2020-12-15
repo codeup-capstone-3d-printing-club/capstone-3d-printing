@@ -64,7 +64,7 @@ function init() {
 
     const material = new THREE.MeshPhongMaterial( { color: 0xAAAAAA, specular: 0x111111, shininess: 200 } );
 
-    loader.load( '../files/pr2_head_pan.stl', function ( geometry ) {
+    loader.load( '/storage/pr2_head_pan.stl', function ( geometry ) {
 
         const mesh = new THREE.Mesh( geometry, material );
 

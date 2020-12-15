@@ -62,6 +62,6 @@
 <!--</form>-->
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <script th:replace="partials/partials_scripts :: script"></script>
-<script type="module" src="/js/renderer.js"></script>
+<script type="module" th:src="@{/js/renderer.js}"></script>
 </body>
 </html>
