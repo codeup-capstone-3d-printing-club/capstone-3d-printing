@@ -103,6 +103,7 @@ class FileController {
         return "redirect:/admin";
     }
 
+
     @PostMapping("files/{id}/comment")
     public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
         Comment newComment = new Comment();

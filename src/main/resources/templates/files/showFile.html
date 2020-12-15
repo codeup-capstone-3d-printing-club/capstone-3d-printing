@@ -1,29 +1,45 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>show individual file</title>
-</head>
+<head th:replace="partials/header_partial :: head"></head>
+
 <body>
+<nav th:replace="partials/navbar :: navbar">
+</nav>
 <h1>Individual File</h1>
-<div>
-    <h3 th:text="${file.title}"></h3>
-    <br>
-    <img th:src="${file.imgUrl}" alt="file img"/>
-<!--    TODO:rendering needs to go in to the following tag-->
-    <div th:value="${file.fileUrl}"></div>
-    <p th:text="${file.description}"></p>
-    Date post was created:
-    <p th:text="${file.createdAt}"></p>
-    Date last updated:
-    <p th:text="${file.updatedAt}"></p>
-    <p>Is private = </p><p th:text="${file.isPrivate()}"></p>
-<!--    TODO: only show this if admin-->
-    <p>Is flagged = </p><p th:text="${file.isFlagged()}"></p>
-    <br>
-    <hr>
-<!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
-    Created By: <p th:text="${file.getOwner().getUsername()}">
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-8" id="renderer"></div>
+        <div class="col-12 col-sm-4" >
+            Date created:
+            <p th:text="${file.createdAt}"></p>
+            Date last updated:
+            <p th:text="${file.updatedAt}"></p>
+            <p>Is private = </p><p th:text="${file.private}"></p>
+            <!--    TODO: only show this if admin-->
+            <p>Is flagged = </p><p th:text="${file.isFlagged()}"></p>
+            <!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
+            Created By: <p th:text="${file.getOwner().getUsername()}">
+            <button class="btn btn-outline-secondary">follow</button>
+            <button class="btn btn-outline-secondary">download</button>
+            <button class="btn btn-outline-secondary">like</button>
+            <button class="btn btn-outline-secondary">add to list</button>
+            <button class="btn btn-outline-secondary">comment</button>
+        </div>
+        <div class="col-12 col-sm-8">
+            <img th:src="${file.imgUrl}"/>
+            <!--    TODO:rendering needs to go in to the following tag-->
+            <div th:value="${file.fileUrl}"></div>
+            Title:
+            <h3 th:text="${file.title}"></h3>
+            <br>
+            Description:
+            <p th:text="${file.description}"></p>
+            <hr>
+            Comment:
+            <div></div>
+        </div>
+    </div>
+
 </div>
 <div class="commentbox" style="border: grey solid 2px" th:each="comment : ${allCommentsForThisPost}">
     <h2 th:text="${comment.getOwner().getUsername()}"></h2>
@@ -36,14 +52,16 @@
     <button th:type="submit">post comment</button>
 </form>
 
-
 <form th:action="@{/files/{id}/flag(id=${file.id})}" th:method="post">
     <button th:type="submit" class="btn btn-danger">Flag Post</button>
 </form>
+
 <!--    TODO:only show when user is owner-->
 <form th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
     <button type="button" ><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
 </form>
-
+<footer th:replace="partials/footer_partial :: footer"></footer>
+<script th:replace="partials/partials_scripts :: script"></script>
+<script type="module" th:src="@{/js/renderer.js}"></script>
 </body>
 </html>

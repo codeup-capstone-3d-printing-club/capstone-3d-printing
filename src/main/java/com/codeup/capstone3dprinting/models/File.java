@@ -40,12 +40,6 @@ public class File {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "file_category",
-            joinColumns = { @JoinColumn(name = "file_id") },
-            inverseJoinColumns = { @JoinColumn(name = "category_id") })
-    private List<Category> categories;
-
    public File() {}
   
     //Create
@@ -89,6 +83,13 @@ public class File {
         owner = copy.owner;
         isFlagged = copy.isFlagged;
     }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "file_category",
+            joinColumns = { @JoinColumn(name = "file_id") },
+            inverseJoinColumns = { @JoinColumn(name = "category_id") })
+    private List<Category> categories;
+
 
     public long getId() {
         return id;
