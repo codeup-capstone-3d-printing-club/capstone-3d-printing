@@ -64,11 +64,11 @@ public class User {
     private List<Setting> settings;
 
     public List<File> getFavoriteFiles() {
-        return favoriteFiles;
+        return favorites;
     }
 
     public void setFavoriteFiles(List<File> favoriteFiles) {
-        this.favoriteFiles = favoriteFiles;
+        this.favorites = favoriteFiles;
     }
 
     public List<User> getUsers() {
@@ -89,6 +89,14 @@ public class User {
 
     public List<Setting> getSettings() {
         return settings;
+    }
+
+    public List<File> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<File> favorites) {
+        this.favorites = favorites;
     }
 
     public void setSettings(List<Setting> settings) {
@@ -223,29 +231,6 @@ public class User {
         this.avatarUrl = avatarUrl;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<File> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(List<File> favorites) {
-        this.favorites = favorites;
-    }
-
-    public List<Setting> getSettings() {
-        return settings;
-    }
-
-    public void setSettings(List<Setting> settings) {
-        this.settings = settings;
-    }
     public boolean isFlagged(){
         return this.isFlagged;
     }
