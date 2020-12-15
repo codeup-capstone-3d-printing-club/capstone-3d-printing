@@ -1,10 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header_partial :: head"></head>
+<body th:replace="partials/body_partials :: body" class="container"></body>
+<!--<img th:src="@{/image/3d_bg.jpg}">-->
 
-</body>
+<nav th:replace="partials/navbar :: navbar">
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-auto">
+            <h1 class=" welcome  my-3">Create a 3D File to Share</h1>
+        </div>
+        <div th:replace="partials/partials_scripts :: script"></div>
+    </div>
+
+<!--upload form-->
+<form id="upload form" class="card ml-1 col-auto" style="width: 40%;">
+    <div class="my-3 mx-2">
+        <label for="exampleFormControlInput1" class="form-label">Name of File</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+    </div>
+    <div class="mb-3 mx-2">
+        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+    <div class="mb-6 mx-2">
+        <label for="formFileLg" class="form-label">Upload</label>
+        <input class="form-control form-control-lg" id="formFileLg" type="file">
+        <input class="btn btn-outline-secondary my-3 " type="submit" />
+    </div>
+</form>
+<!--progress bar for uploading; if we want one???-->
+<div class="position-relative m-4">
+    <div class="progress" style="height: 1px;">
+        <div class="progress-bar" role="progressbar" style="width: 40%;" aria-valuenow="25" aria-valuemin="0"
+             aria-valuemax="100">Upload Your File
+        </div>
+    </div>
+    <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill"
+            style="width: 2rem; height:2rem;">1
+    </button>
+    <button type="button" class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-primary rounded-pill"
+            style="width: 2rem; height:2rem;">2
+    </button>
+    <button type="button"
+            class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill"
+            style="width: 2rem; height:2rem;">3
+    </button>
+</div>
+
+
+
+<div class="position-relative">
+
+    <div class="position-absolute top-100 start-50 translate-middle"></div>
+</div>
+</div>
+<!--<img id="example1" th:src="@{${'/image/3d_ex1'}}" class="rounded img-fluid img-thumbnail" alt="3d Printer">-->
+<script th:replace="partials/partials_scripts :: script"></script>
+<footer th:replace="partials/footer_partial :: footer"></footer>
 </html>
