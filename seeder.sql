@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS capstone_db;
-CREATE DATABASE capstone_db;
+DROP DATABASE IF EXISTS capstone;
+CREATE DATABASE capstone;
 
-USE capstone_db;
+USE capstone;
 
 
 INSERT INTO users (avatar_url, email, first_name, is_admin, is_verified, joined_at, last_name, password, username, is_flagged)
