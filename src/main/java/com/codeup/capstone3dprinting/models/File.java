@@ -33,7 +33,7 @@ public class File {
     @Column(nullable = false)
     private boolean is_private;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 

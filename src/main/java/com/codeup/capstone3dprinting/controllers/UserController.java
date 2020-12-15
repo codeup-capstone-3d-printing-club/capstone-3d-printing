@@ -1,11 +1,15 @@
 package com.codeup.capstone3dprinting.controllers;
 
+import com.codeup.capstone3dprinting.models.File;
 import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.FileRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 class UserController {
@@ -47,6 +51,20 @@ class UserController {
     public String showProfile(@PathVariable long id, Model model) {
         //assuming logged in as a hard-coded user
         User user = userDao.findByIdEquals(1L);
+        List<File> files = new ArrayList<>();
+        
+        for (User followed: user.getUsers()) {
+            
+            List<File> list = fileDao.findAllByOwner(followed);
+            System.out.println("followed.getUsername() = " + followed.getUsername());
+            files.addAll(list);
+            
+        }
+        
+        for (File file: files) {
+            System.out.println("file.getFile_title() = " + file.getFile_title());
+        }
+        
 
         User userdb = userDao.getOne(id);
         model.addAttribute("user", userdb);

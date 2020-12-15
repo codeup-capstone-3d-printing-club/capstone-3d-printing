@@ -2,6 +2,8 @@ package com.codeup.capstone3dprinting.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -49,7 +51,7 @@ public class User {
     @JoinTable(name = "favorites",
             joinColumns = {@JoinColumn(name = "liker_id")},
             inverseJoinColumns = {@JoinColumn(name = "file_id")})
-    private List<File> files;
+    private List<File> favorites;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_settings",
@@ -73,6 +75,7 @@ public class User {
         this.username = username;
 
     }
+
     //Read
     public User(long id, String email, String first_name, boolean is_admin, boolean is_verified,
                 Timestamp joined_at, String last_name, String password, String username) {
@@ -101,10 +104,11 @@ public class User {
         username = copy.username;
     }
 
-    public long getId(){
+    public long getId() {
         return this.id;
     }
-    public void setId(long id){
+
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -187,4 +191,21 @@ public class User {
     public void setUsers(List<User> users) {
         this.users = users;
     }
+
+    public List<File> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<File> favorites) {
+        this.favorites = favorites;
+    }
+
+    public List<Setting> getSettings() {
+        return settings;
+    }
+
+    public void setSettings(List<Setting> settings) {
+        this.settings = settings;
+    }
+
 }
