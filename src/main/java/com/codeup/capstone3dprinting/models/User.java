@@ -180,5 +180,11 @@ public class User {
         this.avatar_url = avatar_url;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
 
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }
