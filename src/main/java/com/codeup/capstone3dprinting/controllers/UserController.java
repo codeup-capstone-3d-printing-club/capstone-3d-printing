@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 class UserController {
 
@@ -49,10 +52,13 @@ class UserController {
         //assuming logged in as a hard-coded user
         User user = userDao.findByIdEquals(1L);
 
+        List<File> feed = followFeed();
+
         User userdb = userDao.getOne(id);
         model.addAttribute("user", userdb);
         model.addAttribute("thisUsersFiles", fileDao.findAllByOwner_Id(id));
         model.addAttribute("following", user.getUsers().contains(userDao.findByIdEquals(id)));
+        model.addAttribute("feed", feed);
         return "users/profile";
     }
 
@@ -80,5 +86,19 @@ class UserController {
         user.setAvatar_url(avatarURL);
         userDao.save(user);
         return "redirect:/profile/" + user.getId();
+    }
+
+    public List<File> followFeed() {
+        //assuming logged in as a hard-coded user
+        User user = userDao.findByIdEquals(1L);
+
+        List<User> users = user.getUsers();
+        List<File> files = new ArrayList<>();
+
+//        for (User followed: users) {
+//            files.addAll(followed.getOwnedFiles());
+//        }
+
+        return files;
     }
 }

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="feed" th:each="file : ${feed}">
+
+    <div th:text="${file.file_title}"></div>
+    <div th:text="${file.description}"></div>
+    <div>Uploaded at: <span th:text="${file.created_at}"></span> by <span th:text="${file.owner.username}"></span></div>
+
+</div>
+
+</body>
+</html>

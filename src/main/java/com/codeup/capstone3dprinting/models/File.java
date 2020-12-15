@@ -1,12 +1,13 @@
 package com.codeup.capstone3dprinting.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 @Table(name = "files")
-public class File {
+public class File implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,14 +34,21 @@ public class File {
     @Column(nullable = false)
     private boolean is_private;
 
-    @OneToOne
-    private User owner;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "file_category",
+            joinColumns = { @JoinColumn(name = "file_id") },
+            inverseJoinColumns = { @JoinColumn(name = "category_id") })
+    private List<Category> categories;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private File file;
 
    public File() {}
   
     //Create
     public File(long id, String file_url, String file_title, Timestamp created_at,
-                Timestamp updated_at, String description, String img_url, boolean is_private, User owner) {
+                Timestamp updated_at, String description, String img_url, boolean is_private, File file) {
         this.id = id;
         this.file_url = file_url;
         this.file_title = file_title;
@@ -49,12 +57,12 @@ public class File {
         this.description = description;
         this.img_url = img_url;
         this.is_private = is_private;
-        this.owner = owner;
+        this.file = file;
     }
 
     //Read
     public File(String file_url, String file_title, Timestamp created_at,
-                Timestamp updated_at, String description, String img_url, boolean is_private, User owner) {
+                Timestamp updated_at, String description, String img_url, boolean is_private, File file) {
         this.file_url = file_url;
         this.file_title = file_title;
         this.created_at = created_at;
@@ -62,7 +70,7 @@ public class File {
         this.description = description;
         this.img_url = img_url;
         this.is_private = is_private;
-        this.owner = owner;
+        this.file = file;
     }
 
     public File(File copy) {
@@ -74,16 +82,8 @@ public class File {
         description = copy.description;
         img_url = copy.img_url;
         is_private = copy.is_private;
-        owner = copy.owner;
+        file = copy.file;
     }
-
-
-    
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "file_category",
-            joinColumns = { @JoinColumn(name = "file_id") },
-            inverseJoinColumns = { @JoinColumn(name = "category_id") })
-    private List<Category> categories;
 
     public long getId() {
         return id;
@@ -149,12 +149,19 @@ public class File {
         this.is_private = is_private;
     }
 
-    public User getOwner() {
-        return owner;
+    public File getFile() {
+        return file;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setFile(File file) {
+        this.file = file;
     }
 
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 }

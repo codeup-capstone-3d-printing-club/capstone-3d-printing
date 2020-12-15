@@ -1,12 +1,14 @@
 package com.codeup.capstone3dprinting.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,13 +51,17 @@ public class User {
     @JoinTable(name = "favorites",
             joinColumns = {@JoinColumn(name = "liker_id")},
             inverseJoinColumns = {@JoinColumn(name = "file_id")})
-    private List<File> files;
+    private List<File> favorites;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_settings",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "setting_id")})
     private List<Setting> settings;
+
+//    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    private List<File> files;
 
     public User() {
     }
@@ -188,14 +194,6 @@ public class User {
         this.users = users;
     }
 
-    public List<File> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<File> files) {
-        this.files = files;
-    }
-
     public List<Setting> getSettings() {
         return settings;
     }
@@ -203,4 +201,20 @@ public class User {
     public void setSettings(List<Setting> settings) {
         this.settings = settings;
     }
+
+    public List<File> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<File> favorites) {
+        this.favorites = favorites;
+    }
+//
+//    public List<File> getFiles() {
+//        return files;
+//    }
+//
+//    public void setFiles(List<File> files) {
+//        this.files = files;
+//    }
 }
