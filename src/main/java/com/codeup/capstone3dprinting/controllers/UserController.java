@@ -4,23 +4,51 @@ import com.codeup.capstone3dprinting.models.File;
 import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.FileRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
+import com.codeup.capstone3dprinting.repos.Users;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
 class UserController {
 
+    private Users users;
+    private PasswordEncoder passwordEncoder;
+
     // These two next steps are often called dependency injection, where we create a Repository instance and initialize it in the controller class constructor.
     private final UserRepository userDao;
     private final FileRepository fileDao;
 
-    public UserController(UserRepository userDao, FileRepository fileDao) {
+    public UserController(UserRepository userDao, FileRepository fileDao, Users users, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
         this.fileDao = fileDao;
+        this.users = users;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @GetMapping("/sign-up")
+    public String showSignupForm(Model model){
+        model.addAttribute("user", new User());
+        return "users/sign-up";
+    }
+
+    @PostMapping("/sign-up")
+    public String saveUser(@ModelAttribute User user){
+        String hash = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hash);
+        user.setAvatarUrl("none");
+        user.setAdmin(false);
+        user.setVerified(false);
+        user.setJoinedAt(new Timestamp(new Date().getTime()));
+
+        users.save(user);
+        return "redirect:/login";
     }
 
     @GetMapping("/users")
@@ -80,12 +108,6 @@ class UserController {
         model.addAttribute("user", userdb);
         return "users/editProfile";
     }
-    @GetMapping("/sign-up")
-    public String showSignupForm(Model model){
-        model.addAttribute("user", new User());
-        return "users/sign-up";
-    }
-
 
     @PostMapping("/profile/{id}/edit")
     public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
@@ -106,5 +128,6 @@ class UserController {
         userDao.save(user);
         return "redirect:/profile/" + user.getId();
     }
+
 }
 
