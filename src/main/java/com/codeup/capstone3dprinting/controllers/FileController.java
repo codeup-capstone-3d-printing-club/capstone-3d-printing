@@ -39,6 +39,7 @@ class FileController {
         model.addAttribute("user", filedb.getOwner());
         return "files/showFile";
     }
+
     @GetMapping ("/files/create")
     public String viewCreateForm(Model model) {
         model.addAttribute("file", new File());
@@ -86,13 +87,6 @@ class FileController {
 //        TODO: redirect back to the list of your own file posts
         return "redirect:/files";
     }
-
-
-    @GetMapping("/files/create")
-    public String showFileCreate() {
-        return "files/create";
-    }
-}
 
     // user can only unflag as admin
     @PostMapping("/files/{id}/unflag")
