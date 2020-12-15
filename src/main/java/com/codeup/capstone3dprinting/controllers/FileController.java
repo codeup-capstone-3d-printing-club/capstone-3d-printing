@@ -39,18 +39,8 @@ class FileController {
     public String showPost(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
         List<Comment> thisFilesComments = commentDao.getAllByFile_Id(id);
-        Comment comment = commentDao.getByFile_Id(id);
 
-        model.addAttribute("commentObj", comment);
         model.addAttribute("allCommentsForThisPost", thisFilesComments);
-        model.addAttribute("file", filedb);
-        model.addAttribute("user", filedb.getOwner());
-        return "files/showFile";
-    }
-
-    @PostMapping("/files/{id}")
-    public String postIndividual(@PathVariable long id, Model model) {
-        File filedb = fileDao.getOne(id);
         model.addAttribute("file", filedb);
         model.addAttribute("user", filedb.getOwner());
         return "files/showFile";
@@ -112,8 +102,9 @@ class FileController {
         fileDao.save(file);
         return "redirect:/admin";
     }
+
     @PostMapping("files/{id}/comment")
-    public String comment(@PathVariable long id, @ModelAttribute String commentText) {
+    public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
         Comment newComment = new Comment();
         System.out.println("commentText = " + commentText);
         newComment.setComment(commentText);

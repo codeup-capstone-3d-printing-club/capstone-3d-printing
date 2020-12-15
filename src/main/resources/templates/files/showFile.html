@@ -32,7 +32,7 @@
 </div>
 <form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
     Your comment:
-    <input th:name="commentText">
+    <input name ="commentText" class="field" type="text">
     <button th:type="submit">post comment</button>
 </form>
 

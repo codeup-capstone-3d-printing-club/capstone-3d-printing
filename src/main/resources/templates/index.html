@@ -15,7 +15,7 @@
         <h5 th:text="${entry.title}"></h5>
         <p th:text="${entry.description}"></p>
         <p th:text="${entry.owner.username}"></p>
-        <form th:action="@{/files/{id}(id=${entry.id})}" th:value="${entry.id}" method="post">
+        <form th:action="@{/files/{id}(id=${entry.id})}" th:value="${entry.id}" method="get">
             <button class="btn btn-outline-primary my-2" type="submit">see details</button>
         </form>
     </div>
