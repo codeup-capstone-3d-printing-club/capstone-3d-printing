@@ -12,7 +12,7 @@
 
     <h4>Followed files</h4>
     <div th:each="file : ${feed}">
-        <div th:text="${file.file_title}"></div>
+        <div th:text="${file.title}"></div>
         <div th:text="${file.description}"></div>
         <div th:text="${file.owner.username}"></div>
     </div>

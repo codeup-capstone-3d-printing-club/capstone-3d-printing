@@ -48,10 +48,10 @@ class FileController {
     @PostMapping("/files/{id}/edit")
     public String editFilePost(@PathVariable long id, @ModelAttribute File fileEdit) {
         File file = fileDao.getOne(id);
-        file.setFile_title(fileEdit.getFile_title());
+        file.setTitle(fileEdit.getTitle());
         file.setDescription(fileEdit.getDescription());
-        file.setIs_private(fileEdit.isIs_private());
-        file.setImg_url(fileEdit.getImg_url());
+        file.setPrivate(fileEdit.isPrivate());
+        file.setImgUrl(fileEdit.getImgUrl());
         fileDao.save(file);
         return "redirect:/files/" + file.getId();
     }

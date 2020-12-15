@@ -15,7 +15,7 @@ VALUES ('this is a test', NOW(), 1, 2, true),
        ('second test', NOW(), 1, 2, true),
        ('second reply', NOW(), 2, 1, true);
 
-INSERT INTO files (created_at, description, file_title, file_url, img_url, is_private, updated_at, owner_id)
+INSERT INTO files (created_at, description, title, file_url, img_url, is_private, updated_at, owner_id)
 VALUES (NOW(), 'this is a description for #1', 'file #1', 'none', 'none', false, NOW(), 1),
        (NOW(), 'this is a description for #2', 'file #2', 'none', 'none', false, NOW(), 1),
        (NOW(), 'this is a description for #3', 'file #3', 'none', 'none', false, NOW(), 2),

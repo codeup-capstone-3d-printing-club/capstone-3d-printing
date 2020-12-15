@@ -91,8 +91,8 @@ class UserController {
     public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
         User user = userDao.getOne(id);
         user.setUsername(userEdit.getUsername());
-        user.setFirst_name(userEdit.getFirst_name());
-        user.setLast_name(userEdit.getLast_name());
+        user.setFirstName(userEdit.getFirstName());
+        user.setLastName(userEdit.getLastName());
         user.setEmail(userEdit.getEmail());
         userDao.save(user);
         return "redirect:/profile/" + user.getId();
@@ -102,7 +102,7 @@ class UserController {
     @PostMapping("/profile/{id}/changeAvatar")
     public String changeAvatar(@PathVariable long id, @RequestParam(name = "avatar") String avatarURL) {
         User user = userDao.getOne(id);
-        user.setAvatar_url(avatarURL);
+        user.setAvatarUrl(avatarURL);
         userDao.save(user);
         return "redirect:/profile/" + user.getId();
     }
