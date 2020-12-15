@@ -1,6 +1,7 @@
 package com.codeup.capstone3dprinting.controllers;
 
 import com.codeup.capstone3dprinting.models.File;
+import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.FileRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,19 @@ class FileController {
         model.addAttribute("file", filedb);
         model.addAttribute("user", filedb.getOwner());
         return "files/showFile";
+    }
+    @GetMapping ("/files/create")
+    public String viewCreateForm(Model model) {
+        model.addAttribute("file", new File());
+        return "files/createFile";
+    }
+
+    @PostMapping("/files/create")
+    public String createPost(@ModelAttribute File fileToBeSaved){
+//       User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        fileToBeSaved.setOwner(user);
+        File dbFile = fileDao.save(fileToBeSaved);
+        return "redirect:/files/" + dbFile.getId();
     }
 
     @GetMapping("/files/{id}/edit")
