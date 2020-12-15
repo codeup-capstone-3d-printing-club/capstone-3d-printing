@@ -15,20 +15,21 @@
     </div>
 
 <!--upload form-->
-<form id="upload form" class="card ml-1 col-auto" style="width: 40%;">
+<form  th:action="@{/files/createFile}"  th:method="post" th:object="${file}"  id="submitForm" class="card ml-1 col-auto" style="width: 40%;">
     <div class="my-3 mx-2">
         <label for="exampleFormControlInput1" class="form-label">Name of File</label>
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="" th:field="*{title}">
     </div>
     <div class="mb-3 mx-2">
         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" th:field="*{description}"></textarea>
     </div>
     <div class="mb-6 mx-2">
         <label for="formFileLg" class="form-label">Upload</label>
         <input class="form-control form-control-lg" id="formFileLg" type="file">
         <input class="btn btn-outline-secondary my-3 " type="submit" />
     </div>
+
 </form>
 <!--progress bar for uploading; if we want one???-->
 <div class="position-relative m-4">

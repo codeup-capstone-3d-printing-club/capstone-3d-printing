@@ -110,11 +110,11 @@ class UserController {
     }
 
 
-    @GetMapping("/sign-up")
-    public String showSignupForm(Model model) {
-        model.addAttribute("user", new User());
-        return "users/sign-up";
-    }
+//    @GetMapping("/sign-up")
+//    public String showSignupForm(Model model) {
+//        model.addAttribute("user", new User());
+//        return "users/sign-up";
+//    }
 
     @PostMapping("/profile/{id}/edit")
     public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
