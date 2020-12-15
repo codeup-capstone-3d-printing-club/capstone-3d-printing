@@ -24,3 +24,6 @@ VALUES (NOW(), 'this is a description for #1', 'file #1', 'none', 'none', false,
        (NOW(), 'this is a description for #4', 'file #4', 'none', 'none', false, NOW(), 2, false),
        (NOW(), 'this is a description for #5', 'file #5', 'none', 'none', false, NOW(), 3, false),
        (NOW(), 'this is a description for #6', 'file #6', 'none', 'none', false, NOW(), 3, false);
+
+INSERT INTO comments(comment, created_at,file_id,owner_id)
+VALUES('first seeder comment',NOW(),1,1);
