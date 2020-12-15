@@ -36,7 +36,7 @@ public class File {
     @Column(name= "is_flagged", nullable = false)
     private boolean isFlagged;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 

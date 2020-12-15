@@ -42,9 +42,9 @@ public class User {
     @Column(name = "is_flagged")
     private boolean isFlagged;
 
-//    @OneToMany
-//    @JoinColumn(name = "owner_id", nullable = false)
-//    private User owner;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "file_id", nullable = false)
+    private File file;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "follows",
