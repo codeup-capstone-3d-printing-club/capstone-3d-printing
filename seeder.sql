@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS capstone_db;
-CREATE DATABASE capstone_db;
+DROP DATABASE IF EXISTS printing_club_db;
+CREATE DATABASE printing_club_db;
 
-USE capstone_db;
+USE printing_club_db;
 
 
 INSERT INTO users (avatar_url, email, first_name, is_admin, is_verified, joined_at, last_name, password, username, is_flagged)

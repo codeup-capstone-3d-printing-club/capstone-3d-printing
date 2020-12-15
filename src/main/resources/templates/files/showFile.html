@@ -32,7 +32,7 @@
 </div>
 <form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
     Your comment:
-    <input th:name="commentText">
+    <input name="commentText" class="field" type="text">
     <button th:type="submit">post comment</button>
 </form>
 
@@ -41,7 +41,7 @@
     <button th:type="submit" class="btn btn-danger">Flag Post</button>
 </form>
 <!--    TODO:only show when user is owner-->
-<form th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
+<form th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" th:method="post">
     <button type="button" ><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
 </form>
 
