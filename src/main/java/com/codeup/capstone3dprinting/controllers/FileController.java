@@ -3,6 +3,7 @@ package com.codeup.capstone3dprinting.controllers;
 import com.codeup.capstone3dprinting.models.File;
 import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.FileRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,10 +47,10 @@ class FileController {
 
     @PostMapping("/files/create")
     public String createPost(@ModelAttribute File fileToBeSaved){
-//       User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        fileToBeSaved.setOwner(user);
+       User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        fileToBeSaved.setOwner(user);
         File dbFile = fileDao.save(fileToBeSaved);
-        return "redirect:/files/" + dbFile.getId();
+        return "redirect:/files" + dbFile.getId();
     }
 
     @GetMapping("/files/{id}/edit")
