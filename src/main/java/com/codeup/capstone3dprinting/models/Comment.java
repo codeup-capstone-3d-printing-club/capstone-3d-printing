@@ -12,17 +12,17 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private User owner_id;
+    private User owner;
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private File file_id;
+    private File file;
 
     @Column(nullable = false, length = 1000)
     private String comment;
 
-    @Column(nullable = false)
-    private Timestamp created_at;
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
 
     public long getId() {
         return id;
@@ -32,20 +32,20 @@ public class Comment {
         this.id = id;
     }
 
-    public User getOwner_id() {
-        return owner_id;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setOwner_id(User owner_id) {
-        this.owner_id = owner_id;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
-    public File getFile_id() {
-        return file_id;
+    public File getFile() {
+        return file;
     }
 
-    public void setFile_id(File file_id) {
-        this.file_id = file_id;
+    public void setFile(File file) {
+        this.file = file;
     }
 
     public String getComment() {
@@ -56,11 +56,11 @@ public class Comment {
         this.comment = comment;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 }

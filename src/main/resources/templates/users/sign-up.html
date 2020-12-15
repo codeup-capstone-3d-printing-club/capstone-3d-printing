@@ -1,27 +1,29 @@
 <!DOCTYPE html>
-<html lang="eng" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/header_partial :: head"></head>
-<body th:replace="partials/body_partials :: body">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header_partial::head">
+    <meta charset="UTF-8" />
+    <title>Sign up</title>
+</head>
+<body>
+<h1>Create an account</h1>
+<form th:action="@{/sign-up}" method="POST" th:object="${user}">
+    <label for="username">Username</label>
+    <input id="username" th:field="*{username}" />
 
-<form>
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-    </div>
-    <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
-    </div>
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <label for="email">Email</label>
+    <input id="email" th:field="*{email}" />
+
+    <label for="firstName">First name</label>
+    <input id="firstName" th:field="*{firstName}" />
+
+    <label for="lastName">Last name</label>
+    <input id="lastName" th:field="*{lastName}" />
+
+    <label for="password">Password</label>
+    <input id="password" type="password" th:field="*{password}" />
+
+    <input value="Sign me up!" type="submit" />
 </form>
-
-<script th:replace="partials/partials_scripts :: script"></script>
-<footer th:replace="partials/footer_partial :: footer"></footer>
 </body>
-
+<footer th:include="partials/footer_partial::footer"></footer>
 </html>

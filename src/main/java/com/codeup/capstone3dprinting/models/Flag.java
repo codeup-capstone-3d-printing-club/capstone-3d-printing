@@ -12,10 +12,10 @@ public class Flag {
     private long id;
 
     @ManyToOne
-    private File file_id;
+    private File file;
 
     @ManyToOne
-    private User reporter_id;
+    private User reporter;
 
     @ManyToOne
     private Reason reason;
@@ -28,20 +28,20 @@ public class Flag {
         this.id = id;
     }
 
-    public File getFile_id() {
-        return file_id;
+    public File getFile() {
+        return file;
     }
 
-    public void setFile_id(File file_id) {
-        this.file_id = file_id;
+    public void setFile(File file) {
+        this.file = file;
     }
 
-    public User getReporter_id() {
-        return reporter_id;
+    public User getReporter() {
+        return reporter;
     }
 
-    public void setReporter_id(User reporter_id) {
-        this.reporter_id = reporter_id;
+    public void setReporter(User reporter) {
+        this.reporter = reporter;
     }
 
     public Reason getReason() {
@@ -51,4 +51,6 @@ public class Flag {
     public void setReason(Reason reason) {
         this.reason = reason;
     }
+
+
 }

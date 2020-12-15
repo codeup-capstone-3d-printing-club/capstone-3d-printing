@@ -6,23 +6,6 @@
 <nav th:replace="partials/navbar :: navbar">
 </nav>
 <h1>Individual File</h1>
-<!--<div>-->
-<!--    <h3 th:text="${file.file_title}"></h3>-->
-<!--    <br>-->
-<!--    <img th:src="${file.img_url}"/>-->
-<!--&lt;!&ndash;    TODO:rendering needs to go in to the following tag&ndash;&gt;-->
-<!--    <div th:value="${file.file_url}"></div>-->
-<!--    <p th:text="${file.description}"></p>-->
-<!--    Date post was created:-->
-<!--    <p th:text="${file.created_at}"></p>-->
-<!--    Date last updated:-->
-<!--    <p th:text="${file.updated_at}"></p>-->
-<!--    <p>Is private = </p><p th:text="${file.is_private}"></p>-->
-<!--    <br>-->
-<!--    <hr>-->
-<!--&lt;!&ndash;    TODO: following p tag can be converted to link to redirect to the owners profile&ndash;&gt;-->
-<!--    Created By: <p th:text="${file.getOwner().getUsername()}">-->
-<!--</div>-->
 <div class="container">
     <div class="row">
         <div class="col-12 col-sm-8" id="renderer"></div>
@@ -54,6 +37,28 @@
             <div></div>
         </div>
     </div>
+
+<div>
+    <h3 th:text="${file.title}"></h3>
+    <br>
+    <img th:src="${file.imgUrl}" alt="file img"/>
+<!--    TODO:rendering needs to go in to the following tag-->
+    <div th:value="${file.fileUrl}"></div>
+    <p th:text="${file.description}"></p>
+    Date post was created:
+    <p th:text="${file.createdAt}"></p>
+    Date last updated:
+    <p th:text="${file.updatedAt}"></p>
+    <p>Is private = </p><p th:text="${file.isPrivate()}"></p>
+<!--    TODO: only show this if admin-->
+    <p>Is flagged = </p><p th:text="${file.isFlagged()}"></p>
+    <br>
+    <hr>
+<!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
+    Created By: <p th:text="${file.getOwner().getUsername()}">
+    <form th:action="@{/files/{id}/flag(id=${file.id})}" th:method="post">
+        <button th:type="submit" class="btn btn-danger">Flag Post</button>
+    </form>
 </div>
 
 <!--    TODO:only show when user is owner-->
@@ -63,5 +68,6 @@
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <script th:replace="partials/partials_scripts :: script"></script>
 <script type="module" th:src="@{/js/renderer.js}"></script>
+
 </body>
 </html>

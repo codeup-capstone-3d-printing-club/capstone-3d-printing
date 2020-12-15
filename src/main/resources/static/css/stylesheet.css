@@ -6,9 +6,12 @@
 }
 .navbar{
     background-color: black;
+    opacity: 80%;
 }
 footer{
     margin-top: 500px;
+    background-color: black;
+    opacity: 80%;
 }
 .links{
     color: white;

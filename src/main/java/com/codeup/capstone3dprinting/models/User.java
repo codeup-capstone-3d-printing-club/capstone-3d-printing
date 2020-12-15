@@ -15,11 +15,11 @@ public class User {
     @Column(nullable = false, length = 45)
     private String username;
 
-    @Column(length = 45)
-    private String first_name;
+    @Column(name = "first_name", length = 45)
+    private String firstName;
 
-    @Column(length = 45)
-    private String last_name;
+    @Column(name = "last_name", length = 45)
+    private String lastName;
 
     @Column(nullable = false)
     private String email;
@@ -27,17 +27,20 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private boolean is_verified;
+    @Column(name = "is_verified", nullable = false)
+    private boolean isVerified;
 
-    @Column(nullable = false)
-    private Timestamp joined_at;
+    @Column(name = "joined_at", nullable = false)
+    private Timestamp joinedAt;
 
-    @Column(nullable = false)
-    private boolean is_admin;
+    @Column(name = "is_admin", nullable = false)
+    private boolean isAdmin;
 
-    @Column
-    private String avatar_url;
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+
+    @Column(name = "is_flagged")
+    private boolean isFlagged;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<File> files;
@@ -52,7 +55,7 @@ public class User {
     @JoinTable(name = "favorites",
             joinColumns = {@JoinColumn(name = "liker_id")},
             inverseJoinColumns = {@JoinColumn(name = "file_id")})
-    private List<File> favoriteFiles;
+    private List<File> favorites;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_settings",
@@ -96,50 +99,55 @@ public class User {
     }
 
     //Create
-    public User(String email, String first_name, boolean is_admin, boolean is_verified,
-                Timestamp joined_at, String last_name, String password, String username) {
+    public User(String email, String firstName, boolean isAdmin, boolean isVerified,
+                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged) {
         this.email = email;
-        this.first_name = first_name;
-        this.is_verified = false;
-        this.is_admin = false;
-        this.joined_at = joined_at;
-        this.last_name = last_name;
+        this.firstName = firstName;
+        this.isVerified = false;
+        this.isAdmin = false;
+        this.joinedAt = joinedAt;
+        this.lastName = lastName;
         this.password = password;
         this.username = username;
+        this.isFlagged = isFlagged;
 
     }
+
     //Read
-    public User(long id, String email, String first_name, boolean is_admin, boolean is_verified,
-                Timestamp joined_at, String last_name, String password, String username) {
+    public User(long id, String email, String firstName, boolean isAdmin, boolean isVerified,
+                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged) {
         this.id = id;
         this.email = email;
-        this.first_name = first_name;
-        this.is_verified = false;
-        this.is_admin = false;
-        this.joined_at = joined_at;
-        this.last_name = last_name;
+        this.firstName = firstName;
+        this.isVerified = isVerified;
+        this.isAdmin = isAdmin;
+        this.joinedAt = joinedAt;
+        this.lastName = lastName;
         this.password = password;
         this.username = username;
+        this.isFlagged = isFlagged;
     }
 
 
     public User(User copy) {
         id = copy.id;
-        avatar_url = copy.avatar_url;
+        avatarUrl = copy.avatarUrl;
         email = copy.email;
-        first_name = copy.first_name;
-        is_admin = copy.is_admin;
-        is_verified = copy.is_verified;
-        joined_at = copy.joined_at;
-        last_name = copy.last_name;
+        firstName = copy.firstName;
+        isAdmin = copy.isAdmin;
+        isVerified = copy.isVerified;
+        joinedAt = copy.joinedAt;
+        lastName = copy.lastName;
         password = copy.password;
         username = copy.username;
+        isFlagged = copy.isFlagged;
     }
 
-    public long getId(){
+    public long getId() {
         return this.id;
     }
-    public void setId(long id){
+
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -151,20 +159,20 @@ public class User {
         this.username = username;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -183,37 +191,66 @@ public class User {
         this.password = password;
     }
 
-    public boolean isIs_verified() {
-        return is_verified;
+    public boolean isVerified() {
+        return isVerified;
     }
 
-    public void setIs_verified(boolean is_verified) {
-        this.is_verified = is_verified;
+    public void setVerified(boolean verified) {
+        isVerified = verified;
     }
 
-    public Timestamp getJoined_at() {
-        return joined_at;
+    public Timestamp getJoinedAt() {
+        return joinedAt;
     }
 
-    public void setJoined_at(Timestamp joined_at) {
-        this.joined_at = joined_at;
+    public void setJoinedAt(Timestamp joinedAt) {
+        this.joinedAt = joinedAt;
     }
 
-    public boolean isIs_admin() {
-        return is_admin;
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
-    public void setIs_admin(boolean is_admin) {
-        this.is_admin = is_admin;
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
 
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<File> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<File> favorites) {
+        this.favorites = favorites;
+    }
+
+    public List<Setting> getSettings() {
+        return settings;
+    }
+
+    public void setSettings(List<Setting> settings) {
+        this.settings = settings;
+    }
+    public boolean isFlagged(){
+        return this.isFlagged;
+    }
+
+    public void setFlagged(boolean isFlagged){
+        this.isFlagged = isFlagged;
+    }
 }

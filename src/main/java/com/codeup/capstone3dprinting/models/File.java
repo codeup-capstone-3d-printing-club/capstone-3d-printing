@@ -12,70 +12,82 @@ public class File {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 500)
-    private String file_url;
+    @Column(name = "file_url", nullable = false, length = 500)
+    private String fileUrl;
 
-    @Column(nullable = false, length = 100)
-    private String file_title;
+    @Column(name = "title", nullable = false, length = 100)
+    private String title;
 
-    @Column(nullable = false)
-    private Timestamp created_at;
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
 
-    @Column(nullable = false)
-    private Timestamp updated_at;
+    @Column(name = "updated_at", nullable = false)
+    private Timestamp updatedAt;
 
     @Column(nullable = false, length = 1000)
     private String description;
 
-    @Column
-    private String img_url;
+    @Column(name = "img_url")
+    private String imgUrl;
 
-    @Column(nullable = false)
-    private boolean is_private;
+    @Column(name = "is_private", nullable = false)
+    private boolean isPrivate;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @Column(name= "is_flagged", nullable = false)
+    private boolean isFlagged;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "file_category",
+            joinColumns = { @JoinColumn(name = "file_id") },
+            inverseJoinColumns = { @JoinColumn(name = "category_id") })
+    private List<Category> categories;
 
    public File() {}
   
     //Create
-    public File(long id, String file_url, String file_title, Timestamp created_at,
-                Timestamp updated_at, String description, String img_url, boolean is_private, User owner) {
+    public File(long id, String fileUrl, String title, Timestamp createdAt,
+                Timestamp updatedAt, String description, String imgUrl, boolean isPrivate,boolean isFlagged ,User owner) {
         this.id = id;
-        this.file_url = file_url;
-        this.file_title = file_title;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.fileUrl = fileUrl;
+        this.title = title;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.description = description;
-        this.img_url = img_url;
-        this.is_private = is_private;
+        this.imgUrl = imgUrl;
+        this.isPrivate = isPrivate;
         this.owner = owner;
+        this.isFlagged = isFlagged;
     }
 
     //Read
-    public File(String file_url, String file_title, Timestamp created_at,
-                Timestamp updated_at, String description, String img_url, boolean is_private, User owner) {
-        this.file_url = file_url;
-        this.file_title = file_title;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+    public File(String fileUrl, String title, Timestamp createdAt,
+                Timestamp updatedAt, String description, String imgUrl, boolean isPrivate,boolean isFlagged, User owner) {
+        this.fileUrl = fileUrl;
+        this.title = title;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.description = description;
-        this.img_url = img_url;
-        this.is_private = is_private;
+        this.imgUrl = imgUrl;
+        this.isPrivate = isPrivate;
         this.owner = owner;
+        this.isFlagged = isFlagged;
     }
 
     public File(File copy) {
         id = copy.id;
-        file_url = copy.file_url;
-        file_title = copy.file_title;
-        created_at = copy.created_at;
-        updated_at = copy.updated_at;
+        fileUrl = copy.fileUrl;
+        title = copy.title;
+        createdAt = copy.createdAt;
+        updatedAt = copy.updatedAt;
         description = copy.description;
-        img_url = copy.img_url;
-        is_private = copy.is_private;
+        imgUrl = copy.imgUrl;
+        isPrivate = copy.isPrivate;
         owner = copy.owner;
+        isFlagged = copy.isFlagged;
     }
 
     public List<Category> getCategories() {
@@ -92,6 +104,7 @@ public class File {
             inverseJoinColumns = { @JoinColumn(name = "category_id") })
     private List<Category> categories;
 
+
     public long getId() {
         return id;
     }
@@ -100,36 +113,36 @@ public class File {
         this.id = id;
     }
 
-    public String getFile_url() {
-        return file_url;
+    public String getFileUrl() {
+        return fileUrl;
     }
 
-    public void setFile_url(String file_url) {
-        this.file_url = file_url;
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
-    public String getFile_title() {
-        return file_title;
+    public String getTitle() {
+        return title;
     }
 
-    public void setFile_title(String file_title) {
-        this.file_title = file_title;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdated_at() {
-        return updated_at;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public String getDescription() {
@@ -140,20 +153,12 @@ public class File {
         this.description = description;
     }
 
-    public String getImg_url() {
-        return img_url;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setImg_url(String img_url) {
-        this.img_url = img_url;
-    }
-
-    public boolean isIs_private() {
-        return is_private;
-    }
-
-    public void setIs_private(boolean is_private) {
-        this.is_private = is_private;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public User getOwner() {
@@ -164,4 +169,26 @@ public class File {
         this.owner = owner;
     }
 
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public boolean isFlagged(){
+       return this.isFlagged;
+    }
+    public void setFlagged(boolean isFlagged){
+       this.isFlagged = isFlagged;
+    }
 }
