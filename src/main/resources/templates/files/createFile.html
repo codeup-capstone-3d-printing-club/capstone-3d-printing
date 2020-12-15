@@ -49,7 +49,10 @@
             style="width: 2rem; height:2rem;">3
     </button>
 </div>
-
+    <h1>Welcome to our page!</h1>
+    <button id="open">Open Picker</button>
+    <button id="close">Close Picker</button>
+    <div id="inline" style="width:600px;height:500px;padding:20px;"></div>
 
 
 <div class="position-relative">
@@ -58,6 +61,29 @@
 </div>
 </div>
 <!--<img id="example1" th:src="@{${'/image/3d_ex1'}}" class="rounded img-fluid img-thumbnail" alt="3d Printer">-->
-<script th:replace="partials/partials_scripts :: script"></script>
 <footer th:replace="partials/footer_partial :: footer"></footer>
+<script th:replace="partials/partials_scripts :: script"></script>
+<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        const apikey = 'FILESTACK_API_KEY';
+        const client = filestack.init(apikey);
+        const options = {
+            displayMode: 'inline',
+            container: '#inline',
+            maxFiles: 20,
+            uploadInBackground: false,
+            onUploadDone: (res) => console.log(res),
+        };
+        const picker = client.picker(options);
+        const openBtn = document.getElementById('open');
+        const closeBtn = document.getElementById('close');
+        openBtn.addEventListener('click', () => picker.open());
+        closeBtn.addEventListener('click', () => picker.close());
+    });
+    function uploadFile(result) {
+        const fileData = result.filesUploaded[0];
+        console.log(fileData);
+    }
+</script>
 </html>

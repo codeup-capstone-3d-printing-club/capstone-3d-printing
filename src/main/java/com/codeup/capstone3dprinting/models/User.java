@@ -42,23 +42,66 @@ public class User {
     @Column(name = "is_flagged")
     private boolean isFlagged;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<File> files;
+
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "follows",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "follow_id")})
     private List<User> users;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "favorites",
             joinColumns = {@JoinColumn(name = "liker_id")},
             inverseJoinColumns = {@JoinColumn(name = "file_id")})
     private List<File> favorites;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_settings",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "setting_id")})
     private List<Setting> settings;
+
+    public List<File> getFavoriteFiles() {
+        return favorites;
+    }
+
+    public void setFavoriteFiles(List<File> favoriteFiles) {
+        this.favorites = favoriteFiles;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
+    }
+
+    public List<Setting> getSettings() {
+        return settings;
+    }
+
+    public List<File> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<File> favorites) {
+        this.favorites = favorites;
+    }
+
+    public void setSettings(List<Setting> settings) {
+        this.settings = settings;
+    }
 
     public User() {
     }
@@ -188,29 +231,6 @@ public class User {
         this.avatarUrl = avatarUrl;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<File> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(List<File> favorites) {
-        this.favorites = favorites;
-    }
-
-    public List<Setting> getSettings() {
-        return settings;
-    }
-
-    public void setSettings(List<Setting> settings) {
-        this.settings = settings;
-    }
     public boolean isFlagged(){
         return this.isFlagged;
     }

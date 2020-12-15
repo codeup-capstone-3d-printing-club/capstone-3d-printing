@@ -28,7 +28,7 @@ class FileController {
     public String showPost(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
         model.addAttribute("file", filedb);
-        model.addAttribute("user", filedb.getOwner());
+//        model.addAttribute("user", filedb.getOwner());
         return "files/showFile";
     }
 
@@ -39,6 +39,7 @@ class FileController {
         model.addAttribute("user", filedb.getOwner());
         return "files/showFile";
     }
+
     @GetMapping ("/files/create")
     public String viewCreateForm(Model model) {
         model.addAttribute("file", new File());
@@ -96,4 +97,3 @@ class FileController {
         return "redirect:/admin";
     }
 }
-
