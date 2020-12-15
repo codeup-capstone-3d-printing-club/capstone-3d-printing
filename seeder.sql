@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS capstone_db;
-CREATE DATABASE capstone_db;
+DROP DATABASE IF EXISTS capstone;
+CREATE DATABASE capstone;
 
-USE capstone_db;
+USE capstone;
 
 
 INSERT INTO users (avatar_url, email, first_name, is_admin, is_verified, joined_at, last_name, password, username, is_flagged)
@@ -25,5 +25,3 @@ VALUES (NOW(), 'this is a description for #1', 'file #1', 'none', 'none', false,
        (NOW(), 'this is a description for #5', 'file #5', 'none', 'none', false, NOW(), 3, false),
        (NOW(), 'this is a description for #6', 'file #6', 'none', 'none', false, NOW(), 3, false);
 
-INSERT INTO comments(comment, created_at,file_id,owner_id)
-VALUES('first seeder comment',NOW(),1,1);
