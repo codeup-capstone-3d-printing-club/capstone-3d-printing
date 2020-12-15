@@ -93,7 +93,7 @@ class UserController {
         User user = userDao.findByIdEquals(1L);
         List<File> files = new ArrayList<>();
 
-        for (User followed: user.getUsers()) {
+        for (User followed : user.getUsers()) {
             List<File> list = fileDao.findAllByOwner(followed);
             files.addAll(list);
         }
@@ -107,6 +107,13 @@ class UserController {
         User userdb = userDao.getOne(id);
         model.addAttribute("user", userdb);
         return "users/editProfile";
+    }
+
+
+    @GetMapping("/sign-up")
+    public String showSignupForm(Model model) {
+        model.addAttribute("user", new User());
+        return "users/sign-up";
     }
 
     @PostMapping("/profile/{id}/edit")
@@ -129,5 +136,38 @@ class UserController {
         return "redirect:/profile/" + user.getId();
     }
 
+
+    @GetMapping("/admin")
+    public String showAdminDashboard(Model model) {
+        model.addAttribute("allUsers", userDao.findAll());
+        model.addAttribute("allPosts", fileDao.findAll());
+        model.addAttribute("flaggedUsers", userDao.findAllByisFlagged(true));
+        model.addAttribute("flaggedPosts", fileDao.findAllByisFlagged(true));
+        return "admin/admin";
+    }
+
+    //TODO: needs to redirect back to user profile if not admin
+    @PostMapping("/users/{id}/flag")
+    public String flagUserAdmin(@PathVariable long id) {
+        User user = userDao.getOne(id);
+        user.setFlagged(true);
+        userDao.save(user);
+        return "redirect:/admin";
+    }
+
+    //    redirects to admin bc nonAdmin users shouldn't be able to delete users
+    @PostMapping("/users/{id}/delete")
+    public String deleteUserAsAdmin(@PathVariable long id) {
+        userDao.deleteById(id);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/users/{id}/unflag")
+    public String unflagUserAdmin(@PathVariable long id) {
+        User user = userDao.getOne(id);
+        user.setFlagged(false);
+        userDao.save(user);
+        return "redirect:/admin";
+    }
 }
 
