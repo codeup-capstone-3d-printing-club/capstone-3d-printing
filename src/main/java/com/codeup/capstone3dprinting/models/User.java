@@ -42,6 +42,9 @@ public class User {
     @Column(name = "is_flagged")
     private boolean isFlagged;
 
+    @Column(name = "is_active")
+    private boolean isActive;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<File> files;
 
@@ -108,7 +111,7 @@ public class User {
 
     //Create
     public User(String email, String firstName, boolean isAdmin, boolean isVerified,
-                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged) {
+                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged, boolean isActive) {
         this.email = email;
         this.firstName = firstName;
         this.isVerified = false;
@@ -118,12 +121,12 @@ public class User {
         this.password = password;
         this.username = username;
         this.isFlagged = isFlagged;
-
+        this.isActive = isActive;
     }
 
     //Read
     public User(long id, String email, String firstName, boolean isAdmin, boolean isVerified,
-                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged) {
+                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged, boolean isActive) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -134,6 +137,7 @@ public class User {
         this.password = password;
         this.username = username;
         this.isFlagged = isFlagged;
+        this.isActive = isActive;
     }
 
 
@@ -149,6 +153,7 @@ public class User {
         password = copy.password;
         username = copy.username;
         isFlagged = copy.isFlagged;
+        isActive = copy.isActive;
     }
 
     public long getId() {
@@ -237,5 +242,13 @@ public class User {
 
     public void setFlagged(boolean isFlagged){
         this.isFlagged = isFlagged;
+    }
+
+    public boolean isActive(){
+        return this.isActive;
+    }
+
+    public void setActive(boolean isActive){
+        this.isActive = isActive;
     }
 }

@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmailIgnoreCase(String email);
     User findByUsernameEquals(String name);
     List<User> findAllByisFlagged(boolean isFlagged);
-
+    List<User> findAllByisActive(boolean isActive);
 }

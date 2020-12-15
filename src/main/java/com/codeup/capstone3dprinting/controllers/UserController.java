@@ -187,10 +187,11 @@ class UserController {
 
     @GetMapping("/admin")
     public String showAdminDashboard(Model model) {
-        model.addAttribute("allUsers", userDao.findAll());
+        model.addAttribute("allUsers", userDao.findAllByisActive(true));
         model.addAttribute("allPosts", fileDao.findAll());
         model.addAttribute("flaggedUsers", userDao.findAllByisFlagged(true));
         model.addAttribute("flaggedPosts", fileDao.findAllByisFlagged(true));
+        model.addAttribute("deactivatedUsers", userDao.findAllByisActive(false));
         return "admin/admin";
     }
 
@@ -203,10 +204,19 @@ class UserController {
         return "redirect:/admin";
     }
 
-    //    redirects to admin bc nonAdmin users shouldn't be able to delete users
-    @PostMapping("/users/{id}/delete")
-    public String deleteUserAsAdmin(@PathVariable long id) {
-        userDao.deleteById(id);
+    //    redirects to admin bc nonAdmin users shouldn't be able to deactivate/activate users
+    @PostMapping("/users/{id}/deactivate")
+    public String deactivateUser(@PathVariable long id) {
+       User user = userDao.getOne(id);
+       user.setActive(false);
+       userDao.save(user);
+        return "redirect:/admin";
+    }
+    @PostMapping("/users/{id}/activate")
+    public String activateUser(@PathVariable long id) {
+        User user = userDao.getOne(id);
+        user.setActive(true);
+        userDao.save(user);
         return "redirect:/admin";
     }
 

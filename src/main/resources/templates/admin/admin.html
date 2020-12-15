@@ -17,15 +17,15 @@
         <button th:type="submit" class="btn btn-danger">Delete Post</button>
     </form>
 </div>
-<h2>All Users</h2>
+<h2>All active Users</h2>
 <div class="allUsers" style="border: black 2px solid" th:each="user : ${allUsers}">
     <h5 th:text="${user.username}"></h5>
     <p th:text="${user.joinedAt}"></p>
     <form th:action="@{/users/{id}/flag(id=${user.id})}" th:method="post">
         <button th:type="submit" class="btn btn-danger">Flag User</button>
     </form>
-    <form th:action="@{/users/{id}/delete(id=${user.id})}" th:method="delete">
-        <button th:type="submit" class="btn btn-danger">Delete User</button>
+    <form th:action="@{/users/{id}/deactivate(id=${user.id})}" th:method="post">
+        <button th:type="submit" class="btn btn-danger">Deactivate User</button>
     </form>
 </div>
 
@@ -45,6 +45,15 @@
     <p th:text="${user.isFlagged()}"></p>
     <form th:action="@{/users/{id}/unflag(id=${user.id})}" th:method="post">
         <button th:type="submit" class="btn btn-danger">Unflag User</button>
+    </form>
+</div>
+<h2>Deactivated Users</h2>
+<div class="allDeactivatedUsers"  style="border: black 2px solid" th:each="deUser : ${deactivatedUsers}">
+    <h3 th:text="${deUser.username}"></h3>
+    <p th:text="${deUser.joinedAt}"></p>
+    <p th:text="${deUser.active}"></p>
+    <form th:action="@{/users/{id}/activate(id=${deUser.id})}" th:method="post">
+        <button th:type="submit" class="btn btn-danger">Re-activate User</button>
     </form>
 </div>
 </body>
