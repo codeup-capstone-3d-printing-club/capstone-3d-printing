@@ -4,9 +4,9 @@ CREATE DATABASE printing_club_db;
 USE printing_club_db;
 
 INSERT INTO users (avatar_url, email, first_name, is_admin, is_verified, joined_at, last_name, password, username)
-VALUES ('none', 'test@test.com', 'tester', true, true, NOW(), 'last name test', 'codeup', 'testing'),
-       ('none', 'john@john.com', 'john', true, true, NOW(), 'mcnay', 'codeup', 'johnmcnay'),
-       ('none', 'messenger@messenger.com', 'messenger', true, true, NOW(), 'jones', 'codeup', 'messenger');
+VALUES ('none', 'test@test.com', 'tester', true, true, NOW(), 'last name test', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'testing'),
+       ('none', 'john@john.com', 'john', true, true, NOW(), 'mcnay', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'johnmcnay'),
+       ('none', 'messenger@messenger.com', 'messenger', true, true, NOW(), 'jones', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'messenger');
 
 
 INSERT INTO messages (message, sent_at, recipient_id, sender_id, unread)
