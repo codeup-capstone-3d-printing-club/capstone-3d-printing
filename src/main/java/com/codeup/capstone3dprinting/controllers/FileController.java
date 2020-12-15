@@ -28,7 +28,7 @@ class FileController {
     public String showPost(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
         model.addAttribute("file", filedb);
-        model.addAttribute("user", filedb.getOwner());
+//        model.addAttribute("user", filedb.getOwner());
         return "files/showFile";
     }
 
@@ -87,6 +87,13 @@ class FileController {
         return "redirect:/files";
     }
 
+
+    @GetMapping("/files/create")
+    public String showFileCreate() {
+        return "files/create";
+    }
+}
+
     // user can only unflag as admin
     @PostMapping("/files/{id}/unflag")
     public String unflagUser(@PathVariable long id) {
@@ -96,4 +103,3 @@ class FileController {
         return "redirect:/admin";
     }
 }
-
