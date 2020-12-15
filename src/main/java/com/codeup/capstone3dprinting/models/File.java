@@ -33,21 +33,18 @@ public class File {
     @Column(name = "is_private", nullable = false)
     private boolean isPrivate;
 
+    @Column(name= "is_flagged", nullable = false)
+    private boolean isFlagged;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "file_category",
-            joinColumns = { @JoinColumn(name = "file_id") },
-            inverseJoinColumns = { @JoinColumn(name = "category_id") })
-    private List<Category> categories;
 
    public File() {}
   
     //Create
     public File(long id, String fileUrl, String title, Timestamp createdAt,
-                Timestamp updatedAt, String description, String imgUrl, boolean isPrivate, User owner) {
+                Timestamp updatedAt, String description, String imgUrl, boolean isPrivate,boolean isFlagged ,User owner) {
         this.id = id;
         this.fileUrl = fileUrl;
         this.title = title;
@@ -57,11 +54,12 @@ public class File {
         this.imgUrl = imgUrl;
         this.isPrivate = isPrivate;
         this.owner = owner;
+        this.isFlagged = isFlagged;
     }
 
     //Read
     public File(String fileUrl, String title, Timestamp createdAt,
-                Timestamp updatedAt, String description, String imgUrl, boolean isPrivate, User owner) {
+                Timestamp updatedAt, String description, String imgUrl, boolean isPrivate,boolean isFlagged, User owner) {
         this.fileUrl = fileUrl;
         this.title = title;
         this.createdAt = createdAt;
@@ -70,6 +68,7 @@ public class File {
         this.imgUrl = imgUrl;
         this.isPrivate = isPrivate;
         this.owner = owner;
+        this.isFlagged = isFlagged;
     }
 
     public File(File copy) {
@@ -82,7 +81,15 @@ public class File {
         imgUrl = copy.imgUrl;
         isPrivate = copy.isPrivate;
         owner = copy.owner;
+        isFlagged = copy.isFlagged;
     }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "file_category",
+            joinColumns = { @JoinColumn(name = "file_id") },
+            inverseJoinColumns = { @JoinColumn(name = "category_id") })
+    private List<Category> categories;
+
 
     public long getId() {
         return id;
@@ -162,5 +169,12 @@ public class File {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public boolean isFlagged(){
+       return this.isFlagged;
+    }
+    public void setFlagged(boolean isFlagged){
+       this.isFlagged = isFlagged;
     }
 }

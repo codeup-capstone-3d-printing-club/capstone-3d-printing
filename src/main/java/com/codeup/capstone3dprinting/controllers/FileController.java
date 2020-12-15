@@ -1,7 +1,9 @@
 package com.codeup.capstone3dprinting.controllers;
 
 import com.codeup.capstone3dprinting.models.File;
+import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.FileRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +28,7 @@ class FileController {
     public String showPost(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
         model.addAttribute("file", filedb);
-        model.addAttribute("user", filedb.getOwner());
+//        model.addAttribute("user", filedb.getOwner());
         return "files/showFile";
     }
 
@@ -36,6 +38,20 @@ class FileController {
         model.addAttribute("file", filedb);
         model.addAttribute("user", filedb.getOwner());
         return "files/showFile";
+    }
+
+    @GetMapping ("/files/create")
+    public String viewCreateForm(Model model) {
+        model.addAttribute("file", new File());
+        return "files/createFile";
+    }
+
+    @PostMapping("/files/create")
+    public String createPost(@ModelAttribute File fileToBeSaved){
+       User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        fileToBeSaved.setOwner(user);
+        File dbFile = fileDao.save(fileToBeSaved);
+        return "redirect:/files" + dbFile.getId();
     }
 
     @GetMapping("/files/{id}/edit")
@@ -55,10 +71,29 @@ class FileController {
         fileDao.save(file);
         return "redirect:/files/" + file.getId();
     }
+
+//    TODO:should redirect to admin dashboard if admin
+    @PostMapping("/files/{id}/flag")
+    public String flagUser(@PathVariable long id) {
+        File file = fileDao.getOne(id);
+        file.setFlagged(true);
+        fileDao.save(file);
+        return "redirect:/files/" + file.getId();
+    }
+
     @PostMapping("/files/{id}/delete")
     public String deleteFilePost(@PathVariable long id) {
         fileDao.deleteById(id);
-//        TODO: make this return back to the list of your own file posts
+//        TODO: redirect back to the list of your own file posts
         return "redirect:/files";
+    }
+
+    // user can only unflag as admin
+    @PostMapping("/files/{id}/unflag")
+    public String unflagUser(@PathVariable long id) {
+        File file = fileDao.getOne(id);
+        file.setFlagged(false);
+        fileDao.save(file);
+        return "redirect:/admin";
     }
 }
