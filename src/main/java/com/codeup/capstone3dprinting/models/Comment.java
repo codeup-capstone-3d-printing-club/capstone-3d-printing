@@ -21,8 +21,8 @@ public class Comment {
     @Column(nullable = false, length = 1000)
     private String comment;
 
-    @Column(nullable = false)
-    private Timestamp created_at;
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
 
     public long getId() {
         return id;
@@ -56,11 +56,11 @@ public class Comment {
         this.comment = comment;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 }
