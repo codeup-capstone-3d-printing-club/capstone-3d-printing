@@ -33,7 +33,8 @@ public class File {
     @Column(nullable = false)
     private boolean is_private;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
     private User owner;
 
    public File() {}
@@ -77,9 +78,15 @@ public class File {
         owner = copy.owner;
     }
 
+    public List<Category> getCategories() {
+        return categories;
+    }
 
-    
-    @ManyToMany(fetch = FetchType.LAZY)
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "file_category",
             joinColumns = { @JoinColumn(name = "file_id") },
             inverseJoinColumns = { @JoinColumn(name = "category_id") })

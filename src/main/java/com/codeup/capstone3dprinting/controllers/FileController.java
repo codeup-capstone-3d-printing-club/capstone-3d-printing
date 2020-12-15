@@ -26,7 +26,7 @@ class FileController {
     public String showPost(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
         model.addAttribute("file", filedb);
-        model.addAttribute("user", filedb.getOwner());
+//        model.addAttribute("user", filedb.getOwner());
         return "files/showFile";
     }
 
@@ -55,10 +55,16 @@ class FileController {
         fileDao.save(file);
         return "redirect:/files/" + file.getId();
     }
+
     @PostMapping("/files/{id}/delete")
     public String deleteFilePost(@PathVariable long id) {
         fileDao.deleteById(id);
 //        TODO: make this return back to the list of your own file posts
         return "redirect:/files";
+    }
+
+    @GetMapping("/files/create")
+    public String showFileCreate() {
+        return "files/create";
     }
 }

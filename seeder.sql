@@ -1,4 +1,4 @@
-USE printing_club_db;
+USE capstone_db;
 
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE table messages;
