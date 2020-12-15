@@ -24,12 +24,22 @@
     <hr>
 <!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
     Created By: <p th:text="${file.getOwner().getUsername()}">
-    <form th:action="@{/files/{id}/flag(id=${file.id})}" th:method="post">
-        <button th:type="submit" class="btn btn-danger">Flag Post</button>
-    </form>
 </div>
+<div class="commentbox" style="border: grey solid 2px" th:each="comment : ${allCommentsForThisPost}">
+    <h2 th:text="${comment.getOwner().getUsername()}"></h2>
+    <p th:text="${comment.comment}"></p>
+    <p th:text="${comment.createdAt}"></p>
+</div>
+<form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
+    Your comment:
+    <input th:name="commentText">
+    <button th:type="submit">post comment</button>
+</form>
 
 
+<form th:action="@{/files/{id}/flag(id=${file.id})}" th:method="post">
+    <button th:type="submit" class="btn btn-danger">Flag Post</button>
+</form>
 <!--    TODO:only show when user is owner-->
 <form th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
     <button type="button" ><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
