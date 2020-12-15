@@ -57,17 +57,28 @@ class FileController {
         return "redirect:/files/" + file.getId();
     }
 
+//    TODO:should redirect to admin dashboard if admin
     @PostMapping("/files/{id}/flag")
     public String flagUser(@PathVariable long id) {
         File file = fileDao.getOne(id);
         file.setFlagged(true);
-        return "redirect:/files" + file.getId();
+        fileDao.save(file);
+        return "redirect:/files/" + file.getId();
     }
 
     @PostMapping("/files/{id}/delete")
     public String deleteFilePost(@PathVariable long id) {
         fileDao.deleteById(id);
-//        TODO: make this return back to the list of your own file posts
+//        TODO: redirect back to the list of your own file posts
         return "redirect:/files";
+    }
+
+    // user can only unflag as admin
+    @PostMapping("/files/{id}/unflag")
+    public String unflagUser(@PathVariable long id) {
+        File file = fileDao.getOne(id);
+        file.setFlagged(false);
+        fileDao.save(file);
+        return "redirect:/admin";
     }
 }

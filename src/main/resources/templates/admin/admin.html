@@ -6,8 +6,8 @@
 </head>
 <body>
 <h1>Admin Dashboard</h1>
-
-<div class="allposts" style="border: black 2px solid" th:text="All Posts" th:each="post : ${allPosts}">
+<h2>All Posts</h2>
+<div class="allposts" style="border: black 2px solid" th:each="post : ${allPosts}">
 <h5 th:text="${post.title}"></h5>
     <p th:text="${post.description}"></p>
     <form th:action="@{/files/{id}/flag(id=${post.id})}" th:method="post">
@@ -17,8 +17,8 @@
         <button th:type="submit" class="btn btn-danger">Delete Post</button>
     </form>
 </div>
-
-<div class="allUsers" th:text="all Users" style="border: black 2px solid" th:each="user : ${allUsers}">
+<h2>All Users</h2>
+<div class="allUsers" style="border: black 2px solid" th:each="user : ${allUsers}">
     <h5 th:text="${user.username}"></h5>
     <p th:text="${user.joinedAt}"></p>
     <form th:action="@{/users/{id}/flag(id=${user.id})}" th:method="post">
@@ -29,16 +29,23 @@
     </form>
 </div>
 
-<!--TODO: create flagging option-->
-<div class="allFlaggedPosts" th:text="Flagged Posts" style="border: black 2px solid" th:each="post : ${flaggedPosts}">
+<h2>Flagged Posts</h2>
+<div class="allFlaggedPosts" style="border: black 2px solid" th:each="post : ${flaggedPosts}">
 <h3 th:text="${post.title}"></h3>
     <p th:text="${post.description}"></p>
-    <p th:text="${post.isFlagged}"></p>
+    <p th:text="${post.isFlagged()}"></p>
+    <form th:action="@{/files/{id}/unflag(id=${post.id})}" th:method="post">
+        <button th:type="submit" class="btn btn-danger">Unflag Post</button>
+    </form>
 </div>
-<div class="allFlaggedUsers" th:text="Flagged Users" style="border: black 2px solid" th:each="user : ${flaggedUsers}">
+<h2>Flagged Users</h2>
+<div class="allFlaggedUsers"  style="border: black 2px solid" th:each="user : ${flaggedUsers}">
     <h3 th:text="${user.username}"></h3>
     <p th:text="${user.joinedAt}"></p>
-    <p th:text="${user.isFlagged}"></p>
+    <p th:text="${user.isFlagged()}"></p>
+    <form th:action="@{/users/{id}/unflag(id=${user.id})}" th:method="post">
+        <button th:type="submit" class="btn btn-danger">Unflag User</button>
+    </form>
 </div>
 </body>
 </html>
