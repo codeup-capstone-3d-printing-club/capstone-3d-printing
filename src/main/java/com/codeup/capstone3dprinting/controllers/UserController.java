@@ -106,5 +106,29 @@ class UserController {
         userDao.save(user);
         return "redirect:/profile/" + user.getId();
     }
+
+    @GetMapping("/admin")
+    public String showAdminDashboard(Model model){
+        model.addAttribute("allUsers", userDao.findAll());
+        model.addAttribute("allPosts", fileDao.findAll());
+//TODO: add flagged posts and users
+        model.addAttribute("flaggedUsers",userDao.findAllByisFlagged(true));
+        model.addAttribute("flaggedPosts",fileDao.findAllByisFlagged(true));
+        return "admin/admin";
+    }
+    @PostMapping("/users/{id}/flag")
+    public String flagUser(@PathVariable long id) {
+        User user = userDao.getOne(id);
+        user.setFlagged(true);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/admin/{id}/delete")
+    public String deleteUser(@PathVariable long id) {
+        userDao.deleteById(id);
+        return "redirect:/admin";
+    }
+
+
 }
 

@@ -39,6 +39,9 @@ public class User {
     @Column(name = "avatar_url")
     private String avatarUrl;
 
+    @Column(name = "is_flagged")
+    private boolean isFlagged;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "follows",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -62,7 +65,7 @@ public class User {
 
     //Create
     public User(String email, String firstName, boolean isAdmin, boolean isVerified,
-                Timestamp joinedAt, String lastName, String password, String username) {
+                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged) {
         this.email = email;
         this.firstName = firstName;
         this.isVerified = false;
@@ -71,21 +74,23 @@ public class User {
         this.lastName = lastName;
         this.password = password;
         this.username = username;
+        this.isFlagged = isFlagged;
 
     }
 
     //Read
     public User(long id, String email, String firstName, boolean isAdmin, boolean isVerified,
-                Timestamp joinedAt, String lastName, String password, String username) {
+                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
-        this.isVerified = false;
-        this.isAdmin = false;
+        this.isVerified = isVerified;
+        this.isAdmin = isAdmin;
         this.joinedAt = joinedAt;
         this.lastName = lastName;
         this.password = password;
         this.username = username;
+        this.isFlagged = isFlagged;
     }
 
 
@@ -100,6 +105,7 @@ public class User {
         lastName = copy.lastName;
         password = copy.password;
         username = copy.username;
+        isFlagged = copy.isFlagged;
     }
 
     public long getId() {
@@ -205,6 +211,11 @@ public class User {
     public void setSettings(List<Setting> settings) {
         this.settings = settings;
     }
+    public boolean isFlagged(){
+        return this.isFlagged;
+    }
 
-
+    public void setFlagged(boolean isFlagged){
+        this.isFlagged = isFlagged;
+    }
 }

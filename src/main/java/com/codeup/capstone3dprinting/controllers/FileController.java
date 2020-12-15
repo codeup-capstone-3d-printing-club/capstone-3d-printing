@@ -1,6 +1,7 @@
 package com.codeup.capstone3dprinting.controllers;
 
 import com.codeup.capstone3dprinting.models.File;
+import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.FileRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,6 +56,14 @@ class FileController {
         fileDao.save(file);
         return "redirect:/files/" + file.getId();
     }
+
+    @PostMapping("/files/{id}/flag")
+    public String flagUser(@PathVariable long id) {
+        File file = fileDao.getOne(id);
+        file.setFlagged(true);
+        return "redirect:/files" + file.getId();
+    }
+
     @PostMapping("/files/{id}/delete")
     public String deleteFilePost(@PathVariable long id) {
         fileDao.deleteById(id);
