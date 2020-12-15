@@ -90,7 +90,7 @@ class FileController {
     @PostMapping("/files/{id}/delete")
     public String deleteFilePost(@PathVariable long id) {
         fileDao.deleteById(id);
-//        TODO: redirect back to the list of your own file posts
+//        TODO: redirect back to the list of your own file posts/ or admin dashboard if admin
         return "redirect:/files";
     }
 
