@@ -11,7 +11,7 @@ public class Setting {
     private long id;
 
     @Column(nullable = false)
-    private String setting_description;
+    private String description;
 
     public long getId() {
         return id;
@@ -21,11 +21,13 @@ public class Setting {
         this.id = id;
     }
 
-    public String getSetting_description() {
-        return setting_description;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSetting_description(String setting_description) {
-        this.setting_description = setting_description;
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+
 }
