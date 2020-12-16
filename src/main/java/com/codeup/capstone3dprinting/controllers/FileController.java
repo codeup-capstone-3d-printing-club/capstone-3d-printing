@@ -117,5 +117,11 @@ class FileController {
         File file = fileDao.getOne(id);
         return "redirect:/files/" + file.getId();
     }
+    @PostMapping("/files/{id}/comment/{commentId}/delete")
+    public String deleteFilePost(@PathVariable long id, @RequestParam(name = "commentId")long commentId) {
+        commentDao.deleteById(commentId);
+        File file = fileDao.getOne(id);
+        return "redirect:/files/" + file.getId();
+    }
 }
 

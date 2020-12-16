@@ -45,6 +45,11 @@
     <h2 th:text="${comment.getOwner().getUsername()}"></h2>
     <p th:text="${comment.comment}"></p>
     <p th:text="${comment.createdAt}"></p>
+    <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
+          th:method="post">
+        <input type="hidden" name="commentId" th:value="${comment.id}">
+        <button th:type="submit">Delete comment</button>
+    </form>
 </div>
 <form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
     Your comment:
