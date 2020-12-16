@@ -34,3 +34,5 @@ build/
 
 src/main/resources/application.properties
 john-seeder.sql
+src/main/resources/static/js/keys.js
+

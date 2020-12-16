@@ -13,7 +13,7 @@ init();
 animate();
 
 function init() {
-
+    console.log(fileUrl);
     // container = document.createElement( 'div' );
     // document.body.appendChild( container );
     container = document.getElementById('renderer');
@@ -64,7 +64,7 @@ function init() {
 
     const material = new THREE.MeshPhongMaterial( { color: 0xAAAAAA, specular: 0x111111, shininess: 200 } );
 
-    loader.load( '/storage/pr2_head_pan.stl', function ( geometry ) {
+    loader.load(fileUrl, function ( geometry ) {
 
         const mesh = new THREE.Mesh( geometry, material );
 

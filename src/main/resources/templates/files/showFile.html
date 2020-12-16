@@ -11,8 +11,8 @@
 <h1>Individual File</h1>
 <div class="container">
     <div class="row">
-        <div class="col-12 col-sm-8" id="renderer"></div>
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-md-8" id="renderer"></div>
+        <div class="col-12 col-md-4" >
             Date created:
             <p th:text="${file.createdAt}"></p>
             Date last updated:
@@ -31,7 +31,7 @@
                 <button class="btn btn-outline-secondary">add to list</button>
                 <button class="btn btn-outline-secondary">comment</button>
         </div>
-        <div class="col-12 col-sm-8">
+        <div class="col-12 col-md-8">
             <img th:src="${file.imgUrl}"/>
             <!--    TODO:rendering needs to go in to the following tag-->
             <div th:value="${file.fileUrl}"></div>
@@ -99,7 +99,8 @@
     </form>
 </div>
 <footer th:replace="partials/footer_partial :: footer"></footer>
+<script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
 <script th:replace="partials/partials_scripts :: script"></script>
 <script type="module" th:src="@{/js/renderer.js}"></script>
-</body>
+  </body>
 </html>
