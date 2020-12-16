@@ -13,7 +13,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false, length = 45, unique = true)
     private String username;
 
     @Column(name = "first_name", length = 45)
@@ -22,7 +22,7 @@ public class User {
     @Column(name = "last_name", length = 45)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -49,7 +49,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<File> files;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "follows",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "follow_id")})
@@ -113,7 +113,7 @@ public class User {
     //Create
     public User(String email, String firstName, boolean isAdmin, boolean isVerified,
                 Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged,
-                boolean isActive, List<File> files, List<User> users, List<File> favorites, List<Setting> settings) {
+                boolean isActive) {
         this.email = email;
         this.firstName = firstName;
         this.isVerified = false;
@@ -124,16 +124,12 @@ public class User {
         this.username = username;
         this.isFlagged = isFlagged;
         this.isActive = isActive;
-        this.files = files;
-        this.users = users;
-        this.favorites = favorites;
-        this.settings = settings;
     }
 
     //Read
     public User(long id, String email, String firstName, boolean isAdmin, boolean isVerified,
                 Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged,
-                boolean isActive, List<File> files, List<User> users, List<File> favorites, List<Setting> settings) {
+                boolean isActive) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -145,14 +141,11 @@ public class User {
         this.username = username;
         this.isFlagged = isFlagged;
         this.isActive = isActive;
-        this.files = files;
-        this.users = users;
-        this.favorites = favorites;
-        this.settings = settings;
     }
 
 
     public User(User copy) {
+        System.out.println("\"copy constructor\" = " + "copy constructor");
         id = copy.id;
         avatarUrl = copy.avatarUrl;
         email = copy.email;
@@ -167,6 +160,7 @@ public class User {
         isActive = copy.isActive;
         files = copy.files;
         users = copy.users;
+        System.out.println("users.toString() in copy constructor = " + users.toString());
         favorites = copy.favorites;
         settings = copy.settings;
     }
@@ -266,4 +260,5 @@ public class User {
     public void setActive(boolean isActive){
         this.isActive = isActive;
     }
+
 }

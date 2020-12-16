@@ -49,10 +49,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/") // anyone can see any page currently
                 .permitAll()
                 /* Pages that require authentication */
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers()
-//                .authenticated()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/messages")
+                .authenticated()
         ;
     }
 }
