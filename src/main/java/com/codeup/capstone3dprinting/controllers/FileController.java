@@ -26,7 +26,6 @@ class FileController {
         this.commentDao = commentdao;
         this.userDao = userdao;
         this.ratingDao = ratingDao;
-
     }
 
     @GetMapping("/files")
@@ -62,18 +61,22 @@ class FileController {
         return "files/showFile";
     }
 
-    @GetMapping ("/files/create")
+    @GetMapping("/files/create")
     public String viewCreateForm(Model model) {
         model.addAttribute("file", new File());
         return "files/createFile";
     }
 
     @PostMapping("/files/create")
-    public String createPost(@ModelAttribute File fileToBeSaved){
-       User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        fileToBeSaved.setOwner(user);
+    public String createPost(@ModelAttribute File fileToBeSaved) {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
+        fileToBeSaved.setCreatedAt(timestamp1);
+        fileToBeSaved.setUpdatedAt(timestamp1);
+//        fileToBeSaved.setOwner(user);
+        fileToBeSaved.setOwner(userDao.getOne(1L));
         File dbFile = fileDao.save(fileToBeSaved);
-        return "redirect:/files" + dbFile.getId();
+        return "redirect:/files/" + dbFile.getId();
     }
 
     @GetMapping("/files/{id}/edit")
@@ -94,7 +97,7 @@ class FileController {
         return "redirect:/files/" + file.getId();
     }
 
-//    TODO:should redirect to admin dashboard if admin
+    //    TODO:should redirect to admin dashboard if admin
     @PostMapping("/files/{id}/flag")
     public String flagUser(@PathVariable long id) {
         File file = fileDao.getOne(id);
