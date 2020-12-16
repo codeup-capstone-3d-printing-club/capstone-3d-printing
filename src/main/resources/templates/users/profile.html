@@ -44,7 +44,7 @@
             <button th:type="submit" class="btn btn-danger">Flag User</button>
         </form>
     </div>
-    <h3><span th:text="${user.username}">'s uploaded files</h3>
+    <h3><span th:text="${user.username}">'s uploaded files</span></h3>
     <div th:each="file : ${thisUsersFiles}">
         <div class="card">
             <div class="card-title" th:text="${file.title}"></div>
