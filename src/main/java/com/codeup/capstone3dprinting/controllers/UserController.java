@@ -8,8 +8,9 @@ import com.codeup.capstone3dprinting.repos.FileRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.repos.Users;
 import com.codeup.capstone3dprinting.services.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -116,29 +117,44 @@ class UserController {
     public String followUser(@PathVariable long id,
                              @RequestParam(name = "following") boolean following) {
 
-        User user = userDao.findByIdEquals(1L);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = new User(user);
 
         if (following) {
-            user.getUsers().remove(userDao.findByIdEquals(id));
+            currentUser.getUsers().removeIf(n -> n.getId() == id);
         } else {
-            user.getUsers().add(userDao.findByIdEquals(id));
+            currentUser.getUsers().add(userDao.findByIdEquals(id));
         }
 
-        userDao.save(user);
+        userDao.save(currentUser);
 
         return "redirect:/profile/" + id;
     }
 
     @GetMapping("/profile/{id}")
     public String showProfile(@PathVariable long id, Model model) {
-        //assuming logged in as a hard-coded user
-        User user = userDao.findByIdEquals(1L);
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof User) {
+            User user = ((User) principal);
+            boolean hasUser = false;
+
+            for (User u : user.getUsers()) {
+                if (u.getId() == id) {
+                    hasUser = true;
+                    break;
+                }
+            }
+
+            model.addAttribute("following", hasUser);
+            model.addAttribute("feed", getFollowFeed());
+        }
 
         User userdb = userDao.getOne(id);
         model.addAttribute("user", userdb);
         model.addAttribute("thisUsersFiles", fileDao.findAllByOwner_Id(id));
-        model.addAttribute("following", user.getUsers().contains(userDao.findByIdEquals(id)));
-        model.addAttribute("feed", getFollowFeed());
+
         return "users/profile";
     }
 

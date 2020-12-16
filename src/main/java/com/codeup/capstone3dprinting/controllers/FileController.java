@@ -1,17 +1,14 @@
 package com.codeup.capstone3dprinting.controllers;
 
-import com.codeup.capstone3dprinting.models.Comment;
-import com.codeup.capstone3dprinting.models.File;
-import com.codeup.capstone3dprinting.models.User;
-import com.codeup.capstone3dprinting.repos.CommentRepository;
-import com.codeup.capstone3dprinting.repos.FileRepository;
-import com.codeup.capstone3dprinting.repos.UserRepository;
+import com.codeup.capstone3dprinting.models.*;
+import com.codeup.capstone3dprinting.repos.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,11 +19,13 @@ class FileController {
     private final FileRepository fileDao;
     private final CommentRepository commentDao;
     private final UserRepository userDao;
+    private final RatingRepository ratingDao;
 
-    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao) {
+    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao, RatingRepository ratingDao) {
         this.fileDao = fileDao;
         this.commentDao = commentdao;
         this.userDao = userdao;
+        this.ratingDao = ratingDao;
     }
 
     @GetMapping("/files")
@@ -35,29 +34,49 @@ class FileController {
         return "index";
     }
 
+    public List<Integer> getRatingsList(List<Rating> ListOfRatingObjs) {
+        List<Integer> ratingNumbers = new ArrayList<>();
+        for (Rating rating :
+                ListOfRatingObjs) {
+            ratingNumbers.add(rating.getRating());
+        }
+        return ratingNumbers;
+    }
+
     @GetMapping("/files/{id}")
     public String showPost(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
         List<Comment> thisFilesComments = commentDao.getAllByFile_Id(id);
-
+        List<Rating> ListOfRatingObjs = ratingDao.getAllByFile_Id(id);
+        List<Integer> thisFileRatings = getRatingsList(ListOfRatingObjs);
+            double sum = 0;
+            for(int i :thisFileRatings){
+                sum = sum + i;
+            }
+            sum = sum/ thisFileRatings.size();
+        model.addAttribute("averageRating", Math.round(sum));
         model.addAttribute("allCommentsForThisPost", thisFilesComments);
         model.addAttribute("file", filedb);
         model.addAttribute("user", filedb.getOwner());
         return "files/showFile";
     }
 
-    @GetMapping ("/files/create")
+    @GetMapping("/files/create")
     public String viewCreateForm(Model model) {
         model.addAttribute("file", new File());
         return "files/createFile";
     }
 
     @PostMapping("/files/create")
-    public String createPost(@ModelAttribute File fileToBeSaved){
-       User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        fileToBeSaved.setOwner(user);
+    public String createPost(@ModelAttribute File fileToBeSaved) {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
+        fileToBeSaved.setCreatedAt(timestamp1);
+        fileToBeSaved.setUpdatedAt(timestamp1);
+//        fileToBeSaved.setOwner(user);
+        fileToBeSaved.setOwner(userDao.getOne(1L));
         File dbFile = fileDao.save(fileToBeSaved);
-        return "redirect:/files" + dbFile.getId();
+        return "redirect:/files/" + dbFile.getId();
     }
 
     @GetMapping("/files/{id}/edit")
@@ -78,7 +97,7 @@ class FileController {
         return "redirect:/files/" + file.getId();
     }
 
-//    TODO:should redirect to admin dashboard if admin
+    //    TODO:should redirect to admin dashboard if admin
     @PostMapping("/files/{id}/flag")
     public String flagUser(@PathVariable long id) {
         File file = fileDao.getOne(id);
@@ -117,9 +136,19 @@ class FileController {
         File file = fileDao.getOne(id);
         return "redirect:/files/" + file.getId();
     }
+
     @PostMapping("/files/{id}/comment/{commentId}/delete")
     public String deleteFilePost(@PathVariable long id, @RequestParam(name = "commentId")long commentId) {
         commentDao.deleteById(commentId);
+        File file = fileDao.getOne(id);
+        return "redirect:/files/" + file.getId();
+    }
+    @PostMapping("files/{id}/rating")
+    public String rateFile(@PathVariable long id, @RequestParam(name = "ratings") int rating) {
+        Rating newRating = new Rating();
+        newRating.setRating(rating);
+        newRating.setFile(fileDao.getOne(id));
+        ratingDao.save(newRating);
         File file = fileDao.getOne(id);
         return "redirect:/files/" + file.getId();
     }
