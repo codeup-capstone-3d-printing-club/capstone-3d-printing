@@ -1,6 +1,11 @@
 package com.codeup.capstone3dprinting.models;
 
+import com.mysql.cj.Session;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="ratings")
 public class Rating {
@@ -10,13 +15,23 @@ public class Rating {
         private long id;
 
     @ManyToOne
-    private User rater;
-
-    @ManyToOne
     private File file;
 
     @Column(nullable = false)
     private int rating;
+
+    public Rating(){}
+
+    public Rating(long id, int rating, File file){
+        this.id = id;
+        this.rating = rating;
+        this.file = file;
+    }
+
+    public Rating(int rating, File file){
+        this.rating = rating;
+        this.file = file;
+    }
 
     public long getId() {
         return id;
@@ -24,14 +39,6 @@ public class Rating {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public User getRater() {
-        return rater;
-    }
-
-    public void setRater(User rater) {
-        this.rater = rater;
     }
 
     public File getFile() {
