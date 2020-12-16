@@ -34,27 +34,30 @@
     Joined at: <p th:text="${user.joinedAt}">
 </div>
 <div>
-    <form th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" th:value="*{id}" method="post">
-        <button type="button" class="btn btn-success"><a th:href="@{/profile/{id}/edit(id=*{id})}">Edit</a></button>
-    </form>
-    <!--    TODO:only show this form when visiting another users profile, so no self flagging-->
-    <form th:action="@{/users/{id}/flag(id=${user.id})}" th:method="post">
-        <button th:type="submit" class="btn btn-danger">Flag User</button>
-    </form>
-</div>
-<h3>Your uploaded files</h3>
-<div th:each="file : ${thisUsersFiles}">
-    <div class="card">
-        <div class="card-title" th:text="${file.title}"></div>
-        <div class="card-body" th:text="${file.description}"></div>
-        <div class="card-body" th:text="${file.createdAt}"></div>
-        <!--        TODO: need to create a page that displays individual files/posts and use form below to link to each individual post/file-->
-        <!--        <form th:action="@{/files/{id}(id=${file.ID})}" th:value="${file.ID}" method="post">-->
-        <!--            <button type="submit">see post</button>-->
-        <!--        </form>-->
+    <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
+        <form th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" th:value="*{id}" method="post">
+            <button type="button" class="btn btn-success"><a th:href="@{/profile/{id}/edit(id=*{id})}">Edit</a></button>
+        </form>
     </div>
-</div>
+    <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id != user.id}">
+        <form th:action="@{/users/{id}/flag(id=${user.id})}" th:method="post">
+            <button th:type="submit" class="btn btn-danger">Flag User</button>
+        </form>
+    </div>
+    <h3><span th:text="${user.username}">'s uploaded files</h3>
+    <div th:each="file : ${thisUsersFiles}">
+        <div class="card">
+            <div class="card-title" th:text="${file.title}"></div>
+            <div class="card-body" th:text="${file.description}"></div>
+            <div class="card-body" th:text="${file.createdAt}"></div>
+            <!--        TODO: need to create a page that displays individual files/posts and use form below to link to each individual post/file-->
+            <!--        <form th:action="@{/files/{id}(id=${file.ID})}" th:value="${file.ID}" method="post">-->
+            <!--            <button type="submit">see post</button>-->
+            <!--        </form>-->
+        </div>
+    </div>
 
-<div sec:authorize="isAuthenticated()" th:replace="partials/follow-feed::feed"></div>
+    <div sec:authorize="isAuthenticated()" th:replace="partials/follow-feed::feed"></div>
+</div>
 </body>
 </html>
