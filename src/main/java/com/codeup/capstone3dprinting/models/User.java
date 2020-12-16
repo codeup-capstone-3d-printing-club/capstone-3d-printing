@@ -2,6 +2,7 @@ package com.codeup.capstone3dprinting.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,7 +13,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false, length = 45, unique = true)
     private String username;
 
     @Column(name = "first_name", length = 45)
@@ -21,7 +22,7 @@ public class User {
     @Column(name = "last_name", length = 45)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -48,23 +49,23 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<File> files;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "follows",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "follow_id")})
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "favorites",
             joinColumns = {@JoinColumn(name = "liker_id")},
             inverseJoinColumns = {@JoinColumn(name = "file_id")})
-    private List<File> favorites;
+    private List<File> favorites = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_settings",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "setting_id")})
-    private List<Setting> settings;
+    private List<Setting> settings = new ArrayList<>();
 
     public List<File> getFavoriteFiles() {
         return favorites;
@@ -111,7 +112,8 @@ public class User {
 
     //Create
     public User(String email, String firstName, boolean isAdmin, boolean isVerified,
-                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged, boolean isActive) {
+                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged,
+                boolean isActive) {
         this.email = email;
         this.firstName = firstName;
         this.isVerified = false;
@@ -126,7 +128,8 @@ public class User {
 
     //Read
     public User(long id, String email, String firstName, boolean isAdmin, boolean isVerified,
-                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged, boolean isActive) {
+                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged,
+                boolean isActive) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -142,6 +145,7 @@ public class User {
 
 
     public User(User copy) {
+        System.out.println("\"copy constructor\" = " + "copy constructor");
         id = copy.id;
         avatarUrl = copy.avatarUrl;
         email = copy.email;
@@ -154,6 +158,11 @@ public class User {
         username = copy.username;
         isFlagged = copy.isFlagged;
         isActive = copy.isActive;
+        files = copy.files;
+        users = copy.users;
+        System.out.println("users.toString() in copy constructor = " + users.toString());
+        favorites = copy.favorites;
+        settings = copy.settings;
     }
 
     public long getId() {
@@ -251,4 +260,5 @@ public class User {
     public void setActive(boolean isActive){
         this.isActive = isActive;
     }
+
 }
