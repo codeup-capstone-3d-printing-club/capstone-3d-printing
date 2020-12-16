@@ -2,6 +2,7 @@ package com.codeup.capstone3dprinting.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -52,19 +53,19 @@ public class User {
     @JoinTable(name = "follows",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "follow_id")})
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "favorites",
             joinColumns = {@JoinColumn(name = "liker_id")},
             inverseJoinColumns = {@JoinColumn(name = "file_id")})
-    private List<File> favorites;
+    private List<File> favorites = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_settings",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "setting_id")})
-    private List<Setting> settings;
+    private List<Setting> settings = new ArrayList<>();
 
     public List<File> getFavoriteFiles() {
         return favorites;
@@ -111,7 +112,8 @@ public class User {
 
     //Create
     public User(String email, String firstName, boolean isAdmin, boolean isVerified,
-                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged, boolean isActive) {
+                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged,
+                boolean isActive, List<File> files, List<User> users, List<File> favorites, List<Setting> settings) {
         this.email = email;
         this.firstName = firstName;
         this.isVerified = false;
@@ -122,11 +124,16 @@ public class User {
         this.username = username;
         this.isFlagged = isFlagged;
         this.isActive = isActive;
+        this.files = files;
+        this.users = users;
+        this.favorites = favorites;
+        this.settings = settings;
     }
 
     //Read
     public User(long id, String email, String firstName, boolean isAdmin, boolean isVerified,
-                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged, boolean isActive) {
+                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged,
+                boolean isActive, List<File> files, List<User> users, List<File> favorites, List<Setting> settings) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -138,6 +145,10 @@ public class User {
         this.username = username;
         this.isFlagged = isFlagged;
         this.isActive = isActive;
+        this.files = files;
+        this.users = users;
+        this.favorites = favorites;
+        this.settings = settings;
     }
 
 
@@ -154,6 +165,10 @@ public class User {
         username = copy.username;
         isFlagged = copy.isFlagged;
         isActive = copy.isActive;
+        files = copy.files;
+        users = copy.users;
+        favorites = copy.favorites;
+        settings = copy.settings;
     }
 
     public long getId() {
