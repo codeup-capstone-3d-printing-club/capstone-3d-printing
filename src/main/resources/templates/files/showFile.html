@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/header_partial :: head">
-    <script src="https://kit.fontawesome.com/a08077b390.js" crossorigin="anonymous"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet"/>
-</head>
-<body>
+
 <nav th:replace="partials/navbar :: navbar">
 </nav>
 <h1>Individual File</h1>
@@ -94,5 +90,5 @@
 <script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
 <script th:replace="partials/partials_scripts :: script"></script>
 <script type="module" th:src="@{/js/renderer.js}"></script>
-</body>
+
 </html>
