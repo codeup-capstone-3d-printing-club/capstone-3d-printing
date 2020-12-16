@@ -145,7 +145,6 @@ public class User {
 
 
     public User(User copy) {
-        System.out.println("\"copy constructor\" = " + "copy constructor");
         id = copy.id;
         avatarUrl = copy.avatarUrl;
         email = copy.email;
@@ -160,7 +159,6 @@ public class User {
         isActive = copy.isActive;
         files = copy.files;
         users = copy.users;
-        System.out.println("users.toString() in copy constructor = " + users.toString());
         favorites = copy.favorites;
         settings = copy.settings;
     }

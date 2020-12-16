@@ -69,12 +69,12 @@ class FileController {
 
     @PostMapping("/files/create")
     public String createPost(@ModelAttribute File fileToBeSaved) {
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = new User(user);
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
         fileToBeSaved.setCreatedAt(timestamp1);
         fileToBeSaved.setUpdatedAt(timestamp1);
-//        fileToBeSaved.setOwner(user);
-        fileToBeSaved.setOwner(userDao.getOne(1L));
+        fileToBeSaved.setOwner(currentUser);
         File dbFile = fileDao.save(fileToBeSaved);
         return "redirect:/files/" + dbFile.getId();
     }
@@ -125,13 +125,15 @@ class FileController {
 
     @PostMapping("files/{id}/comment")
     public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = new User(user);
+
         Comment newComment = new Comment();
         System.out.println("commentText = " + commentText);
         newComment.setComment(commentText);
         newComment.setCreatedAt(new Timestamp(new Date().getTime()));
         newComment.setFile(fileDao.getOne(id));
-//        newComment.setOwner(auth.getPrincipal());
-        newComment.setOwner(userDao.getOne(1L));
+        newComment.setOwner(currentUser);
         commentDao.save(newComment);
         File file = fileDao.getOne(id);
         return "redirect:/files/" + file.getId();
