@@ -8,25 +8,32 @@
 </nav>
 
         <h1>Create an account</h1>
-        <form th:action="@{/sign-up}" method="POST" th:object="${user}">
+        <form id="formFont" th:action="@{/sign-up}" method="POST" th:object="${user}">
             <label for="username">Username</label>
-            <input id="username" th:field="*{username}"/>
+            <input id="username" th:field="*{username}"/><br>
 
             <label for="email">Email</label>
-            <input id="email" th:field="*{email}"/>
+            <input id="email" th:field="*{email}"/><br>
 
             <label for="firstName">First name</label>
-            <input id="firstName" th:field="*{firstName}"/>
+            <input id="firstName" th:field="*{firstName}"/><br>
 
             <label for="lastName">Last name</label>
-            <input id="lastName" th:field="*{lastName}"/>
+            <input id="lastName" th:field="*{lastName}"/><br>
 
             <label for="password">Password</label>
-            <input id="password" type="password" th:field="*{password}"/>
+            <input id="password" type="password" th:field="*{password}"/><br>
 
             <input value="Sign me up!" type="submit"/>
         </form>
-
+<!--<div id="3d" class="box">-->
+<!--    <div class="inner">-->
+<!--        <span class="filter-shadow">Sign-Up!</span>-->
+<!--    </div>-->
+<!--    <div class="inner">-->
+<!--        <span class="text-shadow">Sign-Up!</span>-->
+<!--    </div>-->
+<!--</div>-->
 
 <script th:replace="partials/partials_scripts :: script"></script>
 <footer th:replace="partials/footer_partial :: footer"></footer>

@@ -1,10 +1,4 @@
-/*html, body{*/
-/*    height: 100%;*/
-/*    !*display: flex;*!*/
-/*    !*align-items: center;*!*/
-/*    !*justify-content: center;*!*/
-/*    !*background-color: navajowhite;*!*/
-/*}*/
+
 html, body {
     height: 100%; }
 
@@ -12,8 +6,8 @@ body {
     margin: 0;
     padding: 2em;
     background: linear-gradient(180deg, #f14, #ff8300) fixed;
-    font-family: "Avenir Next Condensed", sans-serif; }
-
+    font-family: "Avenir Next Condensed", sans-serif;
+}
 h1 {
     color: #613;
     text-align: center; }
@@ -23,6 +17,7 @@ h2 {
     text-transform: uppercase;
     text-align: center;
     font-size: 10em; }
+
 
 .filter-shadow {
     color: transparent;
@@ -107,7 +102,7 @@ h2 {
 .navbar {
 
 }
-.welcome,h1,h2,h3,h4{
+.welcome,h1,h2,h3,h4,#formFont{
     color: white;
 }
 .navbar{
