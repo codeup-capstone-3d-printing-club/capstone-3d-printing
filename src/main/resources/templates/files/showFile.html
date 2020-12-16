@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header_partial :: head"></head>
 
-<body>
+<body th:replace="partials/body_partials :: body" class="container"></body>
 <nav th:replace="partials/navbar :: navbar">
 </nav>
 <h1>Individual File</h1>
@@ -68,5 +68,5 @@
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <script th:replace="partials/partials_scripts :: script"></script>
 <script type="module" th:src="@{/js/renderer.js}"></script>
-</body>
+
 </html>
