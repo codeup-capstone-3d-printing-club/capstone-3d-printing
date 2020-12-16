@@ -3,19 +3,24 @@ package com.codeup.capstone3dprinting.controllers;
 import com.codeup.capstone3dprinting.models.File;
 import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.FileRepository;
+import com.codeup.capstone3dprinting.repos.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
 
 @Controller
 class FileController {
 
     // These two next steps are often called dependency injection, where we create a Repository instance and initialize it in the controller class constructor.
     private final FileRepository fileDao;
+    private final UserRepository userDao;
 
-    public FileController(FileRepository fileDao) {
+    public FileController(FileRepository fileDao, UserRepository userDao) {
         this.fileDao = fileDao;
+        this.userDao = userDao;
     }
 
     @GetMapping("/files")
@@ -40,18 +45,22 @@ class FileController {
         return "files/showFile";
     }
 
-    @GetMapping ("/files/create")
+    @GetMapping("/files/create")
     public String viewCreateForm(Model model) {
         model.addAttribute("file", new File());
         return "files/createFile";
     }
 
     @PostMapping("/files/create")
-    public String createPost(@ModelAttribute File fileToBeSaved){
-       User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        fileToBeSaved.setOwner(user);
+    public String createPost(@ModelAttribute File fileToBeSaved) {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
+        fileToBeSaved.setCreatedAt(timestamp1);
+        fileToBeSaved.setUpdatedAt(timestamp1);
+//        fileToBeSaved.setOwner(user);
+        fileToBeSaved.setOwner(userDao.getOne(1L));
         File dbFile = fileDao.save(fileToBeSaved);
-        return "redirect:/files" + dbFile.getId();
+        return "redirect:/files/" + dbFile.getId();
     }
 
     @GetMapping("/files/{id}/edit")
@@ -72,7 +81,7 @@ class FileController {
         return "redirect:/files/" + file.getId();
     }
 
-//    TODO:should redirect to admin dashboard if admin
+    //    TODO:should redirect to admin dashboard if admin
     @PostMapping("/files/{id}/flag")
     public String flagUser(@PathVariable long id) {
         File file = fileDao.getOne(id);
