@@ -74,16 +74,15 @@ class MessageController {
 
     @PostMapping("/messages/send")
     public String sendMessage(@RequestParam(name = "recipient") String recipient,
-                              @RequestParam(name = "message") String message,
-                              Model model) {
+                              @RequestParam(name = "message") String message) {
 
-        Long senderID = 1L;
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = new User(user);
 
-        User user = userDao.findByUsernameIgnoreCase(recipient);
-        Message newMessage = new Message(message, new Timestamp(new Date().getTime()), user, userDao.findByIdEquals(senderID));
+        User receiver = userDao.findByUsernameIgnoreCase(recipient);
+        Message newMessage = new Message(message, new Timestamp(new Date().getTime()), receiver, currentUser);
 
         messageDao.save(newMessage);
-
 
         return "redirect:/messages/?sent";
     }
