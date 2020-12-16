@@ -1334,7 +1334,7 @@
 					var url;
 
 					if (Array.isArray(image)) {
-						// process array of images e.g. CubeTexture
+						// process array of image e.g. CubeTexture
 						url = [];
 
 						for (var i = 0, l = image.length; i < l; i++) {
@@ -1431,11 +1431,11 @@
 
 	function serializeImage(image) {
 		if (typeof HTMLImageElement !== 'undefined' && image instanceof HTMLImageElement || typeof HTMLCanvasElement !== 'undefined' && image instanceof HTMLCanvasElement || typeof ImageBitmap !== 'undefined' && image instanceof ImageBitmap) {
-			// default images
+			// default image
 			return ImageUtils.getDataURL(image);
 		} else {
 			if (image.data) {
-				// images of DataTexture
+				// image of DataTexture
 				return {
 					data: Array.prototype.slice.call(image.data),
 					width: image.width,
@@ -15986,7 +15986,7 @@
 			}
 
 			if (textureNeedsGenerateMipmaps(texture, supportsMips)) {
-				// We assume images for cube map have the same size.
+				// We assume image for cube map have the same size.
 				generateMipmap(34067, texture, image.width, image.height);
 			}
 
@@ -30614,7 +30614,7 @@
 					var url = image.url;
 
 					if (Array.isArray(url)) {
-						// load array of images e.g CubeTexture
+						// load array of image e.g CubeTexture
 						images[image.uuid] = [];
 
 						for (var j = 0, jl = url.length; j < jl; j++) {

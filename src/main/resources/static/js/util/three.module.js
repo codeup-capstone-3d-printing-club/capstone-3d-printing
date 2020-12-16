@@ -1546,7 +1546,7 @@ Texture.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
 				if ( Array.isArray( image ) ) {
 
-					// process array of images e.g. CubeTexture
+					// process array of image e.g. CubeTexture
 
 					url = [];
 
@@ -1699,7 +1699,7 @@ function serializeImage( image ) {
 		( typeof HTMLCanvasElement !== 'undefined' && image instanceof HTMLCanvasElement ) ||
 		( typeof ImageBitmap !== 'undefined' && image instanceof ImageBitmap ) ) {
 
-		// default images
+		// default image
 
 		return ImageUtils.getDataURL( image );
 
@@ -1707,7 +1707,7 @@ function serializeImage( image ) {
 
 		if ( image.data ) {
 
-			// images of DataTexture
+			// image of DataTexture
 
 			return {
 				data: Array.prototype.slice.call( image.data ),
@@ -21127,7 +21127,7 @@ function WebGLTextures( _gl, extensions, state, properties, capabilities, utils,
 
 		if ( textureNeedsGenerateMipmaps( texture, supportsMips ) ) {
 
-			// We assume images for cube map have the same size.
+			// We assume image for cube map have the same size.
 			generateMipmap( 34067, texture, image.width, image.height );
 
 		}
@@ -41393,7 +41393,7 @@ class ObjectLoader extends Loader {
 
 				if ( Array.isArray( url ) ) {
 
-					// load array of images e.g CubeTexture
+					// load array of image e.g CubeTexture
 
 					images[ image.uuid ] = [];
 
