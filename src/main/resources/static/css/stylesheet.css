@@ -1,3 +1,13 @@
+
+
+.background{
+    background: url('../image/3d_bg.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 .navbar {
 
 }
@@ -22,3 +32,30 @@ li {
 #example1{
    height:150px !important;
 }
+
+.followBtn {
+    background: none;
+    border: none;
+}
+
+.followBtn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.follow {
+    color: lightgray;
+}
+
+.follow:hover {
+    color: lightskyblue;
+}
+
+.unfollow {
+    color: dodgerblue;
+}
+
+.unfollow:hover {
+    color: lightskyblue;
+}
+

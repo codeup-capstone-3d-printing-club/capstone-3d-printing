@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:include="partials/header_partial::head">
     <meta charset="UTF-8">
     <title>Profile</title>
 </head>
 <body>
-<h1><span th:text="${user.username}"></span>'s profile</h1>
+<div class="d-flex align-items-center">
+    <h1 class="d-inline"><span class="d-inline" th:text="${user.username}"></span></h1>
+    <div class="d-inline" sec:authorize="isAuthenticated()">
+        <form th:replace="partials/follow-button::follow"></form>
+    </div>
+</div>
+</h1>
+
 <img th:src="${user.avatarUrl}" alt="user profile picture">
-<form th:replace="partials/follow-button::follow"></form>
+
 
 <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post">
     <label for="avatar">New Img URL</label>
-<!--        TODO: (Later we can use api to be able to upload pictures and then save pictures as URL)-->
+    <!--        TODO: (Later we can use api to be able to upload pictures and then save pictures as URL)-->
     <input name="avatar" id="avatar">
     <button th:type="submit" class="btn btn-danger">Change Avatar</button>
 </form>
@@ -29,7 +37,7 @@
     <form th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" th:value="*{id}" method="post">
         <button type="button" class="btn btn-success"><a th:href="@{/profile/{id}/edit(id=*{id})}">Edit</a></button>
     </form>
-<!--    TODO:only show this form when visiting another users profile, so no self flagging-->
+    <!--    TODO:only show this form when visiting another users profile, so no self flagging-->
     <form th:action="@{/users/{id}/flag(id=${user.id})}" th:method="post">
         <button th:type="submit" class="btn btn-danger">Flag User</button>
     </form>
@@ -47,6 +55,6 @@
     </div>
 </div>
 
-<div th:replace="partials/follow-feed::feed"></div>
+<div sec:authorize="isAuthenticated()" th:replace="partials/follow-feed::feed"></div>
 </body>
 </html>

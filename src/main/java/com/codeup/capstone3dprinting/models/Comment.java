@@ -10,12 +10,12 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(nullable = false)
     private User owner;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "file_id")
     private File file;
 
     @Column(nullable = false, length = 1000)
@@ -23,6 +23,30 @@ public class Comment {
 
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
+
+    public Comment(){}
+
+    public Comment(long id, String comment, Timestamp createdAt, File file, User owner){
+        this.id = id;
+        this.comment = comment;
+        this.createdAt = createdAt;
+        this.file = file;
+        this.owner = owner;
+    }
+    public Comment(String comment, Timestamp createdAt, File file, User owner){
+        this.comment = comment;
+        this.createdAt = createdAt;
+        this.file = file;
+        this.owner = owner;
+    }
+
+    public Comment(Comment copy){
+        id = copy.id;
+        comment = copy.comment;
+        createdAt = copy.createdAt;
+        file = copy.file;
+        owner = copy.owner;
+    }
 
     public long getId() {
         return id;

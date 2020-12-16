@@ -1,29 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/header_partial::head">
-    <meta charset="UTF-8" />
-    <title>Sign up</title>
-</head>
-<body>
-<h1>Create an account</h1>
-<form th:action="@{/sign-up}" method="POST" th:object="${user}">
-    <label for="username">Username</label>
-    <input id="username" th:field="*{username}" />
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header_partial :: head"></head>
+<body th:replace="partials/body_partials :: body" class="container"></body>
+<!--<img th:src="@{/image/3d_bg.jpg}">-->
 
-    <label for="email">Email</label>
-    <input id="email" th:field="*{email}" />
+<nav th:replace="partials/navbar :: navbar">
+</nav>
 
-    <label for="firstName">First name</label>
-    <input id="firstName" th:field="*{firstName}" />
+        <h1>Create an account</h1>
+        <form th:action="@{/sign-up}" method="POST" th:object="${user}">
+            <label for="username">Username</label>
+            <input id="username" th:field="*{username}"/>
 
-    <label for="lastName">Last name</label>
-    <input id="lastName" th:field="*{lastName}" />
+            <label for="email">Email</label>
+            <input id="email" th:field="*{email}"/>
 
-    <label for="password">Password</label>
-    <input id="password" type="password" th:field="*{password}" />
+            <label for="firstName">First name</label>
+            <input id="firstName" th:field="*{firstName}"/>
 
-    <input value="Sign me up!" type="submit" />
-</form>
+            <label for="lastName">Last name</label>
+            <input id="lastName" th:field="*{lastName}"/>
+
+            <label for="password">Password</label>
+            <input id="password" type="password" th:field="*{password}"/>
+
+            <input value="Sign me up!" type="submit"/>
+        </form>
+
+
+<script th:replace="partials/partials_scripts :: script"></script>
+<footer th:replace="partials/footer_partial :: footer"></footer>
 </body>
-<footer th:include="partials/footer_partial::footer"></footer>
 </html>

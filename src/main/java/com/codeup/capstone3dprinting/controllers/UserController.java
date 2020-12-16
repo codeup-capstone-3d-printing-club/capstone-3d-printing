@@ -1,10 +1,16 @@
 package com.codeup.capstone3dprinting.controllers;
 
+import com.codeup.capstone3dprinting.models.ConfirmationToken;
 import com.codeup.capstone3dprinting.models.File;
 import com.codeup.capstone3dprinting.models.User;
+import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
 import com.codeup.capstone3dprinting.repos.FileRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.repos.Users;
+import com.codeup.capstone3dprinting.services.EmailService;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,14 +28,20 @@ class UserController {
     private PasswordEncoder passwordEncoder;
 
     // These two next steps are often called dependency injection, where we create a Repository instance and initialize it in the controller class constructor.
+
     private final UserRepository userDao;
     private final FileRepository fileDao;
+    private final ConfirmationTokenRepository tokenDao;
+    private final EmailService emailService;
 
-    public UserController(UserRepository userDao, FileRepository fileDao, Users users, PasswordEncoder passwordEncoder) {
+    public UserController(UserRepository userDao, FileRepository fileDao, ConfirmationTokenRepository tokenDao,
+                          EmailService emailService, Users users, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
         this.fileDao = fileDao;
         this.users = users;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
+        this.tokenDao = tokenDao;
     }
 
     @GetMapping("/sign-up")
@@ -39,7 +51,7 @@ class UserController {
     }
 
     @PostMapping("/sign-up")
-    public String saveUser(@ModelAttribute User user){
+    public String saveUser(@ModelAttribute User user, Model model){
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
         user.setAvatarUrl("none");
@@ -47,8 +59,51 @@ class UserController {
         user.setVerified(false);
         user.setJoinedAt(new Timestamp(new Date().getTime()));
 
-        users.save(user);
-        return "redirect:/login";
+        User existingUser = userDao.findByEmailIgnoreCase(user.getEmail());
+        if(existingUser != null)
+        {
+            return "redirect:/login/?success";
+        }
+        else
+        {
+            userDao.save(user);
+
+            ConfirmationToken confirmationToken = new ConfirmationToken(user);
+
+            tokenDao.save(confirmationToken);
+
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setTo(user.getEmail());
+            mailMessage.setSubject("Complete Registration!");
+            mailMessage.setFrom("no-reply@squarecubed.xyz");
+            mailMessage.setText("To confirm your account, please click here : "
+                    +"http://localhost:8080/confirm-account?token="+confirmationToken.getConfirmationToken());
+
+            emailService.sendEmail(mailMessage);
+
+            model.addAttribute("email", user.getEmail());
+
+            return "redirect:/login/?success";
+        }
+    }
+
+    @RequestMapping(value="/confirm-account", method= {RequestMethod.GET, RequestMethod.POST})
+    public String confirmUserAccount(Model model, @RequestParam("token")String confirmationToken)
+    {
+        ConfirmationToken token = tokenDao.findByConfirmationToken(confirmationToken);
+
+        if(token != null)
+        {
+            User user = userDao.findByEmailIgnoreCase(token.getUser().getEmail());
+            user.setVerified(true);
+            userDao.save(user);
+            return "home";
+        }
+        else
+        {
+            model.addAttribute("message","The link is invalid or broken!");
+            return "home";
+        }
     }
 
     @GetMapping("/users")
@@ -62,29 +117,44 @@ class UserController {
     public String followUser(@PathVariable long id,
                              @RequestParam(name = "following") boolean following) {
 
-        User user = userDao.findByIdEquals(1L);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = new User(user);
 
         if (following) {
-            user.getUsers().remove(userDao.findByIdEquals(id));
+            currentUser.getUsers().removeIf(n -> n.getId() == id);
         } else {
-            user.getUsers().add(userDao.findByIdEquals(id));
+            currentUser.getUsers().add(userDao.findByIdEquals(id));
         }
 
-        userDao.save(user);
+        userDao.save(currentUser);
 
         return "redirect:/profile/" + id;
     }
 
     @GetMapping("/profile/{id}")
     public String showProfile(@PathVariable long id, Model model) {
-        //assuming logged in as a hard-coded user
-        User user = userDao.findByIdEquals(1L);
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof User) {
+            User user = ((User) principal);
+            boolean hasUser = false;
+
+            for (User u : user.getUsers()) {
+                if (u.getId() == id) {
+                    hasUser = true;
+                    break;
+                }
+            }
+
+            model.addAttribute("following", hasUser);
+            model.addAttribute("feed", getFollowFeed());
+        }
 
         User userdb = userDao.getOne(id);
         model.addAttribute("user", userdb);
         model.addAttribute("thisUsersFiles", fileDao.findAllByOwner_Id(id));
-        model.addAttribute("following", user.getUsers().contains(userDao.findByIdEquals(id)));
-        model.addAttribute("feed", getFollowFeed());
+
         return "users/profile";
     }
 
@@ -109,6 +179,7 @@ class UserController {
         return "users/editProfile";
     }
 
+
     @PostMapping("/profile/{id}/edit")
     public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
         User user = userDao.getOne(id);
@@ -132,10 +203,11 @@ class UserController {
 
     @GetMapping("/admin")
     public String showAdminDashboard(Model model) {
-        model.addAttribute("allUsers", userDao.findAll());
+        model.addAttribute("allUsers", userDao.findAllByisActive(true));
         model.addAttribute("allPosts", fileDao.findAll());
         model.addAttribute("flaggedUsers", userDao.findAllByisFlagged(true));
         model.addAttribute("flaggedPosts", fileDao.findAllByisFlagged(true));
+        model.addAttribute("deactivatedUsers", userDao.findAllByisActive(false));
         return "admin/admin";
     }
 
@@ -148,10 +220,19 @@ class UserController {
         return "redirect:/admin";
     }
 
-    //    redirects to admin bc nonAdmin users shouldn't be able to delete users
-    @PostMapping("/users/{id}/delete")
-    public String deleteUserAsAdmin(@PathVariable long id) {
-        userDao.deleteById(id);
+    //    redirects to admin bc nonAdmin users shouldn't be able to deactivate/activate users
+    @PostMapping("/users/{id}/deactivate")
+    public String deactivateUser(@PathVariable long id) {
+       User user = userDao.getOne(id);
+       user.setActive(false);
+       userDao.save(user);
+        return "redirect:/admin";
+    }
+    @PostMapping("/users/{id}/activate")
+    public String activateUser(@PathVariable long id) {
+        User user = userDao.getOne(id);
+        user.setActive(true);
+        userDao.save(user);
         return "redirect:/admin";
     }
 

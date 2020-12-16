@@ -1,13 +1,14 @@
-DROP DATABASE IF EXISTS capstone_db;
-CREATE DATABASE capstone_db;
+DROP DATABASE IF EXISTS printing_club_db;
+CREATE DATABASE printing_club_db;
 
-USE capstone_db;
+USE printing_club_db;
+
 ## need to change the database name above
 
-INSERT INTO users (avatar_url, email, first_name, is_admin, is_verified, joined_at, last_name, password, username, is_flagged)
-VALUES ('none', 'test@test.com', 'tester', true, true, NOW(), 'last name test', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'testing', false),
-       ('none', 'john@john.com', 'john', true, true, NOW(), 'mcnay', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'johnmcnay',false),
-       ('none', 'messenger@messenger.com', 'messenger', true, true, NOW(), 'jones', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'messenger',false);
+INSERT INTO users (avatar_url, email, first_name, is_admin, is_verified, joined_at, last_name, password, username, is_flagged, is_active)
+VALUES ('none', 'test@test.com', 'tester', true, true, NOW(), 'last name test', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'testing', false, true),
+       ('none', 'john@john.com', 'john', true, true, NOW(), 'mcnay', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'johnmcnay',false, true),
+       ('none', 'messenger@messenger.com', 'messenger', true, true, NOW(), 'jones', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'messenger',false, true);
 
 
 
@@ -24,3 +25,4 @@ VALUES (NOW(), 'this is a description for #1', 'file #1', 'none', 'none', false,
        (NOW(), 'this is a description for #4', 'file #4', 'none', 'none', false, NOW(), 2, false),
        (NOW(), 'this is a description for #5', 'file #5', 'none', 'none', false, NOW(), 3, false),
        (NOW(), 'this is a description for #6', 'file #6', 'none', 'none', false, NOW(), 3, false);
+
