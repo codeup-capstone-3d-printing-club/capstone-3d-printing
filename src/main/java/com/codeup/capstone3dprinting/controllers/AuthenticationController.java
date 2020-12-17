@@ -147,4 +147,82 @@ public class AuthenticationController {
         return "redirect:/login?logout";
     }
 
+    @GetMapping("/password-recovery")
+    public String recoverPasswordPage() {
+
+        return "users/recover-password";
+    }
+
+    @GetMapping("/reset")
+    public String resetPassword(@RequestParam("token") String confirmationToken, Model model) {
+
+        User user = userDao.findByPassword(confirmationToken);
+
+        if (user == null) {
+            model.addAttribute("msg", "Invalid token");
+            model.addAttribute("token", null);
+        } else {
+            model.addAttribute("token", confirmationToken);
+        }
+
+        return "users/password-reset";
+    }
+
+
+    @PostMapping("/reset")
+    public String updatePassword(@RequestParam("token") String confirmationToken,
+                                 @RequestParam("resetNew") String resetNew,
+                                 @RequestParam("resetConfirm") String resetConfirm,
+                                 RedirectAttributes redir) {
+
+        if (!resetNew.equals(resetConfirm)) {
+
+            redir.addFlashAttribute("msg", "Passwords do not match.");
+
+            return "redirect:/reset?token=" + confirmationToken;
+        }
+
+        User user = userDao.findByPassword(confirmationToken);
+
+        if (user == null) {
+            redir.addFlashAttribute("msg", "Invalid token; try recovery process again");
+            return "redirect:/users/password-recovery";
+        }
+
+        user.setPassword(passwordEncoder.encode(resetNew));
+        userDao.save(user);
+
+        return "redirect:/login";
+    }
+
+
+    @PostMapping("/password-recovery")
+    public String recoverPassword(@RequestParam(name="email") String email,
+                                  RedirectAttributes redir) {
+
+        if (userDao.findByEmailIgnoreCase(email) == null) {
+            redir.addFlashAttribute("msg", "There are no accounts associated with " + email);
+            return "redirect:/password-recovery";
+        } else {
+
+            User user = userDao.findByEmailIgnoreCase(email);
+
+            ConfirmationToken confirmationToken = new ConfirmationToken(user);
+            user.setPassword(confirmationToken.getConfirmationToken());
+            userDao.save(user);
+
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setTo(user.getEmail());
+            mailMessage.setSubject("[squarecubed.xyz] Reset your password");
+            mailMessage.setFrom("no-reply@squarecubed.xyz");
+            mailMessage.setText("To finish resetting your password, please click here : "
+                    +"http://localhost:8080/reset?token="+confirmationToken.getConfirmationToken());
+
+            emailService.sendEmail(mailMessage);
+
+        }
+        
+        return "redirect:/login";
+    }
+
 }
