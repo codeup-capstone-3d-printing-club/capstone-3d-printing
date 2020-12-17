@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body th:replace="partials/body_partials :: body"></body>
+<nav th:replace="partials/navbar :: navbar"></nav>
 <div class="container">
     <form th:method="post" th:action="@{/messages/send}">
         <div class="form-group">
@@ -24,6 +25,5 @@
     </form>
 </div>
 
-</body>
 <footer th:include="partials/footer_partial::footer"></footer>
 </html>
