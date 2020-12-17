@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-8" id="renderer"></div>
-            <div class="col-12 col-md-4" >
+            <div class="col-12 col-md-4">
                 Date created:
                 <p th:text="${file.createdAt}"></p>
                 Date last updated:
@@ -21,12 +21,14 @@
                 <p th:text="${file.isFlagged()}"></p>
                 <!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
                 Created By:
-                <a th:href="@{'/profile/' + ${file.owner.id}}" th:text="${file.owner.username}"></a>
-                    <button class="btn btn-outline-secondary">follow</button>
-                    <button class="btn btn-outline-secondary">download</button>
-                    <button class="btn btn-outline-secondary">like</button>
-                    <button class="btn btn-outline-secondary">add to list</button>
-                    <button class="btn btn-outline-secondary">comment</button>
+                <a th:href="@{'/profile/' + ${file.owner.getId()}}" th:text="${file.getOwner().getUsername()}"></a>
+                <br>
+                <button class="btn btn-outline-secondary">follow</button>
+                <button class="btn btn-outline-secondary">download</button>
+                <button class="btn btn-outline-secondary">like</button>
+                <button class="btn btn-outline-secondary">add to list</button>
+                <button class="btn btn-outline-secondary">comment</button>
+          
             </div>
             <div class="col-12 col-md-8">
                 <div th:unless="${file.imgUrl == 'none'}">
@@ -44,7 +46,7 @@
                 <div></div>
             </div>
         </div>
-<div class="d-inline" sec:authorize="isAuthenticated()">
+        <div class="d-inline" sec:authorize="isAuthenticated()">
             <form th:replace="partials/favorite-button::favorite"></form>
         </div>
     </div>
@@ -89,14 +91,14 @@
         </form>
     </div>
 
-<div>
-    <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
-          th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
-        <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
-    </form>
-</div>
-<footer th:replace="partials/footer_partial :: footer"></footer>
-<script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
-<script th:replace="partials/partials_scripts :: script"></script>
-<script type="module" th:src="@{/js/renderer.js}"></script>
+    <div>
+        <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
+              th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
+            <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
+        </form>
+    </div>
+    <footer th:replace="partials/footer_partial :: footer"></footer>
+    <script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
+    <script th:replace="partials/partials_scripts :: script"></script>
+    <script type="module" th:src="@{/js/renderer.js}"></script>
 </html>
