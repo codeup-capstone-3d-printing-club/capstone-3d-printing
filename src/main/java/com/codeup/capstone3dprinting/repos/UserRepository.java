@@ -8,6 +8,7 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByIdEquals(Long id);
+    User findByPassword(String str);
     User findByUsernameIgnoreCase(String name);
     User findByEmailIgnoreCase(String email);
     User findByUsernameEquals(String name);
