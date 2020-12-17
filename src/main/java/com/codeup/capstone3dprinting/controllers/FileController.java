@@ -36,6 +36,7 @@ class FileController {
             model.addAttribute("files", fileDao.findAll());
         } else {
             Category requestedCategory = categoryDao.findCategoryByCategory(category);
+            model.addAttribute("requestedCategories", requestedCategory);
             model.addAttribute("files", fileDao.findByCategories(requestedCategory));
         }
         model.addAttribute("categories", categoryDao.findAll());

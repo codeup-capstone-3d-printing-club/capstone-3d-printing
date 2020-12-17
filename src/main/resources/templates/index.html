@@ -2,7 +2,8 @@
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header_partial :: head"></head>
 <body>
-<h1>All files</h1>
+<h1 th:if="${requestedCategories == null}">All files</h1>
+<h1 th:if="${requestedCategories != null}" th:text="${requestedCategories.category}"></h1>
 <div class="container">
     <div class="row">
         <div class="list-group col-3">
