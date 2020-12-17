@@ -57,6 +57,7 @@ class UserController {
         user.setAvatarUrl("none");
         user.setAdmin(false);
         user.setVerified(false);
+        user.setActive(true);
         user.setJoinedAt(new Timestamp(new Date().getTime()));
 
         User existingUser = userDao.findByEmailIgnoreCase(user.getEmail());
@@ -120,12 +121,16 @@ class UserController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = new User(user);
 
+        System.out.println("following = " + following);
+
         if (following) {
             currentUser.getUsers().removeIf(n -> n.getId() == id);
         } else {
             currentUser.getUsers().add(userDao.findByIdEquals(id));
         }
 
+        System.out.println("currentUser.getUsers() = " + currentUser.getUsers());
+        
         userDao.save(currentUser);
 
         return "redirect:/profile/" + id;
@@ -134,13 +139,13 @@ class UserController {
     @GetMapping("/profile/{id}")
     public String showProfile(@PathVariable long id, Model model) {
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        boolean hasUser = false;
 
-        if (principal instanceof User) {
-            User user = ((User) principal);
-            boolean hasUser = false;
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User currentUser = new User(user);
 
-            for (User u : user.getUsers()) {
+            for (User u : currentUser.getUsers()) {
                 if (u.getId() == id) {
                     hasUser = true;
                     break;
