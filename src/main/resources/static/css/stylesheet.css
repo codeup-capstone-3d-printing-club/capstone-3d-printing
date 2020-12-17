@@ -16,14 +16,13 @@ h1 {
     font-weight: 600;
     text-transform: uppercase;
     text-align: center;
-    font-size: 10em; }
+    font-size: 10em;
+}
 
 @media screen and (max-width: 480px) {
-    h2 {
-        font-weight: 600;
-        text-transform: uppercase;
-        text-align: center;
-        font-size: 2em; }
+    .title {
+        font-size: 3.8em;
+    }
 
 }
 
@@ -106,13 +105,20 @@ h1 {
 }
 
 
-
+/*Font and background colors*/
 .navbar {
 
 }
-.welcome,h1,h2,h3,h4,#formFont{
+ body, .welcome,h1,h2,h3,h4,#formFont{
     color: white;
 }
+.backgroundDiv{
+    background: rgba(0, 0, 0, 0.7);
+    margin-top: 2em;
+
+}
+
+
 .navbar{
     background-color: black;
     opacity: 80%;
