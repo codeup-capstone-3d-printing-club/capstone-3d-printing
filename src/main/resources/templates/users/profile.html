@@ -17,13 +17,14 @@
 <div th:unless="${user.avatarUrl == 'none'}">
 <img th:src="${user.avatarUrl}" alt="user profile picture">
 </div>
-
+<div th:if="${currentUser.id == user.id}">
 <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post">
     <label for="avatar">New Img URL</label>
     <!--        TODO: (Later we can use api to be able to upload pictures and then save pictures as URL)-->
     <input name="avatar" id="avatar">
     <button th:type="submit" class="btn btn-danger">Change Avatar</button>
 </form>
+</div>
 <div class="col-8">
     <h3>Hello, <h3 th:text="${user.username}"></h3></h3>
     <h2 th:text="${user.firstName}"></h2>

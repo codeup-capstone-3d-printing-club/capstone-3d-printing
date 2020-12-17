@@ -21,7 +21,7 @@
                 <p th:text="${file.isFlagged()}"></p>
                 <!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
                 Created By:
-                <p th:text="${file.getOwner().getUsername()}">
+                <a th:href="@{'/profile/' + ${file.owner.id}}" th:text="${file.owner.username}"></a>
                     <button class="btn btn-outline-secondary">follow</button>
                     <button class="btn btn-outline-secondary">download</button>
                     <button class="btn btn-outline-secondary">like</button>
