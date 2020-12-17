@@ -5,19 +5,26 @@ html, body {
 body {
     margin: 0;
     padding: 2em;
-    background: linear-gradient(180deg, #f14, #ff8300) fixed;
+    /*background: linear-gradient(180deg, #f14, #ff8300) fixed;*/
     font-family: "Avenir Next Condensed", sans-serif;
 }
 h1 {
     color: #613;
     text-align: center; }
 
-h2 {
+.title {
     font-weight: 600;
     text-transform: uppercase;
     text-align: center;
-    font-size: 10em; }
+    font-size: 10em;
+}
 
+@media screen and (max-width: 480px) {
+    .title {
+        font-size: 3.8em;
+    }
+
+}
 
 .filter-shadow {
     color: transparent;
@@ -98,13 +105,20 @@ h2 {
 }
 
 
-
+/*Font and background colors*/
 .navbar {
 
 }
-.welcome,h1,h2,h3,h4,#formFont{
+ body, .welcome,h1,h2,h3,h4,#formFont{
     color: white;
 }
+.backgroundDiv{
+    background: rgba(0, 0, 0, 0.7);
+    margin-top: 2em;
+
+}
+
+
 .navbar{
     background-color: black;
     opacity: 80%;
