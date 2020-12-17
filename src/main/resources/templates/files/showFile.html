@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header_partial :: head"></head>
-<nav th:replace="partials/navbar :: navbar">
-</nav>
-<h1>Individual File</h1>
+<body th:replace="partials/body_partials :: body" class="container"></body>
+<nav th:replace="partials/navbar :: navbar"></nav>
+<body th:replace="partials/body_partials :: body"></body>
+<div class="backgroundDiv">
+    <h1>Individual File</h1>
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-8" id="renderer"></div>
@@ -72,23 +74,24 @@
         <button th:type="submit">Delete comment</button>
     </form>
 </div>
-<form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
-    Your comment:
-    <input name="commentText" class="field" type="text">
-    <button th:type="submit">post comment</button>
-</form>
+    <form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
+        Your comment:
+        <input name="commentText" class="field" type="text">
+        <button th:type="submit">post comment</button>
+    </form>
 
-<form th:action="@{/files/{id}/flag(id=${file.id})}" th:method="post">
-    <button th:type="submit" class="btn btn-danger">Flag Post</button>
-</form>
+    <form th:action="@{/files/{id}/flag(id=${file.id})}" th:method="post">
+        <button th:type="submit" class="btn btn-danger">Flag Post</button>
+    </form>
 
-<!--    TODO:only show when user is owner-->
-<form th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
-    <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
-</form>
+    <!--    TODO:only show when user is owner-->
+    <form th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
+        <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
+    </form>
+
+    <script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
+    <script th:replace="partials/partials_scripts :: script"></script>
+    <script type="module" th:src="@{/js/renderer.js}"></script>
+</div>
 <footer th:replace="partials/footer_partial :: footer"></footer>
-<script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
-<script th:replace="partials/partials_scripts :: script"></script>
-<script type="module" th:src="@{/js/renderer.js}"></script>
-
 </html>
