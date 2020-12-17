@@ -9,6 +9,7 @@
 <div th:if="${param.error}">
     Invalid Username and Password.
 </div>
+<div th:text="${logoutMsg}"></div>
 <div th:if="${param.logout}">
     You have been logged out.
 </div>

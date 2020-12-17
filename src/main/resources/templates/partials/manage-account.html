@@ -11,6 +11,8 @@
 <div th:fragment="account-manager">
     <form th:fragment="change-password" id="password-change" method="post" th:action="@{/change-password}">
 
+        <div th:text="${errorMsg}"></div>
+
         <div class="form-group">
             <label for="current">Current Password</label>
             <input type="password" name="currentPassword" id="current" class="field form-control">
@@ -21,7 +23,7 @@
             <label for="confirm">Confirm New Password</label>
             <input type="password" name="confirmPassword" id="confirm" class="field form-control">
 
-            <button type="submit" value="Change Password"></button>
+            <input type="submit">
         </div>
     </form>
 </div>

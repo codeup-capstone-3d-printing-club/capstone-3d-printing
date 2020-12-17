@@ -1,6 +1,5 @@
 package com.codeup.capstone3dprinting.controllers;
 
-import com.codeup.capstone3dprinting.models.ConfirmationToken;
 import com.codeup.capstone3dprinting.models.File;
 import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
@@ -8,17 +7,14 @@ import com.codeup.capstone3dprinting.repos.FileRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.repos.Users;
 import com.codeup.capstone3dprinting.services.EmailService;
-import org.springframework.mail.SimpleMailMessage;
+
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller

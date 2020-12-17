@@ -6,12 +6,19 @@ import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.services.EmailService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -106,12 +113,38 @@ public class AuthenticationController {
     @PostMapping("/change-password")
     public String changePassword(@RequestParam(name = "currentPassword") String currentPassword,
                                  @RequestParam(name = "newPassword") String newPassword,
-                                 @RequestParam(name = "confirmPassword") String confirmPassword)
-    {
-        System.out.println("currentPassword = " + currentPassword);
-        System.out.println("newPassword = " + newPassword);
-        System.out.println("confirmPassword = " + confirmPassword);
-        return "redirect:/";
-    }
-}
+                                 @RequestParam(name = "confirmPassword") String confirmPassword,
+                                 RedirectAttributes redir) {
 
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = new User(user);
+
+        if (passwordEncoder.matches(currentPassword, user.getPassword())) {
+            if (newPassword.equals(confirmPassword)) {
+                currentUser.setPassword(passwordEncoder.encode(newPassword));
+                userDao.save(currentUser);
+                return "redirect:/logout-change";
+            } else {
+                redir.addFlashAttribute("errorMsg", "Passwords don't match");
+                return "redirect:/messages";
+            }
+        } else {
+            redir.addFlashAttribute("errorMsg", "Incorrect password");
+            return "redirect:/messages";
+        }
+    }
+
+    @GetMapping("/logout-change")
+    public String logoutUser(HttpServletRequest request, HttpServletResponse response,
+                             RedirectAttributes redir) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            redir.addFlashAttribute("logoutMsg", "Password successfully changed");
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+
+        return "redirect:/login?logout";
+    }
+
+}
