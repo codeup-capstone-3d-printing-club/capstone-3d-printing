@@ -164,3 +164,30 @@ li {
     color: lightskyblue;
 }
 
+
+.favoriteBtn {
+    background: none;
+    border: none;
+}
+
+.favoriteBtn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.favorite {
+    color: yellow;
+}
+
+.favorite:hover {
+    color: yellow;
+}
+
+.unfavorite {
+    color: goldenrod;
+}
+
+.unfavorite:hover {
+    color: goldenrod;
+}
+

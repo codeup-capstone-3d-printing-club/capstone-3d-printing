@@ -43,7 +43,9 @@
                 <div></div>
             </div>
         </div>
-
+<div class="d-inline" sec:authorize="isAuthenticated()">
+            <form th:replace="partials/favorite-button::favorite"></form>
+        </div>
     </div>
     <!--TODO: needs to be one rating per file, per user-->
     <div class="rating-box" style="border: grey solid 1px">

@@ -56,8 +56,8 @@
             <!--        </form>-->
         </div>
     </div>
-
     <div sec:authorize="isAuthenticated()" th:replace="partials/follow-feed::feed"></div>
+    <div sec:authorize="isAuthenticated()" th:replace="partials/favorites-list::favorites"></div>
 </div>
 </body>
 </html>

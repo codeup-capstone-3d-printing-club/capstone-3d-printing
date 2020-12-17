@@ -46,14 +46,30 @@ class FileController {
     @GetMapping("/files/{id}")
     public String showPost(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
+        //comments
         List<Comment> thisFilesComments = commentDao.getAllByFile_Id(id);
+        //Rating
         List<Rating> ListOfRatingObjs = ratingDao.getAllByFile_Id(id);
         List<Integer> thisFileRatings = getRatingsList(ListOfRatingObjs);
-            double sum = 0;
-            for(int i :thisFileRatings){
-                sum = sum + i;
+        double sum = 0;
+        for (int i : thisFileRatings) {
+            sum = sum + i;
+        }
+        sum = sum / thisFileRatings.size();
+//            favoring files
+        boolean favorited = false;
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User currentUser = new User(user);
+            for (File f : currentUser.getFavoriteFiles()) {
+                if (f.getId() == id) {
+                    favorited = true;
+                    break;
+                }
             }
-            sum = sum/ thisFileRatings.size();
+
+        }
+        model.addAttribute("favorited", favorited);
         model.addAttribute("averageRating", Math.round(sum));
         model.addAttribute("allCommentsForThisPost", thisFilesComments);
         model.addAttribute("file", filedb);
@@ -140,11 +156,12 @@ class FileController {
     }
 
     @PostMapping("/files/{id}/comment/{commentId}/delete")
-    public String deleteFilePost(@PathVariable long id, @RequestParam(name = "commentId")long commentId) {
+    public String deleteFilePost(@PathVariable long id, @RequestParam(name = "commentId") long commentId) {
         commentDao.deleteById(commentId);
         File file = fileDao.getOne(id);
         return "redirect:/files/" + file.getId();
     }
+
     @PostMapping("files/{id}/rating")
     public String rateFile(@PathVariable long id, @RequestParam(name = "ratings") int rating) {
         Rating newRating = new Rating();
@@ -154,5 +171,25 @@ class FileController {
         File file = fileDao.getOne(id);
         return "redirect:/files/" + file.getId();
     }
-}
 
+    @PostMapping("files/favorite/{id}")
+    public String favoritePost(@PathVariable long id,
+                               @RequestParam(name = "favorited") boolean favorited) {
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = new User(user);
+        File thisFile = fileDao.getOne(id);
+        System.out.println("favorited = " + favorited);
+
+        if (favorited) {
+            currentUser.getFavoriteFiles().removeIf(n -> n.getId() == id);
+
+        } else {
+            currentUser.getFavoriteFiles().add(thisFile);
+        }
+        userDao.save(currentUser);
+        return "redirect:/files/" + id;
+    }
+}
+//select liker_id's where file_id like this.id
+//save it in a list get list size, for amount of likes

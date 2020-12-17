@@ -87,6 +87,7 @@ class UserController {
 
             model.addAttribute("following", hasUser);
             model.addAttribute("feed", getFollowFeed());
+            model.addAttribute("favorites", currentUser.getFavoriteFiles());
         }
 
         User userdb = userDao.getOne(id);
