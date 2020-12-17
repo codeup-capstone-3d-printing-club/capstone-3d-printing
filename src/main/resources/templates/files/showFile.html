@@ -41,6 +41,9 @@
             Description:
             <p th:text="${file.description}"></p>
             <hr>
+            <div th:each="category : ${file.categories}">
+                <a th:href="@{'/category/'}" th:text="${category.category}"></a>
+            </div>
             Comment:
             <div></div>
         </div>

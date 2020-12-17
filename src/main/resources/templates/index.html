@@ -3,20 +3,32 @@
 <head th:replace="partials/header_partial :: head"></head>
 <body>
 <h1>All files</h1>
-<!--TODO: add search/ search by category later-->
-<div th:each="entry : ${allEntries}">
-    <div style="border: black 2px solid">
-        <!--        using placeholder pictures for now will be ${entry.img_url} and/or ${entry.file_url} once rendering works-->
-        <img src="https://picsum.photos/300/200"
-             alt="randomized picture">
-        <h5 th:text="${entry.title}"></h5>
-        <p th:text="${entry.description}"></p>
-        <p th:text="${entry.owner.username}"></p>
-        <form th:action="@{/files/{id}(id=${entry.id})}" th:value="${entry.id}" method="get">
-            <button class="btn btn-outline-primary my-2" type="submit">see details</button>
-        </form>
+<div class="container">
+    <div class="row">
+        <div class="list-group col-3">
+            <a th:href="@{/files}" class="list-group-item list-group-item-action active">All
+                Categories</a>
+            <div th:each="category : ${categories}">
+                <a th:href="@{'/files/' + '?category=' + ${category.category}}"
+                   class="list-group-item list-group-item-action" th:text="${category.category}"></a>
+            </div>
+        </div>
+        <div class="col-9" th:each="file : ${files}">
+            <div class="col-9" style="border: black 2px solid">
+                <!--        using placeholder pictures for now will be ${entry.img_url} and/or ${entry.file_url} once rendering works-->
+                <img src="https://picsum.photos/300/200"
+                     alt="randomized picture">
+                <h5 th:text="${file.title}"></h5>
+                <p th:text="${file.description}"></p>
+                <a th:href="@{'/profile/' + ${file.owner.id}}" th:text="${file.owner.username}"></a>
+                <form th:action="@{/files/{id}(id=${file.id})}" th:value="${file.id}" method="get">
+                    <button class="btn btn-outline-primary my-2" type="submit">see details</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
+
 
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <script th:replace="partials/partials_scripts :: script"></script>

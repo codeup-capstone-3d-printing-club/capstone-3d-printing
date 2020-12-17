@@ -20,17 +20,25 @@ class FileController {
     private final CommentRepository commentDao;
     private final UserRepository userDao;
     private final RatingRepository ratingDao;
+    private final CategoryRepository categoryDao;
 
-    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao, RatingRepository ratingDao) {
+    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao, RatingRepository ratingDao, CategoryRepository categoryDao) {
         this.fileDao = fileDao;
         this.commentDao = commentdao;
         this.userDao = userdao;
         this.ratingDao = ratingDao;
+        this.categoryDao = categoryDao;
     }
 
     @GetMapping("/files")
-    public String showAllFiles(Model model) {
-        model.addAttribute("allEntries", fileDao.findAll());
+    public String showAllFiles(Model model, @RequestParam(required = false) String category) {
+        if (category == null) {
+            model.addAttribute("files", fileDao.findAll());
+        } else {
+            Category requestedCategory = categoryDao.findCategoryByCategory(category);
+            model.addAttribute("files", fileDao.findByCategories(requestedCategory));
+        }
+        model.addAttribute("categories", categoryDao.findAll());
         return "index";
     }
 
@@ -49,11 +57,11 @@ class FileController {
         List<Comment> thisFilesComments = commentDao.getAllByFile_Id(id);
         List<Rating> ListOfRatingObjs = ratingDao.getAllByFile_Id(id);
         List<Integer> thisFileRatings = getRatingsList(ListOfRatingObjs);
-            double sum = 0;
-            for(int i :thisFileRatings){
-                sum = sum + i;
-            }
-            sum = sum/ thisFileRatings.size();
+        double sum = 0;
+        for (int i : thisFileRatings) {
+            sum = sum + i;
+        }
+        sum = sum / thisFileRatings.size();
         model.addAttribute("averageRating", Math.round(sum));
         model.addAttribute("allCommentsForThisPost", thisFilesComments);
         model.addAttribute("file", filedb);
@@ -140,11 +148,12 @@ class FileController {
     }
 
     @PostMapping("/files/{id}/comment/{commentId}/delete")
-    public String deleteFilePost(@PathVariable long id, @RequestParam(name = "commentId")long commentId) {
+    public String deleteFilePost(@PathVariable long id, @RequestParam(name = "commentId") long commentId) {
         commentDao.deleteById(commentId);
         File file = fileDao.getOne(id);
         return "redirect:/files/" + file.getId();
     }
+
     @PostMapping("files/{id}/rating")
     public String rateFile(@PathVariable long id, @RequestParam(name = "ratings") int rating) {
         Rating newRating = new Rating();
