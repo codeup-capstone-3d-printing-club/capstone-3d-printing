@@ -28,9 +28,12 @@
                 <button class="btn btn-outline-secondary">like</button>
                 <button class="btn btn-outline-secondary">add to list</button>
                 <button class="btn btn-outline-secondary">comment</button>
+          
             </div>
             <div class="col-12 col-md-8">
+                <div th:unless="${file.imgUrl == 'none'}">
                 <img th:src="${file.imgUrl}"/>
+                </div>
                 <!--    TODO:rendering needs to go in to the following tag-->
                 <div th:value="${file.fileUrl}"></div>
                 Title:
