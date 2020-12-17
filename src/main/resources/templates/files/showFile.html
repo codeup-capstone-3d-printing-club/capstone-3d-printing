@@ -32,8 +32,9 @@
                 <button class="btn btn-outline-secondary">comment</button>
         </div>
         <div class="col-12 col-md-8">
+            <div th:unless="${file.imgUrl == 'none'}">
             <img th:src="${file.imgUrl}"/>
-            <!--    TODO:rendering needs to go in to the following tag-->
+            </div>
             <div th:value="${file.fileUrl}"></div>
             Title:
             <h3 th:text="${file.title}"></h3>

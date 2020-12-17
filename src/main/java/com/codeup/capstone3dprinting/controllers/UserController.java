@@ -57,6 +57,7 @@ class UserController {
         user.setAvatarUrl("none");
         user.setAdmin(false);
         user.setVerified(false);
+        user.setActive(true);
         user.setJoinedAt(new Timestamp(new Date().getTime()));
 
         User existingUser = userDao.findByEmailIgnoreCase(user.getEmail());
