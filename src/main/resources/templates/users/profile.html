@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:include="partials/header_partial::head">
-    <meta charset="UTF-8">
-    <title>Profile</title>
-</head>
-<body>
+<head th:replace="partials/header_partial :: head"></head>
+<body th:replace="partials/body_partials :: body"></body>
+<nav th:replace="partials/navbar :: navbar"></nav>
+
 <div class="d-flex align-items-center">
     <h1 class="d-inline"><span class="d-inline" th:text="${user.username}"></span></h1>
     <div class="d-inline" sec:authorize="isAuthenticated()">
@@ -59,5 +58,12 @@
     <div sec:authorize="isAuthenticated()" th:replace="partials/follow-feed::feed"></div>
     <div sec:authorize="isAuthenticated()" th:replace="partials/favorites-list::favorites"></div>
 </div>
-</body>
+<footer th:replace="partials/footer_partial :: footer"></footer>
+<script th:replace="partials/partials_scripts :: script"></script>
+<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script th:src="@{/js/keys.js}"></script>
+<script th:src="@{/js/filestack.js}"></script>
+
 </html>
