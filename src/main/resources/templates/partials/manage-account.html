@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage your account</title>
+</head>
+<body>
+
+<!-- update password, de-activate your account, update email -->
+
+<div th:fragment="account-manager">
+    <form th:fragment="change-password" id="password-change" method="post" th:action="@{/change-password}">
+
+        <div class="form-group">
+            <label for="current">Current Password</label>
+            <input type="password" name="currentPassword" id="current" class="field form-control">
+
+            <label for="new">New Password</label>
+            <input type="password" name="newPassword" id="new" class="field form-control">
+
+            <label for="confirm">Confirm New Password</label>
+            <input type="password" name="confirmPassword" id="confirm" class="field form-control">
+
+            <button type="submit" value="Change Password"></button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

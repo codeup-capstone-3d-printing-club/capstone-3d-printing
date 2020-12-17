@@ -51,6 +51,7 @@ public class AuthenticationController {
         user.setAvatarUrl("none");
         user.setAdmin(false);
         user.setVerified(false);
+        user.setActive(true);
         user.setJoinedAt(new Timestamp(new Date().getTime()));
 
         User existingUserEmail = userDao.findByEmailIgnoreCase(user.getEmail());
@@ -100,6 +101,17 @@ public class AuthenticationController {
             model.addAttribute("message","The link is invalid or broken!");
             return "home";
         }
+    }
+
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam(name = "currentPassword") String currentPassword,
+                                 @RequestParam(name = "newPassword") String newPassword,
+                                 @RequestParam(name = "confirmPassword") String confirmPassword)
+    {
+        System.out.println("currentPassword = " + currentPassword);
+        System.out.println("newPassword = " + newPassword);
+        System.out.println("confirmPassword = " + confirmPassword);
+        return "redirect:/";
     }
 }
 
