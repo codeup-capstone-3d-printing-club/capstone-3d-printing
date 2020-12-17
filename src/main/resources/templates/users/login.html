@@ -27,8 +27,8 @@
         <input type="password" name="password" class="form-control" id="password">
     </div>
     <input type="submit" value="Log In"/>
-
 </form>
+   <div th:replace="partials/manage-account::recovery-link"></div>
 <script th:replace="partials/partials_scripts :: script"></script>
 <footer th:replace="partials/footer_partial :: footer"></footer>
 
