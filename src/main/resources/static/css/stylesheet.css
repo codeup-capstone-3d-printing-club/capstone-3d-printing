@@ -117,7 +117,9 @@ h1 {
     margin-top: 2em;
 
 }
-
+.login{
+    max-width: 500px;
+}
 
 .navbar{
     background-color: black;

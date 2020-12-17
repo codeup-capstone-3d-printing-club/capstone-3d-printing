@@ -48,10 +48,19 @@
                             </button>
                         </form>
                     </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item">
+                        <form th:action="@{/profile/{id}(id=${#authentication.principal.id})}" th:method="get">
+                            <button class="btn-link btn nav-link" style="display: inline-block;margin-top: -1px">
+                                <i class="fas fa-user-astronaut"></i>
+                            </button>
+                        </form>
+                    </li>
                     <li id="messages" class="nav-item">
                         <a href="/messages">
-                        <button type="button" class="btn btn-primary position-relative image d-flex justify-content-end">
-                            Messages <span
+                            <button class="btn-link btn nav-link btn position-relative image d-flex justify-content-end"  style="margin-bottom: -4px;">
+<!--<                       <button  class="btn position-relative image d-flex justify-content-end">-->
+                            <i class="far fa-envelope fa-lg"></i>
+                            <span
                                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99 <span
                                 class="visually-hidden">unread messages</span></span>
                         </button>
