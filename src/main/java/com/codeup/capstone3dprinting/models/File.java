@@ -44,8 +44,13 @@ public class File {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "file")
     private List<Comment> comments;
 
-    public File() {
-    }
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "file_category",
+            joinColumns = {@JoinColumn(name = "file_id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id")})
+    private List<Category> categories;
+
+    public File() {}
 
     //Create
     public File(long id, String fileUrl, String title, Timestamp createdAt,
@@ -89,12 +94,34 @@ public class File {
         isFlagged = copy.isFlagged;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "file_category",
-            joinColumns = {@JoinColumn(name = "file_id")},
-            inverseJoinColumns = {@JoinColumn(name = "category_id")})
-    private List<Category> categories;
+    public File(String fileUrl, String title, Timestamp createdAt, Timestamp updatedAt, String description, String imgUrl, boolean isPrivate, boolean isFlagged, User owner, List<Comment> comments, List<Category> categories) {
+        this.fileUrl = fileUrl;
+        this.title = title;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.description = description;
+        this.imgUrl = imgUrl;
+        this.isPrivate = isPrivate;
+        this.isFlagged = isFlagged;
+        this.owner = owner;
+        this.comments = comments;
+        this.categories = categories;
+    }
 
+    public File(long id, String fileUrl, String title, Timestamp createdAt, Timestamp updatedAt, String description, String imgUrl, boolean isPrivate, boolean isFlagged, User owner, List<Comment> comments, List<Category> categories) {
+        this.id = id;
+        this.fileUrl = fileUrl;
+        this.title = title;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.description = description;
+        this.imgUrl = imgUrl;
+        this.isPrivate = isPrivate;
+        this.isFlagged = isFlagged;
+        this.owner = owner;
+        this.comments = comments;
+        this.categories = categories;
+    }
 
     public List<Comment> getComments(){
         return comments;
@@ -191,6 +218,5 @@ public class File {
     public void setFlagged(boolean isFlagged) {
         this.isFlagged = isFlagged;
     }
-
 
 }
