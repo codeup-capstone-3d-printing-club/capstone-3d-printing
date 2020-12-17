@@ -50,6 +50,7 @@
             <div class="card-title" th:text="${file.title}"></div>
             <div class="card-body" th:text="${file.description}"></div>
             <div class="card-body" th:text="${file.createdAt}"></div>
+            <a th:href="@{'/files/' + ${file.id}}">see post</a>
             <!--        TODO: need to create a page that displays individual files/posts and use form below to link to each individual post/file-->
             <!--        <form th:action="@{/files/{id}(id=${file.ID})}" th:value="${file.ID}" method="post">-->
             <!--            <button type="submit">see post</button>-->

@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS printing_club_db;
-CREATE DATABASE printing_club_db;
+DROP DATABASE IF EXISTS capstone_db;
+CREATE DATABASE capstone_db;
 
-USE printing_club_db;
+USE capstone_db;
 
 ## need to change the database name above
 
