@@ -5,19 +5,27 @@ html, body {
 body {
     margin: 0;
     padding: 2em;
-    background: linear-gradient(180deg, #f14, #ff8300) fixed;
+    /*background: linear-gradient(180deg, #f14, #ff8300) fixed;*/
     font-family: "Avenir Next Condensed", sans-serif;
 }
 h1 {
     color: #613;
     text-align: center; }
 
-h2 {
+.title {
     font-weight: 600;
     text-transform: uppercase;
     text-align: center;
     font-size: 10em; }
 
+@media screen and (max-width: 480px) {
+    h2 {
+        font-weight: 600;
+        text-transform: uppercase;
+        text-align: center;
+        font-size: 2em; }
+
+}
 
 .filter-shadow {
     color: transparent;
