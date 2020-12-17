@@ -2,9 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="partials/header_partial :: head"></head>
-<body th:replace="partials/body_partials :: body" class="container"></body>
-<nav th:replace="partials/navbar :: navbar"></nav>
 <body th:replace="partials/body_partials :: body"></body>
+<nav th:replace="partials/navbar :: navbar"></nav>
 <div class="backgroundDiv">
     <h1>Individual File</h1>
     <div class="container">
@@ -79,6 +78,7 @@
             </form>
         </div>
     </div>
+
     <div sec:authorize="isAuthenticated()">
         <form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
             Your comment:
@@ -87,9 +87,14 @@
         </form>
     </div>
 
-    <script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
-    <script th:replace="partials/partials_scripts :: script"></script>
-    <script type="module" th:src="@{/js/renderer.js}"></script>
+<div>
+    <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
+          th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
+        <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
+    </form>
 </div>
 <footer th:replace="partials/footer_partial :: footer"></footer>
+<script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
+<script th:replace="partials/partials_scripts :: script"></script>
+<script type="module" th:src="@{/js/renderer.js}"></script>
 </html>
