@@ -1,6 +1,5 @@
 package com.codeup.capstone3dprinting.controllers;
 
-import com.codeup.capstone3dprinting.models.ConfirmationToken;
 import com.codeup.capstone3dprinting.models.File;
 import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
@@ -8,17 +7,14 @@ import com.codeup.capstone3dprinting.repos.FileRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.repos.Users;
 import com.codeup.capstone3dprinting.services.EmailService;
-import org.springframework.mail.SimpleMailMessage;
+
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -42,68 +38,6 @@ class UserController {
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
         this.tokenDao = tokenDao;
-    }
-
-    @GetMapping("/sign-up")
-    public String showSignupForm(Model model){
-        model.addAttribute("user", new User());
-        return "users/sign-up";
-    }
-
-    @PostMapping("/sign-up")
-    public String saveUser(@ModelAttribute User user, Model model){
-        String hash = passwordEncoder.encode(user.getPassword());
-        user.setPassword(hash);
-        user.setAvatarUrl("none");
-        user.setAdmin(false);
-        user.setVerified(false);
-        user.setJoinedAt(new Timestamp(new Date().getTime()));
-
-        User existingUser = userDao.findByEmailIgnoreCase(user.getEmail());
-        if(existingUser != null)
-        {
-            return "redirect:/login/?success";
-        }
-        else
-        {
-            userDao.save(user);
-
-            ConfirmationToken confirmationToken = new ConfirmationToken(user);
-
-            tokenDao.save(confirmationToken);
-
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setTo(user.getEmail());
-            mailMessage.setSubject("Complete Registration!");
-            mailMessage.setFrom("no-reply@squarecubed.xyz");
-            mailMessage.setText("To confirm your account, please click here : "
-                    +"http://localhost:8080/confirm-account?token="+confirmationToken.getConfirmationToken());
-
-            emailService.sendEmail(mailMessage);
-
-            model.addAttribute("email", user.getEmail());
-
-            return "redirect:/login/?success";
-        }
-    }
-
-    @RequestMapping(value="/confirm-account", method= {RequestMethod.GET, RequestMethod.POST})
-    public String confirmUserAccount(Model model, @RequestParam("token")String confirmationToken)
-    {
-        ConfirmationToken token = tokenDao.findByConfirmationToken(confirmationToken);
-
-        if(token != null)
-        {
-            User user = userDao.findByEmailIgnoreCase(token.getUser().getEmail());
-            user.setVerified(true);
-            userDao.save(user);
-            return "home";
-        }
-        else
-        {
-            model.addAttribute("message","The link is invalid or broken!");
-            return "home";
-        }
     }
 
     @GetMapping("/users")
@@ -153,6 +87,7 @@ class UserController {
 
             model.addAttribute("following", hasUser);
             model.addAttribute("feed", getFollowFeed());
+            model.addAttribute("favorites", currentUser.getFavoriteFiles());
         }
 
         User userdb = userDao.getOne(id);
@@ -163,11 +98,12 @@ class UserController {
     }
 
     private List<File> getFollowFeed() {
-        //assuming logged in as a hard-coded user
-        User user = userDao.findByIdEquals(1L);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = new User(user);
+
         List<File> files = new ArrayList<>();
 
-        for (User followed : user.getUsers()) {
+        for (User followed : currentUser.getUsers()) {
             List<File> list = fileDao.findAllByOwner(followed);
             files.addAll(list);
         }

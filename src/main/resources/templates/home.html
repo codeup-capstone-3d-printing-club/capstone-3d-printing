@@ -1,21 +1,16 @@
 <!DOCTYPE html>
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header_partial :: head"></head>
-<body th:replace="partials/body_partials :: body" class="container"></body>
-<!--<img th:src="@{/image/3d_bg.jpg}">-->
+<body th:replace="partials/body_partials :: body" ></body>
+<nav th:replace="partials/navbar :: navbar"></nav>
 
-<nav th:replace="partials/navbar :: navbar">
-</nav>
 <div id="welcome">
     <h1>Welcome to</h1>
-    <h2 class="filter-shadow">SquareCubed</h2>
+    <h2 class="title filter-shadow">SquareCubed</h2>
 </div>
 <div class="container">
     <div class="row">
         <div class="d-flex justify-content-center">
-            <!--            <h2 class="text-shadow">Welcome to our page!</h2>-->
-            <!--        </div>-->
-
             <div id="3d" class="box">
                 <div class="inner">
                     <span class="filter-shadow">3D DESIGNS</span>
@@ -26,25 +21,9 @@
             </div>
         </div>
     </div>
-<!--    <h2 class="text-shadow">Text Shadow</h2>-->
-
-<!--<div class="position-relative m-4">-->
-<!--    <div class="progress" style="height: 1px;">-->
-<!--        <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>-->
-<!--    </div>-->
-<!--    <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill" style="width: 2rem; height:2rem;">1</button>-->
-<!--    <button type="button" class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-primary rounded-pill" style="width: 2rem; height:2rem;">2</button>-->
-<!--    <button type="button" class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill" style="width: 2rem; height:2rem;">3</button>-->
-<!--</div>-->
-
-<!--<div class="image d-flex justify-content-even">-->
-<!--    <img id="example1" th:src="@{${'/image/3d_ex1'}}" class="rounded img-fluid img-thumbnail" alt="3d Printer">-->
-<!--</div>-->
-
 
 <script th:replace="partials/partials_scripts :: script"></script>
 <footer th:replace="partials/footer_partial :: footer"></footer>
-
 </div>
 </html>
 <!--th:src="@{${'/image/3d_ex1'}}"-->

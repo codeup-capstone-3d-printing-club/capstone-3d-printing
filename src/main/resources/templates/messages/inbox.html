@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body th:replace="partials/body_partials :: body"></body>
+<nav th:replace="partials/navbar :: navbar"></nav>
 <div th:if="${param.sent}">Message Sent!</div>
 
 <div>
@@ -27,8 +28,10 @@ Sent Messages
     </div>
 </div>
 
+<div th:replace="partials/manage-account::account-manager"></div>
+
 <!-- TODO: delete/trash functionality -->
 
-</body>
+
 <footer th:include="partials/footer_partial::footer"></footer>
 </html>

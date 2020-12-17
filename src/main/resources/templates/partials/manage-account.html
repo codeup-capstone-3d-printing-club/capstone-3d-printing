@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage your account</title>
+</head>
+<body>
+
+<!-- update password, de-activate your account, update email -->
+
+<div th:fragment="account-manager">
+    <form th:fragment="change-password" id="password-change" method="post" th:action="@{/change-password}">
+
+        <div th:text="${errorMsg}"></div>
+
+        <div class="form-group">
+            <label for="current">Current Password</label>
+            <input type="password" name="currentPassword" id="current" class="field form-control">
+
+            <label for="new">New Password</label>
+            <input type="password" name="newPassword" id="new" class="field form-control">
+
+            <label for="confirm">Confirm New Password</label>
+            <input type="password" name="confirmPassword" id="confirm" class="field form-control">
+
+            <input type="submit">
+        </div>
+    </form>
+</div>
+
+<div th:fragment="recovery-link">
+    <a th:href="@{/password-recovery}">Forgot your password?</a>
+</div>
+
+<div th:fragment="recovery-email">
+    <form th:method="post" th:action="@{/password-recovery}">
+        <div class="form-group">
+            <label for="email">Please enter the email associated with your account</label>
+            <input id="email" name="email" class="field form-control">
+            <input type="submit">
+        </div>
+    </form>
+</div>
+
+<div th:fragment="password-reset">
+    <form th:action="@{/reset}" th:method="post">
+        <div>Set up a new password</div>
+        <div class="form-group">
+            <label for="new">New Password</label>
+            <input type="password" name="resetNew" id="resetNew" class="field form-control">
+
+            <label for="confirm">Confirm New Password</label>
+            <input type="password" name="resetConfirm" id="resetConfirm" class="field form-control">
+
+            <input type="hidden" id="token" name="token" th:value="${token}">
+            <input type="submit">
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

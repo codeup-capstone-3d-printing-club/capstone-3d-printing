@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header_partial :: head"></head>
-<body>
+<body th:replace="partials/body_partials :: body"></body>
+<nav th:replace="partials/navbar :: navbar"></nav>
 <h1 th:if="${requestedCategories == null}">All files</h1>
 <h1 th:if="${requestedCategories != null}" th:text="${requestedCategories.category}"></h1>
 <div class="container">
@@ -30,7 +31,6 @@
     </div>
 </div>
 
-
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <script th:replace="partials/partials_scripts :: script"></script>
 <script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
@@ -38,5 +38,4 @@
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script th:src="@{/js/keys.js}"></script>
 <script th:src="@{/js/filestack.js}"></script>
-</body>
 </html>

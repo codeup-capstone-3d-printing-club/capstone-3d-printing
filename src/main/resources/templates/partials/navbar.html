@@ -15,12 +15,10 @@
 </head>
 
 <nav th:fragment="navbar">
-    <nav class="navbar-expand-lg  navbar-dark navbar">
-        <!--         style="background-color: #CE4912"-->
-
+    <nav class="navbar navbar-expand-lg  navbar-dark ">
         <div class="container-fluid">
-            <a class="navbar-brand">3-D Print Club</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            <a class="navbar-brand" href="">3-D Print Club</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -50,10 +48,19 @@
                             </button>
                         </form>
                     </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-item">
+                        <form th:action="@{/profile/{id}(id=${#authentication.principal.id})}" th:method="get">
+                            <button class="btn-link btn nav-link" style="display: inline-block;margin-top: -1px">
+                                <i class="fas fa-user-astronaut"></i>
+                            </button>
+                        </form>
+                    </li>
                     <li id="messages" class="nav-item">
                         <a href="/messages">
-                        <button type="button" class="btn btn-primary position-relative image d-flex justify-content-end">
-                            Messages <span
+                            <button class="btn-link btn nav-link btn position-relative image d-flex justify-content-end"  style="margin-bottom: -4px;">
+<!--<                       <button  class="btn position-relative image d-flex justify-content-end">-->
+                            <i class="far fa-envelope fa-lg"></i>
+                            <span
                                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99 <span
                                 class="visually-hidden">unread messages</span></span>
                         </button>

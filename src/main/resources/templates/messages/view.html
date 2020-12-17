@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
-
+<body th:replace="partials/body_partials :: body"></body>
+<nav th:replace="partials/navbar :: navbar"></nav>
 <!--TODO: make usernames clickable to view profiles -->
 <!-- reply button -->
 <div>
@@ -25,6 +25,6 @@
 </div>
 
 
-</body>
-<footer th:include="partials/footer_partial::footer"></footer>
+<script th:replace="partials/partials_scripts :: script"></script>
+<footer th:replace="partials/footer_partial :: footer"></footer>
 </html>

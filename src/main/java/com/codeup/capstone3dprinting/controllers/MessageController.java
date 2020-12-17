@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -74,12 +75,19 @@ class MessageController {
 
     @PostMapping("/messages/send")
     public String sendMessage(@RequestParam(name = "recipient") String recipient,
-                              @RequestParam(name = "message") String message) {
+                              @RequestParam(name = "message") String message,
+                              RedirectAttributes redir) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = new User(user);
 
-        User receiver = userDao.findByUsernameIgnoreCase(recipient);
+        User receiver = userDao.findByUsernameIgnoreCase(recipient.trim());
+        if (receiver == null) {
+            redir.addFlashAttribute("rec", recipient);
+            redir.addFlashAttribute("msg", message);
+            return "redirect:/messages/compose?error";
+        }
+
         Message newMessage = new Message(message, new Timestamp(new Date().getTime()), receiver, currentUser);
 
         messageDao.save(newMessage);

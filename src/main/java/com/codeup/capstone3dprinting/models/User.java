@@ -1,5 +1,8 @@
 package com.codeup.capstone3dprinting.models;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -56,6 +59,7 @@ public class User {
     private List<User> users = new ArrayList<>();
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "favorites",
             joinColumns = {@JoinColumn(name = "liker_id")},
             inverseJoinColumns = {@JoinColumn(name = "file_id")})
@@ -258,5 +262,6 @@ public class User {
     public void setActive(boolean isActive){
         this.isActive = isActive;
     }
+
 
 }
