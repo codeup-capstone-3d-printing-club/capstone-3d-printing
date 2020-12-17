@@ -2,9 +2,8 @@
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header_partial :: head"></head>
 <body th:replace="partials/body_partials :: body"></body>
-
 <nav th:replace="partials/navbar :: navbar"></nav>
-<div class="container">
+<div class="backgroundDiv">
     <div class="row">
         <div class="col-auto">
             <h1 class=" welcome  my-3">Create a 3D File to Share</h1>
@@ -12,7 +11,7 @@
     </div>
 
     <!--upload form-->
-    <form id="upload form" th:action="@{/files/create}" th:method="POST" th:object="${file}" class="card ml-1 col-auto">
+    <form id="upload form" th:action="@{/files/create}" th:method="POST" th:object="${file}" class="backgroundDiv card ml-1 col-auto">
         <div class="my-3 mx-2">
             <label for="exampleFormControlInput1" class="form-label">Title</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{title}" placeholder="">
@@ -33,6 +32,7 @@
         <input type="submit" class="btn btn-outline-secondary my-3">
     </form>
 </div>
+</div>
 <!--<img id="example1" th:src="@{${'/image/3d_ex1'}}" class="rounded img-fluid img-thumbnail" alt="3d Printer">-->
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <script th:replace="partials/partials_scripts :: script"></script>
@@ -41,5 +41,6 @@
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script th:src="@{/js/keys.js}"></script>
 <script th:src="@{/js/filestack.js}"></script>
+
 
 </html>
