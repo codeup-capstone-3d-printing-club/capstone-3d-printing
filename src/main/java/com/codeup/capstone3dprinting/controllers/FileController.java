@@ -51,22 +51,24 @@ class FileController {
         //Rating
         List<Rating> ListOfRatingObjs = ratingDao.getAllByFile_Id(id);
         List<Integer> thisFileRatings = getRatingsList(ListOfRatingObjs);
-            double sum = 0;
-            for(int i :thisFileRatings){
-                sum = sum + i;
-            }
-            sum = sum/ thisFileRatings.size();
-//            favoring files
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = new User(user);
-        boolean favorited = false;
-        for(File f : currentUser.getFavoriteFiles()){
-            if(f.getId() == id){
-                favorited = true;
-                break;
-            }
+        double sum = 0;
+        for (int i : thisFileRatings) {
+            sum = sum + i;
         }
+        sum = sum / thisFileRatings.size();
+//            favoring files
+        boolean favorited = false;
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User currentUser = new User(user);
+            for (File f : currentUser.getFavoriteFiles()) {
+                if (f.getId() == id) {
+                    favorited = true;
+                    break;
+                }
+            }
 
+        }
         model.addAttribute("favorited", favorited);
         model.addAttribute("averageRating", Math.round(sum));
         model.addAttribute("allCommentsForThisPost", thisFilesComments);
@@ -154,11 +156,12 @@ class FileController {
     }
 
     @PostMapping("/files/{id}/comment/{commentId}/delete")
-    public String deleteFilePost(@PathVariable long id, @RequestParam(name = "commentId")long commentId) {
+    public String deleteFilePost(@PathVariable long id, @RequestParam(name = "commentId") long commentId) {
         commentDao.deleteById(commentId);
         File file = fileDao.getOne(id);
         return "redirect:/files/" + file.getId();
     }
+
     @PostMapping("files/{id}/rating")
     public String rateFile(@PathVariable long id, @RequestParam(name = "ratings") int rating) {
         Rating newRating = new Rating();
@@ -168,9 +171,10 @@ class FileController {
         File file = fileDao.getOne(id);
         return "redirect:/files/" + file.getId();
     }
+
     @PostMapping("files/favorite/{id}")
     public String favoritePost(@PathVariable long id,
-                             @RequestParam(name = "favorited") boolean favorited) {
+                               @RequestParam(name = "favorited") boolean favorited) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = new User(user);
