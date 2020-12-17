@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>favorite</title>
+</head>
+<body>
+<!-- Controller serving the page has to pass down a file (to be favored)
+    and whether or not the current user is already favoriting this -->
+<form th:fragment="favorite" th:action="@{/files/favorite/{id}(id=${file.id})}" th:method="post">
+    <button class="favoriteBtn" th:if="${favorited}" type="submit" name="unfavorite"><i class="fas fa-star unfollow"></i></button>
+    <input type="hidden" name="favorited" th:value="${favorited}">
+    <button class="favoriteBtn" th:if="${!favorited}" type="submit" name="favorite"><i class="far fa-star follow"></i></button>
+</form>
+
+</body>
+</html>

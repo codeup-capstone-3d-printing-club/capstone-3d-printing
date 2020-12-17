@@ -31,6 +31,9 @@
                 <button class="btn btn-outline-secondary">add to list</button>
                 <button class="btn btn-outline-secondary">comment</button>
         </div>
+        <div class="d-inline" sec:authorize="isAuthenticated()">
+            <form th:replace="partials/favorite-button::favorite"></form>
+        </div>
         <div class="col-12 col-md-8">
             <div th:unless="${file.imgUrl == 'none'}">
             <img th:src="${file.imgUrl}"/>
