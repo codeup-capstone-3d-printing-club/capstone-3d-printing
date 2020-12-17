@@ -27,7 +27,7 @@
                     <li class="nav-item">
                         <a class="nav-link icon " href="/">Home</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" sec:authorize="isAuthenticated()" >
                         <a class="nav-link icon " href="/files/create">Create</a>
                     </li>
                     <li class="nav-item">

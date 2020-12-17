@@ -17,7 +17,7 @@
 <div th:unless="${user.avatarUrl == 'none'}">
 <img th:src="${user.avatarUrl}" alt="user profile picture">
 </div>
-<div th:if="${currentUser.id == user.id}">
+<div th:if="${#authentication.principal.id == user.id}">
 <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post">
     <label for="avatar">New Img URL</label>
     <!--        TODO: (Later we can use api to be able to upload pictures and then save pictures as URL)-->
