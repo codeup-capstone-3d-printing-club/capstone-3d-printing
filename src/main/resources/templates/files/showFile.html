@@ -1,79 +1,93 @@
-
-<div class="container">
-    <div class="row">
-        <div class="col-12 col-md-8" id="renderer"></div>
-        <div class="col-12 col-md-4" >
-            Date created:
-            <p th:text="${file.createdAt}"></p>
-            Date last updated:
-            <p th:text="${file.updatedAt}"></p>
-            <p>Is private = </p>
-            <p th:text="${file.private}"></p>
-            <!--    TODO: only show this if admin-->
-            <p>Is flagged = </p>
-            <p th:text="${file.isFlagged()}"></p>
-            <!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
-            Created By:
-            <p th:text="${file.getOwner().getUsername()}">
-                <button class="btn btn-outline-secondary">follow</button>
-                <button class="btn btn-outline-secondary">download</button>
-                <button class="btn btn-outline-secondary">like</button>
-                <button class="btn btn-outline-secondary">add to list</button>
-                <button class="btn btn-outline-secondary">comment</button>
-        </div>
-        <div class="col-12 col-md-8">
-            <div th:unless="${file.imgUrl == 'none'}">
-            <img th:src="${file.imgUrl}"/>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/header_partial :: head"></head>
+<body th:replace="partials/body_partials :: body" class="container"></body>
+<nav th:replace="partials/navbar :: navbar"></nav>
+<body th:replace="partials/body_partials :: body"></body>
+<div class="backgroundDiv">
+    <h1>Individual File</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-8" id="renderer"></div>
+            <div class="col-12 col-md-4" >
+                Date created:
+                <p th:text="${file.createdAt}"></p>
+                Date last updated:
+                <p th:text="${file.updatedAt}"></p>
+                <p>Is private = </p>
+                <p th:text="${file.private}"></p>
+                <!--    TODO: only show this if admin-->
+                <p>Is flagged = </p>
+                <p th:text="${file.isFlagged()}"></p>
+                <!--    TODO: following p tag can be converted to link to redirect to the owners profile-->
+                Created By:
+                <p th:text="${file.getOwner().getUsername()}">
+                    <button class="btn btn-outline-secondary">follow</button>
+                    <button class="btn btn-outline-secondary">download</button>
+                    <button class="btn btn-outline-secondary">like</button>
+                    <button class="btn btn-outline-secondary">add to list</button>
+                    <button class="btn btn-outline-secondary">comment</button>
             </div>
-            <div th:value="${file.fileUrl}"></div>
-            Title:
-            <h3 th:text="${file.title}"></h3>
-            <br>
-            Description:
-            <p th:text="${file.description}"></p>
-            <hr>
-            Comment:
-            <div></div>
+            <div class="col-12 col-md-8">
+                <img th:src="${file.imgUrl}"/>
+                <!--    TODO:rendering needs to go in to the following tag-->
+                <div th:value="${file.fileUrl}"></div>
+                Title:
+                <h3 th:text="${file.title}"></h3>
+                <br>
+                Description:
+                <p th:text="${file.description}"></p>
+                <hr>
+                Comment:
+                <div></div>
+            </div>
         </div>
-    </div>
 
-</div>
-<!--TODO: needs to be one rating per file, per user-->
-<div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id != file.owner.id}" class="rating-box" style="border: grey solid 1px">
-    <h5>Rating: </h5><h5 th:text="${averageRating}"></h5>
-    <form th:action="@{/files/{id}/rating(id=${file.id})}" th:method="post">
-        <label for="ratings">Rate this object</label>
-        <select id="ratings" th:name="ratings">
-            <option th:value="1">1</option>
-            <option th:value="2">2</option>
-            <option th:value="3">3</option>
-            <option th:value="4">4</option>
-            <option th:value="5">5</option>
-            <option th:value="6">6</option>
-            <option th:value="7">7</option>
-            <option th:value="8">8</option>
-            <option th:value="9">9</option>
-            <option th:value="10">10</option>
-        </select>
-        <input th:type="submit"></input>
-    </form>
-</div>
-<div class="commentbox" style="border: grey solid 2px" th:each="comment : ${allCommentsForThisPost}">
-    <h2 th:text="${comment.getOwner().getUsername()}"></h2>
-    <p th:text="${comment.comment}"></p>
-    <p th:text="${comment.createdAt}"></p>
-    <div sec:authorize="isAuthenticated()">
-        <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
-              th:method="post">
-            <input type="hidden" name="commentId" th:value="${comment.id}">
-            <button th:type="submit">Delete comment</button>
+    </div>
+    <!--TODO: needs to be one rating per file, per user-->
+    <div class="rating-box" style="border: grey solid 1px">
+        <h5>Rating: </h5><h5 th:text="${averageRating}"></h5>
+        <form th:action="@{/files/{id}/rating(id=${file.id})}" th:method="post">
+            <label for="ratings">Rate this object</label>
+            <select id="ratings" th:name="ratings">
+                <option th:value="1">1</option>
+                <option th:value="2">2</option>
+                <option th:value="3">3</option>
+                <option th:value="4">4</option>
+                <option th:value="5">5</option>
+                <option th:value="6">6</option>
+                <option th:value="7">7</option>
+                <option th:value="8">8</option>
+                <option th:value="9">9</option>
+                <option th:value="10">10</option>
+            </select>
+            <input th:type="submit"></input>
         </form>
     </div>
+    <div class="commentbox" style="border: grey solid 2px" th:each="comment : ${allCommentsForThisPost}">
+        <h2 th:text="${comment.getOwner().getUsername()}"></h2>
+        <p th:text="${comment.comment}"></p>
+        <p th:text="${comment.createdAt}"></p>
+        <div sec:authorize="isAuthenticated()">
+            <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
+                  th:method="post">
+                <input type="hidden" name="commentId" th:value="${comment.id}">
+                <button th:type="submit">Delete comment</button>
+            </form>
+        </div>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
+            Your comment:
+            <input name="commentText" class="field" type="text">
+            <button th:type="submit">post comment</button>
+        </form>
+    </div>
+
+    <script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
+    <script th:replace="partials/partials_scripts :: script"></script>
+    <script type="module" th:src="@{/js/renderer.js}"></script>
 </div>
-<div sec:authorize="isAuthenticated()">
-    <form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
-        Your comment:
-        <input name="commentText" class="field" type="text">
-        <button th:type="submit">post comment</button>
-    </form>
-</div>
+<footer th:replace="partials/footer_partial :: footer"></footer>
+</html>
