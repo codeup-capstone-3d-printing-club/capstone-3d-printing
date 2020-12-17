@@ -202,7 +202,6 @@ public class AuthenticationController {
 
         if (userDao.findByEmailIgnoreCase(email) == null) {
             redir.addFlashAttribute("msg", "There are no accounts associated with " + email);
-            return "redirect:/password-recovery";
         } else {
 
             User user = userDao.findByEmailIgnoreCase(email);
@@ -215,14 +214,19 @@ public class AuthenticationController {
             mailMessage.setTo(user.getEmail());
             mailMessage.setSubject("[squarecubed.xyz] Reset your password");
             mailMessage.setFrom("no-reply@squarecubed.xyz");
-            mailMessage.setText("To finish resetting your password, please click here : "
+            mailMessage.setText("Username: " + user.getUsername() + "\nTo finish resetting your password, please click here : "
                     +"http://localhost:8080/reset?token="+confirmationToken.getConfirmationToken());
 
             emailService.sendEmail(mailMessage);
 
+            redir.addFlashAttribute("msg", "An email has been sent to " + user.getEmail() +
+                    " with further instructions to reset your password.");
+
         }
-        
-        return "redirect:/login";
+
+        return "redirect:/password-recovery";
+
+
     }
 
 }
