@@ -4,24 +4,26 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body th:replace="partials/body_partials :: body"></body>
+<nav th:replace="partials/navbar :: navbar"></nav>
 <div class="container">
     <form th:method="post" th:action="@{/messages/send}">
-
         <div class="form-group">
-            <label>To:</label>
-            <input type="text" name="recipient" class="form-control field" placeholder="Enter recipient's username">
+            <div th:if="${param.error}">Recipient username does not exist</div>
+            <label for="to">To:</label>
+            <input type="text" name="recipient" id="to" class="form-control field"
+                   placeholder="Enter recipient's username" th:value="${rec}">
         </div>
 
         <div class="form-group">
-            <label>Message:</label>
-            <textarea type="text" name="message" class="form-control field" placeholder="Write your message here..."></textarea>
+            <label for="message">Message:</label>
+            <textarea type="text" id="message" name="message" class="form-control field"
+                      placeholder="Write your message here..." th:text="${msg}"></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 
-</body>
 <footer th:include="partials/footer_partial::footer"></footer>
 </html>
