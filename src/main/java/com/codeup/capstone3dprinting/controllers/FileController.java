@@ -90,7 +90,11 @@ class FileController {
     @GetMapping("/files/create")
     public String viewCreateForm(Model model) {
         model.addAttribute("file", new File());
-        return "files/createFile";
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser"){
+            return "files/createFile";
+        } else {
+            return "redirect:/sign-up";
+        }
     }
 
     @PostMapping("/files/create")
