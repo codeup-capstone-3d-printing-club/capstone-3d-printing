@@ -145,7 +145,7 @@ class FileController {
         file.setTitle(fileEdit.getTitle());
         file.setDescription(fileEdit.getDescription());
         file.setPrivate(fileEdit.isPrivate());
-        file.setImgUrl(fileEdit.getImgUrl());
+//        file.setImgUrl(fileEdit.getImgUrl());
         fileDao.save(file);
         return "redirect:/files/" + file.getId();
     }

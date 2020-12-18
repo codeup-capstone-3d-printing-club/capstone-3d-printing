@@ -18,13 +18,13 @@ VALUES ('this is a test', NOW(), 1, 2, true),
        ('second test', NOW(), 1, 2, true),
        ('second reply', NOW(), 2, 1, true);
 
-INSERT INTO files (created_at, description, title, file_url, img_url, is_private, updated_at, owner_id, is_flagged)
-VALUES (NOW(), 'this is a description for #1', 'file #1', 'none', 'none', false, NOW(), 1, false),
-       (NOW(), 'this is a description for #2', 'file #2', 'none', 'none', false, NOW(), 1, false),
-       (NOW(), 'this is a description for #3', 'file #3', 'none', 'none', false, NOW(), 2, false),
-       (NOW(), 'this is a description for #4', 'file #4', 'none', 'none', false, NOW(), 2, false),
-       (NOW(), 'this is a description for #5', 'file #5', 'none', 'none', false, NOW(), 3, false),
-       (NOW(), 'this is a description for #6', 'file #6', 'none', 'none', false, NOW(), 3, false);
+INSERT INTO files (created_at, description, title, file_url, is_private, updated_at, owner_id, is_flagged)
+VALUES (NOW(), 'this is a description for #1', 'file #1', 'none', false, NOW(), 1, false),
+       (NOW(), 'this is a description for #2', 'file #2', 'none', false, NOW(), 1, false),
+       (NOW(), 'this is a description for #3', 'file #3', 'none', false, NOW(), 2, false),
+       (NOW(), 'this is a description for #4', 'file #4', 'none', false, NOW(), 2, false),
+       (NOW(), 'this is a description for #5', 'file #5', 'none', false, NOW(), 3, false),
+       (NOW(), 'this is a description for #6', 'file #6', 'none', false, NOW(), 3, false);
 
 INSERT INTO categories(category)
 VALUES ('Art'),
