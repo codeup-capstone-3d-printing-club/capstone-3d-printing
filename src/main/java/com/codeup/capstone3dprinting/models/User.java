@@ -60,6 +60,13 @@ public class User {
 
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinTable(name = "follows",
+            joinColumns = {@JoinColumn(name = "follow_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private List<User> followers = new ArrayList<>();
+
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "favorites",
             joinColumns = {@JoinColumn(name = "liker_id")},
             inverseJoinColumns = {@JoinColumn(name = "file_id")})
@@ -116,38 +123,50 @@ public class User {
     }
 
     //Create
-    public User(String email, String firstName, boolean isAdmin, boolean isVerified,
-                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged,
-                boolean isActive) {
-        this.email = email;
+    public User(String username, String firstName, String lastName, String email, String password,
+                boolean isVerified, Timestamp joinedAt, boolean isAdmin, String avatarUrl,
+                boolean isFlagged, boolean isActive, List<File> files, List<User> users, List<User> followers,
+                List<File> favorites, List<Setting> settings) {
+        this.username = username;
         this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
         this.isVerified = false;
+        this.joinedAt = joinedAt;
         this.isAdmin = false;
-        this.joinedAt = joinedAt;
-        this.lastName = lastName;
-        this.password = password;
-        this.username = username;
-        this.isFlagged = isFlagged;
-        this.isActive = isActive;
+        this.avatarUrl = avatarUrl;
+        this.isFlagged = false;
+        this.isActive = true;
+        this.files = files;
+        this.users = users;
+        this.followers = followers;
+        this.favorites = favorites;
+        this.settings = settings;
     }
 
-    //Read
-    public User(long id, String email, String firstName, boolean isAdmin, boolean isVerified,
-                Timestamp joinedAt, String lastName, String password, String username, boolean isFlagged,
-                boolean isActive) {
+    public User(long id, String username, String firstName, String lastName, String email, String password,
+                boolean isVerified, Timestamp joinedAt, boolean isAdmin, String avatarUrl,
+                boolean isFlagged, boolean isActive, List<File> files, List<User> users, List<User> followers,
+                List<File> favorites, List<Setting> settings) {
         this.id = id;
-        this.email = email;
-        this.firstName = firstName;
-        this.isVerified = isVerified;
-        this.isAdmin = isAdmin;
-        this.joinedAt = joinedAt;
-        this.lastName = lastName;
-        this.password = password;
         this.username = username;
-        this.isFlagged = isFlagged;
-        this.isActive = isActive;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.isVerified = false;
+        this.joinedAt = joinedAt;
+        this.isAdmin = false;
+        this.avatarUrl = avatarUrl;
+        this.isFlagged = false;
+        this.isActive = true;
+        this.files = files;
+        this.users = users;
+        this.followers = followers;
+        this.favorites = favorites;
+        this.settings = settings;
     }
-
 
     public User(User copy) {
         id = copy.id;
@@ -166,6 +185,7 @@ public class User {
         users = copy.users;
         favorites = copy.favorites;
         settings = copy.settings;
+        followers = copy.followers;
     }
 
     public long getId() {
@@ -264,5 +284,11 @@ public class User {
         this.isActive = isActive;
     }
 
+    public List<User> getFollowers() {
+        return followers;
+    }
 
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
 }
