@@ -8,11 +8,13 @@ import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.repos.Users;
 import com.codeup.capstone3dprinting.services.EmailService;
 
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,17 +163,39 @@ class UserController {
 
     //    redirects to admin bc nonAdmin users shouldn't be able to deactivate/activate users
     @PostMapping("/users/{id}/deactivate")
-    public String deactivateUser(@PathVariable long id) {
+    public String deactivateUser(@PathVariable long id, RedirectAttributes redir) {
        User user = userDao.getOne(id);
        user.setActive(false);
        userDao.save(user);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("[squarecubed.xyz] Account deactivated");
+        mailMessage.setFrom("no-reply@squarecubed.xyz");
+        mailMessage.setText("Username: " + user.getUsername() + "'s account has been deactivated. Contact xyz for more info.");
+
+        emailService.sendEmail(mailMessage);
+
+        redir.addFlashAttribute("msg", "An email has been sent to " + user.getEmail() +
+                " to let them know about account de-activation.");
         return "redirect:/admin";
     }
+
     @PostMapping("/users/{id}/activate")
-    public String activateUser(@PathVariable long id) {
+    public String activateUser(@PathVariable long id, RedirectAttributes redir) {
         User user = userDao.getOne(id);
         user.setActive(true);
         userDao.save(user);
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("[squarecubed.xyz] Account re-activated");
+        mailMessage.setFrom("no-reply@squarecubed.xyz");
+        mailMessage.setText("Username: " + user.getUsername() + "'s account has been re-activated.");
+
+        emailService.sendEmail(mailMessage);
+
+        redir.addFlashAttribute("msg", "An email has been sent to " + user.getEmail() +
+                " to let them know about account re-activation.");
         return "redirect:/admin";
     }
 
