@@ -28,6 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(usersLoader) // How to find users by their username
                 .passwordEncoder(passwordEncoder()) // How to encode and verify passwords
+
         ;
     }
 
@@ -51,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 /* Pages that require authentication */
                 .and()
                 .authorizeRequests()
-                .antMatchers("/messages", "/messages/{id}", "/profile/{id}/edit", "/settings")
+                .antMatchers("/messages", "/messages/{id}", "/profile/{id}/edit", "/settings", "/admin")
                 .authenticated()
         ;
     }

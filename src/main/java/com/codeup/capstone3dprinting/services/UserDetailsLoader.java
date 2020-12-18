@@ -3,6 +3,7 @@ package com.codeup.capstone3dprinting.services;
 import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.models.UserWithRoles;
 import com.codeup.capstone3dprinting.repos.Users;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,7 +22,7 @@ public class UserDetailsLoader implements UserDetailsService {
         User user = users.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("No user found for " + username);
-        }else if(user.isActive() == false){
+        }else if(!user.isActive()){
             throw new  NullPointerException("This user is not active: " + username);
         }
         return new UserWithRoles(user);
