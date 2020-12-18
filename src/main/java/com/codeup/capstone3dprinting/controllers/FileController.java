@@ -101,7 +101,11 @@ class FileController {
         }
 
         model.addAttribute("file", new File());
-        return "files/createFile";
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser"){
+            return "files/createFile";
+        } else {
+            return "redirect:/sign-up";
+        }
     }
 
     @PostMapping("/files/create")
