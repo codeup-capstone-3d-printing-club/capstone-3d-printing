@@ -28,6 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(usersLoader) // How to find users by their username
                 .passwordEncoder(passwordEncoder()) // How to encode and verify passwords
+
         ;
     }
 
@@ -53,6 +54,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/messages", "/messages/{id}", "/profile/{id}/edit")
                 .authenticated()
+                //admin dashboard permission
+                .and()
+                .authorizeRequests()
+                .antMatchers("/admin")
+                .hasRole("ADMIN")
         ;
     }
 }

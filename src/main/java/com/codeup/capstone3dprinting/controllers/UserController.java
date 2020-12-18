@@ -141,7 +141,6 @@ class UserController {
         return "redirect:/profile/" + user.getId();
     }
 
-
     @GetMapping("/admin")
     public String showAdminDashboard(Model model) {
         model.addAttribute("allUsers", userDao.findAllByisActive(true));
