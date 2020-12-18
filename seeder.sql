@@ -41,10 +41,10 @@ VALUES ('art'),
        ('other');
 
 INSERT INTO file_category(file_id, category_id)
-VALUES (10, 1),
-       (10, 2),
-       (11, 3),
-       (12, 1),
-       (12, 2),
-       (12, 3),
-       (12, 4);
+VALUES (1, 1),
+       (3, 2),
+       (2, 3),
+       (5, 1),
+       (3, 2),
+       (5, 3),
+       (5, 4);
