@@ -21,13 +21,17 @@ class FileController {
     private final UserRepository userDao;
     private final RatingRepository ratingDao;
     private final CategoryRepository categoryDao;
+    private final SettingRepository settingDao;
+    private final MessageRepository messageDao;
 
-    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao, RatingRepository ratingDao, CategoryRepository categoryDao) {
+    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao, RatingRepository ratingDao, CategoryRepository categoryDao, SettingRepository settingDao, MessageRepository messageDao) {
         this.fileDao = fileDao;
         this.commentDao = commentdao;
         this.userDao = userdao;
         this.ratingDao = ratingDao;
         this.categoryDao = categoryDao;
+        this.settingDao = settingDao;
+        this.messageDao = messageDao;
     }
 
     @GetMapping("/files")
@@ -89,6 +93,13 @@ class FileController {
 
     @GetMapping("/files/create")
     public String viewCreateForm(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = new User(user);
+        
+        for (User follower: currentUser.getFollowers()) {
+            System.out.println("follower.getId() = " + follower.getId());
+        }
+
         model.addAttribute("file", new File());
         if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser"){
             return "files/createFile";
@@ -100,11 +111,23 @@ class FileController {
     @PostMapping("/files/create")
     public String createPost(@ModelAttribute File fileToBeSaved) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = new User(user);
+        User currentUser = userDao.getOne(user.getId());
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
         fileToBeSaved.setCreatedAt(timestamp1);
         fileToBeSaved.setUpdatedAt(timestamp1);
         fileToBeSaved.setOwner(currentUser);
+
+        for (User follower: currentUser.getFollowers()) {
+            User receiver = userDao.getOne(follower.getId());
+
+            if (receiver.getSettings().contains(settingDao.getOne(1L))) {
+
+                Message newMessage = new Message(currentUser.getUsername() + " has posted a new file!",
+                        new Timestamp(new Date().getTime()), receiver, userDao.getOne(1L));
+                messageDao.save(newMessage);
+            }
+        }
+
         File dbFile = fileDao.save(fileToBeSaved);
         return "redirect:/files/" + dbFile.getId();
     }
@@ -156,16 +179,24 @@ class FileController {
     @PostMapping("files/{id}/comment")
     public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = new User(user);
+        User currentUser = userDao.getOne(user.getId());
+        File file = fileDao.getOne(id);
+        User fileOwner = userDao.getOne(file.getOwner().getId());
+
+        if (fileOwner.getSettings().contains(settingDao.getOne(3L))) {
+            Message newMessage = new Message(currentUser.getUsername() + " has commented on your file: " + file.getTitle(),
+                    new Timestamp(new Date().getTime()), fileOwner, userDao.getOne(1L));
+            messageDao.save(newMessage);
+        }
 
         Comment newComment = new Comment();
-        System.out.println("commentText = " + commentText);
         newComment.setComment(commentText);
         newComment.setCreatedAt(new Timestamp(new Date().getTime()));
         newComment.setFile(fileDao.getOne(id));
         newComment.setOwner(currentUser);
         commentDao.save(newComment);
-        File file = fileDao.getOne(id);
+
+
         return "redirect:/files/" + file.getId();
     }
 
