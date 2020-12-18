@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS printing_club_db;
-CREATE DATABASE printing_club_db;
+DROP DATABASE IF EXISTS capstone_db;
+CREATE DATABASE capstone_db;
 
-USE printing_club_db;
+USE capstone_db;
 
 ## need to change the database name above
 
@@ -26,3 +26,25 @@ VALUES (NOW(), 'this is a description for #1', 'file #1', 'none', 'none', false,
        (NOW(), 'this is a description for #5', 'file #5', 'none', 'none', false, NOW(), 3, false),
        (NOW(), 'this is a description for #6', 'file #6', 'none', 'none', false, NOW(), 3, false);
 
+INSERT INTO categories(category)
+VALUES ('art'),
+       ('toys'),
+       ('household'),
+       ('upcycling'),
+       ('fashion'),
+       ('hobby'),
+       ('education'),
+       ('tools'),
+       ('gadgets'),
+       ('outdoor'),
+       ('3D-printing'),
+       ('other');
+
+INSERT INTO file_category(file_id, category_id)
+VALUES (10, 1),
+       (10, 2),
+       (11, 3),
+       (12, 1),
+       (12, 2),
+       (12, 3),
+       (12, 4);

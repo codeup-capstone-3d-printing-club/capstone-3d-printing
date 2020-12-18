@@ -84,7 +84,6 @@ class UserController {
                     break;
                 }
             }
-
             model.addAttribute("following", hasUser);
             model.addAttribute("feed", getFollowFeed());
             model.addAttribute("favorites", currentUser.getFavoriteFiles());

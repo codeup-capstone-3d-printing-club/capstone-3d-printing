@@ -20,17 +20,26 @@ class FileController {
     private final CommentRepository commentDao;
     private final UserRepository userDao;
     private final RatingRepository ratingDao;
+    private final CategoryRepository categoryDao;
 
-    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao, RatingRepository ratingDao) {
+    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao, RatingRepository ratingDao, CategoryRepository categoryDao) {
         this.fileDao = fileDao;
         this.commentDao = commentdao;
         this.userDao = userdao;
         this.ratingDao = ratingDao;
+        this.categoryDao = categoryDao;
     }
 
     @GetMapping("/files")
-    public String showAllFiles(Model model) {
-        model.addAttribute("allEntries", fileDao.findAll());
+    public String showAllFiles(Model model, @RequestParam(required = false) String category) {
+        if (category == null) {
+            model.addAttribute("files", fileDao.findAll());
+        } else {
+            Category requestedCategory = categoryDao.findCategoryByCategory(category);
+            model.addAttribute("requestedCategories", requestedCategory);
+            model.addAttribute("files", fileDao.findByCategories(requestedCategory));
+        }
+        model.addAttribute("categories", categoryDao.findAll());
         return "index";
     }
 
@@ -70,6 +79,7 @@ class FileController {
 
         }
         model.addAttribute("favorited", favorited);
+
         model.addAttribute("averageRating", Math.round(sum));
         model.addAttribute("allCommentsForThisPost", thisFilesComments);
         model.addAttribute("file", filedb);
@@ -80,7 +90,11 @@ class FileController {
     @GetMapping("/files/create")
     public String viewCreateForm(Model model) {
         model.addAttribute("file", new File());
-        return "files/createFile";
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser"){
+            return "files/createFile";
+        } else {
+            return "redirect:/sign-up";
+        }
     }
 
     @PostMapping("/files/create")
