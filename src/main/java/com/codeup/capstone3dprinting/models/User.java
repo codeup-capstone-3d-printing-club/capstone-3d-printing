@@ -66,6 +66,7 @@ public class User {
     private List<File> favorites = new ArrayList<>();
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "user_settings",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "setting_id")})

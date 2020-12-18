@@ -58,5 +58,23 @@
     </form>
 </div>
 
+<div th:fragment="settings">
+
+    <form th:action="@{/settings}" th:method="post">
+        <div class="form-group">
+            <div th:each="setting : ${settings}">
+                <input type="checkbox" class="form-check" th:id="${'setting' + setting.id}"
+                       th:name="setting" th:value="${setting.id}" th:checked="${checked.contains(setting.id)}">
+                <label th:for="${'setting' + setting.id}" class="form-check-label" th:text="${setting.description}"></label>
+            </div>
+            <input type="submit">
+        </div>
+
+
+    </form>
+
+
+</div>
+
 </body>
 </html>

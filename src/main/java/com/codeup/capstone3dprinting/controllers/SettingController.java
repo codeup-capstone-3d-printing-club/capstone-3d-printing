@@ -1,26 +1,70 @@
 package com.codeup.capstone3dprinting.controllers;
 
+import com.codeup.capstone3dprinting.models.Setting;
+import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.SettingRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 class SettingController {
 
-    // These two next steps are often called dependency injection, where we create a Repository instance and initialize it in the controller class constructor.
     private final SettingRepository settingDao;
+    private final UserRepository userDao;
 
-    public SettingController(SettingRepository settingDao) {
+    public SettingController(SettingRepository settingDao, UserRepository userDao) {
         this.settingDao = settingDao;
+        this.userDao = userDao;
     }
 
     @GetMapping("/settings")
-    @ResponseBody
-    public String index() {
+    public String index(Model model) {
 
-        return "users settings page";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = new User(user);
+
+        List<Setting> settings = settingDao.findAll();
+        List<Long> checked = new ArrayList<>();
+        
+        for (Setting setting: currentUser.getSettings()) {
+            checked.add(setting.getId());
+            System.out.println("setting.getId() = " + setting.getId());
+        }
+
+        model.addAttribute("settings", settings);
+        model.addAttribute("checked", checked);
+
+        return "users/settings";
     }
+    
+    @PostMapping("/settings")
+    public String updateSettings(@RequestParam("setting") List<String> settings) {
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = new User(user);
+
+        if (settings != null) {
+
+            for (String setting: settings) {
+
+            }
+        }
+
+
+
+
+        return "redirect:/settings";
+    }
+    
+    
+    
 
 }
