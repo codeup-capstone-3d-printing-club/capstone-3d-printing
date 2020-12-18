@@ -28,6 +28,9 @@ public class Images {
         this.file = file;
         this.img_url = img_url;
     }
+    public Images(String img_url){
+        this.img_url = img_url;
+    }
 
     public Images(Images copy){
         id = copy.id;

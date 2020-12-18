@@ -23,8 +23,9 @@ class FileController {
     private final CategoryRepository categoryDao;
     private final SettingRepository settingDao;
     private final MessageRepository messageDao;
+    private final ImagesRepository imageDao;
 
-    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao, RatingRepository ratingDao, CategoryRepository categoryDao, SettingRepository settingDao, MessageRepository messageDao) {
+    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao, RatingRepository ratingDao, CategoryRepository categoryDao, SettingRepository settingDao, MessageRepository messageDao, ImagesRepository imageDao) {
         this.fileDao = fileDao;
         this.commentDao = commentdao;
         this.userDao = userdao;
@@ -32,6 +33,7 @@ class FileController {
         this.categoryDao = categoryDao;
         this.settingDao = settingDao;
         this.messageDao = messageDao;
+        this.imageDao = imageDao;
     }
 
     @GetMapping("/files")
@@ -59,6 +61,7 @@ class FileController {
     @GetMapping("/files/{id}")
     public String showPost(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
+        List <Images> thisFilesImgs = imageDao.getAllByFile_Id(id);
         //comments
         List<Comment> thisFilesComments = commentDao.getAllByFile_Id(id);
         //Rating
@@ -83,7 +86,7 @@ class FileController {
 
         }
         model.addAttribute("favorited", favorited);
-
+        model.addAttribute("imgFiles", thisFilesImgs);
         model.addAttribute("averageRating", Math.round(sum));
         model.addAttribute("allCommentsForThisPost", thisFilesComments);
         model.addAttribute("file", filedb);
@@ -135,17 +138,25 @@ class FileController {
     @GetMapping("/files/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
+        List<Images> thisFilesImgs = imageDao.getAllByFile_Id(id);
+        model.addAttribute("filesImgs", thisFilesImgs);
         model.addAttribute("file", filedb);
         return "files/editFile";
     }
 
     @PostMapping("/files/{id}/edit")
-    public String editFilePost(@PathVariable long id, @ModelAttribute File fileEdit) {
+    public String editFilePost(@PathVariable long id, @ModelAttribute File fileEdit, @ModelAttribute List<Images> temp) {
         File file = fileDao.getOne(id);
         file.setTitle(fileEdit.getTitle());
         file.setDescription(fileEdit.getDescription());
         file.setPrivate(fileEdit.isPrivate());
-//        file.setImgUrl(fileEdit.getImgUrl());
+
+        // adding it to the list of images for this file
+        List<Images> newImages = new ArrayList<Images>();
+        while(newImages.size() < 3){
+            newImages.addAll(temp);
+            }
+        file.setImages(newImages);
         fileDao.save(file);
         return "redirect:/files/" + file.getId();
     }
