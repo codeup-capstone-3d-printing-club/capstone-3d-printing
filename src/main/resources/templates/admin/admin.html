@@ -1,60 +1,62 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>admin dashboard</title>
-</head>
-<body>
-<h1>Admin Dashboard</h1>
-<h2>All Posts</h2>
-<div class="allposts" style="border: black 2px solid" th:each="post : ${allPosts}">
+<head th:replace="partials/header_partial :: head"></head>
+<body th:replace="partials/body_partials :: body" ></body>
+<nav th:replace="partials/navbar :: navbar"></nav>
+
+<h1 class="mt-3">Admin Dashboard</h1>
+<h2 class="adminSubHeadings">All Posts</h2>
+
+<div class="allposts backgroundDiv p-3" style="border: black 2px solid; max-width:50%;" th:each="post : ${allPosts}">
 <h5 th:text="${post.title}"></h5>
     <p th:text="${post.description}"></p>
     <form th:action="@{/files/{id}/flag(id=${post.id})}" th:method="post">
-        <button th:type="submit" class="btn btn-danger">Flag Post</button>
+        <button th:type="submit" class="btn btn-danger p-1 m-1">Flag Post</button>
     </form>
     <form th:action="@{/files/{id}/delete(id=${post.id})}" th:method="delete">
-        <button th:type="submit" class="btn btn-danger">Delete Post</button>
+        <button th:type="submit" class="btn btn-danger p-1 m-1">Delete Post</button>
     </form>
 </div>
-<h2>All active Users</h2>
-<div class="allUsers" style="border: black 2px solid" th:each="user : ${allUsers}">
+<h2 class="adminSubHeadings">All active Users</h2>
+<div class="allUsers backgroundDiv p-3" style="border: black 2px solid" th:each="user : ${allUsers}">
     <h5 th:text="${user.username}"></h5>
     <p th:text="${user.joinedAt}"></p>
     <form th:action="@{/users/{id}/flag(id=${user.id})}" th:method="post">
-        <button th:type="submit" class="btn btn-danger">Flag User</button>
+        <button th:type="submit" class="btn btn-danger p-1 m-1">Flag User</button>
     </form>
     <form th:action="@{/users/{id}/deactivate(id=${user.id})}" th:method="post">
-        <button th:type="submit" class="btn btn-danger">Deactivate User</button>
+        <button th:type="submit" class="btn btn-danger p-1 m-1">Deactivate User</button>
     </form>
 </div>
 
-<h2>Flagged Posts</h2>
-<div class="allFlaggedPosts" style="border: black 2px solid" th:each="post : ${flaggedPosts}">
+<h2 class="adminSubHeadings">Flagged Posts</h2>
+<div class="allFlaggedPosts backgroundDiv p-3" style="border: black 2px solid" th:each="post : ${flaggedPosts}">
 <h3 th:text="${post.title}"></h3>
     <p th:text="${post.description}"></p>
     <p th:text="${post.isFlagged()}"></p>
     <form th:action="@{/files/{id}/unflag(id=${post.id})}" th:method="post">
-        <button th:type="submit" class="btn btn-danger">Unflag Post</button>
+        <button th:type="submit" class="btn btn-danger p-1 m-1">Unflag Post</button>
     </form>
 </div>
-<h2>Flagged Users</h2>
-<div class="allFlaggedUsers"  style="border: black 2px solid" th:each="user : ${flaggedUsers}">
+<h2 class="adminSubHeadings">Flagged Users</h2>
+<div class="allFlaggedUsers backgroundDiv p-3"  style="border: black 2px solid" th:each="user : ${flaggedUsers}">
     <h3 th:text="${user.username}"></h3>
     <p th:text="${user.joinedAt}"></p>
     <p th:text="${user.isFlagged()}"></p>
     <form th:action="@{/users/{id}/unflag(id=${user.id})}" th:method="post">
-        <button th:type="submit" class="btn btn-danger">Unflag User</button>
+        <button th:type="submit" class="btn btn-danger p-1 m-1">Unflag User</button>
     </form>
 </div>
-<h2>Deactivated Users</h2>
-<div class="allDeactivatedUsers"  style="border: black 2px solid" th:each="deUser : ${deactivatedUsers}">
+<h2 class="adminSubHeadings">Deactivated Users</h2>
+<div class="allDeactivatedUsers backgroundDiv p-3"  style="border: black 2px solid" th:each="deUser : ${deactivatedUsers}">
     <h3 th:text="${deUser.username}"></h3>
     <p th:text="${deUser.joinedAt}"></p>
     <p th:text="${deUser.active}"></p>
     <form th:action="@{/users/{id}/activate(id=${deUser.id})}" th:method="post">
-        <button th:type="submit" class="btn btn-danger">Re-activate User</button>
+        <button th:type="submit" class="btn btn-danger p-1 m-1">Re-activate User</button>
     </form>
 </div>
-</body>
+<script th:replace="partials/partials_scripts :: script"></script>
+<footer th:replace="partials/footer_partial :: footer"></footer>
+
 </html>
