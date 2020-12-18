@@ -17,6 +17,15 @@
         <button th:type="submit" class="btn btn-danger p-1 m-1">Delete Post</button>
     </form>
 </div>
+<h2 class="adminSubHeadings">All admins</h2>
+<div class="allUsers backgroundDiv p-3" style="border: black 2px solid" th:each="admin : ${allAdmins}">
+    <h5 th:text="${admin.username}"></h5>
+    <p th:text="${admin.joinedAt}"></p>
+    <form th:action="@{/users/{id}/removeAdmin(id=${admin.id})}" th:method="post">
+        <button th:type="submit" class="btn btn-danger p-1 m-1">Remove from admins</button>
+    </form>
+</div>
+
 <h2 class="adminSubHeadings">All active Users</h2>
 <div class="allUsers backgroundDiv p-3" style="border: black 2px solid" th:each="user : ${allUsers}">
     <h5 th:text="${user.username}"></h5>
@@ -26,6 +35,9 @@
     </form>
     <form th:action="@{/users/{id}/deactivate(id=${user.id})}" th:method="post">
         <button th:type="submit" class="btn btn-danger p-1 m-1">Deactivate User</button>
+    </form>
+    <form th:action="@{/users/{id}/makeAdmin(id=${user.id})}" th:method="post">
+        <button th:type="submit" class="btn btn-danger p-1 m-1">Make Admin</button>
     </form>
 </div>
 

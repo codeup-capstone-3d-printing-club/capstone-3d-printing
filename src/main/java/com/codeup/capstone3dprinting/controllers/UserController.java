@@ -143,6 +143,7 @@ class UserController {
 
     @GetMapping("/admin")
     public String showAdminDashboard(Model model) {
+        model.addAttribute("allAdmins",userDao.findAllByIsAdmin(true));
         model.addAttribute("allUsers", userDao.findAllByisActive(true));
         model.addAttribute("allPosts", fileDao.findAll());
         model.addAttribute("flaggedUsers", userDao.findAllByisFlagged(true));
@@ -202,6 +203,20 @@ class UserController {
     public String unflagUserAdmin(@PathVariable long id) {
         User user = userDao.getOne(id);
         user.setFlagged(false);
+        userDao.save(user);
+        return "redirect:/admin";
+    }
+    @PostMapping("/users/{id}/makeAdmin")
+    public String makeAdmin(@PathVariable long id) {
+        User user = userDao.getOne(id);
+        user.setAdmin(true);
+        userDao.save(user);
+        return "redirect:/admin";
+    }
+    @PostMapping("/users/{id}/removeAdmin")
+    public String removeAdmin(@PathVariable long id) {
+        User user = userDao.getOne(id);
+        user.setAdmin(false);
         userDao.save(user);
         return "redirect:/admin";
     }

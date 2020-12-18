@@ -22,13 +22,9 @@ public class UserDetailsLoader implements UserDetailsService {
         User user = users.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("No user found for " + username);
-        }else if(user.isActive() == false){
+        }else if(!user.isActive()){
             throw new  NullPointerException("This user is not active: " + username);
         }
-        if(user.isAdmin()){
-            new SimpleGrantedAuthority("ADMIN");
-        }
-
         return new UserWithRoles(user);
     }
 }

@@ -52,13 +52,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 /* Pages that require authentication */
                 .and()
                 .authorizeRequests()
-                .antMatchers("/messages", "/messages/{id}", "/profile/{id}/edit")
+                .antMatchers("/messages", "/messages/{id}", "/profile/{id}/edit", "/admin")
                 .authenticated()
-                //admin dashboard permission
-                .and()
-                .authorizeRequests()
-                .antMatchers("/admin")
-                .hasRole("ADMIN")
         ;
     }
 }
