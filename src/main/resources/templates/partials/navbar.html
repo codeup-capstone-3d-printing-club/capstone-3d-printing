@@ -58,7 +58,7 @@
                             </button>
                         </form>
                     </li>
-                    <li id="messages" class="nav-item">
+                    <li sec:authorize="isAuthenticated()" id="messages" class="nav-item">
                         <a href="/messages">
                             <button class="btn-link btn nav-link btn position-relative image d-flex justify-content-end"  style="margin-bottom: -4px;">
 <!--<                       <button  class="btn position-relative image d-flex justify-content-end">-->

@@ -6,10 +6,10 @@ USE capstone_db;
 ## need to change the database name above
 
 INSERT INTO users (avatar_url, email, first_name, is_admin, is_verified, joined_at, last_name, password, username, is_flagged, is_active)
-VALUES ('none', 'admin@test.com', 'admin', true, true, NOW(), 'admin lastName', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'testing', false, true),
-       ('none', 'john@john.com', 'john', true, true, NOW(), 'mcnay', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'johnmcnay',false, true),
-       ('none', 'messenger@messenger.com', 'messenger', true, true, NOW(), 'jones', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'messenger',false, true);
 
+VALUES ('none', 'no-reply@squarecubed.xyz', 'admin', true, true, NOW(), 'admin', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'admin', false, true),
+       ('none', 'john@john.com', 'john', false, true, NOW(), 'mcnay', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'johnmcnay',false, true),
+       ('none', 'messenger@messenger.com', 'messenger', false, true, NOW(), 'jones', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'messenger',false, true);
 
 
 INSERT INTO messages (message, sent_at, recipient_id, sender_id, unread)
@@ -41,10 +41,15 @@ VALUES ('art'),
        ('other');
 
 INSERT INTO file_category(file_id, category_id)
-VALUES (10, 1),
-       (10, 2),
-       (11, 3),
-       (12, 1),
-       (12, 2),
-       (12, 3),
-       (12, 4);
+VALUES (1, 1),
+       (2, 2),
+       (3, 3),
+       (3, 1),
+       (4, 2),
+       (5, 3),
+       (6, 4);
+
+INSERT INTO settings(description)
+VALUES ('Followed user posts a file'),
+       ('User follows you'),
+       ('A file you posted receives a comment');

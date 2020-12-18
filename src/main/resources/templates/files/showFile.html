@@ -5,7 +5,7 @@
 <body th:replace="partials/body_partials :: body"></body>
 <nav th:replace="partials/navbar :: navbar"></nav>
 <div class="backgroundDiv">
-    <h1>Individual File</h1>
+    <h1 th:text="${file.title}">Individual File</h1>
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-8" id="renderer"></div>
@@ -28,17 +28,20 @@
                 <button class="btn btn-outline-secondary">like</button>
                 <button class="btn btn-outline-secondary">add to list</button>
                 <button class="btn btn-outline-secondary">comment</button>
-          
+
             </div>
             <div class="col-12 col-md-8">
                 <div th:unless="${file.imgUrl == 'none'}">
-                <img th:src="${file.imgUrl}"/>
+                    <img th:src="${file.imgUrl}"/>
                 </div>
                 <!--    TODO:rendering needs to go in to the following tag-->
                 <div th:value="${file.fileUrl}"></div>
-                Title:
-                <h3 th:text="${file.title}"></h3>
-                <br>
+                Categories:
+                <div>
+                <span th:each="category : ${file.categories}">
+                    <a th:href="@{'/files/' + '?category=' + ${category.category}}" th:text="${category.category}"></a>
+                </span>
+                </div>
                 Description:
                 <p th:text="${file.description}"></p>
                 <hr>

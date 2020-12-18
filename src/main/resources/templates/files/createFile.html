@@ -23,11 +23,11 @@
         </div>
         <div class="mb-6 mx-2">
             <input class="form-control form-control-lg" id="pickedFile" type="hidden" th:field="*{fileUrl}">
-            <button type="button" id="open">Open Picker</button>
+            <button type="button" id="open">Choose file to upload</button>
         </div>
-        <div class="my-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1" th:field="*{private}">Set as private</label>
+        <div class="my-3 mx-2 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" th:field="*{private}">
+            <label class="form-check-label" for="exampleCheck1">Set as private</label>
         </div>
         <input type="submit" class="btn btn-outline-secondary my-3">
     </form>
