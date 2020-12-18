@@ -17,6 +17,7 @@
 <div th:unless="${user.avatarUrl == 'none'}">
 <img th:src="${user.avatarUrl}" alt="user profile picture">
 </div>
+
 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
 <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post">
     <label for="avatar">New Img URL</label>
