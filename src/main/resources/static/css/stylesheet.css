@@ -1,6 +1,14 @@
+*{
+    box-sizing: border-box;
+}
+*:before,
+ *:after {
+     box-sizing: border-box;
+ }
 
 html, body {
-    height: 100%; }
+    height: 100%;
+    position: relative;}
 
 body {
     margin: 0;
@@ -107,6 +115,7 @@ h1 {
 }
  body, .welcome,h1,h2,h3,h4,#formFont{
     color: white;
+     position: relative;
 }
 .backgroundDiv{
     background: rgba(0, 0, 0, 0.7);
@@ -124,7 +133,7 @@ h1 {
     width: 10rem;
     background-color: #f1f1f1;
     position: fixed;
-    height: 100%;
+    height: 400px;
     overflow: auto;
     /*position: -webkit-sticky;*/
     /*position: sticky;*/
@@ -155,13 +164,23 @@ h1 {
 .adminSubHeadings{
     margin-left: 1em;
 }
-
+section{
+    min-height: 100vh; /* will cover the 100% of viewport */
+    overflow: hidden;
+    display: block;
+    position: relative;
+    padding-bottom: 100px; /* height of your footer */
+}
 .navbar{
     background-color: black;
     opacity: 80%;
 }
 footer{
-    /*margin-top: 500px;*/
+
+    height: 5em;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     background-color: black;
     opacity: 80%;
 
