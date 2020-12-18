@@ -14,14 +14,14 @@ h1 {
 
 .title {
     font-weight: 600;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     text-align: center;
     font-size: 10em;
 }
 
 @media screen and (max-width: 480px) {
     .title {
-        font-size: 3.8em;
+        font-size: 3.7em;
     }
 
 }
@@ -96,10 +96,6 @@ h1 {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    /*font-family:'Press Start 2P',Serif;*/
-    /*font-size: smaller;*/
-
-    /*font-family: 'Ultra',Serif;*/
 
 
 }
@@ -115,10 +111,16 @@ h1 {
 .backgroundDiv{
     background: rgba(0, 0, 0, 0.7);
     margin-top: 2em;
-
+    margin-bottom: 2em;
+    border-radius: 2px;
+    max-width: 60%;
+    padding: 1em;
 }
 .login{
     max-width: 500px;
+}
+.adminSubHeadings{
+    margin-left: 1em;
 }
 
 .navbar{
