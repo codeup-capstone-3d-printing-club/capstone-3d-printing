@@ -8,8 +8,9 @@
 <h1 th:if="${requestedCategories != null}" th:text="${requestedCategories.category}"></h1>
 <section class="row">
     <div class="list-group  col-1 col-sm-2 categoryDiv" >
-            <a th:href="@{/files}" class="list-group-item list-group-item-action active">All
-                Categories</a>
+            <a th:href="@{/files}" class="list-group-item list-group-item-action active">
+                All Categories</a>
+
             <div th:each="category : ${categories}">
                 <a th:href="@{'/files/' + '?category=' + ${category.category}}"
                    class="list-group-item list-group-item-action" th:text="${category.category}"></a>
@@ -28,10 +29,10 @@
             </form>
         </div>
     </div>
-
+    <footer th:replace="partials/footer_partial :: footer"></footer>
 </section>
 
-<footer th:replace="partials/footer_partial :: footer"></footer>
+
 <script th:replace="partials/partials_scripts :: script"></script>
 <script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"
