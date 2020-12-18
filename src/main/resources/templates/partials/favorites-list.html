@@ -9,12 +9,11 @@
     and whether or not the current user is already following -->
 
 <div th:fragment="favorites">
-
     <h4>Favorites files</h4>
     <div th:each="file : ${favorites}">
         <div th:text="${file.title}"></div>
         <div th:text="${file.description}"></div>
-        <div th:text="${file.owner.username}"></div>
+        <a th:text="${file.owner.username}" th:href="@{/profile/{id}(id=*{file.owner.id})}"></a>
     </div>
 </div>
 </body>
