@@ -2,7 +2,7 @@
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header_partial :: head"></head>
 <body th:replace="partials/body_partials :: body"></body>
-<nav th:replace="partials/navbar :: navbar"></nav>
+<nav  class="sticky-top" th:replace="partials/navbar :: navbar"></nav>
 
 <h1 th:if="${requestedCategories == null}">All files</h1>
 <h1 th:if="${requestedCategories != null}" th:text="${requestedCategories.category}"></h1>

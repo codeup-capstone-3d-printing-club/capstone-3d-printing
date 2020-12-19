@@ -7,7 +7,7 @@
  }
 
 html, body {
-    height: 100%;
+    min-height: 1500px;
     position: relative;}
 
 body {
@@ -177,13 +177,13 @@ section{
 }
 footer{
 
-    height: 5em;
-    position: absolute;
+    position: fixed;
+
+    height: 100px;
     bottom: 0;
     width: 100%;
     background-color: black;
     opacity: 80%;
-
 
 }
 .links{
