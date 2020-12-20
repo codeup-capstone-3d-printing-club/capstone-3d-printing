@@ -90,6 +90,7 @@ class FileController {
     @GetMapping("/files/create")
     public String viewCreateForm(Model model) {
         model.addAttribute("file", new File());
+        model.addAttribute("categoryList", categoryDao.findAll());
         if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser"){
             return "files/createFile";
         } else {
@@ -98,13 +99,27 @@ class FileController {
     }
 
     @PostMapping("/files/create")
-    public String createPost(@ModelAttribute File fileToBeSaved) {
+    public String createPost(@ModelAttribute File fileToBeSaved, @RequestParam(name = "newCategories") List<Long> newCategories) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = new User(user);
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
         fileToBeSaved.setCreatedAt(timestamp1);
         fileToBeSaved.setUpdatedAt(timestamp1);
         fileToBeSaved.setOwner(currentUser);
+
+        List<Category> categoryList = new ArrayList<>();
+        for (long id : newCategories) {
+            categoryList.add(categoryDao.getOne(id));
+        }
+        fileToBeSaved.setCategories(categoryList);
+//        fileToBeSaved.getCategories(categoryDao.findCategoryByCategory(newCategories));
+//        List<Category> categories = new ArrayList<>();
+//        for (String category : newCategories) {
+//            categories.add(categoryDao.findCategoryByCategory(category));
+//            System.out.println("category = " + category);
+//        }
+//        fileToBeSaved.setCategories(categories);
+
         File dbFile = fileDao.save(fileToBeSaved);
         return "redirect:/files/" + dbFile.getId();
     }
