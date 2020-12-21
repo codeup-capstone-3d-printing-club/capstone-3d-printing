@@ -3,7 +3,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="file_imgs")
-public class Images {
+public class FileImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,23 +16,21 @@ public class Images {
     @Column(length=255)
     private String img_url;
 
-    public Images(){}
+    public FileImage(){}
 
-    public Images(long id, File file, String img_url){
+    public FileImage(long id, File file, String img_url){
         this.id = id;
         this.file = file;
         this.img_url = img_url;
     }
 
-    public Images(File file, String img_url){
+    public FileImage(File file, String img_url){
         this.file = file;
         this.img_url = img_url;
     }
-    public Images(String img_url){
-        this.img_url = img_url;
-    }
 
-    public Images(Images copy){
+
+    public FileImage(FileImage copy){
         id = copy.id;
         file = copy.file;
         img_url = copy.img_url;

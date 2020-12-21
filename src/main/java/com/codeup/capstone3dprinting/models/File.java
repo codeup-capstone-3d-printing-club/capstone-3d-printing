@@ -42,7 +42,7 @@ public class File {
     private List<Comment> comments;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "file")
-    private List<Images> img;
+    private List<FileImage> img;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "file_category",
@@ -120,12 +120,16 @@ public class File {
         this.categories = categories;
     }
 
-    public List<Images> getImages() {
+    public List<FileImage> getImages() {
         return img;
     }
 
-    public void setImages(List<Images> img) {
-        this.img = img;
+    public void addImg(FileImage newImg) {
+        this.img.add(newImg);
+    }
+
+    public void removeImg(FileImage newImg) {
+        this.img.remove(newImg);
     }
 
     public List<Comment> getComments() {

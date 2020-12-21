@@ -9,7 +9,7 @@
     and whether or not the current user is already following -->
 
 <div th:fragment="favorites">
-    <h4>Favorites files</h4>
+    <h4>Your favorited Files</h4>
     <div th:each="file : ${favorites}">
         <div th:text="${file.title}"></div>
         <div th:text="${file.description}"></div>

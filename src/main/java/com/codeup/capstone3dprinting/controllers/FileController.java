@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.font.ImageGraphicAttribute;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,7 +62,7 @@ class FileController {
     @GetMapping("/files/{id}")
     public String showPost(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
-        List <Images> thisFilesImgs = imageDao.getAllByFile_Id(id);
+        List<FileImage> thisFilesImgs = imageDao.getAllByFile_Id(id);
         //comments
         List<Comment> thisFilesComments = commentDao.getAllByFile_Id(id);
         //Rating
@@ -98,13 +99,13 @@ class FileController {
     public String viewCreateForm(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = new User(user);
-        
-        for (User follower: currentUser.getFollowers()) {
+
+        for (User follower : currentUser.getFollowers()) {
             System.out.println("follower.getId() = " + follower.getId());
         }
 
         model.addAttribute("file", new File());
-        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser"){
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
             return "files/createFile";
         } else {
             return "redirect:/sign-up";
@@ -120,7 +121,7 @@ class FileController {
         fileToBeSaved.setUpdatedAt(timestamp1);
         fileToBeSaved.setOwner(currentUser);
 
-        for (User follower: currentUser.getFollowers()) {
+        for (User follower : currentUser.getFollowers()) {
             User receiver = userDao.getOne(follower.getId());
 
             if (receiver.getSettings().contains(settingDao.getOne(1L))) {
@@ -138,27 +139,33 @@ class FileController {
     @GetMapping("/files/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
-        List<Images> thisFilesImgs = imageDao.getAllByFile_Id(id);
+        List<FileImage> thisFilesImgs = imageDao.getAllByFile_Id(id);
+        FileImage newImg = new FileImage();
+        model.addAttribute("newImg", newImg);
         model.addAttribute("filesImgs", thisFilesImgs);
         model.addAttribute("file", filedb);
         return "files/editFile";
     }
 
     @PostMapping("/files/{id}/edit")
-    public String editFilePost(@PathVariable long id, @ModelAttribute File fileEdit, @ModelAttribute List<Images> temp) {
+    public String editFilePost(@PathVariable long id, @ModelAttribute File fileEdit) {
         File file = fileDao.getOne(id);
         file.setTitle(fileEdit.getTitle());
         file.setDescription(fileEdit.getDescription());
         file.setPrivate(fileEdit.isPrivate());
-
-        // adding it to the list of images for this file
-        List<Images> newImages = new ArrayList<Images>();
-        while(newImages.size() < 3){
-            newImages.addAll(temp);
-            }
-        file.setImages(newImages);
         fileDao.save(file);
-        return "redirect:/files/" + file.getId();
+        return "redirect:/files/" + id + "/edit";
+    }
+
+    @PostMapping("/files/{id}/addImg")
+    public String addImgToFile(@PathVariable long id, @RequestParam(name = "newImg") String imgURL) {
+        File file = fileDao.getOne(id);
+
+        FileImage newImg = new FileImage(fileDao.getOne(id), imgURL);
+
+        file.addImg(newImg);
+        fileDao.save(file);
+        return "redirect:/files/" + id + "/edit";
     }
 
     //    TODO:should redirect to admin dashboard if admin
