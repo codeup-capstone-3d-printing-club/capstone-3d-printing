@@ -21,27 +21,28 @@
 </form>
 <br>
 
-<!--<div th:unless="${file.images == null}">-->
-    <div th:each="img : ${file.images}" style="border: grey 1px solid">
-        <img th:src="${img.img_url}"/>
-        <form th:action="@{/files/{id}/removeImg/{imgID}(id=${file.id}, imgID=${img.id})}" th:method="post">
-            <input type="hidden" name="imgID" th:value="${img.id}">
-            <button th:type="submit">Delete</button>
-        </form>
-<!--    </div>-->
+
+<div th:each="img : ${file.images}" style="border: grey 1px solid">
+    <img th:src="${img.img_url}"/>
+    <form th:action="@{/files/{id}/removeImg/{imgID}(id=${file.id}, imgID=${img.id})}" th:method="post">
+        <input type="hidden" name="imgID" th:value="${img.id}">
+        <button th:type="submit">Delete</button>
+    </form>
 </div>
 
 <br>
-<form th:action="@{/files/{id}/addImg(id=${file.id})}" method="post" style="border: gray 1px solid;">
-    <label for="fileImg">Add Images URL</label>
-    <input name="newImg" id="fileImg" th:value="${newImg.img_url}" placeholder="Paste img url here" type="text">
-    <br>
-    <button th:type="submit" class="btn">Submit</button>
-</form>
-<!--TODO:add plus button to add more pictures, limit 3-->
+<div th:if="${file.images.size() < 5}">
+    You can add up to 5 pictures for this post.
+    <form th:action="@{/files/{id}/addImg(id=${file.id})}" method="post" style="border: gray 1px solid;">
+        <label for="fileImg">Add Images URL</label>
+        <input name="newImg" id="fileImg" th:value="${newImg.img_url}" placeholder="Paste img url here" type="text">
+        <br>
+        <button th:type="submit" class="btn">Submit</button>
+    </form>
+</div>
 <br>
 <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="delete">
-    <button th:type="submit" class="btn btn-danger">Delete</button>
+    <button th:type="submit" class="btn btn-danger">Delete Post</button>
 </form>
 
 </body>
