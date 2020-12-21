@@ -22,10 +22,15 @@
 
 <div th:each="img : ${file.images}" style="border: grey 1px solid">
     <img th:src="${img.img_url}"/>
+    <form th:action="@{/files/{id}/removeImg/{imgID}(id=${file.id}, imgID=${img.id})}"
+          th:method="post">
+        <input type="hidden" name="imgID" th:value="${img.id}">
+        <button th:type="submit">Delete</button>
+    </form>
 </div>
 </form>
 
-<form th:action="@{/files/{id}/addImg(id=${file.id})}"  method="post">
+<form th:action="@{/files/{id}/addImg(id=${file.id})}"  method="post" style="border: gray 1px solid;">
 <label for="fileImg">Add Images URL</label>
 <input name="newImg" id="fileImg" th:value="${newImg.img_url}" placeholder="Paste img url here" type="text">
 <br>

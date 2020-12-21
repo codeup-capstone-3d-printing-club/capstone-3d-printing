@@ -168,6 +168,14 @@ class FileController {
         return "redirect:/files/" + id + "/edit";
     }
 
+    @PostMapping("/files/{id}/removeImg/{imgID}")
+    public String removeImgfromFile(@PathVariable long id, @RequestParam(name = "imgID") long imgID) {
+        File file = fileDao.getOne(id);
+        file.removeImg(imageDao.getOne(imgID));
+        fileDao.save(file);
+        return "redirect:/files/" + id + "/edit";
+    }
+
     //    TODO:should redirect to admin dashboard if admin
     @PostMapping("/files/{id}/flag")
     public String flagUser(@PathVariable long id) {
@@ -219,7 +227,7 @@ class FileController {
     }
 
     @PostMapping("/files/{id}/comment/{commentId}/delete")
-    public String deleteFilePost(@PathVariable long id, @RequestParam(name = "commentId") long commentId) {
+    public String deleteComment(@PathVariable long id, @RequestParam(name = "commentId") long commentId) {
         commentDao.deleteById(commentId);
         File file = fileDao.getOne(id);
         return "redirect:/files/" + file.getId();
