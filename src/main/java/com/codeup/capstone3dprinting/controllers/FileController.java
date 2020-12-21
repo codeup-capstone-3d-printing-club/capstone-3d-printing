@@ -173,6 +173,7 @@ class FileController {
         File file = fileDao.getOne(id);
         file.removeImg(imageDao.getOne(imgID));
         fileDao.save(file);
+        System.out.println("deleted img with imgID = " + imgID);
         return "redirect:/files/" + id + "/edit";
     }
 
