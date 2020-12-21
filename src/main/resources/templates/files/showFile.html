@@ -31,8 +31,10 @@
 
             </div>
             <div class="col-12 col-md-8">
-                <div th:unless="${file.imgUrl == 'none'}">
-                    <img th:src="${file.imgUrl}"/>
+                <div th:unless="${imgFiles == null}">
+                    <div th:each="img : ${imgFiles}">
+                        <img th:src="${img.img_url}" alt="file img"/>
+                    </div>
                 </div>
                 <!--    TODO:rendering needs to go in to the following tag-->
                 <div th:value="${file.fileUrl}"></div>
@@ -93,7 +95,9 @@
             <button th:type="submit">post comment</button>
         </form>
     </div>
-
+<div sec:authorize="!isAuthenticated()">
+    Would you like to leave a comment? <a href="/sign-up">Sign up</a> or <a href="/login">Login</a>!
+</div>
     <div>
         <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
               th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">

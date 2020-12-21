@@ -7,7 +7,7 @@
 <body>
 <h1>Editing your file post</h1>
 
-<form th:object="${file}" th:action="@{/files/{id}/edit(id=${file.id})}"  method="post">
+<form th:object="${file}" th:action="@{/files/{id}/edit(id=${file.id})}" method="post">
     Post Title:
     <input name="title" th:value="${file.title}" th:field="*{title}"/>
     <br>
@@ -17,21 +17,32 @@
     <label for="isPrivate">set to private</label>
     <input type="checkbox" id="isPrivate" th:checked="${file.private}" name="isPrivate" th:field="*{private}"/>
     <br>
-
-    <!--    TODO: maybe change db to allow multiple pictures for each picture-->
-<!--    <div th:each="img : ${allImgs}">-->
-<!--        <div th:value="${file.img.img_url}"></div>-->
-<!--    </div>-->
-
-    <img th:src="${file.imgUrl}"/>
-    <label for="fileImg">Add Images URL</label>
-<!--    TODO: eventually should upload pictures rather than pasting URLs-->
-    <input name="fileImg" id="fileImg" th:field="*{imgUrl}" placeholder="Paste img url here" >
-    <br>
     <button th:type="submit" class="btn">Submit</button>
 </form>
+<br>
+
+
+<div th:each="img : ${file.images}" style="border: grey 1px solid">
+    <img th:src="${img.img_url}"/>
+    <form th:action="@{/files/{id}/removeImg/{imgID}(id=${file.id}, imgID=${img.id})}" th:method="post">
+        <input type="hidden" name="imgID" th:value="${img.id}">
+        <button th:type="submit">Delete</button>
+    </form>
+</div>
+
+<br>
+<div th:if="${file.images.size() < 5}">
+    You can add up to 5 pictures for this post.
+    <form th:action="@{/files/{id}/addImg(id=${file.id})}" method="post" style="border: gray 1px solid;">
+        <label for="fileImg">Add Images URL</label>
+        <input name="newImg" id="fileImg" th:value="${newImg.img_url}" placeholder="Paste img url here" type="text">
+        <br>
+        <button th:type="submit" class="btn">Submit</button>
+    </form>
+</div>
+<br>
 <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="delete">
-    <button th:type="submit" class="btn btn-danger">Delete</button>
+    <button th:type="submit" class="btn btn-danger">Delete Post</button>
 </form>
 
 </body>

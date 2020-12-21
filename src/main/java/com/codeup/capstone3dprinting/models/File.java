@@ -28,9 +28,6 @@ public class File {
     @Column(nullable = false, length = 1000)
     private String description;
 
-    @Column(name = "img_url")
-    private String imgUrl;
-
     @Column(name = "is_private", nullable = false)
     private boolean isPrivate;
 
@@ -41,12 +38,11 @@ public class File {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
-//    @ManyToOne
-//    @JoinColumn(name = "favorite_id")
-//    private User user_favorite;
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "file")
     private List<Comment> comments;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "file")
+    private List<FileImage> img;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "file_category",
@@ -54,18 +50,18 @@ public class File {
             inverseJoinColumns = {@JoinColumn(name = "category_id")})
     private List<Category> categories;
 
-    public File() {}
+    public File() {
+    }
 
     //Create
     public File(long id, String fileUrl, String title, Timestamp createdAt,
-                Timestamp updatedAt, String description, String imgUrl, boolean isPrivate, boolean isFlagged, User owner) {
+                Timestamp updatedAt, String description, boolean isPrivate, boolean isFlagged, User owner) {
         this.id = id;
         this.fileUrl = fileUrl;
         this.title = title;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.description = description;
-        this.imgUrl = imgUrl;
         this.isPrivate = isPrivate;
         this.owner = owner;
         this.isFlagged = isFlagged;
@@ -73,13 +69,12 @@ public class File {
 
     //Read
     public File(String fileUrl, String title, Timestamp createdAt,
-                Timestamp updatedAt, String description, String imgUrl, boolean isPrivate, boolean isFlagged, User owner) {
+                Timestamp updatedAt, String description, boolean isPrivate, boolean isFlagged, User owner) {
         this.fileUrl = fileUrl;
         this.title = title;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.description = description;
-        this.imgUrl = imgUrl;
         this.isPrivate = isPrivate;
         this.owner = owner;
         this.isFlagged = isFlagged;
@@ -92,19 +87,18 @@ public class File {
         createdAt = copy.createdAt;
         updatedAt = copy.updatedAt;
         description = copy.description;
-        imgUrl = copy.imgUrl;
+        img = copy.img;
         isPrivate = copy.isPrivate;
         owner = copy.owner;
         isFlagged = copy.isFlagged;
     }
 
-    public File(String fileUrl, String title, Timestamp createdAt, Timestamp updatedAt, String description, String imgUrl, boolean isPrivate, boolean isFlagged, User owner, List<Comment> comments, List<Category> categories) {
+    public File(String fileUrl, String title, Timestamp createdAt, Timestamp updatedAt, String description, boolean isPrivate, boolean isFlagged, User owner, List<Comment> comments, List<Category> categories) {
         this.fileUrl = fileUrl;
         this.title = title;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.description = description;
-        this.imgUrl = imgUrl;
         this.isPrivate = isPrivate;
         this.isFlagged = isFlagged;
         this.owner = owner;
@@ -112,14 +106,13 @@ public class File {
         this.categories = categories;
     }
 
-    public File(long id, String fileUrl, String title, Timestamp createdAt, Timestamp updatedAt, String description, String imgUrl, boolean isPrivate, boolean isFlagged, User owner, List<Comment> comments, List<Category> categories) {
+    public File(long id, String fileUrl, String title, Timestamp createdAt, Timestamp updatedAt, String description, boolean isPrivate, boolean isFlagged, User owner, List<Comment> comments, List<Category> categories) {
         this.id = id;
         this.fileUrl = fileUrl;
         this.title = title;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.description = description;
-        this.imgUrl = imgUrl;
         this.isPrivate = isPrivate;
         this.isFlagged = isFlagged;
         this.owner = owner;
@@ -127,7 +120,19 @@ public class File {
         this.categories = categories;
     }
 
-    public List<Comment> getComments(){
+    public List<FileImage> getImages() {
+        return img;
+    }
+
+    public void addImg(FileImage newImg) {
+        this.img.add(newImg);
+    }
+
+    public void removeImg(FileImage newImg) {
+        this.img.remove(newImg);
+    }
+
+    public List<Comment> getComments() {
         return comments;
     }
 
@@ -181,14 +186,6 @@ public class File {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
     }
 
     public User getOwner() {
