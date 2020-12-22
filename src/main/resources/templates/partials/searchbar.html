@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>search</title>
+</head>
+<body>
+    <form th:fragment="searchbar" th:action="@{/files/search}" th:method="post">
+        <input type="text" name="search" placeholder="search">
+        <button class="searchBtn"  type="submit" name="searchBar"><i class="fas fa-search"></i></button>
+    </form>
+</body>
+</html>
