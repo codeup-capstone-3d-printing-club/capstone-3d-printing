@@ -155,6 +155,12 @@ class UserController {
 
     @GetMapping("/admin")
     public String showAdminDashboard(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.getOne(user.getId());
+        if(!currentUser.isAdmin()) {
+            return "redirect:/";
+        }
+
         model.addAttribute("allAdmins",userDao.findAllByIsAdmin(true));
         model.addAttribute("allUsers", userDao.findAllByisActive(true));
         model.addAttribute("allPosts", fileDao.findAll());
