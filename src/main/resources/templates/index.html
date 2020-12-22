@@ -3,9 +3,10 @@
 <head th:replace="partials/header_partial :: head"></head>
 <body th:replace="partials/body_partials :: body"></body>
 <nav  class="sticky-top" th:replace="partials/navbar :: navbar"></nav>
-
-<h1 th:if="${requestedCategories == null}">All files</h1>
-<h1 th:if="${requestedCategories != null}" th:text="${requestedCategories.category}"></h1>
+<!--TODO:change to show number of restults-->
+<!--<h1 th:if="${requestedCategories == null}">All files</h1>-->
+<!--<h1 th:if="${requestedCategories != null}" th:text="${requestedCategories.category}"></h1>-->
+<h1 th:text="${pageTitle}"></h1>
 <section class="row">
     <div class="list-group  col-1 col-sm-2 categoryDiv" >
             <a th:href="@{/files}" class="list-group-item list-group-item-action active">

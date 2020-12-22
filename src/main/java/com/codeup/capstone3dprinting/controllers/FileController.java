@@ -41,10 +41,12 @@ class FileController {
     public String showAllFiles(Model model, @RequestParam(required = false) String category) {
         if (category == null) {
             model.addAttribute("files", fileDao.findAll());
+            model.addAttribute("pageTitle", "All Files");
         } else {
             Category requestedCategory = categoryDao.findCategoryByCategory(category);
             model.addAttribute("requestedCategories", requestedCategory);
             model.addAttribute("files", fileDao.findByCategories(requestedCategory));
+            model.addAttribute("pageTitle", requestedCategory.getCategory());
         }
         model.addAttribute("categories", categoryDao.findAll());
         return "index";
@@ -97,9 +99,10 @@ class FileController {
 
     @GetMapping("/files/create")
     public String viewCreateForm(Model model) {
+        System.out.println("SecurityContextHolder.getContext().getAuthentication().getPrincipal() = " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = new User(user);
-
+        System.out.println("currentUser = " + currentUser);
         for (User follower : currentUser.getFollowers()) {
             System.out.println("follower.getId() = " + follower.getId());
         }
@@ -261,6 +264,21 @@ class FileController {
         }
         userDao.save(currentUser);
         return "redirect:/files/" + id;
+    }
+    @PostMapping("files/search")
+    public String search(@RequestParam(name = "search")String searchTerm, Model model){
+        List<File> searched = fileDao.findAllByDescriptionIsLike("%" + searchTerm + "%");
+        List<File> searchedTitle = fileDao.findAllByTitleIsLike("%" + searchTerm + "%");
+        for(File file : searchedTitle){
+            if(!searched.contains(file)){
+                searched.add(file);
+            }
+        }
+
+        model.addAttribute("files", searched);
+        model.addAttribute("categories", categoryDao.findAll());
+        model.addAttribute("pageTitle", searched.size() + " Result" + (searched.size() == 1 ? "" : "s"));
+        return "index";
     }
 }
 //select liker_id's where file_id like this.id
