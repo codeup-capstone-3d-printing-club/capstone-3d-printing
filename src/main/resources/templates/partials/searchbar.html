@@ -5,9 +5,9 @@
     <title>search</title>
 </head>
 <body>
-    <form th:fragment="searchbar" th:action="@{/files/search}" th:method="post">
-        <input type="text" name="search" placeholder="search">
-        <button class="searchBtn"  type="submit" name="searchBar"><i class="fas fa-search"></i></button>
+    <form th:fragment="searchbar" th:action="@{/files/search}" th:method="post" style="margin-left: 50rem">
+        <input  style="border-radius: 5px" type="text" name="search" placeholder="search">
+        <button class="searchBtn"  type="submit" name="searchBar" style="margin-top: 5px;"><i class="fas fa-search" style="border-radius: 5px;"></i></button>
     </form>
 </body>
 </html>
