@@ -27,12 +27,7 @@ h1 {
     font-size: 10em;
 }
 
-@media screen and (max-width: 480px) {
-    .title {
-        font-size: 3.7em;
-    }
 
-}
 
 .filter-shadow {
     color: transparent;
@@ -111,6 +106,7 @@ h1 {
 
 /*Font and background colors*/
 .navbar {
+    width: auto;
 
 }
  body, .welcome,h1,h2,h3,h4,#formFont{
@@ -147,16 +143,8 @@ h1 {
     /*height: 1000px;*/
     max-width: 75%;
 }
-@media only screen and (max-width: 768px){
-    .content{
-        max-width: 60%;
-        margin-left: 10rem;
-    }
-    .footer{
-        position: fixed;
-        bottom: 0;
-    }
-}
+
+
 .image{max-width: 9rem}
 
 .login{
@@ -165,21 +153,13 @@ h1 {
 .adminSubHeadings{
     margin-left: 1em;
 }
-/*section{*/
-/*    min-height: 100vh; !* will cover the 100% of viewport *!*/
-/*    overflow: hidden;*/
-/*    display: block;*/
-/*    position: relative;*/
-/*    padding-bottom: 400px; !* height of your footer *!*/
-/*}*/
+
 .navbar{
     background-color: black;
     opacity: 80%;
 }
 footer{
-
     position: fixed;
-
     height: 100px;
     bottom: 0;
     width: 100%;
@@ -248,5 +228,32 @@ li {
 
 .unfavorite:hover {
     color: goldenrod;
+}
+@media screen and (max-width: 480px) {
+    .title {
+        font-size: 3.7em;
+    }
+    .searchBar{
+        display: flex;
+        justify-content:center;
+    }
+}
+
+@media screen and (min-width: 1020px ){
+    .searchBar{
+        display: flex;
+        justify-content:flex-end;
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .content{
+        max-width: 60%;
+        margin-left: 10rem;
+    }
+    .footer{
+        position: fixed;
+        bottom: 0;
+    }
 }
 
