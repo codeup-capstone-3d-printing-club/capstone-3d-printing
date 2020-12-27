@@ -22,8 +22,8 @@
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+            <div class="collapse navbar-collapse container" id="navbarNav">
+                <ul class="navbar-nav nav-fill">
                     <li class="nav-item">
                         <a class="nav-link icon " href="/">Home</a>
                     </li>
@@ -69,17 +69,20 @@
                         </button>
                         </a>
                     </li>
-                    <li class="nav-item justify-content-end">
-                        <form th:replace="partials/searchbar :: searchbar"></form>
-                    </li>
                 </ul>
             </div>
-        </div>
-        </div>
-    </nav>
-
+        <ul class="navbar-nav ">
+            <li class="searchBar nav-item">
+                <form class="searchbar justify-content-end" th:fragment="searchbar" th:action="@{/files/search}" th:method="post">
+                    <input style="border-radius: 5px" type="text" name="search" placeholder="search">
+                </form>
+                <button class="searchBtn" type="submit" name="searchBar" style="margin-top: 0px;"><i
+                        class="fas fa-search" style="border-radius: 5px;"></i></button>
+            </li>
+        </ul>
+    </div>
 </nav>
-
+</nav>
 
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
