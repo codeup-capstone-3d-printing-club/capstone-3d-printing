@@ -120,6 +120,21 @@ public class File {
         this.categories = categories;
     }
 
+    public File(long id, String fileUrl, String title, Timestamp createdAt, Timestamp updatedAt, String description, boolean isPrivate, boolean isFlagged, User owner, List<Comment> comments, List<FileImage> img, List<Category> categories) {
+        this.id = id;
+        this.fileUrl = fileUrl;
+        this.title = title;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.description = description;
+        this.isPrivate = isPrivate;
+        this.isFlagged = isFlagged;
+        this.owner = owner;
+        this.comments = comments;
+        this.img = img;
+        this.categories = categories;
+    }
+
     public List<FileImage> getImages() {
         return img;
     }

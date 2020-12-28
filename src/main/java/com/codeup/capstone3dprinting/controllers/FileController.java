@@ -112,13 +112,15 @@ class FileController {
     }
 
     @PostMapping("/files/create")
-    public String createPost(@ModelAttribute File fileToBeSaved) {
+    public String createPost(@ModelAttribute File fileToBeSaved,@RequestParam(name = "newImg") String imgUrl) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
         fileToBeSaved.setCreatedAt(timestamp1);
         fileToBeSaved.setUpdatedAt(timestamp1);
         fileToBeSaved.setOwner(currentUser);
+        FileImage newImg = new FileImage(fileToBeSaved ,imgUrl);
+        fileToBeSaved.addImg(newImg);
 
         for (User follower : currentUser.getFollowers()) {
             User receiver = userDao.getOne(follower.getId());
