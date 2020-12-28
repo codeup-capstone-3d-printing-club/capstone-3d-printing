@@ -1,6 +1,7 @@
 *{
     box-sizing: border-box;
 }
+
 *:before,
  *:after {
      box-sizing: border-box;
@@ -229,13 +230,14 @@ li {
 .unfavorite:hover {
     color: goldenrod;
 }
-@media screen and (max-width: 480px) {
+/*media queries*/
+
+@media screen and (max-width: 600px) {
     .title {
         font-size: 3.7em;
     }
-    .searchBar{
-        display: flex;
-        justify-content:center;
+    .searchbar{
+        display: block;
     }
 }
 
