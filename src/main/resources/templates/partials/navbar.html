@@ -75,9 +75,10 @@
             <li class="searchBar nav-item">
                 <form class="searchbar justify-content-end" th:fragment="searchbar" th:action="@{/files/search}" th:method="post">
                     <input style="border-radius: 5px" type="text" name="search" placeholder="search">
+                    <button class="searchBtn" type="submit" name="searchBar" style="margin-top: 0px;"><i
+                            class="fas fa-search" style="border-radius: 5px;"></i></button>
                 </form>
-                <button class="searchBtn" type="submit" name="searchBar" style="margin-top: 0px;"><i
-                        class="fas fa-search" style="border-radius: 5px;"></i></button>
+
             </li>
         </ul>
     </div>
