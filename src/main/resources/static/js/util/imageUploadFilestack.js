@@ -3,11 +3,15 @@ window.addEventListener('DOMContentLoaded', function () {
     const options = {
         maxFiles: 5,
         uploadInBackground: false,
-        onUploadDone: uploadFile
+        onUploadDone: uploadFile,
+        transformations: {
+            crop: true,
+            rotate: true
+        }
     };
     const picker = client.picker(options);
     const openBtn = document.getElementById('open');
-    openBtn.addEventListener('click', () => picker.open());
+    openBtn.addEventListener('click', picker.open());
 
     function uploadFile(result) {
         const fileData = result.filesUploaded[0];

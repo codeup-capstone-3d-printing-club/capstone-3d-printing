@@ -31,11 +31,11 @@
 <br>
 <div th:if="${file.images.size() < 5}">
     You can add up to 5 pictures for this post.
-    <button th:type="button" id="open">Choose image to upload</button>
     <form th:action="@{/files/{id}/addImg(id=${file.id})}" method="post" style="border: gray 1px solid;">
-        <input name="newImg" id="pickedFile" th:value="${newImg.img_url}" type="hidden">
+        <input class="form-control" name="newImg" id="pickedFile" th:value="${newImg.img_url}" type="hidden">
+        <button th:type="button" id="open" >Choose image to upload</button>
         <br>
-        <button th:type="submit">Save Images</button>
+        <input th:type="submit">
     </form>
 </div>
 <br>
@@ -49,5 +49,5 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script th:src="@{/js/keys.js}"></script>
-<script th:src="@{/js/imageUploaderFilestack.js}"></script>
+<script th:src="@{/js/imageUploadFilestack.js}"></script>
 </html>
