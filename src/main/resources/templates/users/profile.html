@@ -15,14 +15,17 @@
 </div>
 
 <div th:unless="${user.avatarUrl == 'none'}">
-    <img th:src="${user.avatarUrl}" alt="user profile picture">
+    <img th:src="${user.avatarUrl}" alt="user profile picture" style="width:15em">
 </div>
 
 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
     <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post">
-        <input  class="form-control" id="pickedFile" type="hidden" name="avatar">
-        <button type="button" id="open">Choose image to upload</button>
-        <button th:type="submit" class="btn btn-danger">Change Avatar</button>
+        <button th:type="button" class="btn btn-danger" onclick="showAvatarForm('AvatarFilePicker')">Change Avatar</button>
+        <div style="display: none" id="AvatarFilePicker">
+            <input class="form-control" id="pickedFile" type="hidden" name="avatar">
+            <button type="button" id="open">Choose image to upload</button>
+            <button th:type="submit" class="btn">Submit new Avatar</button>
+        </div>
     </form>
 </div>
 <div class="col-8">
@@ -57,7 +60,7 @@
         </div>
     </div>
     <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
-    <div sec:authorize="isAuthenticated()" th:replace="partials/follow-feed::feed"></div>
+        <div sec:authorize="isAuthenticated()" th:replace="partials/follow-feed::feed"></div>
     </div>
     <div sec:authorize="isAuthenticated()" th:replace="partials/favorites-list::favorites"></div>
 </div>
@@ -68,5 +71,6 @@
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script th:src="@{/js/keys.js}"></script>
 <script th:src="@{/js/filestack.js}"></script>
+<script th:src="@{/js/showAvatarForm.js}"></script>
 
 </html>
