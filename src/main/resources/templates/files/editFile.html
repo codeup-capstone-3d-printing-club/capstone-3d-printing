@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Editing your file post</title>
-</head>
-<body>
+<head th:replace="partials/header_partial :: head"></head>
+<body th:replace="partials/body_partials :: body"></body>
+<nav th:replace="partials/navbar :: navbar"></nav>
 <h1>Editing your file post</h1>
 
 <form th:object="${file}" th:action="@{/files/{id}/edit(id=${file.id})}" method="post">
@@ -34,16 +32,23 @@
 <div th:if="${file.images.size() < 5}">
     You can add up to 5 pictures for this post.
     <form th:action="@{/files/{id}/addImg(id=${file.id})}" method="post" style="border: gray 1px solid;">
-        <label for="fileImg">Add Images URL</label>
-        <input name="newImg" id="fileImg" th:value="${newImg.img_url}" placeholder="Paste img url here" type="text">
+        <input class="form-control" name="newImg" id="pickedFile" th:value="${newImg.img_url}" type="hidden">
+        <button th:type="button" id="open" >Choose image to upload</button>
         <br>
-        <button th:type="submit" class="btn">Submit</button>
+<!--        TODO: if empty don't let it submit-->
+        <input th:type="submit">
     </form>
 </div>
 <br>
 <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="delete">
     <button th:type="submit" class="btn btn-danger">Delete Post</button>
 </form>
-
-</body>
+<br>
+<footer th:replace="partials/footer_partial :: footer"></footer>
+<script th:replace="partials/partials_scripts :: script"></script>
+<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script th:src="@{/js/keys.js}"></script>
+<script th:src="@{/js/imageUploadFilestack.js}"></script>
 </html>
