@@ -1,6 +1,7 @@
 *{
     box-sizing: border-box;
 }
+
 *:before,
  *:after {
      box-sizing: border-box;
@@ -124,11 +125,10 @@ h1 {
     border: black 2px solid
 }
 .categoryDiv{
-    margin: 0;
-    padding: 0;
-    width: 10rem;
+    margin-top: 2em;
+    width: 8rem;
     background-color: #f1f1f1;
-    position: fixed;
+    position: sticky;
     height: 400px;
     overflow: auto;
     /*position: -webkit-sticky;*/
@@ -159,12 +159,15 @@ h1 {
     opacity: 80%;
 }
 footer{
-    position: fixed;
-    height: 100px;
+    position: relative;
+    padding: 2em;
+    height: 200px;
     bottom: 0;
     width: 100%;
     background-color: black;
     opacity: 80%;
+    margin-top: 400px;
+    z-index: -1;
 
 }
 .links{
@@ -229,13 +232,14 @@ li {
 .unfavorite:hover {
     color: goldenrod;
 }
-@media screen and (max-width: 480px) {
+/*media queries*/
+
+@media screen and (max-width: 600px) {
     .title {
         font-size: 3.7em;
     }
-    .searchBar{
-        display: flex;
-        justify-content:center;
+    .searchbar{
+        display: block;
     }
 }
 
@@ -254,6 +258,7 @@ li {
     .footer{
         position: fixed;
         bottom: 0;
+
     }
 }
 
