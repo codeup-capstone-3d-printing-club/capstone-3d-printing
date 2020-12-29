@@ -19,13 +19,13 @@
 </div>
 
 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
-    <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post">
+    <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post" id="submitAvatar">
         <button th:type="button" class="btn btn-danger" onclick="showAvatarForm('AvatarFilePicker')">Change Avatar</button>
         <div style="display: none" id="AvatarFilePicker">
             <input class="form-control" id="pickedFile" type="hidden" name="avatar">
             <button type="button" id="open">Choose image to upload</button>
 <!--            TODO:if empty don't let it submit-->
-            <button th:type="submit" class="btn btn-danger">Submit new Avatar</button>
+            <button th:type="submit" class="btn btn-danger d-none">Submit new Avatar</button>
         </div>
     </form>
 </div>
@@ -71,7 +71,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script th:src="@{/js/keys.js}"></script>
-<script th:src="@{/js/filestack.js}"></script>
 <script th:src="@{/js/showAvatarForm.js}"></script>
-
+<script th:src="@{/js/imageUploadFilestack.js}"></script>
 </html>

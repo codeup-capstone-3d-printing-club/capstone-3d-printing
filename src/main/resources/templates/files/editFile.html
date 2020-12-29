@@ -31,12 +31,12 @@
 <br>
 <div th:if="${file.images.size() < 5}">
     You can add up to 5 pictures for this post.
-    <form th:action="@{/files/{id}/addImg(id=${file.id})}" method="post" style="border: gray 1px solid;">
+    <form th:action="@{/files/{id}/addImg(id=${file.id})}" method="post" style="border: gray 1px solid;" id="submitAvatar">
         <input class="form-control" name="newImg" id="pickedFile" th:value="${newImg.img_url}" type="hidden">
-        <button th:type="button" id="open" >Choose image to upload</button>
+        <button th:type="button" id="open">Choose image to upload</button>
         <br>
 <!--        TODO: if empty don't let it submit-->
-        <input th:type="submit">
+        <input class="d-none" th:type="submit">
     </form>
 </div>
 <br>

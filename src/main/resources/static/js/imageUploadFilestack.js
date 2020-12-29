@@ -3,7 +3,7 @@ window.addEventListener('DOMContentLoaded', function () {
     const options = {
         maxFiles: 5,
         uploadInBackground: false,
-        onUploadDone: uploadFile,
+        onUploadDone: uploadFileImg,
         transformations: {
             crop: true,
             rotate: true
@@ -13,12 +13,13 @@ window.addEventListener('DOMContentLoaded', function () {
     const openBtn = document.getElementById('open');
     openBtn.addEventListener('click',() => picker.open());
 
-    function uploadFile(result) {
+    function uploadFileImg(result) {
         const fileData = result.filesUploaded[0];
         console.log(fileData);
         console.log(fileData.url);
         console.log(fileData.mimeType);
         $('#pickedFile').val(fileData.url);
+        $('#submitAvatar').submit();
     }
 
 });
