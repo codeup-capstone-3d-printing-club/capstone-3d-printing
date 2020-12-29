@@ -20,9 +20,8 @@
 
 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
     <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post">
-        <label for="avatar">New Img URL</label>
-        <!--        TODO: (Later we can use api to be able to upload pictures and then save pictures as URL)-->
-        <input name="avatar" id="avatar">
+        <input  class="form-control" id="pickedFile" type="hidden" name="avatar">
+        <button type="button" id="open">Choose image to upload</button>
         <button th:type="submit" class="btn btn-danger">Change Avatar</button>
     </form>
 </div>
