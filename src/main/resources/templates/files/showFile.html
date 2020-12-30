@@ -4,7 +4,7 @@
 <head th:replace="partials/header_partial :: head"></head>
 <body th:replace="partials/body_partials :: body"></body>
 <nav th:replace="partials/navbar :: navbar"></nav>
-<div class="backgroundDiv">
+<div class="backgroundDiv" style="height: fit-content">
     <h1 th:text="${file.title}">Individual File</h1>
     <div class="container">
         <div class="row">
@@ -104,9 +104,11 @@
             <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
         </form>
     </div>
+</div>
     <footer th:replace="partials/footer_partial :: footer"></footer>
     <script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
     <script th:replace="partials/partials_scripts :: script"></script>
     <script type="module" th:src="@{/js/renderer.js}"></script>
+
 
 </html>
