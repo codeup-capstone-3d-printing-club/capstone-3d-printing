@@ -99,7 +99,7 @@ class FileController {
     }
 
     @PostMapping("/files/create")
-    public String createPost(@ModelAttribute File fileToBeSaved, @RequestParam(name = "newCategories") List<Long> newCategories) {
+    public String createPost(@ModelAttribute File fileToBeSaved, @RequestParam List<Long> newCategories) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = new User(user);
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
