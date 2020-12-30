@@ -17,7 +17,6 @@ import java.util.List;
 @Controller
 class MessageController {
 
-    // These two next steps are often called dependency injection, where we create a Repository instance and initialize it in the controller class constructor.
     private final MessageRepository messageDao;
     private final UserRepository userDao;
 
@@ -30,8 +29,7 @@ class MessageController {
     public String index(Model model) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = new User(user);
-
+        User currentUser = userDao.getOne(user.getId());
         List<Message> receivedList = messageDao.findByRecipientEquals(currentUser);
         List<Message> sentList = messageDao.findBySenderEquals(currentUser);
 
@@ -45,7 +43,7 @@ class MessageController {
     public String viewMessage(@PathVariable Long id, Model model) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = new User(user);
+        User currentUser = userDao.getOne(user.getId());
         Message message = messageDao.findMessageById(id);
 
         //redirects to inbox if message ID does not exist
@@ -64,9 +62,9 @@ class MessageController {
 
     @GetMapping("/messages/compose")
     public String composeMessage(Model model) {
-
         Message message = new Message();
         User user = new User();
+
         model.addAttribute("message", message);
         model.addAttribute("user", user);
 
@@ -79,9 +77,11 @@ class MessageController {
                               RedirectAttributes redir) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = new User(user);
-
+        User currentUser = userDao.getOne(user.getId());
         User receiver = userDao.findByUsernameIgnoreCase(recipient.trim());
+
+        //if the recipient doesn't exist, then return to the page with an error message
+        //TODO: aid user in typing recipient name correctly on page
         if (receiver == null) {
             redir.addFlashAttribute("rec", recipient);
             redir.addFlashAttribute("msg", message);
@@ -94,5 +94,4 @@ class MessageController {
 
         return "redirect:/messages/?sent";
     }
-
 }
