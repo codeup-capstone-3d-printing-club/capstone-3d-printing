@@ -97,9 +97,9 @@
             <button th:type="submit">post comment</button>
         </form>
     </div>
-<div sec:authorize="!isAuthenticated()">
-    Would you like to leave a comment? <a href="/sign-up">Sign up</a> or <a href="/login">Login</a>!
-</div>
+    <div sec:authorize="!isAuthenticated()">
+        Would you like to leave a comment? <a href="/sign-up">Sign up</a> or <a href="/login">Login</a>!
+    </div>
     <div>
         <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
               th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
@@ -107,10 +107,7 @@
         </form>
     </div>
 </div>
-    <footer th:replace="partials/footer_partial :: footer"></footer>
-    <script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
-    <script th:replace="partials/partials_scripts :: script"></script>
-    <script type="module" th:src="@{/js/renderer.js}"></script>
-
+<footer th:replace="partials/footer_partial :: footer"></footer>
+<section th:replace="partials/partials_scripts :: script"></section>
 </body>
 </html>
