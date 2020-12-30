@@ -18,10 +18,10 @@ function init() {
     // document.body.appendChild( container );
     container = document.getElementById('renderer');
 
-    camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 1, 15 );
-    camera.position.set( 3, 0.15, 3 );
+    camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 2, 1000);
+    camera.position.set( 3, 10, 0 );
 
-    cameraTarget = new THREE.Vector3( 0, - 0.25, 0 );
+    cameraTarget = new THREE.Vector3( 0, 0, 0 );
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0x72645b );
@@ -31,7 +31,7 @@ function init() {
 
     const plane = new THREE.Mesh(
         new THREE.PlaneBufferGeometry( 10, 10 ),
-        new THREE.MeshPhongMaterial( { color: 0x999999, specular: 0x101010 } )
+        new THREE.MeshPhongMaterial( { color: 0x50000, specular: 0x101010 } )
     );
     plane.rotation.x = - Math.PI / 2;
     plane.position.y = - 0.5;

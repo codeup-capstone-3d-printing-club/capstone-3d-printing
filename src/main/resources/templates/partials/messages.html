@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="eng" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="full-message">
+    <div>
+        FROM: <span th:text="${message.sender.username}"></span>
+    </div>
+
+    <div>
+        TO: <span th:text="${message.recipient.username}"></span>
+    </div>
+
+    <div>
+        MESSAGE: <span th:text="${message.message}"></span>
+    </div>
+
+    <div>
+        SENT AT: <span th:text="${message.sentAt}"></span>
+    </div>
+</div>
+
+<div th:fragment="sentMessages" class="tab-pane fade" id="sent" role="tabpanel" aria-labelledby="sent-tab">
+    <div class="d-flex">
+        <ul class="nav flex-column nav-tabs" id="v-tabs-sent" role="tablist" aria-orientation="vertical">
+            <li class="nav-item w-100" th:each="message : ${sent}">
+                <a class="nav-link w-100" th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
+                   th:href="${'#message-' + message.id}"
+                   role="tab" th:aria-controls="${'message-' + message.id}"
+                   th:text="${message.message}"></a>
+            </li>
+        </ul>
+        <div class="tab-content" id="v-tabContent-sent">
+            <div class="tab-pane fade" th:each="message : ${sent}" th:id="${'message-' + message.id}"
+                 role="tabpanel"
+                 th:aria-labelledby="${'message-' + message.id + '-tab'}">
+                <div th:replace="partials/messages::full-message"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript"></script>
+
+<div th:fragment="inboxMessages" class="tab-pane fade show active" id="inbox" role="tabpanel"
+     aria-labelledby="inbox-tab">
+
+    <div class="d-flex">
+        <ul class="nav flex-column nav-tabs" id="v-tabs" role="tablist" aria-orientation="vertical">
+            <li class="nav-item d-flex w-100" th:each="message : ${received}">
+                <a class="subject nav-link w-100" th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
+                   th:href="${'#message-' + message.id}" role="tab" th:aria-controls="${'message-' + message.id}"
+                   th:onclick="'javascript:testfunc(' + ${message.id} + ')'">
+                    <span th:if="${message.unread}" th:text="${message.message}" class="text-danger"></span>
+                    <span th:unless="${message.unread}" th:text="${message.message}"></span>
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content" id="v-tabContent">
+            <div class="tab-pane fade" th:each="message : ${received}" th:id="${'message-' + message.id}"
+                 role="tabpanel"
+                 th:aria-labelledby="${'message-' + message.id + '-tab'}">
+                <div th:replace="partials/messages::full-message"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:fragment="messageOptions" class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+     aria-orientation="vertical">
+    <a class="nav-link active" id="inbox-tab" data-toggle="pill"
+       href="#inbox" role="tab" aria-controls="inbox" aria-selected="true">Inbox</a>
+    <a class="nav-link" id="sent-tab" data-toggle="pill" href="#sent"
+       role="tab" aria-controls="sent" aria-selected="false">Sent</a>
+    <a class="nav-link" id="trash-tab" data-toggle="pill" href="#trash"
+       role="tab" aria-controls="trash" aria-selected="false">Trash</a>
+</div>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</html>

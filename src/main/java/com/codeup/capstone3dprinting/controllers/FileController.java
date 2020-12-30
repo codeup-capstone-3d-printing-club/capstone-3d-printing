@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.font.ImageGraphicAttribute;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,23 +22,31 @@ class FileController {
     private final UserRepository userDao;
     private final RatingRepository ratingDao;
     private final CategoryRepository categoryDao;
+    private final SettingRepository settingDao;
+    private final MessageRepository messageDao;
+    private final ImagesRepository imageDao;
 
-    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao, RatingRepository ratingDao, CategoryRepository categoryDao) {
+    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao, RatingRepository ratingDao, CategoryRepository categoryDao, SettingRepository settingDao, MessageRepository messageDao, ImagesRepository imageDao) {
         this.fileDao = fileDao;
         this.commentDao = commentdao;
         this.userDao = userdao;
         this.ratingDao = ratingDao;
         this.categoryDao = categoryDao;
+        this.settingDao = settingDao;
+        this.messageDao = messageDao;
+        this.imageDao = imageDao;
     }
 
     @GetMapping("/files")
     public String showAllFiles(Model model, @RequestParam(required = false) String category) {
         if (category == null) {
             model.addAttribute("files", fileDao.findAll());
+            model.addAttribute("pageTitle", "All Files");
         } else {
             Category requestedCategory = categoryDao.findCategoryByCategory(category);
             model.addAttribute("requestedCategories", requestedCategory);
             model.addAttribute("files", fileDao.findByCategories(requestedCategory));
+            model.addAttribute("pageTitle", requestedCategory.getCategory());
         }
         model.addAttribute("categories", categoryDao.findAll());
         return "index";
@@ -55,6 +64,7 @@ class FileController {
     @GetMapping("/files/{id}")
     public String showPost(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
+        List<FileImage> thisFilesImgs = imageDao.getAllByFile_Id(id);
         //comments
         List<Comment> thisFilesComments = commentDao.getAllByFile_Id(id);
         //Rating
@@ -79,7 +89,7 @@ class FileController {
 
         }
         model.addAttribute("favorited", favorited);
-
+        model.addAttribute("imgFiles", thisFilesImgs);
         model.addAttribute("averageRating", Math.round(sum));
         model.addAttribute("allCommentsForThisPost", thisFilesComments);
         model.addAttribute("file", filedb);
@@ -89,19 +99,25 @@ class FileController {
 
     @GetMapping("/files/create")
     public String viewCreateForm(Model model) {
+        System.out.println("SecurityContextHolder.getContext().getAuthentication().getPrincipal() = " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = new User(user);
+        System.out.println("currentUser = " + currentUser);
+        for (User follower : currentUser.getFollowers()) {
+            System.out.println("follower.getId() = " + follower.getId());
+        }
+
         model.addAttribute("file", new File());
         model.addAttribute("categoryList", categoryDao.findAll());
         if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser"){
+
             return "files/createFile";
-        } else {
-            return "redirect:/sign-up";
-        }
     }
 
     @PostMapping("/files/create")
     public String createPost(@ModelAttribute File fileToBeSaved, @RequestParam List<Long> newCategories) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = new User(user);
+        User currentUser = userDao.getOne(user.getId());
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
         fileToBeSaved.setCreatedAt(timestamp1);
         fileToBeSaved.setUpdatedAt(timestamp1);
@@ -112,13 +128,17 @@ class FileController {
             categoryList.add(categoryDao.getOne(id));
         }
         fileToBeSaved.setCategories(categoryList);
-//        fileToBeSaved.getCategories(categoryDao.findCategoryByCategory(newCategories));
-//        List<Category> categories = new ArrayList<>();
-//        for (String category : newCategories) {
-//            categories.add(categoryDao.findCategoryByCategory(category));
-//            System.out.println("category = " + category);
-//        }
-//        fileToBeSaved.setCategories(categories);
+
+        for (User follower : currentUser.getFollowers()) {
+            User receiver = userDao.getOne(follower.getId());
+
+            if (receiver.getSettings().contains(settingDao.getOne(1L))) {
+
+                Message newMessage = new Message(currentUser.getUsername() + " has posted a new file!",
+                        new Timestamp(new Date().getTime()), receiver, userDao.getOne(1L));
+                messageDao.save(newMessage);
+            }
+        }
 
         File dbFile = fileDao.save(fileToBeSaved);
         return "redirect:/files/" + dbFile.getId();
@@ -127,6 +147,10 @@ class FileController {
     @GetMapping("/files/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
+        List<FileImage> thisFilesImgs = imageDao.getAllByFile_Id(id);
+        FileImage newImg = new FileImage();
+        model.addAttribute("newImg", newImg);
+        model.addAttribute("filesImgs", thisFilesImgs);
         model.addAttribute("file", filedb);
         return "files/editFile";
     }
@@ -137,9 +161,28 @@ class FileController {
         file.setTitle(fileEdit.getTitle());
         file.setDescription(fileEdit.getDescription());
         file.setPrivate(fileEdit.isPrivate());
-        file.setImgUrl(fileEdit.getImgUrl());
         fileDao.save(file);
-        return "redirect:/files/" + file.getId();
+        return "redirect:/files/" + id + "/edit";
+    }
+
+    @PostMapping("/files/{id}/addImg")
+    public String addImgToFile(@PathVariable long id, @RequestParam(name = "newImg") String imgURL) {
+        File file = fileDao.getOne(id);
+
+        FileImage newImg = new FileImage(fileDao.getOne(id), imgURL);
+
+        file.addImg(newImg);
+        fileDao.save(file);
+        return "redirect:/files/" + id + "/edit";
+    }
+
+    @PostMapping("/files/{id}/removeImg/{imgID}")
+    public String removeImgfromFile(@PathVariable long id, @RequestParam(name = "imgID") long imgID) {
+        File file = fileDao.getOne(id);
+        file.removeImg(imageDao.getOne(imgID));
+        fileDao.save(file);
+        System.out.println("deleted img with imgID = " + imgID);
+        return "redirect:/files/" + id + "/edit";
     }
 
     //    TODO:should redirect to admin dashboard if admin
@@ -171,21 +214,29 @@ class FileController {
     @PostMapping("files/{id}/comment")
     public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = new User(user);
+        User currentUser = userDao.getOne(user.getId());
+        File file = fileDao.getOne(id);
+        User fileOwner = userDao.getOne(file.getOwner().getId());
+
+        if (fileOwner.getSettings().contains(settingDao.getOne(3L))) {
+            Message newMessage = new Message(currentUser.getUsername() + " has commented on your file: " + file.getTitle(),
+                    new Timestamp(new Date().getTime()), fileOwner, userDao.getOne(1L));
+            messageDao.save(newMessage);
+        }
 
         Comment newComment = new Comment();
-        System.out.println("commentText = " + commentText);
         newComment.setComment(commentText);
         newComment.setCreatedAt(new Timestamp(new Date().getTime()));
         newComment.setFile(fileDao.getOne(id));
         newComment.setOwner(currentUser);
         commentDao.save(newComment);
-        File file = fileDao.getOne(id);
+
+
         return "redirect:/files/" + file.getId();
     }
 
     @PostMapping("/files/{id}/comment/{commentId}/delete")
-    public String deleteFilePost(@PathVariable long id, @RequestParam(name = "commentId") long commentId) {
+    public String deleteComment(@PathVariable long id, @RequestParam(name = "commentId") long commentId) {
         commentDao.deleteById(commentId);
         File file = fileDao.getOne(id);
         return "redirect:/files/" + file.getId();
@@ -218,6 +269,21 @@ class FileController {
         }
         userDao.save(currentUser);
         return "redirect:/files/" + id;
+    }
+    @PostMapping("files/search")
+    public String search(@RequestParam(name = "search")String searchTerm, Model model){
+        List<File> searched = fileDao.findAllByDescriptionIsLike("%" + searchTerm + "%");
+        List<File> searchedTitle = fileDao.findAllByTitleIsLike("%" + searchTerm + "%");
+        for(File file : searchedTitle){
+            if(!searched.contains(file)){
+                searched.add(file);
+            }
+        }
+
+        model.addAttribute("files", searched);
+        model.addAttribute("categories", categoryDao.findAll());
+        model.addAttribute("pageTitle", searched.size() + " Result" + (searched.size() == 1 ? "" : "s"));
+        return "index";
     }
 }
 //select liker_id's where file_id like this.id

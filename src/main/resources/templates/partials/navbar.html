@@ -17,13 +17,14 @@
 <nav th:fragment="navbar">
     <nav class="navbar navbar-expand-lg  navbar-dark ">
         <div class="container-fluid">
-            <a class="navbar-brand" href="">3-D Print Club</a>
+            <a class="navbar-brand" href="">square<sup>3</sup></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+            <div class="collapse navbar-collapse container" id="navbarNav">
+                <section class="col-6" >
+                <ul class="navbar-nav nav-fill justify-content-evenly">
                     <li class="nav-item">
                         <a class="nav-link icon " href="/">Home</a>
                     </li>
@@ -31,7 +32,10 @@
                         <a class="nav-link icon " href="/files/create">Create</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link icon" href="/files">3-D Objects</a>
+                        <a class="nav-link icon" href="/files">3-D Models</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin}" class="nav-item">
+                        <a class="nav-link icon" href="/admin">Admin Dashboard</a>
                     </li>
 
                     <li sec:authorize="!isAuthenticated()" class="nav-item">
@@ -55,9 +59,9 @@
                             </button>
                         </form>
                     </li>
-                    <li id="messages" class="nav-item">
+                    <li sec:authorize="isAuthenticated()" id="messages" class="nav-item">
                         <a href="/messages">
-                            <button class="btn-link btn nav-link btn position-relative image d-flex justify-content-end"  style="margin-bottom: -4px;">
+                            <button class="btn-link btn nav-link btn position-relative image"  style="margin-bottom: -4px;">
 <!--<                       <button  class="btn position-relative image d-flex justify-content-end">-->
                             <i class="far fa-envelope fa-lg"></i>
                             <span
@@ -67,13 +71,19 @@
                         </a>
                     </li>
                 </ul>
-            </div>
-        </div>
-        </div>
-    </nav>
+                </section>
+                <div class="searchbar input-group justify-content-end">
+                <form class="searchbar" th:fragment="searchbar" th:action="@{/files/search}" th:method="post">
+                    <input style="border-radius: 5px" type="text" name="search" placeholder="search">
 
+                    <button class="searchBtn" type="submit" name="searchBar" style="margin-top: 0px;"><i
+                            class="fas fa-search" style="border-radius: 5px;"></i></button>
+                </form>
+                </div>
+    </div>
+        </div>
 </nav>
-
+</nav>
 
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

@@ -15,22 +15,22 @@
 </div>
 
 <div th:unless="${user.avatarUrl == 'none'}">
-<img th:src="${user.avatarUrl}" alt="user profile picture">
+    <img th:src="${user.avatarUrl}" alt="user profile picture" style="width:15em">
 </div>
+
 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
-<form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post">
-    <label for="avatar">New Img URL</label>
-    <!--        TODO: (Later we can use api to be able to upload pictures and then save pictures as URL)-->
-    <input name="avatar" id="avatar">
-    <button th:type="submit" class="btn btn-danger">Change Avatar</button>
-</form>
+    <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post">
+        <button th:type="button" class="btn btn-danger" onclick="showAvatarForm('AvatarFilePicker')">Change Avatar</button>
+        <div style="display: none" id="AvatarFilePicker">
+            <input class="form-control" id="pickedFile" type="hidden" name="avatar">
+            <button type="button" id="open">Choose image to upload</button>
+<!--            TODO:if empty don't let it submit-->
+            <button th:type="submit" class="btn btn-danger">Submit new Avatar</button>
+        </div>
+    </form>
 </div>
 <div class="col-8">
-    <h3>Hello, <h3 th:text="${user.username}"></h3></h3>
-    <h2 th:text="${user.firstName}"></h2>
-    <h2 th:text="${user.lastName}"></h2>
-    <br>
-    Admin status:<p th:text="${user.admin}"></p>
+    <h3>Hello, <h2 th:text="${user.firstName}"></h2></h3>
     <br>
     <hr>
     Joined at: <p th:text="${user.joinedAt}">
@@ -48,9 +48,10 @@
     </div>
     <h3><span th:text="${user.username}">'s uploaded files</span></h3>
     <div th:each="file : ${thisUsersFiles}">
-        <div class="card"  style="background-color: #4d4d4d">
+        <div class="card" style="background-color: #4d4d4d">
             <div class="card-title" th:text="${file.title}"></div>
             <div class="card-body" th:text="${file.description}"></div>
+            Created:
             <div class="card-body" th:text="${file.createdAt}"></div>
             <a th:href="@{'/files/' + ${file.id}}">see post</a>
             <!--        TODO: need to create a page that displays individual files/posts and use form below to link to each individual post/file-->
@@ -59,7 +60,9 @@
             <!--        </form>-->
         </div>
     </div>
-    <div sec:authorize="isAuthenticated()" th:replace="partials/follow-feed::feed"></div>
+    <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
+        <div sec:authorize="isAuthenticated()" th:replace="partials/follow-feed::feed"></div>
+    </div>
     <div sec:authorize="isAuthenticated()" th:replace="partials/favorites-list::favorites"></div>
 </div>
 <footer th:replace="partials/footer_partial :: footer"></footer>
@@ -69,5 +72,6 @@
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script th:src="@{/js/keys.js}"></script>
 <script th:src="@{/js/filestack.js}"></script>
+<script th:src="@{/js/showAvatarForm.js}"></script>
 
 </html>

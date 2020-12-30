@@ -1,9 +1,18 @@
+*{
+    box-sizing: border-box;
+}
 
-html, body {
-    height: 100%; }
+*:before,
+ *:after {
+     box-sizing: border-box;
+ }
+
+/*html, body {*/
+
+/*    position: relative;}*/
 
 body {
-    margin: 0;
+
     padding: 2em;
     /*background: linear-gradient(180deg, #f14, #ff8300) fixed;*/
     font-family: "Avenir Next Condensed", sans-serif;
@@ -14,17 +23,12 @@ h1 {
 
 .title {
     font-weight: 600;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     text-align: center;
     font-size: 10em;
 }
 
-@media screen and (max-width: 480px) {
-    .title {
-        font-size: 3.8em;
-    }
 
-}
 
 .filter-shadow {
     color: transparent;
@@ -96,10 +100,6 @@ h1 {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    /*font-family:'Press Start 2P',Serif;*/
-    /*font-size: smaller;*/
-
-    /*font-family: 'Ultra',Serif;*/
 
 
 }
@@ -107,18 +107,51 @@ h1 {
 
 /*Font and background colors*/
 .navbar {
+    width: auto;
 
 }
  body, .welcome,h1,h2,h3,h4,#formFont{
     color: white;
+
 }
 .backgroundDiv{
     background: rgba(0, 0, 0, 0.7);
-    margin-top: 2em;
-
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-right: 2px;
+    border-radius: 10px;
+    /*max-width: 60%;*/
+    padding: 1em;
+    border: black 2px solid
 }
+.categoryDiv{
+    margin-top: 2em;
+    width: 8rem;
+    background-color: #f1f1f1;
+    position: sticky;
+    height: 400px;
+    overflow: auto;
+    /*position: -webkit-sticky;*/
+    /*position: sticky;*/
+    /*top:0;*/
+}
+
+.content{
+    margin-bottom: 3em;
+    margin-left: 12rem;
+    padding: 1px 16px;
+    /*height: 1000px;*/
+    max-width: 75%;
+}
+
+
+.image{max-width: 9rem}
+
 .login{
     max-width: 500px;
+}
+.adminSubHeadings{
+    margin-left: 1em;
 }
 
 .navbar{
@@ -126,9 +159,16 @@ h1 {
     opacity: 80%;
 }
 footer{
-    margin-top: 500px;
+    position: relative;
+    padding: 2em;
+    height: 200px;
+    bottom: 0;
+    width: 100%;
     background-color: black;
     opacity: 80%;
+    margin-top: 400px;
+    z-index: -1;
+
 }
 .links{
     color: white;
@@ -191,5 +231,34 @@ li {
 
 .unfavorite:hover {
     color: goldenrod;
+}
+/*media queries*/
+
+@media screen and (max-width: 600px) {
+    .title {
+        font-size: 3.7em;
+    }
+    .searchbar{
+        display: block;
+    }
+}
+
+@media screen and (min-width: 1020px ){
+    .searchBar{
+        display: flex;
+        justify-content:flex-end;
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .content{
+        max-width: 60%;
+        margin-left: 10rem;
+    }
+    .footer{
+        position: fixed;
+        bottom: 0;
+
+    }
 }
 

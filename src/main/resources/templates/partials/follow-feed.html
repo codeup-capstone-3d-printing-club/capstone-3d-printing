@@ -10,11 +10,11 @@
 
 <div th:fragment="feed">
 
-    <h4>Followed files</h4>
+    <h4>3D Model Feed</h4>
     <div th:each="file : ${feed}">
         <div th:text="${file.title}"></div>
         <div th:text="${file.description}"></div>
-        <div th:text="${file.owner.username}"></div>
+        <a th:text="${file.owner.username}" th:href="@{/profile/{id}(id=*{file.owner.id})}"></a>
     </div>
 </div>
 </body>
