@@ -53,7 +53,7 @@
             <li class="nav-item d-flex w-100" th:each="message : ${received}">
                 <a class="subject nav-link w-100" th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
                    th:href="${'#message-' + message.id}" role="tab" th:aria-controls="${'message-' + message.id}"
-                   th:onclick="'javascript:testfunc(' + ${message.id} + ')'">
+                   th:onclick="'javascript:markRead(' + ${message.id} + ')'">
                     <span th:if="${message.unread}" th:text="${message.message}" class="text-danger"></span>
                     <span th:unless="${message.unread}" th:text="${message.message}"></span>
                 </a>
@@ -76,8 +76,6 @@
        href="#inbox" role="tab" aria-controls="inbox" aria-selected="true">Inbox</a>
     <a class="nav-link" id="sent-tab" data-toggle="pill" href="#sent"
        role="tab" aria-controls="sent" aria-selected="false">Sent</a>
-    <a class="nav-link" id="trash-tab" data-toggle="pill" href="#trash"
-       role="tab" aria-controls="trash" aria-selected="false">Trash</a>
 </div>
 </body>
 

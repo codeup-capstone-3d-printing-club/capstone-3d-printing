@@ -26,6 +26,17 @@ class MessageController {
         this.userDao = userDao;
     }
 
+    @GetMapping("/unread-messages")
+    @ResponseBody
+    public String unreadMessages() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.getOne(user.getId());
+
+        List<Message> unreadMessages = messageDao.findByRecipientEqualsAndUnread(currentUser, true);
+
+        return String.valueOf(unreadMessages.size());
+    }
+
     @GetMapping("/messages")
     public String index(Model model) {
 
