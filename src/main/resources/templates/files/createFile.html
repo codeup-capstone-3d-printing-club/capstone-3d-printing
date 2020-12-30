@@ -13,7 +13,8 @@
     </div>
 
     <!--upload form-->
-    <form id="upload form" th:action="@{/files/create}" th:method="POST" th:object="${file}" class="backgroundDiv card ml-1 col-auto">
+    <form id="upload form" th:action="@{/files/create}" th:method="POST" th:object="${file}"
+          class="backgroundDiv card ml-1 col-auto">
         <div class="my-3 mx-2">
             <label for="exampleFormControlInput1" class="form-label">Title</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{title}" placeholder="">
@@ -25,9 +26,21 @@
         </div>
         <div class="mb-6 mx-2">
             <input class="form-control form-control-lg" id="pickedFile" type="hidden" th:field="*{fileUrl}">
-            <button type="button" id="open">Choose file to upload</button>
+            <button type="button" id="open">Choose File</button>
         </div>
-        <div class="my-3 mx-2 form-check">
+        <div class="my-6 mx-2">
+            <div>Pick categories:</div>
+            <th:block th:each="category : ${categoryList}">
+                <div class="form-check form-check-inline m-2">
+                    <input class="form-check-input" type="checkbox"
+                           th:id="${category.category}" name="newCategories" th:value="${category.id}"/>
+                    <label class="form-check-label" th:for="${category.category}"
+                           th:text="${category.category}"></label>
+                </div>
+            </th:block>
+
+        </div>
+        <div class="my-3 mx-2 form-check form-switch">
             <input type="checkbox" class="form-check-input" id="exampleCheck1" th:field="*{private}">
             <label class="form-check-label" for="exampleCheck1">Set as private</label>
         </div>
@@ -41,4 +54,5 @@
 <script th:src="@{/js/filestack.js}"></script>
 
 </body>
+
 </html>

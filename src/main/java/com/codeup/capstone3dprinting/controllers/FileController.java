@@ -111,11 +111,13 @@ class FileController {
         }
 
         model.addAttribute("file", new File());
+        model.addAttribute("categoryList", categoryDao.findAll());
+
         return "files/createFile";
     }
 
     @PostMapping("/files/create")
-    public String createPost(@ModelAttribute File fileToBeSaved) {
+    public String createPost(@ModelAttribute File fileToBeSaved, @RequestParam List<Long> newCategories) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
@@ -123,6 +125,12 @@ class FileController {
         fileToBeSaved.setCreatedAt(timestamp1);
         fileToBeSaved.setUpdatedAt(timestamp1);
         fileToBeSaved.setOwner(currentUser);
+
+        List<Category> categoryList = new ArrayList<>();
+        for (long id : newCategories) {
+            categoryList.add(categoryDao.getOne(id));
+        }
+        fileToBeSaved.setCategories(categoryList);
 
         //triggers sending a message to users who follow the user who just posted the file
         for (User follower : currentUser.getFollowers()) {
