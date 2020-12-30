@@ -1,12 +1,14 @@
 package com.codeup.capstone3dprinting.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@NoArgsConstructor
 @Getter @Setter
 @Table(name="messages")
 public class Message {
@@ -29,10 +31,6 @@ public class Message {
 
     @Column(nullable = false)
     private boolean unread;
-
-    public Message() {
-
-    }
 
     public Message(String message, Timestamp timestamp, User recipient, User sender) {
         this.message = message;

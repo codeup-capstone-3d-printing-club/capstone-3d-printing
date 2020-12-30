@@ -1,6 +1,7 @@
 package com.codeup.capstone3dprinting.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
 @Getter @Setter
 @Table(name = "users")
 public class User {
@@ -81,9 +83,6 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "setting_id")})
     private List<Setting> settings = new ArrayList<>();
-
-    public User() {
-    }
 
     public User(User copy) {
         id = copy.id;
