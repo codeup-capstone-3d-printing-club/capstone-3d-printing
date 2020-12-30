@@ -6,5 +6,4 @@ import java.util.List;
 
 public interface ImagesRepository extends JpaRepository <FileImage, Long>{
     List<FileImage> getAllByFile_Id(long file_id);
-    FileImage getByFile_Id(long file_id);
 }

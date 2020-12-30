@@ -10,7 +10,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByPassword(String str);
     User findByUsernameIgnoreCase(String name);
     User findByEmailIgnoreCase(String email);
-    User findByUsernameEquals(String name);
     List<User> findAllByisFlagged(boolean isFlagged);
     List<User> findAllByisActive(boolean isActive);
     List<User> findAllByIsAdmin(boolean isAdmin);

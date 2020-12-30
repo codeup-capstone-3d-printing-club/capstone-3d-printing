@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="partials/header_partial::head">
-    <title>Log In</title>
+    <title id="pageTitle">Log In</title>
 </head>
 <nav th:replace="partials/navbar :: navbar"></nav>
-<body th:replace="partials/body_partials :: body"></body>
+<body class="background">
 
 <div class="backgroundDiv login">
     <h1>Log In</h1>
@@ -16,8 +16,8 @@
     </div>
 </div>
 <!--bootstrap Form-->
-<form class="backgroundDiv login" th:action="@{/login}" method="post" >
-    <div class="mb-3" >
+<form class="backgroundDiv login" th:action="@{/login}" method="post">
+    <div class="mb-3">
         <label for="username" class="form-label">Username</label>
         <input class="form-control" id="username" name="username" type="text" aria-describedby="emailHelp">
         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
@@ -28,8 +28,9 @@
     </div>
     <input type="submit" value="Log In"/>
 </form>
-   <div th:replace="partials/manage-account::recovery-link"></div>
-<script th:replace="partials/partials_scripts :: script"></script>
-<footer th:replace="partials/footer_partial :: footer"></footer>
+<div th:replace="partials/manage-account::recovery-link"></div>
 
+<footer th:replace="partials/footer_partial :: footer"></footer>
+<section th:replace="partials/partials_scripts :: script"></section>
+</body>
 </html>

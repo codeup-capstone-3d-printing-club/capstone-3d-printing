@@ -1,8 +1,12 @@
 package com.codeup.capstone3dprinting.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter @Setter
 @Table(name = "reasons")
 public class Reason {
 
@@ -12,34 +16,5 @@ public class Reason {
 
     @Column(nullable = false)
     private String description;
-  
-    public Reason(){}
-
-    public Reason(long id, String description){
-        this.id = id;
-        this.description = description;
-    }
-
-    public Reason(String description){
-        this.description = description;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-  
    
 }

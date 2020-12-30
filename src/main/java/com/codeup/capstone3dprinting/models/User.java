@@ -1,5 +1,8 @@
 package com.codeup.capstone3dprinting.models;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -9,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
+@Getter @Setter
 @Table(name = "users")
 public class User {
 
@@ -79,95 +84,6 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "setting_id")})
     private List<Setting> settings = new ArrayList<>();
 
-    public List<File> getFavoriteFiles() {
-        return favorites;
-    }
-
-    public void setFavoriteFiles(List<File> favoriteFiles) {
-        this.favorites = favoriteFiles;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<File> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<File> files) {
-        this.files = files;
-    }
-
-    public List<Setting> getSettings() {
-        return settings;
-    }
-
-    public List<File> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(List<File> favorites) {
-        this.favorites = favorites;
-    }
-
-    public void setSettings(List<Setting> settings) {
-        this.settings = settings;
-    }
-
-    public User() {
-    }
-
-    //Create
-    public User(String username, String firstName, String lastName, String email, String password,
-                boolean isVerified, Timestamp joinedAt, boolean isAdmin, String avatarUrl,
-                boolean isFlagged, boolean isActive, List<File> files, List<User> users, List<User> followers,
-                List<File> favorites, List<Setting> settings) {
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.isVerified = false;
-        this.joinedAt = joinedAt;
-        this.isAdmin = false;
-        this.avatarUrl = avatarUrl;
-        this.isFlagged = false;
-        this.isActive = true;
-        this.files = files;
-        this.users = users;
-        this.followers = followers;
-        this.favorites = favorites;
-        this.settings = settings;
-    }
-
-    public User(long id, String username, String firstName, String lastName, String email, String password,
-                boolean isVerified, Timestamp joinedAt, boolean isAdmin, String avatarUrl,
-                boolean isFlagged, boolean isActive, List<File> files, List<User> users, List<User> followers,
-                List<File> favorites, List<Setting> settings) {
-        this.id = id;
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.isVerified = false;
-        this.joinedAt = joinedAt;
-        this.isAdmin = false;
-        this.avatarUrl = avatarUrl;
-        this.isFlagged = false;
-        this.isActive = true;
-        this.files = files;
-        this.users = users;
-        this.followers = followers;
-        this.favorites = favorites;
-        this.settings = settings;
-    }
-
     public User(User copy) {
         id = copy.id;
         avatarUrl = copy.avatarUrl;
@@ -186,109 +102,5 @@ public class User {
         favorites = copy.favorites;
         settings = copy.settings;
         followers = copy.followers;
-    }
-
-    public long getId() {
-        return this.id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isVerified() {
-        return isVerified;
-    }
-
-    public void setVerified(boolean verified) {
-        isVerified = verified;
-    }
-
-    public Timestamp getJoinedAt() {
-        return joinedAt;
-    }
-
-    public void setJoinedAt(Timestamp joinedAt) {
-        this.joinedAt = joinedAt;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public boolean isFlagged(){
-        return this.isFlagged;
-    }
-
-    public void setFlagged(boolean isFlagged){
-        this.isFlagged = isFlagged;
-    }
-
-    public boolean isActive(){
-        return this.isActive;
-    }
-
-    public void setActive(boolean isActive){
-        this.isActive = isActive;
-    }
-
-    public List<User> getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(List<User> followers) {
-        this.followers = followers;
     }
 }

@@ -54,6 +54,8 @@ public class AuthenticationController {
     @PostMapping("/sign-up")
     public String saveUser(@ModelAttribute User user, Model model){
         String hash = passwordEncoder.encode(user.getPassword());
+
+        //user is passed in from the form
         user.setPassword(hash);
         user.setAvatarUrl("none");
         user.setAdmin(false);
@@ -96,18 +98,15 @@ public class AuthenticationController {
     {
         ConfirmationToken token = tokenDao.findByConfirmationToken(confirmationToken);
 
-        if(token != null)
-        {
+        if (token != null) {
             User user = userDao.findByEmailIgnoreCase(token.getUser().getEmail());
             user.setVerified(true);
             userDao.save(user);
-            return "home";
         }
-        else
-        {
+        else {
             model.addAttribute("message","The link is invalid or broken!");
-            return "home";
         }
+        return "home";
     }
 
     @PostMapping("/change-password")
@@ -117,18 +116,23 @@ public class AuthenticationController {
                                  RedirectAttributes redir) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = new User(user);
+        User currentUser = userDao.getOne(user.getId());
 
+        //if the current password is entered correctly
         if (passwordEncoder.matches(currentPassword, user.getPassword())) {
+
+            //if the new and confirm password fields match
             if (newPassword.equals(confirmPassword)) {
                 currentUser.setPassword(passwordEncoder.encode(newPassword));
                 userDao.save(currentUser);
                 return "redirect:/logout-change";
             } else {
+                //does not match and can't change password
                 redir.addFlashAttribute("errorMsg", "Passwords don't match");
                 return "redirect:/messages";
             }
         } else {
+            //current password is incorrect and can't change password
             redir.addFlashAttribute("errorMsg", "Incorrect password");
             return "redirect:/messages";
         }
@@ -143,16 +147,16 @@ public class AuthenticationController {
             redir.addFlashAttribute("logoutMsg", "Password successfully changed");
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-
         return "redirect:/login?logout";
     }
 
+    //shows the password recovery page
     @GetMapping("/password-recovery")
     public String recoverPasswordPage() {
-
         return "users/recover-password";
     }
 
+    //shows the password reset page
     @GetMapping("/reset")
     public String resetPassword(@RequestParam("token") String confirmationToken, Model model) {
 
@@ -175,6 +179,7 @@ public class AuthenticationController {
                                  @RequestParam("resetConfirm") String resetConfirm,
                                  RedirectAttributes redir) {
 
+        //if the new and confirm passwords DO NOT match
         if (!resetNew.equals(resetConfirm)) {
 
             redir.addFlashAttribute("msg", "Passwords do not match.");
@@ -182,13 +187,16 @@ public class AuthenticationController {
             return "redirect:/reset?token=" + confirmationToken;
         }
 
+        //else continue looking for the correct user
         User user = userDao.findByPassword(confirmationToken);
 
+        //if the user doesn't exist; let user know of failure
         if (user == null) {
             redir.addFlashAttribute("msg", "Invalid token; try recovery process again");
             return "redirect:/users/password-recovery";
         }
 
+        //otherwise, change the user's password the the new one
         user.setPassword(passwordEncoder.encode(resetNew));
         userDao.save(user);
 
@@ -200,6 +208,7 @@ public class AuthenticationController {
     public String recoverPassword(@RequestParam(name="email") String email,
                                   RedirectAttributes redir) {
 
+        //if the user email doesn't exist
         if (userDao.findByEmailIgnoreCase(email) == null) {
             redir.addFlashAttribute("msg", "There are no accounts associated with " + email);
         } else {
@@ -223,10 +232,6 @@ public class AuthenticationController {
                     " with further instructions to reset your password.");
 
         }
-
         return "redirect:/password-recovery";
-
-
     }
-
 }

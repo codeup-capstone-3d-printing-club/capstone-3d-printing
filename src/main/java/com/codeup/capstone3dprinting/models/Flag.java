@@ -1,9 +1,13 @@
 package com.codeup.capstone3dprinting.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+@Getter @Setter
 @Table(name="flags")
 public class Flag {
 
@@ -19,38 +23,5 @@ public class Flag {
 
     @ManyToOne
     private Reason reason;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public User getReporter() {
-        return reporter;
-    }
-
-    public void setReporter(User reporter) {
-        this.reporter = reporter;
-    }
-
-    public Reason getReason() {
-        return reason;
-    }
-
-    public void setReason(Reason reason) {
-        this.reason = reason;
-    }
-
 
 }

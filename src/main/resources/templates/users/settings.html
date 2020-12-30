@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<head th:replace="partials/header_partial::head">
+    <title id="pageTitle">Manage your account settings</title>
 </head>
-<body>
+<body class="background">
 
 
 <div th:replace="partials/manage-account::settings"></div>
 
 
 <div th:replace="partials/manage-account::account-manager"></div>
+<footer th:replace="partials/footer_partial::footer"></footer>
+<section th:replace="partials/partials_scripts::script"></section>
 </body>
 </html>
