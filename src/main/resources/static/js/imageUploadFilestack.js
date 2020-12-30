@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', function () {
     const client = filestack.init(FILESTACK_API_KEY);
     const options = {
-        maxFiles: 5,
+        maxFiles: 1,
         uploadInBackground: false,
         onUploadDone: uploadFile,
         transformations: {
@@ -19,6 +19,7 @@ window.addEventListener('DOMContentLoaded', function () {
         console.log(fileData.url);
         console.log(fileData.mimeType);
         $('#pickedFile').val(fileData.url);
+        $('#submitAvatar').submit();
     }
 
 });

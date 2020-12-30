@@ -15,6 +15,7 @@ window.addEventListener('DOMContentLoaded', function () {
         console.log(fileData.url);
         console.log(fileData.mimeType);
         $('#pickedFile').val(fileData.url);
+        $('#open').text(fileData.filename);
     }
 
 });
