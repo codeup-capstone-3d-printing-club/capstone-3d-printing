@@ -54,4 +54,12 @@ public class File {
             inverseJoinColumns = {@JoinColumn(name = "category_id")})
     private List<Category> categories;
 
+    public void addImg(FileImage newImg) {
+        this.img.add(newImg);
+    }
+
+    public void removeImg(FileImage newImg) {
+        this.img.remove(newImg);
+    }
+
 }

@@ -16,7 +16,6 @@ import java.util.List;
 @Controller
 class FileController {
 
-    // These two next steps are often called dependency injection, where we create a Repository instance and initialize it in the controller class constructor.
     private final FileRepository fileDao;
     private final CommentRepository commentDao;
     private final UserRepository userDao;
@@ -26,10 +25,12 @@ class FileController {
     private final MessageRepository messageDao;
     private final ImagesRepository imageDao;
 
-    public FileController(FileRepository fileDao, CommentRepository commentdao, UserRepository userdao, RatingRepository ratingDao, CategoryRepository categoryDao, SettingRepository settingDao, MessageRepository messageDao, ImagesRepository imageDao) {
+    public FileController(FileRepository fileDao, CommentRepository commentDao, UserRepository userDao,
+                          RatingRepository ratingDao, CategoryRepository categoryDao, SettingRepository settingDao,
+                          MessageRepository messageDao, ImagesRepository imageDao) {
         this.fileDao = fileDao;
-        this.commentDao = commentdao;
-        this.userDao = userdao;
+        this.commentDao = commentDao;
+        this.userDao = userDao;
         this.ratingDao = ratingDao;
         this.categoryDao = categoryDao;
         this.settingDao = settingDao;
@@ -65,9 +66,7 @@ class FileController {
     public String showPost(@PathVariable long id, Model model) {
         File filedb = fileDao.getOne(id);
         List<FileImage> thisFilesImgs = imageDao.getAllByFile_Id(id);
-        //comments
         List<Comment> thisFilesComments = commentDao.getAllByFile_Id(id);
-        //Rating
         List<Rating> ListOfRatingObjs = ratingDao.getAllByFile_Id(id);
         List<Integer> thisFileRatings = getRatingsList(ListOfRatingObjs);
         double sum = 0;
@@ -80,7 +79,7 @@ class FileController {
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User currentUser = new User(user);
-            for (File f : currentUser.getFavoriteFiles()) {
+            for (File f : currentUser.getFavorites()) {
                 if (f.getId() == id) {
                     favorited = true;
                     break;
@@ -108,7 +107,7 @@ class FileController {
         }
 
         model.addAttribute("file", new File());
-            return "files/createFile";
+        return "files/createFile";
     }
 
     @PostMapping("/files/create")
@@ -222,7 +221,6 @@ class FileController {
         newComment.setOwner(currentUser);
         commentDao.save(newComment);
 
-
         return "redirect:/files/" + file.getId();
     }
 
@@ -253,20 +251,21 @@ class FileController {
         System.out.println("favorited = " + favorited);
 
         if (favorited) {
-            currentUser.getFavoriteFiles().removeIf(n -> n.getId() == id);
+            currentUser.getFavorites().removeIf(n -> n.getId() == id);
 
         } else {
-            currentUser.getFavoriteFiles().add(thisFile);
+            currentUser.getFavorites().add(thisFile);
         }
         userDao.save(currentUser);
         return "redirect:/files/" + id;
     }
+
     @PostMapping("files/search")
-    public String search(@RequestParam(name = "search")String searchTerm, Model model){
+    public String search(@RequestParam(name = "search") String searchTerm, Model model) {
         List<File> searched = fileDao.findAllByDescriptionIsLike("%" + searchTerm + "%");
         List<File> searchedTitle = fileDao.findAllByTitleIsLike("%" + searchTerm + "%");
-        for(File file : searchedTitle){
-            if(!searched.contains(file)){
+        for (File file : searchedTitle) {
+            if (!searched.contains(file)) {
                 searched.add(file);
             }
         }
@@ -277,5 +276,3 @@ class FileController {
         return "index";
     }
 }
-//select liker_id's where file_id like this.id
-//save it in a list get list size, for amount of likes

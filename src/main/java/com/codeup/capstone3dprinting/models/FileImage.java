@@ -22,20 +22,9 @@ public class FileImage {
 
     public FileImage(){}
 
-    public FileImage(long id, File file, String img_url){
-        this.id = id;
-        this.file = file;
-        this.img_url = img_url;
-    }
-
     public FileImage(File file, String img_url){
         this.file = file;
         this.img_url = img_url;
     }
 
-    public FileImage(FileImage copy){
-        id = copy.id;
-        file = copy.file;
-        img_url = copy.img_url;
-    }
 }
