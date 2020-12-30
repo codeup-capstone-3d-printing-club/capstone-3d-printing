@@ -1,12 +1,15 @@
 package com.codeup.capstone3dprinting.models;
 
 import com.mysql.cj.Session;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter @Setter
 @Table(name="ratings")
 public class Rating {
 
@@ -32,30 +35,4 @@ public class Rating {
         this.rating = rating;
         this.file = file;
     }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-
 }

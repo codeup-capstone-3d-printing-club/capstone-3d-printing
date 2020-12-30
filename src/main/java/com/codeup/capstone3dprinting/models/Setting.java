@@ -1,5 +1,7 @@
 package com.codeup.capstone3dprinting.models;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter @Setter
 @Table(name="settings")
 public class Setting {
 
@@ -17,34 +20,5 @@ public class Setting {
 
     @Column(nullable = false)
     private String description;
-
-    public Setting(long id, String description) {
-        this.id = id;
-        this.description = description;
-    }
-
-    public Setting(String description) {
-        this.description = description;
-    }
-
-    public Setting() {
-
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
 }

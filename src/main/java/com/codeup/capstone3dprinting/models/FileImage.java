@@ -1,7 +1,11 @@
 package com.codeup.capstone3dprinting.models;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter @Setter
 @Table(name="file_imgs")
 public class FileImage {
 
@@ -29,34 +33,9 @@ public class FileImage {
         this.img_url = img_url;
     }
 
-
     public FileImage(FileImage copy){
         id = copy.id;
         file = copy.file;
         img_url = copy.img_url;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public String getImg_url(){
-        return this.img_url;
-    }
-
-    public void setImg_url(String img_url){
-        this.img_url = img_url;
     }
 }
