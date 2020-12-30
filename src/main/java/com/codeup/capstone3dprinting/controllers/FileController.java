@@ -109,9 +109,8 @@ class FileController {
 
         model.addAttribute("file", new File());
         model.addAttribute("categoryList", categoryDao.findAll());
-        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser"){
 
-            return "files/createFile";
+        return "files/createFile";
     }
 
     @PostMapping("/files/create")
@@ -270,12 +269,13 @@ class FileController {
         userDao.save(currentUser);
         return "redirect:/files/" + id;
     }
+
     @PostMapping("files/search")
-    public String search(@RequestParam(name = "search")String searchTerm, Model model){
+    public String search(@RequestParam(name = "search") String searchTerm, Model model) {
         List<File> searched = fileDao.findAllByDescriptionIsLike("%" + searchTerm + "%");
         List<File> searchedTitle = fileDao.findAllByTitleIsLike("%" + searchTerm + "%");
-        for(File file : searchedTitle){
-            if(!searched.contains(file)){
+        for (File file : searchedTitle) {
+            if (!searched.contains(file)) {
                 searched.add(file);
             }
         }
