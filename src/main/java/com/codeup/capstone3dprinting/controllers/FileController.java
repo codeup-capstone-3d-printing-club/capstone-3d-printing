@@ -103,12 +103,9 @@ class FileController {
 
     @GetMapping("/files/create")
     public String viewCreateForm(Model model) {
-        System.out.println("SecurityContextHolder.getContext().getAuthentication().getPrincipal() = " +
-                SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
-        System.out.println("currentUser = " + currentUser);
+
         for (User follower : currentUser.getFollowers()) {
             System.out.println("follower.getId() = " + follower.getId());
         }

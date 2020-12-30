@@ -3,8 +3,6 @@
 
 <section th:fragment="script">
     <script th:src="@{/js/keys.js}"></script>
-    <script th:inline="javascript">const fileUrl=[[${file.fileUrl}]]</script>
-    <script type="module" th:src="@{/js/renderer.js}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -14,9 +12,6 @@
             integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
             crossorigin="anonymous"></script>
     <script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
-    <script th:src="@{/js/filestack.js}"></script>
-    <script th:src="@{/js/showAvatarForm.js}"></script>
-    <script th:src="@{/js/imageUploadFilestack.js}"></script>
 
 </section>
 

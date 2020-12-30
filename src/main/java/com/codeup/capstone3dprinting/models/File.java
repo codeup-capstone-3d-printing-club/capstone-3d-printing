@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @Table(name = "files")
 public class File {
 
@@ -46,7 +47,7 @@ public class File {
     private List<Comment> comments;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "file")
-    private List<FileImage> img;
+    private List<FileImage> images;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "file_category",
@@ -55,11 +56,11 @@ public class File {
     private List<Category> categories;
 
     public void addImg(FileImage newImg) {
-        this.img.add(newImg);
+        this.images.add(newImg);
     }
 
     public void removeImg(FileImage newImg) {
-        this.img.remove(newImg);
+        this.images.remove(newImg);
     }
 
 }
