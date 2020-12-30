@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/header_partial :: head"></head>
-<body th:replace="partials/body_partials :: body" ></body>
+<head th:include="partials/header_partial :: head">
+    <title id="pageTitle">Welcome to SquareCubed.xyz</title>
+</head>
+<body class="background">
 <nav th:replace="partials/navbar :: navbar"></nav>
 
 <div id="welcome">
@@ -26,5 +28,6 @@
 
 </div>
 <footer th:replace="partials/footer_partial :: footer"></footer>
+</body>
 </html>
 <!--th:src="@{${'/image/3d_ex1'}}"-->

@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head th:include="partials/header_partial::head">
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title id="pageTitle">Inbox</title>
 </head>
-<body th:replace="partials/body_partials :: body"></body>
+<body class="background">
 <nav th:replace="partials/navbar :: navbar"></nav>
 <div th:if="${param.sent}">Message Sent!</div>
 
@@ -55,5 +54,5 @@
         })
     }
 </script>
-
+</body>
 </html>

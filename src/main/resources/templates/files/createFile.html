@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/header_partial :: head"></head>
-<body th:replace="partials/body_partials :: body"></body>
+<head th:replace="partials/header_partial :: head">
+    <title id="pageTitle">Post a File</title>
+</head>
+<body class="background">
 <nav th:replace="partials/navbar :: navbar"></nav>
 <div class="backgroundDiv">
     <div class="row">
@@ -42,5 +44,5 @@
 <script th:src="@{/js/keys.js}"></script>
 <script th:src="@{/js/filestack.js}"></script>
 
-
+</body>
 </html>

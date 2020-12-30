@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="partials/header_partial :: head"></head>
-<body th:replace="partials/body_partials :: body"></body>
+<head th:replace="partials/header_partial :: head">
+    <title id="pageTitle">File</title>
+</head>
+<body class="background">
 <nav th:replace="partials/navbar :: navbar"></nav>
 <div class="backgroundDiv" style="height: fit-content">
     <h1 th:text="${file.title}">Individual File</h1>
@@ -110,5 +112,5 @@
     <script th:replace="partials/partials_scripts :: script"></script>
     <script type="module" th:src="@{/js/renderer.js}"></script>
 
-
+</body>
 </html>

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/header_partial :: head"></head>
-<body th:replace="partials/body_partials :: body"></body>
+<head th:replace="partials/header_partial :: head">
+    <title id="pageTitle">Edit your file</title>
+</head>
+<body class="background">
 <nav th:replace="partials/navbar :: navbar"></nav>
 <h1>Editing your file post</h1>
 
@@ -51,4 +53,5 @@
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script th:src="@{/js/keys.js}"></script>
 <script th:src="@{/js/imageUploadFilestack.js}"></script>
+</body>
 </html>
