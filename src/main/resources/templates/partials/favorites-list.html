@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>favorites</title>
-</head>
-<body>
+
 <!-- Controller serving the page has to pass down a user (to be followed)
     and whether or not the current user is already following -->
 
@@ -16,5 +12,4 @@
         <a th:text="${file.owner.username}" th:href="@{/profile/{id}(id=*{file.owner.id})}"></a>
     </div>
 </div>
-</body>
 </html>

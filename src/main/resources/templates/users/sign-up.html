@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/header_partial :: head"></head>
-<body th:replace="partials/body_partials :: body" class="container"></body>
-<!--<img th:src="@{/image/3d_bg.jpg}">-->
+<head th:replace="partials/header_partial :: head">
+    <title id="pageTitle">Register an account</title>
+</head>
+<body class="background">
 
-<nav th:replace="partials/navbar :: navbar">
-</nav>
+<nav th:replace="partials/navbar :: navbar"></nav>
 
-        <h1>Create an account</h1>
-        <form id="formFont" th:action="@{/sign-up}" method="POST" th:object="${user}">
-            <label for="username">Username</label>
-            <input id="username" th:field="*{username}"/><br>
+<h1>Create an account</h1>
+<form id="formFont" th:action="@{/sign-up}" method="POST" th:object="${user}">
+    <label for="username">Username</label>
+    <input id="username" th:field="*{username}"/><br>
 
-            <label for="email">Email</label>
-            <input id="email" th:field="*{email}"/><br>
+    <label for="email">Email</label>
+    <input id="email" th:field="*{email}"/><br>
 
-            <label for="firstName">First name</label>
-            <input id="firstName" th:field="*{firstName}"/><br>
+    <label for="firstName">First name</label>
+    <input id="firstName" th:field="*{firstName}"/><br>
 
-            <label for="lastName">Last name</label>
-            <input id="lastName" th:field="*{lastName}"/><br>
+    <label for="lastName">Last name</label>
+    <input id="lastName" th:field="*{lastName}"/><br>
 
-            <label for="password">Password</label>
-            <input id="password" type="password" th:field="*{password}"/><br>
+    <label for="password">Password</label>
+    <input id="password" type="password" th:field="*{password}"/><br>
 
-            <input value="Sign me up!" type="submit"/>
-        </form>
+    <input value="Sign me up!" type="submit"/>
+</form>
 <!--<div id="3d" class="box">-->
 <!--    <div class="inner">-->
 <!--        <span class="filter-shadow">Sign-Up!</span>-->
@@ -35,7 +35,7 @@
 <!--    </div>-->
 <!--</div>-->
 
-<script th:replace="partials/partials_scripts :: script"></script>
 <footer th:replace="partials/footer_partial :: footer"></footer>
+<section th:replace="partials/partials_scripts :: script"></section>
 </body>
 </html>

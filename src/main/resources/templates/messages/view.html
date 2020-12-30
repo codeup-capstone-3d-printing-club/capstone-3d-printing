@@ -2,7 +2,7 @@
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head th:include="partials/header_partial::head">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title id="pageTitle">View Message</title>
 </head>
 <body class="background">
 <nav th:replace="partials/navbar :: navbar"></nav>
@@ -25,7 +25,7 @@
 </div>
 
 
-<script th:replace="partials/partials_scripts :: script"></script>
 <footer th:replace="partials/footer_partial :: footer"></footer>
+<section th:replace="partials/partials_scripts :: script"></section>
 </body>
 </html>
