@@ -1,11 +1,11 @@
-*{
+* {
     box-sizing: border-box;
 }
 
 *:before,
- *:after {
-     box-sizing: border-box;
- }
+*:after {
+    box-sizing: border-box;
+}
 
 /*html, body {*/
 
@@ -17,9 +17,11 @@ body {
     /*background: linear-gradient(180deg, #f14, #ff8300) fixed;*/
     font-family: "Avenir Next Condensed", sans-serif;
 }
+
 h1 {
     color: #613;
-    text-align: center; }
+    text-align: center;
+}
 
 .title {
     font-weight: 600;
@@ -28,17 +30,18 @@ h1 {
     font-size: 10em;
 }
 
-
-
 .filter-shadow {
     color: transparent;
     background: linear-gradient(180deg, #fefefe, #bbb);
     -webkit-background-clip: text;
-    -webkit-filter: drop-shadow(-1px -1px white) drop-shadow(1px 1px gray) drop-shadow(1px 1px #7a7a7a) drop-shadow(1px 1px #757575) drop-shadow(1px 1px #707070) drop-shadow(1px 1px #6b6b6b) drop-shadow(1px 1px #666666) drop-shadow(1px 1px #616161) drop-shadow(1px 1px #5c5c5c) drop-shadow(1px 1px #575757) drop-shadow(1px 1px #525252) drop-shadow(1px 1px #4d4d4d) drop-shadow(12px 12px 30px rgba(0, 0, 0, 0.2)) drop-shadow(12px 12px 10px rgba(0, 0, 0, 0.2)); }
+    -webkit-filter: drop-shadow(-1px -1px white) drop-shadow(1px 1px gray) drop-shadow(1px 1px #7a7a7a) drop-shadow(1px 1px #757575) drop-shadow(1px 1px #707070) drop-shadow(1px 1px #6b6b6b) drop-shadow(1px 1px #666666) drop-shadow(1px 1px #616161) drop-shadow(1px 1px #5c5c5c) drop-shadow(1px 1px #575757) drop-shadow(1px 1px #525252) drop-shadow(1px 1px #4d4d4d) drop-shadow(12px 12px 30px rgba(0, 0, 0, 0.2)) drop-shadow(12px 12px 10px rgba(0, 0, 0, 0.2));
+}
 
 .text-shadow {
     color: #f4f4f4;
-    text-shadow: -1px -1px white, 1px 1px gray, 2px 2px #7a7a7a, 3px 3px #757575, 4px 4px #707070, 5px 5px #6b6b6b, 6px 6px #666666, 7px 7px #616161, 8px 8px #5c5c5c, 9px 9px #575757, 10px 10px #525252, 11px 11px #4d4d4d, 18px 18px 30px rgba(0, 0, 0, 0.4), 18px 18px 10px rgba(0, 0, 0, 0.4); }
+    text-shadow: -1px -1px white, 1px 1px gray, 2px 2px #7a7a7a, 3px 3px #757575, 4px 4px #707070, 5px 5px #6b6b6b, 6px 6px #666666, 7px 7px #616161, 8px 8px #5c5c5c, 9px 9px #575757, 10px 10px #525252, 11px 11px #4d4d4d, 18px 18px 30px rgba(0, 0, 0, 0.4), 18px 18px 10px rgba(0, 0, 0, 0.4);
+}
+
 .box {
     display: flex;
     margin-top: 1em;
@@ -49,7 +52,7 @@ h1 {
     height: 5em;
     line-height: 4.7em;
     font-size: 4rem;
-    font-family:'Mansalva' ;
+    font-family: 'Mansalva';
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
@@ -91,30 +94,29 @@ h1 {
     }
 }
 
-#welcome{
+#welcome {
     margin-top: 4em;
 }
-.background{
+
+.background {
     background: url('../image/3d_bg.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-
-
 }
 
 
 /*Font and background colors*/
 .navbar {
     width: auto;
-
 }
- body, .welcome,h1,h2,h3,h4,#formFont{
+
+body, .welcome, h1, h2, h3, h4, #formFont {
     color: white;
-
 }
-.backgroundDiv{
+
+.backgroundDiv {
     background: rgba(0, 0, 0, 0.7);
     margin-top: 1em;
     margin-bottom: 1em;
@@ -124,7 +126,8 @@ h1 {
     padding: 1em;
     border: black 2px solid
 }
-.categoryDiv{
+
+.categoryDiv {
     margin-top: 2em;
     width: 8rem;
     background-color: #f1f1f1;
@@ -136,7 +139,7 @@ h1 {
     /*top:0;*/
 }
 
-.content{
+.content {
     margin-bottom: 3em;
     margin-left: 12rem;
     padding: 1px 16px;
@@ -145,20 +148,24 @@ h1 {
 }
 
 
-.image{max-width: 9rem}
+.image {
+    max-width: 9rem
+}
 
-.login{
+.login {
     max-width: 500px;
 }
-.adminSubHeadings{
+
+.adminSubHeadings {
     margin-left: 1em;
 }
 
-.navbar{
+.navbar {
     background-color: black;
     opacity: 80%;
 }
-footer{
+
+footer {
     position: relative;
     padding: 2em;
     height: 200px;
@@ -168,16 +175,18 @@ footer{
     opacity: 80%;
     margin-top: 400px;
     z-index: -1;
-
 }
-.links{
+
+.links {
     color: white;
 }
+
 li {
     color: white;
 }
-#example1{
-   height:150px !important;
+
+#example1 {
+    height: 150px !important;
 }
 
 .followBtn {
@@ -232,33 +241,35 @@ li {
 .unfavorite:hover {
     color: goldenrod;
 }
+
 /*media queries*/
 
 @media screen and (max-width: 600px) {
     .title {
         font-size: 3.7em;
     }
-    .searchbar{
+
+    .searchbar {
         display: block;
     }
 }
 
-@media screen and (min-width: 1020px ){
-    .searchBar{
+@media screen and (min-width: 1020px ) {
+    .searchBar {
         display: flex;
-        justify-content:flex-end;
+        justify-content: flex-end;
     }
 }
 
-@media only screen and (max-width: 768px){
-    .content{
+@media only screen and (max-width: 768px) {
+    .content {
         max-width: 60%;
         margin-left: 10rem;
     }
-    .footer{
+
+    .footer {
         position: fixed;
         bottom: 0;
-
     }
 }
 
