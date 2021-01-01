@@ -33,8 +33,6 @@ public class ConfirmationToken {
         confirmationToken = UUID.randomUUID().toString();
     }
 
-    public ConfirmationToken() {
-
-    }
+    public ConfirmationToken() { }
 
 }

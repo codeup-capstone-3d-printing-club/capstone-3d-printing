@@ -38,7 +38,6 @@ public class AuthenticationController {
 
     public AuthenticationController(EmailService emailService, ConfirmationTokenRepository tokenDao,
                                     UserRepository userDao, PasswordEncoder passwordEncoder) {
-
         this.emailService = emailService;
         this.tokenDao = tokenDao;
         this.userDao = userDao;
@@ -46,18 +45,18 @@ public class AuthenticationController {
     }
 
     @GetMapping("/sign-up")
-    public String showSignupForm(Model model){
+    public String showSignupForm(Model model) {
         model.addAttribute("user", new User());
         return "users/sign-up";
     }
 
     @PostMapping("/sign-up")
-    public String saveUser(@ModelAttribute User user, Model model){
+    public String saveUser(@ModelAttribute User user, Model model) {
         String hash = passwordEncoder.encode(user.getPassword());
 
         //user is passed in from the form
         user.setPassword(hash);
-        user.setAvatarUrl("none");
+        user.setAvatarUrl("/image/placeholder-avatar.jpg");
         user.setAdmin(false);
         user.setVerified(false);
         user.setActive(true);
@@ -83,7 +82,7 @@ public class AuthenticationController {
             mailMessage.setSubject("Complete Registration!");
             mailMessage.setFrom("no-reply@squarecubed.xyz");
             mailMessage.setText("To confirm your account, please click here : "
-                    +"http://localhost:8080/confirm-account?token="+confirmationToken.getConfirmationToken());
+                    + "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
 
             emailService.sendEmail(mailMessage);
 
@@ -93,18 +92,16 @@ public class AuthenticationController {
         }
     }
 
-    @RequestMapping(value="/confirm-account", method= {RequestMethod.GET, RequestMethod.POST})
-    public String confirmUserAccount(Model model, @RequestParam("token")String confirmationToken)
-    {
+    @RequestMapping(value = "/confirm-account", method = {RequestMethod.GET, RequestMethod.POST})
+    public String confirmUserAccount(Model model, @RequestParam("token") String confirmationToken) {
         ConfirmationToken token = tokenDao.findByConfirmationToken(confirmationToken);
 
         if (token != null) {
             User user = userDao.findByEmailIgnoreCase(token.getUser().getEmail());
             user.setVerified(true);
             userDao.save(user);
-        }
-        else {
-            model.addAttribute("message","The link is invalid or broken!");
+        } else {
+            model.addAttribute("message", "The link is invalid or broken!");
         }
         return "home";
     }
@@ -205,7 +202,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/password-recovery")
-    public String recoverPassword(@RequestParam(name="email") String email,
+    public String recoverPassword(@RequestParam(name = "email") String email,
                                   RedirectAttributes redir) {
 
         //if the user email doesn't exist
@@ -224,7 +221,7 @@ public class AuthenticationController {
             mailMessage.setSubject("[squarecubed.xyz] Reset your password");
             mailMessage.setFrom("no-reply@squarecubed.xyz");
             mailMessage.setText("Username: " + user.getUsername() + "\nTo finish resetting your password, please click here : "
-                    +"http://localhost:8080/reset?token="+confirmationToken.getConfirmationToken());
+                    + "http://localhost:8080/reset?token=" + confirmationToken.getConfirmationToken());
 
             emailService.sendEmail(mailMessage);
 
