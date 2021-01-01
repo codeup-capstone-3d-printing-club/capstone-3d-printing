@@ -7,7 +7,7 @@
 <body class="background">
 <nav th:replace="partials/navbar :: navbar"></nav>
 
-<div class="d-flex align-items-center">
+<div class="d-flex align-items-center mt-2">
     <h1 class="d-inline"><span class="d-inline" th:text="${user.username}"></span></h1>
     <div class="d-inline" sec:authorize="isAuthenticated()">
         <form th:replace="partials/follow-button::follow"></form>
@@ -28,8 +28,9 @@
         </div>
     </form>
 </div>
+<br>
 <div class="col-8">
-    <h3>Hello, <h2 th:text="${user.firstName}"></h2></h3>
+    <h3>Hello, <span th:text="${user.firstName}"></span>!</h3>
     <br>
     <hr>
     Joined at: <p th:text="${user.joinedAt}">
@@ -47,7 +48,7 @@
     </div>
     <h3><span th:text="${user.username}">'s uploaded files</span></h3>
     <div th:each="file : ${thisUsersFiles}">
-        <div class="card" style="background-color: #4d4d4d">
+        <div class="card backgroundDiv" >
             <div class="card-title" th:text="${file.title}"></div>
             <div class="card-body" th:text="${file.description}"></div>
             Created:
