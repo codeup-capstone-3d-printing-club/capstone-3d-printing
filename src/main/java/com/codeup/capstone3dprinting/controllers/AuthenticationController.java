@@ -14,11 +14,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -51,44 +53,52 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sign-up")
-    public String saveUser(@ModelAttribute User user, Model model) {
-        String hash = passwordEncoder.encode(user.getPassword());
-
-        //user is passed in from the form
-        user.setPassword(hash);
-        user.setAvatarUrl("/image/placeholder-avatar.jpg");
-        user.setAdmin(false);
-        user.setVerified(false);
-        user.setActive(true);
-        user.setJoinedAt(new Timestamp(new Date().getTime()));
-
-        User existingUserEmail = userDao.findByEmailIgnoreCase(user.getEmail());
-        User existingUsername = userDao.findByUsernameIgnoreCase(user.getUsername());
-
-        if (existingUserEmail != null || existingUsername != null) {
-
-            // TODO: give the user a more detailed message about why account creation failed
-            return "redirect:/login/?fail";
-
+    public String saveUser(@Valid @ModelAttribute User user, Model model, Errors validation) {
+        if (validation.hasErrors()) {
+            // TODO: give user message about unmatched password
+            System.out.println("hi");
+            model.addAttribute("errors", validation);
+            model.addAttribute("user", user);
+            return "users/sign-up";
         } else {
-            userDao.save(user);
+            String hash = passwordEncoder.encode(user.getPassword());
 
-            ConfirmationToken confirmationToken = new ConfirmationToken(user);
+            //user is passed in from the form
+            user.setPassword(hash);
+            user.setAvatarUrl("/image/placeholder-avatar.jpg");
+            user.setAdmin(false);
+            user.setVerified(false);
+            user.setActive(true);
+            user.setJoinedAt(new Timestamp(new Date().getTime()));
 
-            tokenDao.save(confirmationToken);
+            User existingUserEmail = userDao.findByEmailIgnoreCase(user.getEmail());
+            User existingUsername = userDao.findByUsernameIgnoreCase(user.getUsername());
 
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setTo(user.getEmail());
-            mailMessage.setSubject("Complete Registration!");
-            mailMessage.setFrom("no-reply@squarecubed.xyz");
-            mailMessage.setText("To confirm your account, please click here : "
-                    + "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
+            if (existingUserEmail != null || existingUsername != null) {
 
-            emailService.sendEmail(mailMessage);
+                // TODO: give the user a more detailed message about why account creation failed
+                return "redirect:/login/?fail";
 
-            model.addAttribute("email", user.getEmail());
+            } else {
+                userDao.save(user);
 
-            return "redirect:/login/?success";
+                ConfirmationToken confirmationToken = new ConfirmationToken(user);
+
+                tokenDao.save(confirmationToken);
+
+                SimpleMailMessage mailMessage = new SimpleMailMessage();
+                mailMessage.setTo(user.getEmail());
+                mailMessage.setSubject("Complete Registration!");
+                mailMessage.setFrom("no-reply@squarecubed.xyz");
+                mailMessage.setText("To confirm your account, please click here : "
+                        + "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
+
+                emailService.sendEmail(mailMessage);
+
+                model.addAttribute("email", user.getEmail());
+
+                return "redirect:/login/?success";
+            }
         }
     }
 

@@ -12,6 +12,7 @@
     <div class="mb-3">
         <label for="username" class="form-label">Username</label>
         <input id="username" class="form-control" th:field="*{username}"/>
+        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
     </div>
 
     <div class="mb-3">
@@ -36,7 +37,8 @@
 
     <div class="mb-3">
         <label for="confirmedPassword" class="form-label">Confirm Password</label>
-        <input id="confirmedPassword" class="form-control" type="password" th:field="*{password}"/>
+        <input id="confirmedPassword" class="form-control" type="password" th:field="*{confirmPassword}"/>
+        <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
     </div>
 
     <input value="Sign me up!" type="submit"/>

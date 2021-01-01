@@ -7,6 +7,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "User must have a username")
     @Column(nullable = false, length = 45, unique = true)
     private String username;
 
@@ -35,6 +38,30 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+
+    @Transient
+    @NotNull(message="not match")
+    private String confirmPassword;
+
+    public void setPassword(String password) {
+        this.password = password;
+        checkPassword();
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+        checkPassword();
+    }
+
+    private void checkPassword() {
+        if(this.password == null || this.confirmPassword == null){
+            return;
+        }else if(!this.password.equals(confirmPassword)){
+            this.confirmPassword = null;
+        }
+    }
+
 
     @Column(name = "is_verified", nullable = false)
     private boolean isVerified;
