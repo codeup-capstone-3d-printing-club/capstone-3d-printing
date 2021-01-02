@@ -11,33 +11,33 @@
 <form class="backgroundDiv login" id="formFont" th:action="@{/sign-up}" method="POST" th:object="${user}">
     <div class="mb-3">
         <label for="username" class="form-label">Username</label>
-        <input id="username" class="form-control" th:field="*{username}"/>
+        <input id="username" class="form-control" type="text" th:field="*{username}" required/>
     </div>
-
+<!--add type-->
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input id="email" class="form-control" th:field="*{email}"/>
+        <input id="email" class="form-control" type="email" th:field="*{email}" required/>
     </div>
 
     <div class="mb-3">
         <label for="firstName" class="form-label">First name</label>
-        <input id="firstName" class="form-control" th:field="*{firstName}"/>
+        <input id="firstName" class="form-control" type="text" th:field="*{firstName}" required/>
     </div>
 
     <div class="mb-3">
         <label for="lastName" class="form-label">Last name</label>
-        <input id="lastName" class="form-control" th:field="*{lastName}"/>
+        <input id="lastName" class="form-control" type="text" th:field="*{lastName}" required/>
     </div>
 
     <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input id="password" class="form-control" type="password" th:field="*{password}"/>
+        <input id="password" class="form-control" type="password" th:field="*{password}" required/>
     </div>
 
-<!--    <div class="mb-3">-->
-<!--        <label for="confirmedPassword" class="form-label">Confirm Password</label>-->
-<!--        <input id="confirmedPassword" class="form-control" type="password" th:field="*{password}"/>-->
-<!--    </div>-->
+    <div class="mb-3">
+        <label for="confirmedPassword" class="form-label">Confirm Password</label>
+        <input id="confirmedPassword" class="form-control" type="password" name="confirmPassword" required/>
+    </div>
 
     <input value="Sign me up!" type="submit"/>
 </form>
