@@ -17,16 +17,16 @@
           class="backgroundDiv card ml-1 col-auto">
         <div class="my-3 mx-2">
             <label for="exampleFormControlInput1" class="form-label">Title</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{title}" placeholder="">
+            <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{title}" placeholder="Give your 3D model a title" required>
         </div>
         <div class="mb-3 mx-2">
             <label for="exampleFormControlTextarea1" class="form-label">Description</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" th:field="*{description}"
-                      rows="3"></textarea>
+                      rows="3" required></textarea>
         </div>
         <div class="mb-6 mx-2">
             <input class="form-control form-control-lg" id="pickedFile" type="hidden" th:field="*{fileUrl}">
-            <button type="button" id="open">Choose File</button>
+            <button type="button" id="open">Choose your 3D File</button>
         </div>
         <br>
         <div class="my-6 mx-2">
