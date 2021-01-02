@@ -28,6 +28,7 @@
             <input class="form-control form-control-lg" id="pickedFile" type="hidden" th:field="*{fileUrl}">
             <button type="button" id="open">Choose File</button>
         </div>
+        <br>
         <div class="my-6 mx-2">
             <div>Pick categories:</div>
             <th:block th:each="category : ${categoryList}">
@@ -38,7 +39,6 @@
                            th:text="${category.category}"></label>
                 </div>
             </th:block>
-
         </div>
         <div class="my-3 mx-2 form-check form-switch">
             <input type="checkbox" class="form-check-input" id="exampleCheck1" th:field="*{private}">
