@@ -11,22 +11,22 @@
 <form class="backgroundDiv login" id="formFont" th:action="@{/sign-up}" method="POST" th:object="${user}">
     <div class="mb-3">
         <label for="username" class="form-label">Username</label>
-        <input id="username" class="form-control" th:field="*{username}"/>
+        <input id="username" class="form-control" type="text" th:field="*{username}"/>
     </div>
-
+<!--add type-->
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input id="email" class="form-control" th:field="*{email}"/>
+        <input id="email" class="form-control" type="email" th:field="*{email}"/>
     </div>
 
     <div class="mb-3">
         <label for="firstName" class="form-label">First name</label>
-        <input id="firstName" class="form-control" th:field="*{firstName}"/>
+        <input id="firstName" class="form-control" type="text" th:field="*{firstName}"/>
     </div>
 
     <div class="mb-3">
         <label for="lastName" class="form-label">Last name</label>
-        <input id="lastName" class="form-control" th:field="*{lastName}"/>
+        <input id="lastName" class="form-control" type="text" th:field="*{lastName}"/>
     </div>
 
     <div class="mb-3">
