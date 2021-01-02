@@ -21,13 +21,16 @@
     </div>
 
     <div class="row justify-content-between content">
-        <div class="backgroundDiv col-11 col-md-3 col-lg-3 col-sm-10" th:each="file : ${files}">
+        <div class="backgroundDiv col-11 col-md-3 col-lg-3 col-sm-10 d-flex flex-column align-items-center justify-content-between"
+             th:each="file : ${files}">
             <img class="image" src="https://picsum.photos/300/200"
                  alt="randomized picture">
-            <div>
-                <a th:href="@{'/files/' + ${file.id}}" th:text="${file.title}"></a>
-                <p th:text="${file.description}"></p>
-                <span>Created by: </span><a th:href="@{'/profile/' + ${file.owner.id}}"
+            <div class="mt-2">
+                <a th:href="@{'/files/' + ${file.id}}" th:text="${file.title}" class="text-center"></a>
+                <!--                <p th:text="${file.description}"></p>-->
+            </div>
+            <div class="align-self-start">
+                <span>By: </span><a th:href="@{'/profile/' + ${file.owner.id}}"
                                             th:text="${file.owner.username}"></a>
                 <!--            <form th:action="@{/files/{id}(id=${file.id})}" th:value="${file.id}" method="get">-->
                 <!--                <button class="btn btn-outline-primary my-2" type="submit">see details</button>-->
