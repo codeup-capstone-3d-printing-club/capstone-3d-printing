@@ -7,19 +7,28 @@
 <body class="background">
 <nav th:replace="partials/navbar :: navbar"></nav>
 
-<form th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" method="post">
-    <label for="username">Username</label>
-    <input name="username" id="username" th:value="${user.username}" th:field="*{username}"/>
-    <br>
-    <label for="firstName">First Name</label>
-    <input type="text" id="firstName" name="firstName" th:value="${user.firstName}" th:field="*{firstName}" />
-    <label for="lastName">Last Name</label>
-    <input type="text" id="lastName" name="lastName" th:value="${user.lastName}" th:field="*{lastName}"/>
-    <label for="email">Email</label>
-    <input type="text" id="email" name="email" th:value="${user.email}" th:field="*{email}"/>
-    <br>
-    <button th:type="submit" class="btn">Submit</button>
-</form>
+<div class="container">
+    <form class="backgroundDiv login" th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" method="post">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input name="username" class="form-control" type="text" id="username" th:value="${user.username}" th:field="*{username}"/>
+        </div>
+        <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" id="firstName" name="firstName" class="form-control" th:value="${user.firstName}" th:field="*{firstName}"/>
+        </div>
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" id="lastName" name="lastName" class="form-control" th:value="${user.lastName}" th:field="*{lastName}"/>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-control" th:value="${user.email}" th:field="*{email}"/>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
 </body>
