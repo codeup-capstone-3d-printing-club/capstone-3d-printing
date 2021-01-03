@@ -57,7 +57,7 @@
         <div class="col-12 col-sm-6 col-md-9">
             <div class="backgroundDiv">
 
-                <ul class="nav nav-pills mb-3 nav-fill" id="myTab" role="tablist">
+                <ul class="nav nav-pills mb-3 nav-fill fs-5" id="myTab" role="tablist">
                     <li class="nav-item backgroundDiv" role="presentation">
                         <a class="nav-link link-danger" id="files-tab" data-bs-toggle="pill" href="#files" role="tab">Uploaded
                             Files</a>
@@ -68,7 +68,8 @@
                             Feed</a>
                     </li>
                     <li class="nav-item backgroundDiv" role="presentation">
-                        <a class="nav-link link-danger" id="favorites-tab" data-bs-toggle="pill" href="#favorites" role="tab">Favorites</a>
+                        <a class="nav-link link-danger" id="favorites-tab" data-bs-toggle="pill" href="#favorites"
+                           role="tab">Favorites</a>
                     </li>
                 </ul>
 
@@ -78,12 +79,18 @@
                             <h3 class="text-center"><span th:text="${user.username}"></span>'s uploaded files</h3>
                             <div th:each="file : ${thisUsersFiles}" class="col-12 col-md-6">
                                 <div class="card backgroundDiv d-flex flex-column align-items-center justify-content-between">
-                                    <a th:href="@{'/files/' + ${file.id}}" class="card-title link-danger"
+                                    <a th:href="@{'/files/' + ${file.id}}" class="card-title link-danger fs-5"
                                        th:text="${file.title}"></a>
                                     <div class="card-body">Created at: <span th:text="${file.createdAt}"></span></div>
                                     <img class="image" src="https://picsum.photos/300/200"
                                          alt="randomized picture">
                                     <div class="card-body" th:text="${file.description}"></div>
+                                    <div class="card-footer" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
+                                        <a href="#" class="btn btn-primary" data-toggle="modal"
+                                           data-target="#editModal">edit</a>
+                                        <a href="#" class="btn btn-danger" data-toggle="modal"
+                                           data-target="#deleteModal">delete</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

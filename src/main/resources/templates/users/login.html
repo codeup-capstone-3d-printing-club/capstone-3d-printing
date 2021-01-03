@@ -3,32 +3,34 @@
 <head th:include="partials/header_partial::head">
     <title id="pageTitle">Log In</title>
 </head>
-<nav th:replace="partials/navbar :: navbar"></nav>
 <body class="background">
+<nav th:replace="partials/navbar :: navbar"></nav>
 
-<div class="backgroundDiv login">
-    <h1>Log In</h1>
-    <div th:if="${param.error}">
-        Invalid Username and Password.
+<div class="container">
+    <div class="backgroundDiv login">
+        <h1>Log In</h1>
+        <div th:if="${param.error}">
+            Invalid Username and Password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
     </div>
-    <div th:if="${param.logout}">
-        You have been logged out.
-    </div>
+    <!--bootstrap Form-->
+    <form class="backgroundDiv login" th:action="@{/login}" method="post">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input class="form-control" id="username" name="username" type="text" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" id="password">
+        </div>
+        <input type="submit" value="Log In"/>
+    </form>
+    <div th:replace="partials/manage-account::recovery-link"></div>
 </div>
-<!--bootstrap Form-->
-<form class="backgroundDiv login" th:action="@{/login}" method="post">
-    <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input class="form-control" id="username" name="username" type="text" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-    </div>
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" name="password" class="form-control" id="password">
-    </div>
-    <input type="submit" value="Log In"/>
-</form>
-<div th:replace="partials/manage-account::recovery-link"></div>
 
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
