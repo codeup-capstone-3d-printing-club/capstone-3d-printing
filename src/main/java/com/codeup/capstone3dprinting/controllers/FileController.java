@@ -215,11 +215,12 @@ class FileController {
         return "redirect:/files/" + file.getId();
     }
 
-    @PostMapping("/files/{id}/delete")
+    @GetMapping("/files/{id}/delete")
     public String deleteFilePost(@PathVariable long id) {
+        User user = userDao.findByFiles(fileDao.getOne(id));
         fileDao.deleteById(id);
 //        TODO: redirect back to the list of your own file posts/ or admin dashboard if admin
-        return "redirect:/files";
+        return "redirect:/profile/" + user.getId();
     }
 
     // user can only unflag as admin

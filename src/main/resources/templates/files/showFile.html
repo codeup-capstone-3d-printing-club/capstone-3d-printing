@@ -16,8 +16,8 @@
             <div class="col-12 col-md-8 mb-3" id="renderer"></div>
 
             <div class="col-12 col-md-4 mb-3">
-                <div>Date created: <span th:text="${file.createdAt}"></span></div>
-                <div>Date last updated: <span th:text="${file.updatedAt}"></span></div>
+                <div>Date created: <span th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></div>
+                <div>Date last updated: <span th:text="${#dates.format(file.updatedAt, 'yyyy-MM-dd')}"></span></div>
                 <p>Is private = <span th:text="${file.private}"></span></p>
                 <!--    TODO: only show this if admin-->
                 <p>Is flagged = <span th:text="${file.isFlagged()}"></span></p>

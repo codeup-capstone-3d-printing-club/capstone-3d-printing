@@ -21,7 +21,7 @@
                     </div>
                 </div>
 
-                <div>Joined at: <span th:text="${user.joinedAt}"></span></div>
+                <div>Joined at: <span th:text="${#dates.format(user.joinedAt, 'yyyy-MM-dd')}"></span></div>
                 <hr>
 
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
@@ -81,16 +81,17 @@
                                 <div class="card backgroundDiv d-flex flex-column align-items-center justify-content-between">
                                     <a th:href="@{'/files/' + ${file.id}}" class="card-title link-danger fs-5"
                                        th:text="${file.title}"></a>
-                                    <div class="card-body">Created at: <span th:text="${file.createdAt}"></span></div>
+                                    <div class="card-body">Created at: <span th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></div>
                                     <img class="image" src="https://picsum.photos/300/200"
                                          alt="randomized picture">
                                     <div class="card-body" th:text="${file.description}"></div>
                                     <div class="card-footer" sec:authorize="isAuthenticated()"
                                          th:if="${#authentication.principal.id == user.id}">
-                                        <a th:href="@{/files/{id}/edit(id=${file.id})}" class="btn btn-dark">edit</a>
-                                        <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="delete" class="d-inline-block">
-                                            <button th:type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
+                                        <a th:href="@{/files/{id}/edit(id=${file.id})}" class="btn btn-dark"><i class="fas fa-edit"></i></a>
+                                        <a th:href="@{/files/{id}/delete(id=${file.id})}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+<!--                                        <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="delete" class="d-inline-block">-->
+<!--                                            <button th:type="submit" class="btn btn-danger">Delete</button>-->
+<!--                                        </form>-->
 <!--                                        <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" th:data-bs-whatever="${file.id}">delete</a>-->
                                     </div>
                                 </div>
