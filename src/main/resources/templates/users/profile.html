@@ -16,7 +16,7 @@
 
                 <div class="d-flex align-items-center mt-2">
                     <h1 class="d-inline"><span class="d-inline" th:text="${user.username}"></span></h1>
-                    <div class="d-inline" sec:authorize="isAuthenticated()">
+                    <div class="d-inline" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id != user.id}">
                         <form th:replace="partials/follow-button::follow"></form>
                     </div>
                 </div>
