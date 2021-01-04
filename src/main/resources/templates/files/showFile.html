@@ -81,7 +81,7 @@
                 <button class="btn btn-outline-danger">add to list</button>
                 <button class="btn btn-outline-danger">comment</button>
 
-                <div class="d-inline" sec:authorize="isAuthenticated()">
+                <div class="d-inline" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id!=file.owner.id}">
                     <form th:replace="partials/favorite-button::favorite"></form>
                 </div>
             </div>
