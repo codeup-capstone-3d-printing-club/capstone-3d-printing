@@ -2,6 +2,7 @@ package com.codeup.capstone3dprinting;
 
 import com.codeup.capstone3dprinting.models.Message;
 import com.codeup.capstone3dprinting.models.User;
+import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
 import com.codeup.capstone3dprinting.repos.MessageRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import org.junit.After;
@@ -195,13 +196,25 @@ public class CapstoneIntegrationTests {
         this.mvc.perform(get("/password-recovery").with(csrf()))
                 .andExpect(content().string(containsString("Please enter the email associated with your account")));
 
-        this.mvc.perform(post("/password-recovery").with(csrf())
-                .param("email", testUser.getEmail()))
-                .andExpect(redirectedUrl("/password-recovery"));
+        this.mvc.perform(post("/logout").with(csrf()).session((MockHttpSession) httpSession))
+                .andExpect(redirectedUrl("/login?logout"));
 
+        assertEquals(testUser.getEmail(), "testUser@codeup.com");
 
-
-
+//        this.mvc.perform(post("/password-recovery").with(csrf())
+//                .session((MockHttpSession) httpSession)
+//                .param("email", testUser.getEmail()))
+//                .andExpect(redirectedUrl("/password-recovery"));
+//
+//        String token = testUser.getPassword();
+//        assertNotEquals(token, "pass");
+//
+//        this.mvc.perform(post("/reset").with(csrf())
+//                .param("token", testUser.getPassword())
+//                .param("resetNew", "codeup2")
+//                .param("resetConfirm", "codeup2"));
+//
+//        assertEquals(testUser.getPassword(), "a");
 
     }
 
