@@ -44,6 +44,7 @@ public class AuthenticationController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    //TODO: logged in user can still directly access this url
     @GetMapping("/sign-up")
     public String showSignupForm(Model model) {
         model.addAttribute("user", new User());
@@ -51,7 +52,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sign-up")
-    public String saveUser(@ModelAttribute User user, Model model, @RequestParam(name = "confirmPassword") String confirmPassword) {
+    public String saveUser(@RequestBody User user, Model model, @RequestParam(name = "confirmPassword") String confirmPassword) {
         //TODO: need to give user an error message
         if (!user.getPassword().equals(confirmPassword)) {
             return "redirect:/sign-up";
@@ -87,7 +88,7 @@ public class AuthenticationController {
             mailMessage.setSubject("Complete Registration!");
             mailMessage.setFrom("no-reply@squarecubed.xyz");
             mailMessage.setText("To confirm your account, please click here : "
-                    + "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationToken());
+                    + "http://squarecubed.xyz/confirm-account?token=" + confirmationToken.getConfirmationToken());
 
             emailService.sendEmail(mailMessage);
 
@@ -226,7 +227,7 @@ public class AuthenticationController {
             mailMessage.setSubject("[squarecubed.xyz] Reset your password");
             mailMessage.setFrom("no-reply@squarecubed.xyz");
             mailMessage.setText("Username: " + user.getUsername() + "\nTo finish resetting your password, please click here : "
-                    + "http://localhost:8080/reset?token=" + confirmationToken.getConfirmationToken());
+                    + "http://squarecubed.xyz/reset?token=" + confirmationToken.getConfirmationToken());
 
             emailService.sendEmail(mailMessage);
 

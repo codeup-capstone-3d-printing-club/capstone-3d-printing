@@ -4,6 +4,8 @@ import com.codeup.capstone3dprinting.models.Message;
 import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.MessageRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,12 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -79,6 +87,11 @@ public class CapstoneIntegrationTests {
                 .getSession();
     }
 
+    @After
+    public void postTest() {
+        userDao.delete(userDao.findByUsernameIgnoreCase("testUser"));
+    }
+
     @Test
     public void contextLoads() {
         // Sanity Test, just to make sure the MVC bean is working
@@ -107,7 +120,63 @@ public class CapstoneIntegrationTests {
         assertEquals(message.getSender().getId(), testUser.getId());
 
         messageDao.delete(message);
+    }
+
+    @Test
+    public void testChangePassword() throws Exception {
+
+        //when current password is entered in wrong
+        this.mvc.perform(post("/change-password").with(csrf())
+                .session((MockHttpSession) httpSession)
+                .param("newPassword", "newpass1")
+                .param("confirmPassword", "newpass1")
+                .param("currentPassword", "password"))
+                .andExpect(redirectedUrl("/messages"));
+
+        //when new password doesn't match with confirm
+        this.mvc.perform(post("/change-password").with(csrf())
+                .session((MockHttpSession) httpSession)
+                .param("newPassword", "newpass1")
+                .param("confirmPassword", "newpass2")
+                .param("currentPassword", "pass"))
+                .andExpect(redirectedUrl("/messages"));
+
+        //should result in successful password change, then log the user out
+        this.mvc.perform(post("/change-password").with(csrf())
+                .session((MockHttpSession) httpSession)
+                .param("newPassword", "newpass1")
+                .param("confirmPassword", "newpass1")
+                .param("currentPassword", "pass"))
+                .andExpect(redirectedUrl("/logout-change"));
+
+        //the user tries to log in with the wrong password
+        this.mvc.perform(post("/login").with(csrf())
+                .param("username", "testUser")
+                .param("password", "pass"))
+                .andExpect(status().is(HttpStatus.FOUND.value()))
+                .andExpect(redirectedUrl("/login?error"))
+                .andReturn()
+                .getRequest()
+                .getSession();
+
+        //user signs in correctly with the newly changed password
+        this.mvc.perform(post("/login").with(csrf())
+                .param("username", "testUser")
+                .param("password", "newpass1"))
+                .andExpect(status().is(HttpStatus.FOUND.value()))
+                .andExpect(redirectedUrl("/"))
+                .andReturn()
+                .getRequest()
+                .getSession();
 
     }
+
+
+
+//    @Test
+//    public void testSigningUpWhenUsernameOrEmailAlreadyExists() throws Exception {
+//
+//    }
+
 
 }
