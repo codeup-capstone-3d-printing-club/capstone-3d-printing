@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/ajax")
 public class AjaxController {
-    
+
     private final MessageRepository messageDao;
 
     public AjaxController(MessageRepository messageDao) {
@@ -23,7 +23,7 @@ public class AjaxController {
         message.setUnread(false);
         messageDao.save(message);
 
-        return "something";
+        return "";
     }
 
 

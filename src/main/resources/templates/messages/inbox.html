@@ -7,13 +7,13 @@
 <nav th:replace="partials/navbar :: navbar"></nav>
 <div th:if="${param.sent}">Message Sent!</div>
 
-<div class="container">
 
-    <div class="d-flex">
+
+    <div class="backgroundDiv">
 
         <div th:replace="partials/messages::messageOptions"></div>
 
-        <div class="tab-content m-2" id="v-pills-tabContent">
+        <div class="tab-content m-2 mt-2" id="v-pills-tabContent">
 
             <!-- INBOX -->
             <div th:replace="partials/messages::inboxMessages"></div>
@@ -21,13 +21,17 @@
             <!-- SENT -->
             <div th:replace="partials/messages::sentMessages"></div>
 
+
+
             <!-- TODO: trash functionality will probably require a small database change -->
             <div class="tab-pane fade" id="trash" role="tabpanel" aria-labelledby="trash-tab">trash</div>
+
         </div>
+        <div class="backgroundDiv"><a class="" href="/messages/compose" style="text-decoration: none;">Compose</a></div>
     </div>
 
 
-</div>
+
 <footer th:include="partials/footer_partial::footer"></footer>
 <section th:replace="partials/partials_scripts::script"></section>
 <script>
