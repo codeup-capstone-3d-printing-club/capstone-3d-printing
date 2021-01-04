@@ -61,15 +61,18 @@
                     <li class="nav-item backgroundDiv" role="presentation">
                         <a class="nav-link link-danger" id="files-tab" data-bs-toggle="pill" href="#files" role="tab">Uploaded
                             Files</a>
+                        <div class="fs-6" th:text="${thisUsersFiles.size()}"></div>
                     </li>
                     <li sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}"
                         class="nav-item backgroundDiv" role="presentation">
                         <a class="nav-link link-danger" id="follow-tab" data-bs-toggle="pill" href="#follow" role="tab">Follow
                             Feed</a>
+                        <div class="fs-6" th:text="${feed.size()}"></div>
                     </li>
                     <li class="nav-item backgroundDiv" role="presentation">
                         <a class="nav-link link-danger" id="favorites-tab" data-bs-toggle="pill" href="#favorites"
                            role="tab">Favorites</a>
+                        <div class="fs-6" sec:authorize="isAuthenticated()" th:text="${favorites.size()}"></div>
                     </li>
                 </ul>
 

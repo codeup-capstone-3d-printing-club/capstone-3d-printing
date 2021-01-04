@@ -62,7 +62,6 @@ class UserController {
 
             //otherwise, follow the user
         } else {
-
             User followedUser = userDao.getOne(id);
 
             //sends a message notifying the user they have been followed if optional setting is on
@@ -82,7 +81,6 @@ class UserController {
 
     @GetMapping("/profile/{id}")
     public String showProfile(@PathVariable long id, Model model) {
-
         boolean hasUser = false;
 
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
