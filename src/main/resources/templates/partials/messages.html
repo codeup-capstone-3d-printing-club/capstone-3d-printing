@@ -54,10 +54,33 @@
 
 <div th:fragment="inboxMessages" class="tab-pane fade show active" id="inbox" role="tabpanel"
      aria-labelledby="inbox-tab">
+
     <div class="d-flex">
+        <table class="table table-hover table-dark " >
+            <thead>
+            <tr>
+                <th scope="col-6">From:</th>
+<!--                <th scope="col">User</th>-->
+                <th scope="col-6">Message:</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="nav-item "th:each="message : ${received}">
+                <td><a th:text="${message.sender.username}"></a></td>
+                <td>
+                    <a class="subject nav-link w-100" style="margin-top: -8px" th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
+                       th:href="${'#message-' + message.id}" role="tab" th:aria-controls="${'message-' + message.id}"
+                       th:onclick="'javascript:markRead(' + ${message.id} + ')'">
+                        <span th:if="${message.unread}" th:text="${message.message}" class="text-danger"></span>
+                        <span th:unless="${message.unread}" th:text="${message.message}"></span>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
         <ul class="nav flex-column nav-tabs" id="v-tabs" role="tablist" aria-orientation="vertical">
             <li class="nav-item d-flex w-100" th:each="message : ${received}">
-                <a class="subject nav-link w-100" th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
+                <a class="subject nav-link w-100" style="margin-top: -8px" th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
                    th:href="${'#message-' + message.id}" role="tab" th:aria-controls="${'message-' + message.id}"
                    th:onclick="'javascript:markRead(' + ${message.id} + ')'">
                     <span th:if="${message.unread}" th:text="${message.message}" class="text-danger"></span>
