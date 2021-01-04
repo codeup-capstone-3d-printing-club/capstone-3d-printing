@@ -8,21 +8,24 @@
 <nav th:replace="partials/navbar :: navbar"></nav>
 <!--TODO: make usernames clickable to view profiles -->
 <!-- reply button -->
-<div>
-    TO: <span th:text="${message.recipient.username}"></span>
-</div>
 
-<div>
-    FROM: <span th:text="${message.sender.username}"></span>
-</div>
+    <section class="backgroundDiv">
+        <div>
+            TO: <span th:text="${message.recipient.username}"></span>
+        </div>
 
-<div>
-    MESSAGE: <span th:text="${message.message}"></span>
-</div>
+        <div>
+            FROM: <span th:text="${message.sender.username}"></span>
+        </div>
 
-<div>
-    SENT AT: <span th:text="${message.sentAt}"></span>
-</div>
+        <div>
+            MESSAGE: <span th:text="${message.message}"></span>
+        </div>
+
+        <div>
+            SENT AT: <span th:text="${message.sentAt}"></span>
+        </div>
+    </section>
 
 
 <footer th:replace="partials/footer_partial :: footer"></footer>
