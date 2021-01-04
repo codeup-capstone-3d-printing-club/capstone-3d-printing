@@ -108,7 +108,7 @@ class UserController {
     //helper function to return files of followed users
     private List<File> getFollowFeed() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = new User(user);
+        User currentUser = userDao.getOne(user.getId());
 
         List<File> files = new ArrayList<>();
 
