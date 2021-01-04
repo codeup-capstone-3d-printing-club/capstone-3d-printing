@@ -96,7 +96,7 @@ class FileController {
         boolean favorited = false;
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            User currentUser = new User(user);
+            User currentUser = userDao.getOne(user.getId());
             for (File f : currentUser.getFavorites()) {
                 if (f.getId() == id) {
                     favorited = true;

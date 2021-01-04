@@ -4,7 +4,6 @@ import com.codeup.capstone3dprinting.models.Message;
 import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.MessageRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,24 +12,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -151,6 +147,7 @@ public class CapstoneIntegrationTests {
 
         //the user tries to log in with the wrong password
         this.mvc.perform(post("/login").with(csrf())
+                .session((MockHttpSession) httpSession)
                 .param("username", "testUser")
                 .param("password", "pass"))
                 .andExpect(status().is(HttpStatus.FOUND.value()))
@@ -159,8 +156,16 @@ public class CapstoneIntegrationTests {
                 .getRequest()
                 .getSession();
 
+        //user, while logged out, tries to re-post or directly post to change password
+        this.mvc.perform(post("/change-password")
+                .param("newPassword", "newpass1")
+                .param("confirmPassword", "newpass2")
+                .param("currentPassword", "pass"))
+                .andExpect(status().is4xxClientError());
+
         //user signs in correctly with the newly changed password
         this.mvc.perform(post("/login").with(csrf())
+                .session((MockHttpSession) httpSession)
                 .param("username", "testUser")
                 .param("password", "newpass1"))
                 .andExpect(status().is(HttpStatus.FOUND.value()))
@@ -171,6 +176,34 @@ public class CapstoneIntegrationTests {
 
     }
 
+    @Test
+    public void testPasswordRecovery() throws Exception {
+
+        //if logged in, don't need to access the page
+        this.mvc.perform(get("/password-recovery").with(csrf())
+                .session((MockHttpSession) httpSession))
+                .andExpect(redirectedUrl("/"));
+
+
+        //if you try to post directly while still logged in
+        this.mvc.perform(post("/password-recovery").with(csrf())
+                .session((MockHttpSession) httpSession)
+                .param("email", testUser.getEmail()))
+                .andExpect(redirectedUrl("/"));
+
+        //if you aren't logged in, load the correct page
+        this.mvc.perform(get("/password-recovery").with(csrf()))
+                .andExpect(content().string(containsString("Please enter the email associated with your account")));
+
+        this.mvc.perform(post("/password-recovery").with(csrf())
+                .param("email", testUser.getEmail()))
+                .andExpect(redirectedUrl("/password-recovery"));
+
+
+
+
+
+    }
 
 
 //    @Test

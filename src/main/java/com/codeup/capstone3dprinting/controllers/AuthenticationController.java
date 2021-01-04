@@ -3,6 +3,7 @@ package com.codeup.capstone3dprinting.controllers;
 
 import com.codeup.capstone3dprinting.models.ConfirmationToken;
 import com.codeup.capstone3dprinting.models.User;
+import com.codeup.capstone3dprinting.models.UserWithRoles;
 import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.services.EmailService;
@@ -156,6 +157,11 @@ public class AuthenticationController {
     //shows the password recovery page
     @GetMapping("/password-recovery")
     public String recoverPasswordPage() {
+
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+            return "redirect:/";
+        }
+
         return "users/recover-password";
     }
 
@@ -206,10 +212,13 @@ public class AuthenticationController {
         return "redirect:/login";
     }
 
-
     @PostMapping("/password-recovery")
     public String recoverPassword(@RequestParam(name = "email") String email,
                                   RedirectAttributes redir) {
+
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+            return "redirect:/";
+        }
 
         //if the user email doesn't exist
         if (userDao.findByEmailIgnoreCase(email) == null) {
