@@ -22,7 +22,6 @@ import java.util.List;
 @Controller
 class UserController {
 
-    private Users users;
     private PasswordEncoder passwordEncoder;
 
     private final UserRepository userDao;
@@ -31,12 +30,10 @@ class UserController {
     private final MessageRepository messageDao;
     private final EmailService emailService;
 
-
-    public UserController(UserRepository userDao, FileRepository fileDao, EmailService emailService, Users users,
+    public UserController(UserRepository userDao, FileRepository fileDao, EmailService emailService,
                           PasswordEncoder passwordEncoder, SettingRepository settingDao, MessageRepository messageDao) {
         this.userDao = userDao;
         this.fileDao = fileDao;
-        this.users = users;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
         this.settingDao = settingDao;
