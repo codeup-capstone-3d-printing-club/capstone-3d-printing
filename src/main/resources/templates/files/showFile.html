@@ -12,59 +12,117 @@
         <h1 th:text="${file.title}">Individual File</h1>
 
         <div class="row">
+            <div class="col-12 col-md-8">
+                <ul class="nav nav-pills" id="myTab" role="tablist">
+                    <li class="nav-item backgroundDiv" role="presentation">
+                        <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#model" role="tab"
+                           aria-controls="home" aria-selected="true">3D Model</a>
+                    </li>
+                    <li class="nav-item backgroundDiv" role="presentation">
+                        <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#image" role="tab"
+                           aria-controls="profile" aria-selected="false">Images</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="model" role="tabpanel" aria-labelledby="home-tab">
             <!--            3D file is rendered in this div-->
-            <div class="col-12 col-md-8 mb-3" id="renderer"></div>
+                        <div class="mb-3" id="renderer"></div>
+                    </div>
+                    <div class="tab-pane fade" id="image" role="tabpanel" aria-labelledby="profile-tab">
+                        <div th:if="${imgFiles != null}" class="">
+                            <div id="carouselExampleFade" class="carousel slide carousel-fade"
+                                 data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    <!--                        <div class="carousel-item active">-->
+                                    <!--                            <img th:src="${imgFiles.get(0).img_url}" class="d-block w-100" alt="...">-->
+                                    <!--                        </div>-->
+                                    <!--                        <div th:each="img : ${imgFiles.subList(1,(imgFiles.size() - 1))}" class="carousel-item">-->
+                                    <!--                            <img th:src="${img.img_url}" class="d-block w-100" alt="file img"/>-->
+                                    <!--                        </div>-->
+                                    <div class="carousel-item active">
+                                        <img src="http://via.placeholder.com/640x360" class="d-block w-100" alt="...">
+                                    </div>
+                                    <div th:each="img : ${imgFiles}" class="carousel-item">
+                                        <img th:src="${img.img_url}" class="d-block w-100" alt="file img"/>
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="col-12 col-md-4 mb-3">
-                <div>Date created: <span th:text="${file.createdAt}"></span></div>
-                <div>Date last updated: <span th:text="${file.updatedAt}"></span></div>
+                <div>Date created: <span th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></div>
+                <div>Date last updated: <span th:text="${#dates.format(file.updatedAt, 'yyyy-MM-dd')}"></span></div>
                 <p>Is private = <span th:text="${file.private}"></span></p>
                 <!--    TODO: only show this if admin-->
                 <p>Is flagged = <span th:text="${file.isFlagged()}"></span></p>
                 <div>Created By:
                     <a th:href="@{'/profile/' + ${file.owner.getId()}}" th:text="${file.getOwner().getUsername()}"></a>
                 </div>
+                <div>
+                    <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
+                          th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
+                        <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
+                    </form>
+                </div>
                 <button class="btn btn-outline-danger">follow</button>
                 <button class="btn btn-outline-danger">download</button>
                 <button class="btn btn-outline-danger">like</button>
                 <button class="btn btn-outline-danger">add to list</button>
                 <button class="btn btn-outline-danger">comment</button>
+
+                <div class="d-inline" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id!=file.owner.id}">
+                    <form th:replace="partials/favorite-button::favorite"></form>
+                </div>
             </div>
 
-            <div th:if="${imgFiles != null}" class="col-12 col-md-8">
-                <div id="carouselExampleFade" class="carousel slide carousel-fade"
-                     data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <!--                        <div class="carousel-item active">-->
-                        <!--                            <img th:src="${imgFiles.get(0).img_url}" class="d-block w-100" alt="...">-->
-                        <!--                        </div>-->
-                        <!--                        <div th:each="img : ${imgFiles.subList(1,(imgFiles.size() - 1))}" class="carousel-item">-->
-                        <!--                            <img th:src="${img.img_url}" class="d-block w-100" alt="file img"/>-->
-                        <!--                        </div>-->
-                        <div class="carousel-item active">
-                            <img src="" class="d-block w-100" alt="...">
-                        </div>
-                        <div th:each="img : ${imgFiles}" class="carousel-item">
-                            <img th:src="${img.img_url}" class="d-block w-100" alt="file img"/>
-                        </div>
+            <div class="col-12 col-md-8">
+                <div class="commentbox" style="border: grey solid 2px" th:each="comment : ${allCommentsForThisPost}">
+                    Comments:
+                    <h2 th:text="${comment.getOwner().getUsername()}"></h2>
+                    <p th:text="${comment.comment}"></p>
+                    <p th:text="${comment.createdAt}"></p>
+                    <div sec:authorize="isAuthenticated()">
+                        <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
+                              th:method="post">
+                            <input type="hidden" name="commentId" th:value="${comment.id}">
+                            <button th:type="submit">Delete comment</button>
+                        </form>
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </a>
+                </div>
+
+                <div sec:authorize="isAuthenticated()">
+                    <form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
+                        <div class="mb-3">
+                            <label for="commentbox" class="form-label">Leave your comment: </label>
+                            <textarea name="commentText" id="commentbox" class="form-control field"></textarea>
+                        </div>
+                        <input th:type="submit" value="post comment">
+                    </form>
+                </div>
+
+                <div sec:authorize="!isAuthenticated()">
+                    Would you like to leave a comment? <a th:href="@{/sign-up}">Sign up</a> or <a
+                        th:href="@{/login}">Login</a>!
                 </div>
             </div>
 
             <div class="col-12 col-md-4">
-<!--                <div th:unless="${imgFiles == null}">-->
-<!--                    <div th:each="img : ${imgFiles}">-->
-<!--                        <img th:src="${img.img_url}" alt="file img"/>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <!--                <div th:unless="${imgFiles == null}">-->
+                <!--                    <div th:each="img : ${imgFiles}">-->
+                <!--                        <img th:src="${img.img_url}" alt="file img"/>-->
+                <!--                    </div>-->
+                <!--                </div>-->
                 <!--    TODO:rendering needs to go in to the following tag-->
                 <div th:value="${file.fileUrl}"></div>
                 <div>Categories:
@@ -72,65 +130,31 @@
                     <a th:href="@{'/files/' + '?category=' + ${category.category}}" th:text="${category.category}"></a>
                 </span>
                 </div>
-                Description:
-                <p th:text="${file.description}"></p>
+                <div>Description:
+                    <p th:text="${file.description}"></p>
+                </div>
+
+                <!--TODO: needs to be one rating per file, per user-->
+                <div class="rating-box" style="border: grey solid 1px">
+                    <h5>Rating: </h5><h5 th:text="${averageRating}"></h5>
+                    <form th:action="@{/files/{id}/rating(id=${file.id})}" th:method="post">
+                        <label for="ratings">Rate this object</label>
+                        <select id="ratings" th:name="ratings">
+                            <option th:value="1">1</option>
+                            <option th:value="2">2</option>
+                            <option th:value="3">3</option>
+                            <option th:value="4">4</option>
+                            <option th:value="5">5</option>
+                            <option th:value="6">6</option>
+                            <option th:value="7">7</option>
+                            <option th:value="8">8</option>
+                            <option th:value="9">9</option>
+                            <option th:value="10">10</option>
+                        </select>
+                        <input th:type="submit" value="Submit">
+                    </form>
+                </div>
             </div>
-        </div>
-
-        <div class="d-inline" sec:authorize="isAuthenticated()">
-            <form th:replace="partials/favorite-button::favorite"></form>
-        </div>
-
-        <!--TODO: needs to be one rating per file, per user-->
-        <div class="rating-box" style="border: grey solid 1px">
-            <h5>Rating: </h5><h5 th:text="${averageRating}"></h5>
-            <form th:action="@{/files/{id}/rating(id=${file.id})}" th:method="post">
-                <label for="ratings">Rate this object</label>
-                <select id="ratings" th:name="ratings">
-                    <option th:value="1">1</option>
-                    <option th:value="2">2</option>
-                    <option th:value="3">3</option>
-                    <option th:value="4">4</option>
-                    <option th:value="5">5</option>
-                    <option th:value="6">6</option>
-                    <option th:value="7">7</option>
-                    <option th:value="8">8</option>
-                    <option th:value="9">9</option>
-                    <option th:value="10">10</option>
-                </select>
-                <input th:type="submit"></input>
-            </form>
-        </div>
-
-        <div class="commentbox" style="border: grey solid 2px" th:each="comment : ${allCommentsForThisPost}">
-            Comments:
-            <h2 th:text="${comment.getOwner().getUsername()}"></h2>
-            <p th:text="${comment.comment}"></p>
-            <p th:text="${comment.createdAt}"></p>
-            <div sec:authorize="isAuthenticated()">
-                <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
-                      th:method="post">
-                    <input type="hidden" name="commentId" th:value="${comment.id}">
-                    <button th:type="submit">Delete comment</button>
-                </form>
-            </div>
-        </div>
-
-        <div sec:authorize="isAuthenticated()">
-            <form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
-                Your comment:
-                <input name="commentText" class="field" type="text">
-                <button th:type="submit">post comment</button>
-            </form>
-        </div>
-        <div sec:authorize="!isAuthenticated()">
-            Would you like to leave a comment? <a href="/sign-up">Sign up</a> or <a href="/login">Login</a>!
-        </div>
-        <div>
-            <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
-                  th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
-                <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
-            </form>
         </div>
     </div>
 </div>

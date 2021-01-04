@@ -5,9 +5,9 @@
     and whether or not the current user is already favoriting this -->
 <form th:fragment="favorite" th:action="@{/files/favorite/{id}(id=${file.id})}" th:method="post">
     <button class="favoriteBtn" th:if="${favorited}" type="submit" name="unfavorite"><i
-            class="fas fa-star unfavorite"></i></button>
+            class="fas fa-heart unfavorite"></i></button>
     <input type="hidden" name="favorited" th:value="${favorited}">
-    <button class="favoriteBtn" th:if="${!favorited}" type="submit" name="favorite"><i class="far fa-star favorite"></i>
+    <button class="favoriteBtn" th:if="${!favorited}" type="submit" name="favorite"><i class="far fa-heart favorite"></i>
     </button>
 </form>
 
