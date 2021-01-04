@@ -48,7 +48,7 @@ class SettingController {
     public String updateSettings(@RequestParam("setting") List<String> settings) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = new User(user);
+        User currentUser = userDao.getOne(user.getId());
 
         List<Setting> newSettings = new ArrayList<>();
 
