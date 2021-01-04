@@ -62,7 +62,6 @@ class UserController {
 
             //otherwise, follow the user
         } else {
-
             User followedUser = userDao.getOne(id);
 
             //sends a message notifying the user they have been followed if optional setting is on
@@ -82,7 +81,6 @@ class UserController {
 
     @GetMapping("/profile/{id}")
     public String showProfile(@PathVariable long id, Model model) {
-
         boolean hasUser = false;
 
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
@@ -98,12 +96,14 @@ class UserController {
             model.addAttribute("following", hasUser);
             model.addAttribute("feed", getFollowFeed());
             model.addAttribute("currentUser", currentUser);
-            model.addAttribute("favorites", currentUser.getFavorites());
         }
 
         User userDb = userDao.getOne(id);
         model.addAttribute("user", userDb);
         model.addAttribute("thisUsersFiles", fileDao.findAllByOwner_Id(id));
+        model.addAttribute("favorites", userDb.getFavorites());
+        model.addAttribute("follower",userDb.getFollowers());
+        model.addAttribute("followed",userDb.getUsers());
 
         return "users/profile";
     }

@@ -11,6 +11,7 @@ import java.awt.font.ImageGraphicAttribute;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -40,23 +41,34 @@ class FileController {
 
     @GetMapping("/files")
     public String showAllFiles(Model model, @RequestParam(required = false) String category) {
+        HashMap<String, Integer> categoryAndFileNumber = new HashMap<>();
+        for (Category categoryList : categoryDao.findAll()) {
+            categoryAndFileNumber.put(capitalizeFirstLetter(categoryList.getCategory()), fileDao.findByCategories(categoryList).size());
+        }
+        model.addAttribute("categoryHashmap", categoryAndFileNumber);
+
         //if there are no categories, get all files
         if (category == null) {
             model.addAttribute("files", fileDao.findAll());
             model.addAttribute("pageTitle", "All Files");
 
-        //otherwise, grab only files that include the category
+            //otherwise, grab only files that include the category
         } else {
             Category requestedCategory = categoryDao.findCategoryByCategory(category);
             model.addAttribute("requestedCategories", requestedCategory);
             model.addAttribute("files", fileDao.findByCategories(requestedCategory));
-            model.addAttribute("pageTitle", requestedCategory.getCategory());
+            model.addAttribute("pageTitle", capitalizeFirstLetter(requestedCategory.getCategory()));
         }
 
         //return the full set of categories for display
-        model.addAttribute("categories", categoryDao.findAll());
+//        model.addAttribute("categories", categoryDao.findAll());
+        model.addAttribute("totalFileNumber", fileDao.findAll().size());
 
         return "index";
+    }
+
+    public String capitalizeFirstLetter(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
 
     public List<Integer> getRatingsList(List<Rating> ListOfRatingObjs) {
@@ -203,11 +215,12 @@ class FileController {
         return "redirect:/files/" + file.getId();
     }
 
-    @PostMapping("/files/{id}/delete")
+    @GetMapping("/files/{id}/delete")
     public String deleteFilePost(@PathVariable long id) {
+        User user = userDao.findByFiles(fileDao.getOne(id));
         fileDao.deleteById(id);
 //        TODO: redirect back to the list of your own file posts/ or admin dashboard if admin
-        return "redirect:/files";
+        return "redirect:/profile/" + user.getId();
     }
 
     // user can only unflag as admin

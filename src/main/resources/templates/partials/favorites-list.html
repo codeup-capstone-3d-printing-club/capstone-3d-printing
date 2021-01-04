@@ -5,11 +5,18 @@
     and whether or not the current user is already following -->
 
 <div th:fragment="favorites">
-    <h4>Your favorited Files</h4>
-    <div th:each="file : ${favorites}">
-        <div th:text="${file.title}"></div>
-        <div th:text="${file.description}"></div>
-        <a th:text="${file.owner.username}" th:href="@{/profile/{id}(id=*{file.owner.id})}"></a>
+    <div class="row">
+        <h4 class="text-center">Favorited Files</h4>
+        <div th:each="file : ${favorites}" class="col-12 col-md-6">
+            <div class="card backgroundDiv d-flex flex-column align-items-center justify-content-between">
+                <a th:href="@{'/files/' + ${file.id}}" class="card-title link-danger"
+                   th:text="${file.title}"></a>
+                <img class="image" src="https://picsum.photos/300/200"
+                     alt="randomized picture">
+                <div class="card-body" th:text="${file.description}"></div>
+                <a th:text="${file.owner.username}" th:href="@{/profile/{id}(id=*{file.owner.id})}"></a>
+            </div>
+        </div>
     </div>
 </div>
 </html>

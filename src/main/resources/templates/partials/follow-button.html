@@ -4,9 +4,9 @@
 <!-- Controller serving the page has to pass down a user (to be followed)
     and whether or not the current user is already following -->
 <form th:fragment="follow" th:action="@{/users/follow/{id}(id=${user.id})}" th:method="post">
-    <button class="followBtn" th:if="${following}" type="submit" name="unfollow"><i class="fas fa-cube unfollow"></i></button>
+    <button class="followBtn" th:if="${following}" type="submit" name="unfollow"><i class="fas fa-bell-slash unfollow"></i></button>
     <input type="hidden" name="following" th:value="${following}">
-    <button class="followBtn" th:if="${!following}" type="submit" name="follow"><i class="fas fa-cube follow"></i></button>
+    <button class="followBtn" th:if="${!following}" type="submit" name="follow"><i class="fas fa-bell follow"></i></button>
 </form>
 
 </html>
