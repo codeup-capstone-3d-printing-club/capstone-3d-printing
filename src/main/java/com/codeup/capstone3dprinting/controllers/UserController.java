@@ -96,12 +96,14 @@ class UserController {
             model.addAttribute("following", hasUser);
             model.addAttribute("feed", getFollowFeed());
             model.addAttribute("currentUser", currentUser);
-            model.addAttribute("favorites", currentUser.getFavorites());
         }
 
         User userDb = userDao.getOne(id);
         model.addAttribute("user", userDb);
         model.addAttribute("thisUsersFiles", fileDao.findAllByOwner_Id(id));
+        model.addAttribute("favorites", userDb.getFavorites());
+        model.addAttribute("follower",userDb.getFollowers());
+        model.addAttribute("followed",userDb.getUsers());
 
         return "users/profile";
     }

@@ -16,7 +16,8 @@
 
                 <div class="d-flex align-items-center mt-2">
                     <h1 class="d-inline"><span class="d-inline" th:text="${user.username}"></span></h1>
-                    <div class="d-inline" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id != user.id}">
+                    <div class="d-inline" sec:authorize="isAuthenticated()"
+                         th:if="${#authentication.principal.id != user.id}">
                         <form th:replace="partials/follow-button::follow"></form>
                     </div>
                 </div>
@@ -46,6 +47,55 @@
                     </form>
                 </div>
 
+                <div class="my-4" sec:authorize="isAuthenticated()">
+                    <div class="row d-flex justify-content-between backgroundDiv">
+                        <div class="col-5">
+                            <a class="btn btn-secondary" data-bs-toggle="collapse" href="#collapseExample1"
+                               role="button"
+                               aria-expanded="false" aria-controls="collapseExample">
+                                <span th:text="${follower.size()}"></span> Follower
+                            </a>
+                        </div>
+                        <div class="col-6 collapse" id="collapseExample1">
+                            <div class="card card-body">
+                                <div th:each="eachFollower : ${follower}">
+                                    <div class="d-flex justify-content-between">
+                                    <span th:unless="${eachFollower.avatarUrl == 'none'}">
+                                         <img th:src="${eachFollower.avatarUrl}" alt="user profile picture"
+                                              style="width:2rem;border-radius: 50%">
+                                    </span>
+                                        <a th:href="@{'/profile/' + ${eachFollower.id}}"
+                                           th:text="${eachFollower.username}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-between backgroundDiv">
+                        <div class="col-5">
+                            <a class="btn btn-secondary" data-bs-toggle="collapse" href="#collapseExample2"
+                               role="button"
+                               aria-expanded="false" aria-controls="collapseExample">
+                                <span th:text="${followed.size()}"></span> Following
+                            </a>
+                        </div>
+                        <div class="col-6 collapse" id="collapseExample2">
+                            <div class="card card-body">
+                                <div th:each="eachFollowed : ${followed}">
+                                    <div class="d-flex justify-content-between">
+                                    <span th:unless="${eachFollowed.avatarUrl == 'none'}">
+                                         <img th:src="${eachFollowed.avatarUrl}" alt="user profile picture"
+                                              style="width:2rem;border-radius: 50%">
+                                    </span>
+                                        <a th:href="@{'/profile/' + ${eachFollowed.id}}"
+                                           th:text="${eachFollowed.username}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id != user.id}">
                     <form th:action="@{/users/{id}/flag(id=${user.id})}" th:method="post">
                         <button th:type="submit" class="btn btn-danger">Flag User</button>
@@ -72,7 +122,7 @@
                     <li class="nav-item backgroundDiv" role="presentation">
                         <a class="nav-link link-danger" id="favorites-tab" data-bs-toggle="pill" href="#favorites"
                            role="tab">Favorites</a>
-                        <div class="fs-6" sec:authorize="isAuthenticated()" th:text="${favorites.size()}"></div>
+                        <div class="fs-6" th:text="${favorites.size()}"></div>
                     </li>
                 </ul>
 
@@ -84,18 +134,21 @@
                                 <div class="card backgroundDiv d-flex flex-column align-items-center justify-content-between">
                                     <a th:href="@{'/files/' + ${file.id}}" class="card-title link-danger fs-5"
                                        th:text="${file.title}"></a>
-                                    <div class="card-body">Created at: <span th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></div>
+                                    <div class="card-body">Created at: <span
+                                            th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></div>
                                     <img class="image" src="https://picsum.photos/300/200"
                                          alt="randomized picture">
                                     <div class="card-body" th:text="${file.description}"></div>
                                     <div class="card-footer" sec:authorize="isAuthenticated()"
                                          th:if="${#authentication.principal.id == user.id}">
-                                        <a th:href="@{/files/{id}/edit(id=${file.id})}" class="btn btn-dark"><i class="fas fa-edit"></i></a>
-                                        <a th:href="@{/files/{id}/delete(id=${file.id})}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-<!--                                        <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="delete" class="d-inline-block">-->
-<!--                                            <button th:type="submit" class="btn btn-danger">Delete</button>-->
-<!--                                        </form>-->
-<!--                                        <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" th:data-bs-whatever="${file.id}">delete</a>-->
+                                        <a th:href="@{/files/{id}/edit(id=${file.id})}" class="btn btn-dark"><i
+                                                class="fas fa-edit"></i></a>
+                                        <a th:href="@{/files/{id}/delete(id=${file.id})}" class="btn btn-danger"><i
+                                                class="fas fa-trash-alt"></i></a>
+                                        <!--                                        <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="delete" class="d-inline-block">-->
+                                        <!--                                            <button th:type="submit" class="btn btn-danger">Delete</button>-->
+                                        <!--                                        </form>-->
+                                        <!--                                        <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" th:data-bs-whatever="${file.id}">delete</a>-->
                                     </div>
                                 </div>
                             </div>
@@ -103,29 +156,29 @@
                     </div>
 
                     <!-- Modal -->
-<!--                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"-->
-<!--                         aria-hidden="true">-->
-<!--                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">-->
-<!--                            <div class="modal-content backgroundDiv"-->
-<!--                                 style="background-color: black; border: 1px solid red">-->
-<!--                                <div class="modal-header">-->
-<!--                                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete 3D-->
-<!--                                        file?</h5>-->
-<!--                                    <button type="button" class="btn-close btn-outline-danger" data-bs-dismiss="modal"-->
-<!--                                            aria-label="Close"></button>-->
-<!--                                </div>-->
-<!--                                <form th:method="delete" class="modal-info">-->
-<!--                                    <input type="hidden" name="_csrf" value="c50b234f-9cff-4edd-a3a8-1d743b4c98d1">-->
-<!--                                    &lt;!&ndash;                                    <div class="modal-body"></div>&ndash;&gt;-->
-<!--                                    <div class="modal-footer">-->
-<!--                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close-->
-<!--                                        </button>-->
-<!--                                        <button th:type="submit" class="btn btn-danger">Confirm</button>-->
-<!--                                    </div>-->
-<!--                                </form>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"-->
+                    <!--                         aria-hidden="true">-->
+                    <!--                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">-->
+                    <!--                            <div class="modal-content backgroundDiv"-->
+                    <!--                                 style="background-color: black; border: 1px solid red">-->
+                    <!--                                <div class="modal-header">-->
+                    <!--                                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete 3D-->
+                    <!--                                        file?</h5>-->
+                    <!--                                    <button type="button" class="btn-close btn-outline-danger" data-bs-dismiss="modal"-->
+                    <!--                                            aria-label="Close"></button>-->
+                    <!--                                </div>-->
+                    <!--                                <form th:method="delete" class="modal-info">-->
+                    <!--                                    <input type="hidden" name="_csrf" value="c50b234f-9cff-4edd-a3a8-1d743b4c98d1">-->
+                    <!--                                    &lt;!&ndash;                                    <div class="modal-body"></div>&ndash;&gt;-->
+                    <!--                                    <div class="modal-footer">-->
+                    <!--                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close-->
+                    <!--                                        </button>-->
+                    <!--                                        <button th:type="submit" class="btn btn-danger">Confirm</button>-->
+                    <!--                                    </div>-->
+                    <!--                                </form>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
                     <div class="tab-pane fade" id="follow" role="tabpanel">
                         <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
@@ -134,7 +187,7 @@
                     </div>
 
                     <div class="tab-pane fade" id="favorites" role="tabpanel">
-                        <div sec:authorize="isAuthenticated()" th:replace="partials/favorites-list::favorites"></div>
+                        <div th:replace="partials/favorites-list::favorites"></div>
                     </div>
                 </div>
 
