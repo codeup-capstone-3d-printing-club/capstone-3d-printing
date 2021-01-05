@@ -1,8 +1,8 @@
 package com.codeup.capstone3dprinting;
 
+import com.codeup.capstone3dprinting.models.File;
 import com.codeup.capstone3dprinting.models.Message;
 import com.codeup.capstone3dprinting.models.User;
-import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
 import com.codeup.capstone3dprinting.repos.MessageRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import org.junit.After;
@@ -27,7 +27,6 @@ import static org.junit.Assert.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -37,6 +36,7 @@ public class CapstoneIntegrationTests {
 
     private User testUser;
     private HttpSession httpSession;
+    private File testFile;
 
     @Autowired
     private MockMvc mvc;
@@ -86,7 +86,7 @@ public class CapstoneIntegrationTests {
 
     @After
     public void postTest() {
-        userDao.delete(userDao.findByUsernameIgnoreCase("testUser"));
+        userDao.delete(userDao.findByUsername("testUser"));
     }
 
     @Test
@@ -102,19 +102,29 @@ public class CapstoneIntegrationTests {
     }
 
     @Test
-    public void testSendMessage() throws Exception {
+    public void testSendAndReadMessage() throws Exception {
         String randStr = UUID.randomUUID().toString();
 
+        //send a message to testUser from testUser
         this.mvc.perform(post("/messages/send").with(csrf())
                 .session((MockHttpSession) httpSession)
-                .param("recipient", "admin")
+                .param("recipient", "testUser")
                 .param("message", "integration test" + randStr))
                 .andExpect(status().is3xxRedirection());
 
         Message message = messageDao.findByMessage("integration test" + randStr);
+
         assertNotNull(message);
-        assertEquals(message.getRecipient().getId(), userDao.findByUsernameIgnoreCase("admin").getId());
+        assertEquals(message.getRecipient().getId(), userDao.findByUsernameIgnoreCase("testUser").getId());
         assertEquals(message.getSender().getId(), testUser.getId());
+        assertTrue(message.isUnread());
+
+        //simulates clicking on message to read
+        this.mvc.perform(get("/ajax/read/" + message.getId()).with(csrf())
+                .session((MockHttpSession) httpSession));
+
+        //should not be marked unread now
+        assertFalse(messageDao.findMessageById(message.getId()).isUnread());
 
         messageDao.delete(message);
     }
@@ -201,28 +211,46 @@ public class CapstoneIntegrationTests {
 
         assertEquals(testUser.getEmail(), "testUser@codeup.com");
 
-//        this.mvc.perform(post("/password-recovery").with(csrf())
-//                .session((MockHttpSession) httpSession)
-//                .param("email", testUser.getEmail()))
-//                .andExpect(redirectedUrl("/password-recovery"));
-//
-//        String token = testUser.getPassword();
-//        assertNotEquals(token, "pass");
-//
-//        this.mvc.perform(post("/reset").with(csrf())
-//                .param("token", testUser.getPassword())
-//                .param("resetNew", "codeup2")
-//                .param("resetConfirm", "codeup2"));
-//
-//        assertEquals(testUser.getPassword(), "a");
+        String oldPassword = testUser.getPassword();
 
+        this.mvc.perform(post("/password-recovery").with(csrf())
+                .session((MockHttpSession) httpSession)
+                .param("email", testUser.getEmail()))
+                .andExpect(redirectedUrl("/password-recovery"));
+
+        String token = userDao.findByUsernameIgnoreCase("testUser").getPassword();
+        assertNotEquals(token, oldPassword);
+
+        //incorrect token
+        this.mvc.perform(post("/reset").with(csrf())
+                .param("token", token + UUID.randomUUID())
+                .param("resetNew", "codeup2")
+                .param("resetConfirm", "codeup2"))
+                .andExpect(redirectedUrl("/users/password-recovery"));
+
+        //correct token, passwords don't match
+        this.mvc.perform(post("/reset").with(csrf())
+                .param("token", token)
+                .param("resetNew", "codeup1")
+                .param("resetConfirm", "codeup2"))
+                .andExpect(redirectedUrl("/reset?token=" + token));
+
+        //correct token, passwords match
+        this.mvc.perform(post("/reset").with(csrf())
+                .param("token", token)
+                .param("resetNew", "codeup2")
+                .param("resetConfirm", "codeup2"))
+                .andExpect(redirectedUrl("/login"));
+
+        assertNotEquals(userDao.findByUsernameIgnoreCase("testUser").getPassword(), token);
     }
 
+    //TODO: email verification
 
-//    @Test
-//    public void testSigningUpWhenUsernameOrEmailAlreadyExists() throws Exception {
-//
-//    }
+    //TODO: signing up process
+
+    //TODO: file tests
+
 
 
 }
