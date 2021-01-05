@@ -52,7 +52,7 @@
                                     <i class="far fa-envelope fa-lg"></i>
                                     <span
                                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99 <span
-                                            class="visually-hidden">unread messages</span></span>
+                                            class="d-none">unread messages</span></span>
                                 </button>
                             </a>
                         </li>
@@ -60,8 +60,6 @@
                 </section>
                 <div class="searchbar input-group justify-content-end">
                     <form class="searchbar" th:fragment="searchbar" th:action="@{/files/search}" th:method="post">
-
-
 
                         <input style="border-radius: 5px" type="text" name="search" placeholder="Search...">
 
