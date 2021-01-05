@@ -3,11 +3,9 @@ package com.codeup.capstone3dprinting.controllers;
 
 import com.codeup.capstone3dprinting.models.ConfirmationToken;
 import com.codeup.capstone3dprinting.models.User;
-import com.codeup.capstone3dprinting.models.UserWithRoles;
 import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.services.EmailService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
