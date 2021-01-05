@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/messages", "/messages/{id}", "/profile/{id}/edit",
-                        "/settings", "/admin", "/files/create", "/files/{id}/edit", "/change-password","/privateRedirect/{id}")
+                        "/settings", "/admin", "/files/create", "/files/{id}/edit", "/change-password","/privateRedirect/{id}", "/privateFileRedirect/{id}")
                 .authenticated()
         ;
     }

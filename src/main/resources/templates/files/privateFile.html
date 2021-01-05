@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/header_partial :: head">
+    <title id="pageTitle">Private File</title>
+</head>
+<body class="background">
+<nav th:replace="partials/navbar :: navbar"></nav>
+
+<div class="container">
+    <div class="backgroundDiv" style="height: fit-content">
+        <h1>
+            <span th:text="${file.title}"></span>
+            is private, <a th:href="@{/privateFileRedirect/{id}(id=${file.id})}">login</a>
+            to continue.</h1>
+    </div>
+</div>
+<footer th:replace=" partials/footer_partial :: footer"></footer>
+            <script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
+            <section th:replace="partials/partials_scripts :: script"></section>
+</body>
+</html>

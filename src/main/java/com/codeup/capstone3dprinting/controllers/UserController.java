@@ -118,7 +118,6 @@ class UserController {
     @GetMapping("/privateRedirect/{id}")
     public String redirectToLogin(@PathVariable long id) {
         User userDb = userDao.getOne(id);
-//        model.addAttribute("user", userDb);
         return "redirect:/profile/" + id;
     }
 
@@ -155,8 +154,13 @@ class UserController {
         user.setLastName(userEdit.getLastName());
         user.setEmail(userEdit.getEmail());
         user.setPrivate(userEdit.isPrivate());
+        if(user.isPrivate()){
+            List <File> userFiles= user.getFiles();
+            for (File f : userFiles){
+                f.setPrivate(true);
+            }
+        }
         userDao.save(user);
-
         return "redirect:/profile/" + user.getId();
     }
 

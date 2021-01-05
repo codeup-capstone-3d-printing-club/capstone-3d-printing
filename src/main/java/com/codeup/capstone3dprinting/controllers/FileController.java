@@ -110,6 +110,9 @@ class FileController {
         model.addAttribute("allCommentsForThisPost", thisFilesComments);
         model.addAttribute("file", file);
         model.addAttribute("user", file.getOwner());
+        if (file.isPrivate() && !(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User)) {
+            return "redirect:/privateFile/" + file.getId();
+        }
         return "files/showFile";
     }
 
@@ -154,6 +157,9 @@ class FileController {
                         new Timestamp(new Date().getTime()), receiver, userDao.getOne(1L));
                 messageDao.save(newMessage);
             }
+        }
+        if(fileToBeSaved.getOwner().isPrivate()){
+            fileToBeSaved.setPrivate(true);
         }
 
         File dbFile = fileDao.save(fileToBeSaved);
@@ -312,5 +318,17 @@ class FileController {
         model.addAttribute("categories", categoryDao.findAll());
         model.addAttribute("pageTitle", searched.size() + " Result" + (searched.size() == 1 ? "" : "s"));
         return "index";
+    }
+
+    @GetMapping("/privateFile/{id}")
+    public String showPrivateFile(@PathVariable long id, Model model) {
+        File fileDb = fileDao.getOne(id);
+        model.addAttribute("file", fileDb);
+        return "files/privateFile";
+    }
+    @GetMapping("/privateFileRedirect/{id}")
+    public String redirectToLoginForFile(@PathVariable long id) {
+        File fileDb = fileDao.getOne(id);
+        return "redirect:/files/" + id;
     }
 }
