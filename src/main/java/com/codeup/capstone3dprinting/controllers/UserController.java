@@ -153,6 +153,7 @@ class UserController {
         user.setFirstName(userEdit.getFirstName());
         user.setLastName(userEdit.getLastName());
         user.setEmail(userEdit.getEmail());
+        user.setPrivate(userEdit.isPrivate());
         userDao.save(user);
 
         return "redirect:/profile/" + user.getId();
