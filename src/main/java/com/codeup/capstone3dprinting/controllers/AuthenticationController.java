@@ -53,7 +53,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sign-up")
-    public String saveUser(@RequestBody User user, Model model, @RequestParam(name = "confirmPassword") String confirmPassword) {
+    public String saveUser(@ModelAttribute User user, Model model, @RequestParam(name = "confirmPassword") String confirmPassword) {
         //TODO: need to give user an error message
         if (!user.getPassword().equals(confirmPassword)) {
             return "redirect:/sign-up";

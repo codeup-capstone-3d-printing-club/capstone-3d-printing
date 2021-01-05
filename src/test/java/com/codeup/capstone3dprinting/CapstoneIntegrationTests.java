@@ -201,21 +201,38 @@ public class CapstoneIntegrationTests {
 
         assertEquals(testUser.getEmail(), "testUser@codeup.com");
 
-//        this.mvc.perform(post("/password-recovery").with(csrf())
-//                .session((MockHttpSession) httpSession)
-//                .param("email", testUser.getEmail()))
-//                .andExpect(redirectedUrl("/password-recovery"));
-//
-//        String token = testUser.getPassword();
-//        assertNotEquals(token, "pass");
-//
-//        this.mvc.perform(post("/reset").with(csrf())
-//                .param("token", testUser.getPassword())
-//                .param("resetNew", "codeup2")
-//                .param("resetConfirm", "codeup2"));
-//
-//        assertEquals(testUser.getPassword(), "a");
+        String oldPassword = testUser.getPassword();
 
+        this.mvc.perform(post("/password-recovery").with(csrf())
+                .session((MockHttpSession) httpSession)
+                .param("email", testUser.getEmail()))
+                .andExpect(redirectedUrl("/password-recovery"));
+
+        String token = userDao.findByUsernameIgnoreCase("testUser").getPassword();
+        assertNotEquals(token, oldPassword);
+
+        //incorrect token
+        this.mvc.perform(post("/reset").with(csrf())
+                .param("token", token + UUID.randomUUID())
+                .param("resetNew", "codeup2")
+                .param("resetConfirm", "codeup2"))
+                .andExpect(redirectedUrl("/users/password-recovery"));
+
+        //correct token, passwords don't match
+        this.mvc.perform(post("/reset").with(csrf())
+                .param("token", token)
+                .param("resetNew", "codeup1")
+                .param("resetConfirm", "codeup2"))
+                .andExpect(redirectedUrl("/reset?token=" + token));
+
+        //correct token, passwords match
+        this.mvc.perform(post("/reset").with(csrf())
+                .param("token", token)
+                .param("resetNew", "codeup2")
+                .param("resetConfirm", "codeup2"))
+                .andExpect(redirectedUrl("/login"));
+
+        assertNotEquals(userDao.findByUsernameIgnoreCase("testUser").getPassword(), token);
     }
 
 
