@@ -53,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/messages", "/messages/{id}", "/profile/{id}/edit",
                         "/settings", "/admin", "/files/create", "/files/{id}/edit", "/change-password",
-                        "/ajax/read/{id}")
+                        "/ajax/read/{id}", "/files/{id}/delete")
                 .authenticated()
         ;
     }
