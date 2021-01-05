@@ -180,7 +180,7 @@ class FileController {
         file.setPrivate(fileEdit.isPrivate());
         fileDao.save(file);
 
-        return "redirect:/files/" + id + "/edit";
+        return "redirect:/files/" + id;
     }
 
     @PostMapping("/files/{id}/addImg")

@@ -99,10 +99,27 @@ class UserController {
         model.addAttribute("user", userDb);
         model.addAttribute("thisUsersFiles", fileDao.findAllByOwner_Id(id));
         model.addAttribute("favorites", userDb.getFavorites());
-        model.addAttribute("follower",userDb.getFollowers());
-        model.addAttribute("followed",userDb.getUsers());
+        model.addAttribute("follower", userDb.getFollowers());
+        model.addAttribute("followed", userDb.getUsers());
 
+        if (userDb.isPrivate() && !(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User)) {
+            return "redirect:/privateProfile/" + userDb.getId();
+        }
         return "users/profile";
+    }
+
+    @GetMapping("/privateProfile/{id}")
+    public String showPrivateProfile(@PathVariable long id, Model model) {
+        User userDb = userDao.getOne(id);
+        model.addAttribute("user", userDb);
+        return "users/privateProfile";
+    }
+    //this is used so once user logs in it redirects to the profile the user was trying to see
+    @GetMapping("/privateRedirect/{id}")
+    public String redirectToLogin(@PathVariable long id) {
+        User userDb = userDao.getOne(id);
+//        model.addAttribute("user", userDb);
+        return "redirect:/profile/" + id;
     }
 
     //helper function to return files of followed users
