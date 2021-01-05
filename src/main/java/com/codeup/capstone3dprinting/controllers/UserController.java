@@ -148,6 +148,7 @@ class UserController {
     @PostMapping("/profile/{id}/edit")
     public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
         User user = userDao.getOne(id);
+        System.out.println("userEdit.isPrivate() = " + userEdit.isPrivate());
 
         user.setUsername(userEdit.getUsername());
         user.setFirstName(userEdit.getFirstName());

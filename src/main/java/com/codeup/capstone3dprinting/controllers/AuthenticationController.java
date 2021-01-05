@@ -53,7 +53,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sign-up")
-    public String saveUser(@ModelAttribute User user, Model model, @RequestParam(name = "confirmPassword") String confirmPassword,@RequestParam(name = "isPrivate") boolean isPrivate) {
+    public String saveUser(@ModelAttribute User user, Model model, @RequestParam(name = "confirmPassword") String confirmPassword) {
         //TODO: need to give user an error message
         if (!user.getPassword().equals(confirmPassword)) {
             return "redirect:/sign-up";
@@ -67,7 +67,6 @@ public class AuthenticationController {
         user.setAdmin(false);
         user.setVerified(false);
         user.setActive(true);
-        user.setPrivate(isPrivate);
         user.setJoinedAt(new Timestamp(new Date().getTime()));
 
         User existingUserEmail = userDao.findByEmailIgnoreCase(user.getEmail());

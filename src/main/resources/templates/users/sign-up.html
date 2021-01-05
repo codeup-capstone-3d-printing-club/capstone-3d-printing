@@ -29,9 +29,9 @@
             <label for="lastName" class="form-label">Last name</label>
             <input id="lastName" class="form-control" type="text" th:field="*{lastName}" required/>
         </div>
-        <div class="mb-3">
-            <label for="private" class="form-label">Make profile only visible to registered users</label>
-            <input id="private" class="form-check-input" type="checkbox" name="isPrivate" value="true"/>
+        <div class="mb-3 form-check form-switch">
+            <label for="private" class="form-label">Make profile only visible to logged in users</label>
+            <input id="private" class="form-check-input" type="checkbox" th:checked="*{private}" th:field="*{private}"/>
         </div>
 
         <div class="mb-3">
