@@ -5,11 +5,11 @@ USE capstone_db;
 
 ## need to change the database name above
 
-INSERT INTO users (avatar_url, email, first_name, is_admin, is_verified, joined_at, last_name, password, username, is_flagged, is_active)
+INSERT INTO users (avatar_url, email, first_name, is_admin, is_verified, joined_at, last_name, password, username, is_flagged, is_active, is_private)
 
-VALUES ('none', 'no-reply@squarecubed.xyz', 'admin', true, true, NOW(), 'admin', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'admin', false, true),
-       ('none', 'john@john.com', 'john', false, true, NOW(), 'mcnay', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'johnmcnay',false, true),
-       ('none', 'messenger@messenger.com', 'messenger', false, true, NOW(), 'jones', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'messenger',false, true);
+VALUES ('none', 'no-reply@squarecubed.xyz', 'admin', true, true, NOW(), 'admin', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'admin', false, true, false),
+       ('none', 'john@john.com', 'john', false, true, NOW(), 'mcnay', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'johnmcnay',false, true, false),
+       ('none', 'messenger@messenger.com', 'messenger', false, true, NOW(), 'jones', '$2a$10$VRgC7cdxs6YbWfgjbzuNbumKC6uoU57vXUlOXafN70emLzT9MvFPO', 'messenger',false, true, true);
 
 
 INSERT INTO messages (message, sent_at, recipient_id, sender_id, unread)
@@ -51,7 +51,6 @@ VALUES ('Art'),
 
 INSERT INTO file_category(file_id, category_id)
 VALUES (1, 1),
-
        (2, 2),
        (3, 3),
        (3, 1),
