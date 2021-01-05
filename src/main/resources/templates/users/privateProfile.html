@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/header_partial :: head">
+    <title id="pageTitle">Profile</title>
+</head>
+<body class="background">
+<nav th:replace="partials/navbar :: navbar"></nav>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="backgroundDiv d-flex flex-column align-items-center justify-content-start">
+                <h1><span th:text="${user.username}"></span> has a private profile, <a th:href="@{/privateRedirect/{id}(id=${user.id})}">log
+                    in</a> to view this profile.
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="partials/footer_partial :: footer"></footer>
+<section th:replace="partials/partials_scripts :: script"></section>
+
+<script th:src="@{/js/showAvatarForm.js}"></script>
+<script th:src="@{/js/imageUploadFilestack.js}"></script>
+</body>
+</html>

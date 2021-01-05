@@ -5,9 +5,9 @@
     <title id="pageTitle">File</title>
 </head>
 
-<div th:fragment="full-message" style="margin-left: 10em">
+<div th:fragment="full-message" class="p-1">
     <div>
-        FROM:  <span th:text="${message.sender.username}"></span>
+        FROM: <span th:text="${message.sender.username}"></span>
     </div>
 
     <div>
@@ -33,7 +33,7 @@
                    th:text="${message.message}"></a>
             </li>
         </ul>
-        <div class="tab-content" id="v-tabContent-sent" style="margin-left: 100px">
+        <div class="tab-content" id="v-tabContent-sent" >
             <div class="tab-pane fade" th:each="message : ${sent}" th:id="${'message-' + message.id}"
                  role="tabpanel"
                  th:aria-labelledby="${'message-' + message.id + '-tab'}">
@@ -42,62 +42,77 @@
         </div>
     </div>
 </div>
-<script th:inline="javascript"></script>
 
-<div th:fragment="inboxMessages" class="tab-pane fade show active" id="inbox" role="tabpanel"
-     aria-labelledby="inbox-tab">
-
-    <div class="d-flex">
-        <table class="table table-hover table-dark " >
-            <thead>
-            <tr>
-                <th scope="col-6">From:</th>
-<!--                <th scope="col">User</th>-->
-                <th scope="col-6">Message:</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="nav-item "th:each="message : ${received}">
-                <td><a th:text="${message.sender.username}"></a></td>
-                <td>
-                    <a class="subject nav-link w-100" style="margin-top: -8px" th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
-                       th:href="${'#message-' + message.id}" role="tab" th:aria-controls="${'message-' + message.id}"
-                       th:onclick="'javascript:markRead(' + ${message.id} + ')'">
-                        <span th:if="${message.unread}" th:text="${message.message}" class="text-danger"></span>
-                        <span th:unless="${message.unread}" th:text="${message.message}"></span>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <ul class="nav flex-column nav-tabs" id="v-tabs" role="tablist" aria-orientation="vertical">
-            <li class="nav-item d-flex w-100" th:each="message : ${received}">
-                <a class="subject nav-link w-100" style="margin-top: -8px" th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
-                   th:href="${'#message-' + message.id}" role="tab" th:aria-controls="${'message-' + message.id}"
-                   th:onclick="'javascript:markRead(' + ${message.id} + ')'">
-                    <span th:if="${message.unread}" th:text="${message.message}" class="text-danger"></span>
-                    <span th:unless="${message.unread}" th:text="${message.message}"></span>
-                </a>
-            </li>
-        </ul>
-        <div class="tab-content" id="v-tabContent">
-            <div class="tab-pane fade ml-2" th:each="message : ${received}" th:id="${'message-' + message.id}"
-                 role="tabpanel"
-                 th:aria-labelledby="${'message-' + message.id + '-tab'}">
-                <div th:replace="partials/messages::full-message"></div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div th:fragment="messageOptions" class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
      aria-orientation="vertical">
-    <a class="nav-link active" id="inbox-tab" data-toggle="pill"
-       href="#inbox" role="tab" aria-controls="inbox" aria-selected="true">Inbox</a>
+
+    <script th:inline="javascript"></script>
+
+<!--INBOX PARTIAL-->
+    <div th:fragment="inboxMessages" class="tab-pane fade show active " data-toggle="pill"   id="inbox" role="tabpanel"
+         aria-labelledby="inbox-tab">
+        <!--    collapse-->
+        <p>
+            <a class="btn btn-primary" data-toggle="collapse" href="#msg" role="button" aria-expanded="false" aria-controls="collapseExample">Inbox</a>
+        </p>
+        <div class="collapse" id="msg">
+            <div class="d-flex collapse ">
+
+                <table class="table table-hover table-dark ">
+                    <thead>
+                    <tr>
+                        <th scope="col-6">From:</th>
+                        <!--                <th scope="col">User</th>-->
+                        <th scope="col-6">Message:</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="nav flex-column nav-tabs">
+                                <section class="nav-item d-flex w-100 " th:each="message : ${received}">
+                                    <a class="subject nav-link w-100" th:text="${message.sender.username}"></a>
+                                </section>
+                            </div>
+                        </td>
+                        <td>
+                            <ul class="nav flex-column nav-tabs" id="v-tabs" role="tablist" aria-orientation="vertical">
+                                <li class="nav-item d-flex w-100" th:each="message : ${received}">
+                                    <a class="subject nav-link w-100"
+                                       th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
+                                       th:href="${'#message-' + message.id}" role="tab"
+                                       th:aria-controls="${'message-' + message.id}"
+                                       th:onclick="'javascript:markRead(' + ${message.id} + ')'">
+                                        <span th:if="${message.unread}" th:text="${message.message}" class="text-danger"></span>
+                                        <span th:unless="${message.unread}" th:text="${message.message}"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="tab-content " id="v-tabContent">
+                    <div class="tab-pane fade"  th:each="message : ${received}"
+                         th:id="${'message-' + message.id}"
+                         role="tabpanel"
+                         th:aria-labelledby="${'message-' + message.id + '-tab'}">
+                        <div th:replace="partials/messages::full-message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <a class="nav-link" id="sent-tab" data-toggle="pill" href="#sent"
        role="tab" aria-controls="sent" aria-selected="false">Sent</a>
+
+
     <a class="nav-link" id="trash-tab" data-toggle="pill" href="#trash"
        role="tab" aria-controls="trash" aria-selected="false">Trash</a>
+</div>
 </div>
 
 <footer th:replace="partials/footer_partial :: footer"></footer>

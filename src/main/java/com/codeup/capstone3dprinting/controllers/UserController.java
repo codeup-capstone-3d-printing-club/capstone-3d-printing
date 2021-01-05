@@ -99,10 +99,26 @@ class UserController {
         model.addAttribute("user", userDb);
         model.addAttribute("thisUsersFiles", fileDao.findAllByOwner_Id(id));
         model.addAttribute("favorites", userDb.getFavorites());
-        model.addAttribute("follower",userDb.getFollowers());
-        model.addAttribute("followed",userDb.getUsers());
+        model.addAttribute("follower", userDb.getFollowers());
+        model.addAttribute("followed", userDb.getUsers());
 
+        if (userDb.isPrivate() && !(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User)) {
+            return "redirect:/privateProfile/" + userDb.getId();
+        }
         return "users/profile";
+    }
+
+    @GetMapping("/privateProfile/{id}")
+    public String showPrivateProfile(@PathVariable long id, Model model) {
+        User userDb = userDao.getOne(id);
+        model.addAttribute("user", userDb);
+        return "users/privateProfile";
+    }
+    //this is used so once user logs in it redirects to the profile the user was trying to see
+    @GetMapping("/privateRedirect/{id}")
+    public String redirectToLogin(@PathVariable long id) {
+        User userDb = userDao.getOne(id);
+        return "redirect:/profile/" + id;
     }
 
     //helper function to return files of followed users
@@ -131,13 +147,20 @@ class UserController {
     @PostMapping("/profile/{id}/edit")
     public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
         User user = userDao.getOne(id);
+        System.out.println("userEdit.isPrivate() = " + userEdit.isPrivate());
 
         user.setUsername(userEdit.getUsername());
         user.setFirstName(userEdit.getFirstName());
         user.setLastName(userEdit.getLastName());
         user.setEmail(userEdit.getEmail());
+        user.setPrivate(userEdit.isPrivate());
+        if(user.isPrivate()){
+            List <File> userFiles= user.getFiles();
+            for (File f : userFiles){
+                f.setPrivate(true);
+            }
+        }
         userDao.save(user);
-
         return "redirect:/profile/" + user.getId();
     }
 

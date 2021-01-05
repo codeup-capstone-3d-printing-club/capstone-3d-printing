@@ -21,12 +21,20 @@
 
 <div class="backgroundDiv">
 
+
+<!--includes inbox messages partial!-->
+
+
     <div th:replace="partials/messages::messageOptions"></div>
+
 
     <div class="tab-content m-2 mt-2" style="background-color: #3d3c3c; border-radius: 5px;" id="v-pills-tabContent">
 
         <!-- INBOX -->
-        <div th:replace="partials/messages::inboxMessages"></div>
+<!--            <div th:replace="partials/messages::inboxMessages"></div>-->
+
+
+
 
         <!-- SENT -->
         <div th:replace="partials/messages::sentMessages"></div>

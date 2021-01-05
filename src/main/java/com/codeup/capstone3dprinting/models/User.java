@@ -54,6 +54,9 @@ public class User {
     @Column(name = "is_active")
     private boolean isActive;
 
+    @Column(name = "is_private")
+    private boolean isPrivate;
+
     @OneToMany(mappedBy = "owner")
     private List<File> files;
 
@@ -97,6 +100,7 @@ public class User {
         username = copy.username;
         isFlagged = copy.isFlagged;
         isActive = copy.isActive;
+        isPrivate = copy.isPrivate;
         files = copy.files;
         users = copy.users;
         favorites = copy.favorites;
