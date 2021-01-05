@@ -1,8 +1,8 @@
 package com.codeup.capstone3dprinting;
 
-import com.codeup.capstone3dprinting.models.File;
-import com.codeup.capstone3dprinting.models.Message;
-import com.codeup.capstone3dprinting.models.User;
+import com.codeup.capstone3dprinting.models.*;
+import com.codeup.capstone3dprinting.repos.CategoryRepository;
+import com.codeup.capstone3dprinting.repos.FileRepository;
 import com.codeup.capstone3dprinting.repos.MessageRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import org.junit.After;
@@ -20,6 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
@@ -46,6 +49,12 @@ public class CapstoneIntegrationTests {
 
     @Autowired
     MessageRepository messageDao;
+
+    @Autowired
+    FileRepository fileDao;
+
+    @Autowired
+    CategoryRepository categoryDao;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -249,8 +258,69 @@ public class CapstoneIntegrationTests {
 
     //TODO: signing up process
 
-    //TODO: file tests
+    @Test
+    public void testFiles() throws Exception {
 
+        //TODO: create file programmatically
+
+
+        //TODO: more atomic categories and files
+
+        testFile = new File();
+        testFile.setFileUrl("test");
+        testFile.setCreatedAt(new Timestamp(new Date().getTime()));
+        testFile.setUpdatedAt(new Timestamp(new Date().getTime()));
+        testFile.setTitle("test file title");
+        testFile.setDescription("integration test file" + UUID.randomUUID());
+        testFile.setFlagged(false);
+        testFile.setPrivate(false);
+        testFile.setOwner(testUser);
+
+        fileDao.save(testFile);
+
+        List<Category> categories = new ArrayList<>();
+        categories.add(categoryDao.getOne(1L));
+        categories.add(categoryDao.getOne(2L));
+
+        testFile.setCategories(categories);
+        testFile.setComments(new ArrayList<>());
+        testFile.setImages(new ArrayList<>());
+
+        fileDao.save(testFile);
+        testFile = fileDao.findByTitle("test file title");
+
+        //test show file, when public
+        this.mvc.perform(get("/files/" + testFile.getId()))
+                .andExpect(content().string(containsString(testFile.getDescription())));
+
+        //TODO: test show file when private while not logged in as well as logged in
+
+        //show all files
+        this.mvc.perform(get("/files"))
+                .andExpect(content().string(containsString("All Files")));
+
+        assertEquals(testFile.getCategories().size(), categories.size());
+        assertEquals(testFile.getCategories().get(0).getCategory(), "Art");
+
+        this.mvc.perform(get("/files/?category=" + testFile.getCategories().get(0).getCategory()))
+                .andExpect(content().string(containsString("test file title")));
+
+        //don't delete file if you don't own it      //TODO: make more atomic
+        this.mvc.perform(post("/files/" + fileDao.findByTitle("file #1").getId() + "/delete").with(csrf())
+                .session((MockHttpSession) httpSession))
+                .andExpect(redirectedUrl("/profile/" + testUser.getId() + "?error"));
+
+        //delete the file if you own it
+        this.mvc.perform(post("/files/" + testFile.getId() + "/delete").with(csrf())
+                .session((MockHttpSession) httpSession))
+                .andExpect(redirectedUrl("/profile/" + testUser.getId()));
+
+        assertNull(fileDao.findByTitle(testFile.getTitle()));
+    }
+
+    //TODO: notification tests
+
+    //TODO: user tests
 
 
 }

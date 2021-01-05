@@ -2,6 +2,8 @@ package com.codeup.capstone3dprinting.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -48,7 +50,8 @@ public class File {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "file")
     private List<FileImage> images;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     @JoinTable(name = "file_category",
             joinColumns = {@JoinColumn(name = "file_id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id")})
