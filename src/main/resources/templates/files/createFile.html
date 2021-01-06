@@ -50,7 +50,7 @@
             <label class="form-check-label" for="exampleCheck1">Set as private</label>
         </div>
         <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.invisible.site.key')}"
-             data-callback="onSubmit" data-size="invisible" data-badge="bottomright">
+             data-callback="onSubmit" data-size="invisible" data-badge="inline">
         </div>
         <input type="submit" class="btn btn-outline-secondary my-3">
     </form>

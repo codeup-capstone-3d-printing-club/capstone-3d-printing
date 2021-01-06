@@ -134,7 +134,9 @@ class FileController {
     }
 
     @PostMapping("/files/create")
-    public String createPost(@ModelAttribute File fileToBeSaved, @RequestParam List<Long> newCategories, @RequestParam(name = "g-recaptcha-response") String captcha, Model model) {
+    public String createPost(@ModelAttribute File fileToBeSaved,
+                             @RequestParam(required = false) List<Long> newCategories,
+                             @RequestParam(name = "g-recaptcha-response") String captcha, Model model) {
         // verify reCaptcha
         if (!validator.validateInvisibleCaptcha(captcha)) {
             model.addAttribute("message", "Please verify that you are not a robot.");
@@ -150,8 +152,12 @@ class FileController {
         fileToBeSaved.setOwner(currentUser);
 
         List<Category> categoryList = new ArrayList<>();
-        for (long id : newCategories) {
-            categoryList.add(categoryDao.getOne(id));
+        if (newCategories == null) {
+            categoryList.add(categoryDao.findCategoryByCategory("other"));
+        } else {
+            for (long id : newCategories) {
+                categoryList.add(categoryDao.getOne(id));
+            }
         }
         fileToBeSaved.setCategories(categoryList);
 
