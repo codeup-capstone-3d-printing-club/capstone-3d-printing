@@ -9,7 +9,7 @@
 
 <h1>Create an account</h1>
 <div class="container">
-    <form class="backgroundDiv login" id="formFont" th:action="@{/sign-up}" method="POST" th:object="${user}">
+    <form class="backgroundDiv login" id="formFont" th:action="@{/sign-up}" th:method="POST" th:object="${user}">
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
             <input id="username" class="form-control" type="text" th:field="*{username}" required/>
