@@ -7,8 +7,6 @@ import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.services.EmailService;
 import com.codeup.capstone3dprinting.services.ReCaptchaValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.repository.query.Param;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,7 +62,7 @@ public class AuthenticationController {
         }
 
         // verify reCaptcha
-        if (!validator.validateCaptcha(captcha)) {
+        if (!validator.validateCheckboxCaptcha(captcha)) {
             model.addAttribute("message", "Please verify that you are not a robot.");
             return "users/sign-up";
         }

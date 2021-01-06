@@ -4,6 +4,7 @@
     <title id="pageTitle">Post a File</title>
 </head>
 <body class="background">
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <nav th:replace="partials/navbar :: navbar"></nav>
 <div class="backgroundDiv">
     <div class="row">
@@ -11,13 +12,17 @@
             <h1 class=" welcome  my-3">Create a 3D File to Share</h1>
         </div>
     </div>
-
+    <div th:if="${message!=null}">
+        <span class="alert alert-danger" th:text="${message}"></span>
+    </div>
     <!--upload form-->
-    <form id="upload form" th:action="@{/files/create}" th:method="POST" th:object="${file}"
+    <form id="upload-form" th:action="@{/files/create}" th:method="POST" th:object="${file}"
+          onsubmit="return validateSignup()"
           class="backgroundDiv card ml-1 col-auto">
         <div class="my-3 mx-2">
             <label for="exampleFormControlInput1" class="form-label">Title</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{title}" placeholder="Give your 3D model a title" required>
+            <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{title}"
+                   placeholder="Give your 3D model a title" required>
         </div>
         <div class="mb-3 mx-2">
             <label for="exampleFormControlTextarea1" class="form-label">Description</label>
@@ -44,15 +49,30 @@
             <input type="checkbox" class="form-check-input" id="exampleCheck1" th:field="*{private}">
             <label class="form-check-label" for="exampleCheck1">Set as private</label>
         </div>
+        <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.invisible.site.key')}"
+             data-callback="onSubmit" data-size="invisible" data-badge="bottomright">
+        </div>
         <input type="submit" class="btn btn-outline-secondary my-3">
     </form>
-</div>
 </div>
 <!--<img id="example1" th:src="@{${'/image/3d_ex1'}}" class="rounded img-fluid img-thumbnail" alt="3d Printer">-->
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
 <script th:src="@{/js/filestack.js}"></script>
+<script>
+    function onSubmit(token) {
+        document.getElementById("upload-form").submit();
+    }
 
+    function validateSignup() {
+        grecaptcha.execute();
+        if (grecaptcha.getResponse()) {
+            return true;
+        } else {
+            console.log("Please prove that you are not a robot");
+            return false;
+        }
+    }
+</script>
 </body>
-
 </html>
