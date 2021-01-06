@@ -51,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 /* Pages that require authentication */
                 .and()
                 .authorizeRequests()
-                .antMatchers("/messages", "/messages/{id}", "/profile/{id}/edit", "/settings", "/admin", "/files/create", "/files/{id}/edit")
+                .antMatchers("/messages", "/messages/{id}", "/profile/{id}/edit", "/settings", "/admin", "/files/create", "/files/{id}/edit", "/change-password","/privateRedirect/{id}", "/privateFileRedirect/{id}", "/ajax/read/{id}")
                 .authenticated()
         ;
     }

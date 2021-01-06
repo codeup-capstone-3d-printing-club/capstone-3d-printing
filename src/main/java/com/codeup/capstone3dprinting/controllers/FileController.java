@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.font.ImageGraphicAttribute;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -115,6 +114,9 @@ class FileController {
         model.addAttribute("allCommentsForThisPost", thisFilesComments);
         model.addAttribute("file", file);
         model.addAttribute("user", file.getOwner());
+        if (file.isPrivate() && !(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User)) {
+            return "redirect:/privateFile/" + file.getId();
+        }
         return "files/showFile";
     }
 
@@ -172,6 +174,9 @@ class FileController {
                 messageDao.save(newMessage);
             }
         }
+        if(fileToBeSaved.getOwner().isPrivate()){
+            fileToBeSaved.setPrivate(true);
+        }
 
         File dbFile = fileDao.save(fileToBeSaved);
         return "redirect:/files/" + dbFile.getId();
@@ -197,7 +202,7 @@ class FileController {
         file.setPrivate(fileEdit.isPrivate());
         fileDao.save(file);
 
-        return "redirect:/files/" + id + "/edit";
+        return "redirect:/files/" + id;
     }
 
     @PostMapping("/files/{id}/addImg")
@@ -232,10 +237,20 @@ class FileController {
         return "redirect:/files/" + file.getId();
     }
 
-    @GetMapping("/files/{id}/delete")
+    @PostMapping("/files/{id}/delete")
     public String deleteFilePost(@PathVariable long id) {
-        User user = userDao.findByFiles(fileDao.getOne(id));
-        fileDao.deleteById(id);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.getOne(user.getId());
+        File file = fileDao.getOne(id);
+        user = userDao.findByFiles(fileDao.getOne(id));
+
+        if (currentUser.getId() != user.getId()) {
+            return "redirect:/profile/" + currentUser.getId() + "?error";
+        }
+
+        file.setCategories(new ArrayList<>());
+        fileDao.save(file);
+        fileDao.delete(file);
 //        TODO: redirect back to the list of your own file posts/ or admin dashboard if admin
         return "redirect:/profile/" + user.getId();
     }
@@ -329,5 +344,17 @@ class FileController {
         model.addAttribute("categories", categoryDao.findAll());
         model.addAttribute("pageTitle", searched.size() + " Result" + (searched.size() == 1 ? "" : "s"));
         return "index";
+    }
+
+    @GetMapping("/privateFile/{id}")
+    public String showPrivateFile(@PathVariable long id, Model model) {
+        File fileDb = fileDao.getOne(id);
+        model.addAttribute("file", fileDb);
+        return "files/privateFile";
+    }
+    @GetMapping("/privateFileRedirect/{id}")
+    public String redirectToLoginForFile(@PathVariable long id) {
+        File fileDb = fileDao.getOne(id);
+        return "redirect:/files/" + id;
     }
 }

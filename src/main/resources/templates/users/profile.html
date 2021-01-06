@@ -4,15 +4,20 @@
 <head th:replace="partials/header_partial :: head">
     <title id="pageTitle">Profile</title>
 </head>
-<body class="background">
+<body class="colorBackground">
 <nav th:replace="partials/navbar :: navbar"></nav>
 <div class="container mt-4">
+<!--    <div sec:authorize="!isAuthenticated()" th:if="${user.isPrivate()}">-->
+<!--        <h1><span th:text="${user.username}"></span> has a private profile, <a-->
+<!--                th:href="@{/privateProfile/{id}(id=${user.id})}">log in</a> to view this profile.-->
+<!--        </h1>-->
+<!--    </div>-->
     <div class="row">
         <div class="col-12 col-sm-6 col-md-3">
             <div class="backgroundDiv d-flex flex-column align-items-center justify-content-start">
-                <div th:unless="${user.avatarUrl == 'none'}">
-                    <img th:src="${user.avatarUrl}" alt="user profile picture" style="width:15em">
-                </div>
+                    <div th:unless="${user.avatarUrl == 'none'}">
+                        <img th:src="${user.avatarUrl}" alt="user profile picture" style="width:15em">
+                    </div>
 
                 <div class="d-flex align-items-center mt-2">
                     <h1 class="d-inline"><span class="d-inline" th:text="${user.username}"></span></h1>
@@ -143,8 +148,11 @@
                                          th:if="${#authentication.principal.id == user.id}">
                                         <a th:href="@{/files/{id}/edit(id=${file.id})}" class="btn btn-dark"><i
                                                 class="fas fa-edit"></i></a>
-                                        <a th:href="@{/files/{id}/delete(id=${file.id})}" class="btn btn-danger"><i
-                                                class="fas fa-trash-alt"></i></a>
+                                        <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="post" class="d-inline-block">
+                                            <button th:type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+<!--                                        <a th:href="@{/files/{id}/delete(id=${file.id})}" class="btn btn-danger"><i-->
+<!--                                                class="fas fa-trash-alt"></i></a>-->
                                         <!--                                        <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="delete" class="d-inline-block">-->
                                         <!--                                            <button th:type="submit" class="btn btn-danger">Delete</button>-->
                                         <!--                                        </form>-->
