@@ -16,6 +16,6 @@ public interface FileRepository extends JpaRepository<File, Long> {
   List<File> findByCategories(Category category);
   List<File> findAllByDescriptionIsLike(String searchTerm);
   List<File> findAllByTitleIsLike(String searchTerm);
-
+  List<File> findAllByOwnerIsLike(String searchTerm);
   File findByTitle(String title);
 }

@@ -333,6 +333,7 @@ class FileController {
     public String search(@RequestParam(name = "search") String searchTerm, Model model) {
         List<File> searched = fileDao.findAllByDescriptionIsLike("%" + searchTerm + "%");
         List<File> searchedTitle = fileDao.findAllByTitleIsLike("%" + searchTerm + "%");
+        List<User> searchedUsers = userDao.findAllByUsernameIsLike("%" + searchTerm + "%");
 
         for (File file : searchedTitle) {
             if (!searched.contains(file)) {
@@ -340,9 +341,11 @@ class FileController {
             }
         }
 
+        model.addAttribute("users", searchedUsers);
         model.addAttribute("files", searched);
         model.addAttribute("categories", categoryDao.findAll());
         model.addAttribute("pageTitle", searched.size() + " Result" + (searched.size() == 1 ? "" : "s"));
+        model.addAttribute("userResults", searchedUsers.size() + " Result" + (searchedUsers.size() == 1 ? "" : "s"));
         return "index";
     }
 
