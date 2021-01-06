@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <form class="backgroundDiv login" id="formFont" th:action="@{/sign-up}" method="POST" th:object="${user}"
+    <form class="backgroundDiv login" id="formFont" th:action="@{/sign-up}" th:method="POST" th:object="${user}"
           onsubmit="return validateSignup()">
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>

@@ -49,15 +49,27 @@ public class AuthenticationController {
     //TODO: logged in user can still directly access this url
     @GetMapping("/sign-up")
     public String showSignupForm(Model model) {
+
+        //if already logged in, don't need to access this page
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+            return "redirect:/";
+        }
+
         model.addAttribute("user", new User());
         return "users/sign-up";
     }
 
     @PostMapping("/sign-up")
+
     public String saveUser(@ModelAttribute User user, Model model,
                            @RequestParam(name = "confirmPassword") String confirmPassword,
                            @RequestParam(name = "g-recaptcha-response") String captcha) {
         //TODO: need to give user an error message
+
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+            return "redirect:/";
+        }
+  
         if (!user.getPassword().equals(confirmPassword)) {
             return "redirect:/sign-up?failpassword";
         }
@@ -114,6 +126,7 @@ public class AuthenticationController {
             user.setVerified(true);
             userDao.save(user);
         } else {
+            //TODO: send to a different page other than home
             model.addAttribute("message", "The link is invalid or broken!");
         }
         return "home";

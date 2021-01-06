@@ -1,10 +1,7 @@
 package com.codeup.capstone3dprinting;
 
 import com.codeup.capstone3dprinting.models.*;
-import com.codeup.capstone3dprinting.repos.CategoryRepository;
-import com.codeup.capstone3dprinting.repos.FileRepository;
-import com.codeup.capstone3dprinting.repos.MessageRepository;
-import com.codeup.capstone3dprinting.repos.UserRepository;
+import com.codeup.capstone3dprinting.repos.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,6 +52,9 @@ public class CapstoneIntegrationTests {
 
     @Autowired
     CategoryRepository categoryDao;
+
+    @Autowired
+    ConfirmationTokenRepository tokenDao;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -258,35 +258,33 @@ public class CapstoneIntegrationTests {
 
     //TODO: signing up process
 
+
     @Test
     public void testFiles() throws Exception {
 
-        //TODO: create file programmatically
-
-
         //TODO: more atomic categories and files
 
-        testFile = new File();
-        testFile.setFileUrl("test");
-        testFile.setCreatedAt(new Timestamp(new Date().getTime()));
-        testFile.setUpdatedAt(new Timestamp(new Date().getTime()));
-        testFile.setTitle("test file title");
-        testFile.setDescription("integration test file" + UUID.randomUUID());
-        testFile.setFlagged(false);
-        testFile.setPrivate(false);
-        testFile.setOwner(testUser);
+        //attempt to create a file while not logged in
+        this.mvc.perform(post("/files/create").with(csrf())
+                .contentType("application/x-www-form-urlencoded")
+                .param("categories", "11")
+                .param("categories", "12")
+                .param("title", "test file title1")
+                .param("description", "this should never work")
+                .param("fileUrl", "test1"))
+                .andExpect(status().is3xxRedirection());
 
-        fileDao.save(testFile);
+        //create file while logged in
+        this.mvc.perform(post("/files/create").with(csrf())
+                .session((MockHttpSession) httpSession)
+                .contentType("application/x-www-form-urlencoded")
+                .param("categories", "1")
+                .param("categories", "2")
+                .param("title", "test file title")
+                .param("description", "integration test file" + UUID.randomUUID())
+                .param("fileUrl", "test"))
+                .andExpect(status().is3xxRedirection());
 
-        List<Category> categories = new ArrayList<>();
-        categories.add(categoryDao.getOne(1L));
-        categories.add(categoryDao.getOne(2L));
-
-        testFile.setCategories(categories);
-        testFile.setComments(new ArrayList<>());
-        testFile.setImages(new ArrayList<>());
-
-        fileDao.save(testFile);
         testFile = fileDao.findByTitle("test file title");
 
         //test show file, when public
@@ -299,7 +297,7 @@ public class CapstoneIntegrationTests {
         this.mvc.perform(get("/files"))
                 .andExpect(content().string(containsString("All Files")));
 
-        assertEquals(testFile.getCategories().size(), categories.size());
+        assertEquals(testFile.getCategories().size(), 2);
         assertEquals(testFile.getCategories().get(0).getCategory(), "Art");
 
         this.mvc.perform(get("/files/?category=" + testFile.getCategories().get(0).getCategory()))
@@ -318,9 +316,95 @@ public class CapstoneIntegrationTests {
         assertNull(fileDao.findByTitle(testFile.getTitle()));
     }
 
+    @Test
+    public void testUserSignUp() throws Exception {
+
+        this.mvc.perform(get("/sign-up").with(csrf())
+                .session((MockHttpSession) httpSession))
+                .andExpect(redirectedUrl("/"));
+
+        this.mvc.perform(get("/sign-up"))
+                .andExpect(content().string(containsString("Create an account")));
+
+        //signing up when passwords don't match
+        this.mvc.perform(post("/sign-up").with(csrf())
+                .contentType("application/x-www-form-urlencoded")
+                .param("username", "1user")
+                .param("email", UUID.randomUUID() + "@test.com")
+                .param("lastName", "Tester")
+                .param("firstName", "Another")
+                .param("private", "0")
+                .param("password", "pass")
+                .param("confirmPassword", "test"))
+                .andExpect(redirectedUrl("/sign-up"));
+
+        //trying to create an account with an existing username
+        this.mvc.perform(post("/sign-up").with(csrf())
+                .contentType("application/x-www-form-urlencoded")
+                .param("username", testUser.getUsername())
+                .param("email", UUID.randomUUID() + "@test.com")
+                .param("lastName", "Tester")
+                .param("firstName", "Another")
+                .param("private", "0")
+                .param("password", "testpass")
+                .param("confirmPassword", "testpass"))
+                .andExpect(redirectedUrl("/login/?fail"));
+
+        //trying to create an account with an existing email
+        this.mvc.perform(post("/sign-up").with(csrf())
+                .contentType("application/x-www-form-urlencoded")
+                .param("username", "1user")
+                .param("email", testUser.getEmail())
+                .param("lastName", "Tester")
+                .param("firstName", "Another")
+                .param("private", "0")
+                .param("password", "testpass")
+                .param("confirmPassword", "testpass"))
+                .andExpect(redirectedUrl("/login/?fail"));
+
+        //creating an account with correct details
+        this.mvc.perform(post("/sign-up").with(csrf())
+                .contentType("application/x-www-form-urlencoded")
+                .param("username", "1user")
+                .param("email", UUID.randomUUID() + "@test.com")
+                .param("lastName", "Tester")
+                .param("firstName", "Another")
+                .param("private", "0")
+                .param("password", "testpass")
+                .param("confirmPassword", "testpass"))
+                .andExpect(redirectedUrl("/login/?success"));
+
+        User newUser = userDao.findByUsername("1user");
+
+        //user is in database
+        assertNotNull(newUser);
+
+        //non-existent token
+        this.mvc.perform(get("/confirm-account")
+                .param("token", String.valueOf(UUID.randomUUID())))
+                .andExpect(content().string(containsString("The link is invalid or broken!")));
+
+        //verified flag should still be false at this point
+        assertFalse(newUser.isVerified());
+
+        //correct token for user: 1user
+        this.mvc.perform(get("/confirm-account")
+                .param("token", tokenDao.findByUser(newUser).getConfirmationToken()))
+                .andExpect(status().isOk());
+
+        User verifiedUser = userDao.findByUsername("1user");
+
+        //make sure verified flag is set to true
+        assertTrue(verifiedUser.isVerified());
+
+        //clear out token, then user
+        tokenDao.delete(tokenDao.findByUser(verifiedUser));
+        userDao.delete(verifiedUser);
+    }
+
+
     //TODO: notification tests
 
-    //TODO: user tests
 
 
 }

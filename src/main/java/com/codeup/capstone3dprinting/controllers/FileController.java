@@ -137,7 +137,7 @@ class FileController {
 
     @PostMapping("/files/create")
     public String createPost(@ModelAttribute File fileToBeSaved,
-                             @RequestParam(required = false) List<Long> newCategories,
+                             @RequestParam(name = "categories", required = false) List<Long> newCategories,
                              @RequestParam(name = "g-recaptcha-response") String captcha, Model model) {
         // verify reCaptcha
         if (!validator.validateInvisibleCaptcha(captcha)) {
@@ -174,7 +174,7 @@ class FileController {
                 messageDao.save(newMessage);
             }
         }
-        if(fileToBeSaved.getOwner().isPrivate()){
+        if (fileToBeSaved.getOwner().isPrivate()) {
             fileToBeSaved.setPrivate(true);
         }
 
@@ -355,6 +355,7 @@ class FileController {
         model.addAttribute("file", fileDb);
         return "files/privateFile";
     }
+
     @GetMapping("/privateFileRedirect/{id}")
     public String redirectToLoginForFile(@PathVariable long id) {
         File fileDb = fileDao.getOne(id);
