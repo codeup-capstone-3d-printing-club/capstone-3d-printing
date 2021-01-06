@@ -1,11 +1,12 @@
 package com.codeup.capstone3dprinting.controllers;
 
-
 import com.codeup.capstone3dprinting.models.ConfirmationToken;
 import com.codeup.capstone3dprinting.models.User;
 import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.services.EmailService;
+import com.codeup.capstone3dprinting.services.ReCaptchaValidationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.Date;
 
-
 @Controller
 public class AuthenticationController {
 
@@ -29,6 +29,9 @@ public class AuthenticationController {
     private final ConfirmationTokenRepository tokenDao;
     private final UserRepository userDao;
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ReCaptchaValidationService validator;
 
     @GetMapping("/login")
     public String showLoginForm() {
@@ -51,14 +54,21 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sign-up")
-    public String saveUser(@ModelAttribute User user, Model model, @RequestParam(name = "confirmPassword") String confirmPassword) {
+    public String saveUser(@ModelAttribute User user, Model model,
+                           @RequestParam(name = "confirmPassword") String confirmPassword,
+                           @RequestParam(name = "g-recaptcha-response") String captcha) {
         //TODO: need to give user an error message
         if (!user.getPassword().equals(confirmPassword)) {
-            return "redirect:/sign-up";
+            return "redirect:/sign-up?failpassword";
+        }
+
+        // verify reCaptcha
+        if (!validator.validateCheckboxCaptcha(captcha)) {
+            model.addAttribute("message", "Please verify that you are not a robot.");
+            return "users/sign-up";
         }
 
         String hash = passwordEncoder.encode(user.getPassword());
-
         //user is passed in from the form
         user.setPassword(hash);
         user.setAvatarUrl("/image/placeholder-avatar.jpg");
@@ -70,16 +80,15 @@ public class AuthenticationController {
         User existingUserEmail = userDao.findByEmailIgnoreCase(user.getEmail());
         User existingUsername = userDao.findByUsernameIgnoreCase(user.getUsername());
 
-        if (existingUserEmail != null || existingUsername != null) {
-
+        if (existingUserEmail != null) {
             // TODO: give the user a more detailed message about why account creation failed
-            return "redirect:/login/?fail";
-
+            return "redirect:/sign-up/?failemail";
+        } else if (existingUsername != null) {
+            return "redirect:/sign-up/?failusername";
         } else {
             userDao.save(user);
 
             ConfirmationToken confirmationToken = new ConfirmationToken(user);
-
             tokenDao.save(confirmationToken);
 
             SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -88,11 +97,9 @@ public class AuthenticationController {
             mailMessage.setFrom("no-reply@squarecubed.xyz");
             mailMessage.setText("To confirm your account, please click here : "
                     + "http://squarecubed.xyz/confirm-account?token=" + confirmationToken.getConfirmationToken());
-
             emailService.sendEmail(mailMessage);
 
             model.addAttribute("email", user.getEmail());
-
             return "redirect:/login/?success";
         }
     }
