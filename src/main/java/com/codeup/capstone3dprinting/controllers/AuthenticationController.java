@@ -71,12 +71,13 @@ public class AuthenticationController {
         String hash = passwordEncoder.encode(user.getPassword());
         //user is passed in from the form
         user.setPassword(hash);
-        user.setAvatarUrl("/image/placeholder-avatar.jpg");
         user.setAdmin(false);
         user.setVerified(false);
         user.setActive(true);
         user.setJoinedAt(new Timestamp(new Date().getTime()));
-
+        if(user.getAvatarUrl().equals("")){
+        user.setAvatarUrl("/image/placeholder-avatar.jpg");
+        }
         User existingUserEmail = userDao.findByEmailIgnoreCase(user.getEmail());
         User existingUsername = userDao.findByUsernameIgnoreCase(user.getUsername());
 
