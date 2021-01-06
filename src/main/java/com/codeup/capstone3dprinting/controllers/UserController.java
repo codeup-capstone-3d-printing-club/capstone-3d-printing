@@ -90,6 +90,11 @@ class UserController {
                     break;
                 }
             }
+
+            if (currentUser.getFollowers().contains(userDao.getOne(id)) && currentUser.getUsers().contains(userDao.getOne(id))) {
+                model.addAttribute("friends", true);
+            }
+
             model.addAttribute("following", hasUser);
             model.addAttribute("feed", getFollowFeed());
             model.addAttribute("currentUser", currentUser);

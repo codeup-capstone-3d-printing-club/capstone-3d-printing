@@ -10,5 +10,10 @@ public class HomeController {
     public String landingPage() {
         return "home";
     }
+
+    @GetMapping("/about")
+    public String showAboutPage() {
+        return "about";
+    }
 }
 
