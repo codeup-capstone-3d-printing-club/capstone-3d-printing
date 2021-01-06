@@ -27,6 +27,10 @@
                     </div>
                 </div>
 
+                <div class="mb-3" sec:authorize="isAuthenticated()" th:if="${friends}">
+                    <i class="fas fa-user-friends"></i> this user is your friend
+                </div>
+
                 <div>Joined at: <span th:text="${#dates.format(user.joinedAt, 'yyyy-MM-dd')}"></span></div>
                 <hr>
 
