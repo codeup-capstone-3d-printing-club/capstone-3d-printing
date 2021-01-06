@@ -52,33 +52,47 @@
 <!--INBOX PARTIAL-->
     <div th:fragment="inboxMessages" class="tab-pane fade show active " data-toggle="pill"   id="inbox" role="tabpanel"
          aria-labelledby="inbox-tab">
-        <!--    collapse-->
+<!--            collapse-->
         <p>
             <a class="btn btn-primary" data-toggle="collapse" href="#msg" role="button" aria-expanded="false" aria-controls="collapseExample">Inbox</a>
         </p>
         <div class="collapse" id="msg">
             <div class="d-flex collapse ">
+<!--                <table class="table table-hover table-dark">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th scope="col">#</th>-->
+<!--                        <th scope="col">First</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr>-->
+<!--                        <th scope="row">1</th>-->
+<!--                        <td>MarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMark-->
+<!--                            MarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMark-->
+<!--                            MarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMark-->
+<!--                            MarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMark-->
+
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
 
                 <table class="table table-hover table-dark ">
                     <thead>
                     <tr>
                         <th scope="col-6">From:</th>
-                        <!--                <th scope="col">User</th>-->
                         <th scope="col-6">Message:</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
+                        <th scope="row" class="nav flex-column nav-tabs nav-item d-flex w-100 " th:each="message : ${received}"><span>
+                            <a class="subject nav-link w-100" th:text="${message.sender.username}"></a></span>
+                        </th>
                         <td>
-                            <div class="nav flex-column nav-tabs">
-                                <section class="nav-item d-flex w-100 " th:each="message : ${received}">
-                                    <a class="subject nav-link w-100" th:text="${message.sender.username}"></a>
-                                </section>
-                            </div>
-                        </td>
-                        <td>
-                            <ul class="nav flex-column nav-tabs" id="v-tabs" role="tablist" aria-orientation="vertical">
-                                <li class="nav-item d-flex w-100" th:each="message : ${received}">
+                            <ul class="nav flex-column nav-tabs" th:each="message : ${received}" id="v-tabs" role="tablist" aria-orientation="vertical">
+                                <li class="nav-item d-flex w-100" >
                                     <a class="subject nav-link w-100"
                                        th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
                                        th:href="${'#message-' + message.id}" role="tab"
