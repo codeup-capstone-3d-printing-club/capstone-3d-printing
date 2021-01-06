@@ -90,6 +90,11 @@ class UserController {
                     break;
                 }
             }
+
+            if (currentUser.getFollowers().contains(userDao.getOne(id)) && currentUser.getUsers().contains(userDao.getOne(id))) {
+                model.addAttribute("friends", true);
+            }
+
             model.addAttribute("following", hasUser);
             model.addAttribute("feed", getFollowFeed());
             model.addAttribute("currentUser", currentUser);
@@ -114,6 +119,7 @@ class UserController {
         model.addAttribute("user", userDb);
         return "users/privateProfile";
     }
+
     //this is used so once user logs in it redirects to the profile the user was trying to see
     @GetMapping("/privateRedirect/{id}")
     public String redirectToLogin(@PathVariable long id) {
@@ -154,9 +160,9 @@ class UserController {
         user.setLastName(userEdit.getLastName());
         user.setEmail(userEdit.getEmail());
         user.setPrivate(userEdit.isPrivate());
-        if(user.isPrivate()){
-            List <File> userFiles= user.getFiles();
-            for (File f : userFiles){
+        if (user.isPrivate()) {
+            List<File> userFiles = user.getFiles();
+            for (File f : userFiles) {
                 f.setPrivate(true);
             }
         }

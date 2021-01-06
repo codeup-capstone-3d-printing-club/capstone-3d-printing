@@ -11,6 +11,9 @@
 
 /*    position: relative;}*/
 
+.colorBackground{
+    background-image: linear-gradient(#858788,#a40000, black);
+}
 body {
 
     padding: 2em;

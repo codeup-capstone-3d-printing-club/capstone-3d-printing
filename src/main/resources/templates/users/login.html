@@ -4,6 +4,7 @@
     <title id="pageTitle">Log In</title>
 </head>
 <body class="background">
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <nav th:replace="partials/navbar :: navbar"></nav>
 
 <div class="container">
@@ -16,7 +17,7 @@
             You have been logged out.
         </div>
     </div>
-    <!--bootstrap Form-->
+
     <form class="backgroundDiv login" th:action="@{/login}" method="post">
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
@@ -26,6 +27,9 @@
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" name="password" class="form-control" id="password">
+        </div>
+        <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.invisible.site.key')}"
+             data-callback="onSubmit" data-size="invisible" data-badge="bottomright">
         </div>
         <input type="submit" value="Log In"/>
     </form>
