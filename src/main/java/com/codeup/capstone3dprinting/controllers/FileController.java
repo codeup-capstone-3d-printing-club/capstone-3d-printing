@@ -131,7 +131,7 @@ class FileController {
     }
 
     @PostMapping("/files/create")
-    public String createPost(@ModelAttribute File fileToBeSaved, @RequestParam List<Long> newCategories) {
+    public String createPost(@ModelAttribute(name = "file") File fileToBeSaved, @RequestParam(name = "categories") List<Long> newCategories) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis());
@@ -157,7 +157,7 @@ class FileController {
                 messageDao.save(newMessage);
             }
         }
-        if(fileToBeSaved.getOwner().isPrivate()){
+        if (fileToBeSaved.getOwner().isPrivate()) {
             fileToBeSaved.setPrivate(true);
         }
 
@@ -335,6 +335,7 @@ class FileController {
         model.addAttribute("file", fileDb);
         return "files/privateFile";
     }
+
     @GetMapping("/privateFileRedirect/{id}")
     public String redirectToLoginForFile(@PathVariable long id) {
         File fileDb = fileDao.getOne(id);

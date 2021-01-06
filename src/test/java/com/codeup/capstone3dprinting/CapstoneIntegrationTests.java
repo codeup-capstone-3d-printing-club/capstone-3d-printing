@@ -258,35 +258,33 @@ public class CapstoneIntegrationTests {
 
     //TODO: signing up process
 
+
     @Test
     public void testFiles() throws Exception {
 
-        //TODO: create file programmatically
-
-
         //TODO: more atomic categories and files
 
-        testFile = new File();
-        testFile.setFileUrl("test");
-        testFile.setCreatedAt(new Timestamp(new Date().getTime()));
-        testFile.setUpdatedAt(new Timestamp(new Date().getTime()));
-        testFile.setTitle("test file title");
-        testFile.setDescription("integration test file" + UUID.randomUUID());
-        testFile.setFlagged(false);
-        testFile.setPrivate(false);
-        testFile.setOwner(testUser);
+        //attempt to create a file while not logged in
+        this.mvc.perform(post("/files/create")
+                .contentType("application/x-www-form-urlencoded")
+                .param("categories", "11")
+                .param("categories", "12")
+                .param("title", "test file title1")
+                .param("description", "this should never work")
+                .param("fileUrl", "test1"))
+                .andExpect(status().isForbidden());
 
-        fileDao.save(testFile);
+        //create file while logged in
+        this.mvc.perform(post("/files/create").with(csrf())
+                .session((MockHttpSession) httpSession)
+                .contentType("application/x-www-form-urlencoded")
+                .param("categories", "1")
+                .param("categories", "2")
+                .param("title", "test file title")
+                .param("description", "integration test file" + UUID.randomUUID())
+                .param("fileUrl", "test"))
+                .andExpect(status().is3xxRedirection());
 
-        List<Category> categories = new ArrayList<>();
-        categories.add(categoryDao.getOne(1L));
-        categories.add(categoryDao.getOne(2L));
-
-        testFile.setCategories(categories);
-        testFile.setComments(new ArrayList<>());
-        testFile.setImages(new ArrayList<>());
-
-        fileDao.save(testFile);
         testFile = fileDao.findByTitle("test file title");
 
         //test show file, when public
@@ -299,7 +297,7 @@ public class CapstoneIntegrationTests {
         this.mvc.perform(get("/files"))
                 .andExpect(content().string(containsString("All Files")));
 
-        assertEquals(testFile.getCategories().size(), categories.size());
+        assertEquals(testFile.getCategories().size(), 2);
         assertEquals(testFile.getCategories().get(0).getCategory(), "Art");
 
         this.mvc.perform(get("/files/?category=" + testFile.getCategories().get(0).getCategory()))
