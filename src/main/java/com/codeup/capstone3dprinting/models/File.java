@@ -2,6 +2,7 @@ package com.codeup.capstone3dprinting.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -50,6 +51,9 @@ public class File {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "file")
     private List<FileImage> images;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "file")
+    private List<Rating> ratings;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     @JoinTable(name = "file_category",
@@ -64,5 +68,6 @@ public class File {
     public void removeImg(FileImage newImg) {
         this.images.remove(newImg);
     }
+
 
 }
