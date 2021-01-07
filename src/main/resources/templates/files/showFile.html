@@ -25,7 +25,7 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="model" role="tabpanel" aria-labelledby="home-tab">
-            <!--            3D file is rendered in this div-->
+                        <!--            3D file is rendered in this div-->
                         <div class="mb-3" id="renderer"></div>
                     </div>
                     <div class="tab-pane fade" id="image" role="tabpanel" aria-labelledby="profile-tab">
@@ -46,11 +46,13 @@
                                         <img th:src="${img.img_url}" class="d-block w-100" alt="file img"/>
                                     </div>
                                 </div>
-                                <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-bs-slide="prev">
+                                <a class="carousel-control-prev" href="#carouselExampleFade" role="button"
+                                   data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Previous</span>
                                 </a>
-                                <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-bs-slide="next">
+                                <a class="carousel-control-next" href="#carouselExampleFade" role="button"
+                                   data-bs-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Next</span>
                                 </a>
@@ -81,23 +83,80 @@
                 <button class="btn btn-outline-danger">add to list</button>
                 <button class="btn btn-outline-danger">comment</button>
 
-                <div class="d-inline" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id!=file.owner.id}">
+                <div class="d-inline" sec:authorize="isAuthenticated()"
+                     th:if="${#authentication.principal.id!=file.owner.id}">
                     <form th:replace="partials/favorite-button::favorite"></form>
+                </div>
+
+                <div>Categories:
+                    <span th:each="category : ${file.categories}">
+                    <a th:href="@{'/files/' + '?category=' + ${category.category}}" th:text="${category.category}"></a>
+                    </span>
                 </div>
             </div>
 
             <div class="col-12 col-md-8">
-                <div class="commentbox" style="border: grey solid 2px" th:each="comment : ${allCommentsForThisPost}">
-                    Comments:
-                    <h2 th:text="${comment.getOwner().getUsername()}"></h2>
-                    <p th:text="${comment.comment}"></p>
-                    <p th:text="${comment.createdAt}"></p>
-                    <div sec:authorize="isAuthenticated()">
-                        <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
-                              th:method="post">
-                            <input type="hidden" name="commentId" th:value="${comment.id}">
-                            <button th:type="submit">Delete comment</button>
-                        </form>
+                <div>Description:
+                    <p th:text="${file.description}"></p>
+                </div>
+                <hr>
+
+                <h4>Comments:</h4>
+                <div th:each="comment : ${allCommentsForThisPost}">
+                    <!--                    <h2 th:text="${comment.getOwner().getUsername()}"></h2>-->
+                    <div class="backgroundDiv" th:if="${comment.getParent() == null}">
+                        <div>
+                        <span th:unless="${comment.getOwner().getAvatarUrl() == 'none'}">
+                            <img th:src="${comment.getOwner().avatarUrl}" alt="user profile picture"
+                                 style="width:2rem;border-radius: 50%">
+                        </span>
+                            <a th:href="@{'/profile/' + ${comment.getOwner().id}}"
+                               th:text="${comment.getOwner().username}"></a>
+                            <span>created at </span>
+                            <span th:text="${#dates.format(comment.createdAt,'yyyy-MM-dd')}"></span>
+                        </div>
+                        <p th:text="${comment.comment}"></p>
+                        <div class="mx-4" th:if="comment.children != null" th:each="child : ${comment.children}">
+                            <hr>
+                            <span th:unless="${child.getOwner().getAvatarUrl() == 'none'}">
+                            <img th:src="${child.getOwner().avatarUrl}" alt="user profile picture"
+                                 style="width:2rem;border-radius: 50%">
+                            </span>
+                            <a class="" th:href="@{'/profile/' + ${child.getOwner().id}}"
+                               th:text="${child.getOwner().username}"></a>
+                            <span>created at </span>
+                            <span th:text="${#dates.format(child.createdAt,'yyyy-MM-dd')}"></span>
+                            <blockquote th:text="${child.getComment()}"></blockquote>
+                        </div>
+                        <hr>
+                        <div sec:authorize="isAuthenticated()">
+                            <div>
+                                <a class="btn btn-secondary" data-bs-toggle="collapse" th:href="'#id'+${comment.id}"
+                                   role="button"
+                                   aria-expanded="false" aria-controls="collapseExample">
+                                    Add a reply:
+                                </a>
+                            </div>
+                            <div th:id="'id'+${comment.id}" class="collapse">
+                                <form th:action="@{/files/{id1}/comment/{id2}(id1=${file.id}, id2=${comment.id})}"
+                                      th:method="post">
+                                    <div class="mb-3">
+                                        <textarea name="replyText" id="commentbox1"
+                                                  class="form-control field"></textarea>
+                                    </div>
+                                    <input th:type="submit" value="post comment">
+                                </form>
+                            </div>
+                        </div>
+
+                        <div sec:authorize="isAuthenticated()"
+                             th:if="${#authentication.principal.id==comment.getOwner().id}">
+                            <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
+                                  th:method="post">
+                                <input type="hidden" name="commentId" th:value="${comment.id}">
+                                <button class="btn btn-danger" th:type="submit">Delete comment</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -107,7 +166,7 @@
                             <label for="commentbox" class="form-label">Leave your comment: </label>
                             <textarea name="commentText" id="commentbox" class="form-control field"></textarea>
                         </div>
-                        <input th:type="submit" value="post comment">
+                        <input th:type="submit" value="post comment" class="btn btn-secondary">
                     </form>
                 </div>
 
@@ -125,17 +184,9 @@
                 <!--                </div>-->
                 <!--    TODO:rendering needs to go in to the following tag-->
                 <div th:value="${file.fileUrl}"></div>
-                <div>Categories:
-                    <span th:each="category : ${file.categories}">
-                    <a th:href="@{'/files/' + '?category=' + ${category.category}}" th:text="${category.category}"></a>
-                </span>
-                </div>
-                <div>Description:
-                    <p th:text="${file.description}"></p>
-                </div>
 
                 <!--TODO: needs to be one rating per file, per user-->
-                <div class="rating-box" style="border: grey solid 1px">
+                <div class="backgroundDiv mt-4" style="border: grey solid 1px">
                     <h5>Rating: </h5><h5 th:text="${averageRating}"></h5>
                     <form th:action="@{/files/{id}/rating(id=${file.id})}" th:method="post">
                         <label for="ratings">Rate this object</label>
