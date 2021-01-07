@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/header_partial :: head">
+    <title id="pageTitle">About</title>
+</head>
+<body class="colorBackground">
+<nav th:replace="partials/navbar :: navbar"></nav>
+
+<div class="container my-5">
+    <th:block th:switch="${error}">
+        <div th:case="'Not Found'">
+            <h1>404</h1>
+            <h1>Page not found!!</h1>
+<!--            <div style="width:50%;height:0;padding-bottom:100%;position:relative;"><iframe src="https://giphy.com/embed/8L0Pky6C83SzkzU55a" width="50%" height="50%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/mini-italia-8L0Pky6C83SzkzU55a">via GIPHY</a></p>-->
+        </div>
+        <div th:case="'Forbidden'">
+            <h1>You don't have permission to view this page.</h1>
+        </div>
+    </th:block>
+</div>
+
+<footer th:replace="partials/footer_partial :: footer"></footer>
+<section th:replace="partials/partials_scripts :: script"></section>
+</body>
+</html>
