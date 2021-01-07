@@ -283,5 +283,12 @@ class UserController {
 
         return "redirect:/admin";
     }
+    @PostMapping("/users/{id}/deleteAccount")
+    public String removeAccount(@PathVariable long id){
+
+        User userToBeDeleted = userDao.getOne(id);
+        userDao.delete(userToBeDeleted);
+        return "";
+    }
 }
 
