@@ -45,7 +45,7 @@ public class ReCaptchaValidationService {
         RestTemplate restTemplate = new RestTemplate();
 
         MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
-        requestMap.add("secret", recaptchaInvisibleSecret);
+        requestMap.add("secret", recaptchaTestingSecret);
         requestMap.add("response", captchaResponse);
 
         ReCaptchaResponse apiResponseInvisible = restTemplate.postForObject(recaptchaServerURL, requestMap, ReCaptchaResponse.class);
