@@ -1,8 +1,6 @@
 package com.codeup.capstone3dprinting.controllers;
 
-import com.codeup.capstone3dprinting.models.File;
-import com.codeup.capstone3dprinting.models.Message;
-import com.codeup.capstone3dprinting.models.User;
+import com.codeup.capstone3dprinting.models.*;
 import com.codeup.capstone3dprinting.repos.*;
 import com.codeup.capstone3dprinting.services.EmailService;
 
@@ -29,15 +27,17 @@ class UserController {
     private final SettingRepository settingDao;
     private final MessageRepository messageDao;
     private final EmailService emailService;
+    private final ConfirmationTokenRepository confirmDao;
 
     public UserController(UserRepository userDao, FileRepository fileDao, EmailService emailService,
-                          PasswordEncoder passwordEncoder, SettingRepository settingDao, MessageRepository messageDao) {
+                          PasswordEncoder passwordEncoder, SettingRepository settingDao, MessageRepository messageDao, ConfirmationTokenRepository confirmDao) {
         this.userDao = userDao;
         this.fileDao = fileDao;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
         this.settingDao = settingDao;
         this.messageDao = messageDao;
+        this.confirmDao = confirmDao;
     }
 
     @GetMapping("/users")
@@ -283,12 +283,23 @@ class UserController {
 
         return "redirect:/admin";
     }
-    @PostMapping("/users/{id}/deleteAccount")
-    public String removeAccount(@PathVariable long id){
 
+    @PostMapping("/profile/{id}/deleteAccount")
+    public String removeAccount(@PathVariable long id) {
         User userToBeDeleted = userDao.getOne(id);
+
+        List <File> filesToBeDeleted = fileDao.findAllByOwner(userToBeDeleted);
+        for(File file : filesToBeDeleted) {
+            file.setCategories(new ArrayList<>());
+            fileDao.save(file);
+            fileDao.delete(file);
+        }
+if(confirmDao.existsConfirmationTokenByUserId(userToBeDeleted.getId())){
+            ConfirmationToken tokenToBeDeleted = confirmDao.findByUser(userToBeDeleted);
+            confirmDao.delete(tokenToBeDeleted);
+}
         userDao.delete(userToBeDeleted);
-        return "";
+        return "redirect:/logout-change";
     }
 }
 

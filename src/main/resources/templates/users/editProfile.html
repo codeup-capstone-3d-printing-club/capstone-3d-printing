@@ -36,15 +36,23 @@
         </div>
         <input type="submit" value="Submit">
     </form>
-    <div class="alert">
-        <span class="closebtn" style="display: none" onclick="this.parentElement.style.display='block'">Delete Account</span>
-        <form id="deleteAccount" th:action="@{/profile/{id}/deleteAccount(id=*{id})}" method="post">
-            <input type="hidden" th:value="${user.id}">
-            <input type="submit" value="Delete Account">
-        </form>
+    <div>
+        <button class="btn btn-danger" onclick="showAccountDeleteForm('deleteAccount')">Delete Account</button>
+        <div style="display: none" id="deleteAccount" class="alert alert-danger" role="alert">
+            <form th:action="@{/profile/{id}/deleteAccount(id=${user.id})}"
+                  method="post">
+
+                <h5>Are you sure you'd like to delete your account? This can't be undone.</h5>
+                <input type="hidden" th:value="${user.id}">
+                <input class="btn btn-danger" type="submit" value="Yes, delete Account">
+                <a class="btn btn-success" th:href="@{/profile/{id}(id=${user.id})}">Changed my mind</a>
+
+            </form>
+        </div>
     </div>
 </div>
 
+<script th:src="@{/js/accountDeleteForm.js}"></script>
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
 </body>
