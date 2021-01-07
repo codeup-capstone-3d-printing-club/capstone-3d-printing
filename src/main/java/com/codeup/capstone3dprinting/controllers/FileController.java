@@ -137,7 +137,7 @@ class FileController {
 
     @PostMapping("/files/create")
     public String createPost(@ModelAttribute File fileToBeSaved,
-                             @RequestParam(required = false) List<Long> newCategories,
+                             @RequestParam(name = "categories", required = false) List<Long> newCategories,
                              @RequestParam(name = "g-recaptcha-response") String captcha, Model model) {
         // verify reCaptcha
         if (!validator.validateInvisibleCaptcha(captcha)) {
@@ -174,7 +174,7 @@ class FileController {
                 messageDao.save(newMessage);
             }
         }
-        if(fileToBeSaved.getOwner().isPrivate()){
+        if (fileToBeSaved.getOwner().isPrivate()) {
             fileToBeSaved.setPrivate(true);
         }
 
@@ -360,6 +360,7 @@ class FileController {
     public String search(@RequestParam(name = "search") String searchTerm, Model model) {
         List<File> searched = fileDao.findAllByDescriptionIsLike("%" + searchTerm + "%");
         List<File> searchedTitle = fileDao.findAllByTitleIsLike("%" + searchTerm + "%");
+        List<User> searchedUsers = userDao.findAllByUsernameIsLike("%" + searchTerm + "%");
 
         for (File file : searchedTitle) {
             if (!searched.contains(file)) {
@@ -367,9 +368,11 @@ class FileController {
             }
         }
 
+        model.addAttribute("users", searchedUsers);
         model.addAttribute("files", searched);
         model.addAttribute("categories", categoryDao.findAll());
         model.addAttribute("pageTitle", searched.size() + " Result" + (searched.size() == 1 ? "" : "s"));
+        model.addAttribute("userResults", searchedUsers.size() + " Result" + (searchedUsers.size() == 1 ? "" : "s"));
         return "index";
     }
 
@@ -379,6 +382,7 @@ class FileController {
         model.addAttribute("file", fileDb);
         return "files/privateFile";
     }
+
     @GetMapping("/privateFileRedirect/{id}")
     public String redirectToLoginForFile(@PathVariable long id) {
         File fileDb = fileDao.getOne(id);

@@ -1,8 +1,6 @@
 package com.codeup.capstone3dprinting.controllers;
 
-import com.codeup.capstone3dprinting.models.File;
-import com.codeup.capstone3dprinting.models.Message;
-import com.codeup.capstone3dprinting.models.User;
+import com.codeup.capstone3dprinting.models.*;
 import com.codeup.capstone3dprinting.repos.*;
 import com.codeup.capstone3dprinting.services.EmailService;
 
@@ -29,15 +27,17 @@ class UserController {
     private final SettingRepository settingDao;
     private final MessageRepository messageDao;
     private final EmailService emailService;
+    private final ConfirmationTokenRepository confirmDao;
 
     public UserController(UserRepository userDao, FileRepository fileDao, EmailService emailService,
-                          PasswordEncoder passwordEncoder, SettingRepository settingDao, MessageRepository messageDao) {
+                          PasswordEncoder passwordEncoder, SettingRepository settingDao, MessageRepository messageDao, ConfirmationTokenRepository confirmDao) {
         this.userDao = userDao;
         this.fileDao = fileDao;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
         this.settingDao = settingDao;
         this.messageDao = messageDao;
+        this.confirmDao = confirmDao;
     }
 
     @GetMapping("/users")
@@ -119,6 +119,7 @@ class UserController {
         model.addAttribute("user", userDb);
         return "users/privateProfile";
     }
+
     //this is used so once user logs in it redirects to the profile the user was trying to see
     @GetMapping("/privateRedirect/{id}")
     public String redirectToLogin(@PathVariable long id) {
@@ -159,9 +160,9 @@ class UserController {
         user.setLastName(userEdit.getLastName());
         user.setEmail(userEdit.getEmail());
         user.setPrivate(userEdit.isPrivate());
-        if(user.isPrivate()){
-            List <File> userFiles= user.getFiles();
-            for (File f : userFiles){
+        if (user.isPrivate()) {
+            List<File> userFiles = user.getFiles();
+            for (File f : userFiles) {
                 f.setPrivate(true);
             }
         }
@@ -281,6 +282,24 @@ class UserController {
         userDao.save(user);
 
         return "redirect:/admin";
+    }
+
+    @PostMapping("/profile/{id}/deleteAccount")
+    public String removeAccount(@PathVariable long id) {
+        User userToBeDeleted = userDao.getOne(id);
+
+        List <File> filesToBeDeleted = fileDao.findAllByOwner(userToBeDeleted);
+        for(File file : filesToBeDeleted) {
+            file.setCategories(new ArrayList<>());
+            fileDao.save(file);
+            fileDao.delete(file);
+        }
+if(confirmDao.existsConfirmationTokenByUserId(userToBeDeleted.getId())){
+            ConfirmationToken tokenToBeDeleted = confirmDao.findByUser(userToBeDeleted);
+            confirmDao.delete(tokenToBeDeleted);
+}
+        userDao.delete(userToBeDeleted);
+        return "redirect:/logout-change";
     }
 }
 

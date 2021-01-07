@@ -6,7 +6,9 @@ import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.services.EmailService;
 import com.codeup.capstone3dprinting.services.ReCaptchaValidationService;
+import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,6 +51,12 @@ public class AuthenticationController {
     //TODO: logged in user can still directly access this url
     @GetMapping("/sign-up")
     public String showSignupForm(Model model) {
+
+        //if already logged in, don't need to access this page
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+            return "redirect:/";
+        }
+
         model.addAttribute("user", new User());
         return "users/sign-up";
     }
@@ -58,6 +66,13 @@ public class AuthenticationController {
                            @RequestParam(name = "confirmPassword") String confirmPassword,
                            @RequestParam(name = "g-recaptcha-response") String captcha) {
         //TODO: need to give user an error message
+
+        System.out.println(captcha);
+
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+            return "redirect:/";
+        }
+  
         if (!user.getPassword().equals(confirmPassword)) {
             return "redirect:/sign-up?failpassword";
         }
@@ -71,12 +86,13 @@ public class AuthenticationController {
         String hash = passwordEncoder.encode(user.getPassword());
         //user is passed in from the form
         user.setPassword(hash);
-        user.setAvatarUrl("/image/placeholder-avatar.jpg");
         user.setAdmin(false);
         user.setVerified(false);
         user.setActive(true);
         user.setJoinedAt(new Timestamp(new Date().getTime()));
-
+        if(user.getAvatarUrl().equals("")){
+        user.setAvatarUrl("/image/placeholder-avatar.jpg");
+        }
         User existingUserEmail = userDao.findByEmailIgnoreCase(user.getEmail());
         User existingUsername = userDao.findByUsernameIgnoreCase(user.getUsername());
 
@@ -113,6 +129,7 @@ public class AuthenticationController {
             user.setVerified(true);
             userDao.save(user);
         } else {
+            //TODO: send to a different page other than home
             model.addAttribute("message", "The link is invalid or broken!");
         }
         return "home";

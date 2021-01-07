@@ -16,13 +16,17 @@ public class ReCaptchaValidationService {
     @Value("${recaptcha.invisible.secret.key}")
     private String recaptchaInvisibleSecret;
 
+    @Value("${recaptcha.testing.secret.key}")
+    private String recaptchaTestingSecret;
+
     private static final String recaptchaServerURL = "https://www.google.com/recaptcha/api/siteverify";
 
     public boolean validateCheckboxCaptcha(String captchaResponse) {
+
         RestTemplate restTemplate = new RestTemplate();
 
         MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
-        requestMap.add("secret", recaptchaCheckboxSecret);
+        requestMap.add("secret", recaptchaTestingSecret);
         requestMap.add("response", captchaResponse);
 
         ReCaptchaResponse apiResponse = restTemplate.postForObject(recaptchaServerURL, requestMap, ReCaptchaResponse.class);
@@ -41,7 +45,7 @@ public class ReCaptchaValidationService {
         RestTemplate restTemplate = new RestTemplate();
 
         MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
-        requestMap.add("secret", recaptchaInvisibleSecret);
+        requestMap.add("secret", recaptchaTestingSecret);
         requestMap.add("response", captchaResponse);
 
         ReCaptchaResponse apiResponseInvisible = restTemplate.postForObject(recaptchaServerURL, requestMap, ReCaptchaResponse.class);
@@ -58,4 +62,5 @@ public class ReCaptchaValidationService {
 
         return Boolean.TRUE.equals(apiResponseInvisible.isSuccess());
     }
+
 }

@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <form class="backgroundDiv login" id="formFont" th:action="@{/sign-up}" method="POST" th:object="${user}"
+    <form class="backgroundDiv login" id="formFont" th:action="@{/sign-up}" th:method="POST" th:object="${user}"
           onsubmit="return validateSignup()">
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
@@ -46,6 +46,11 @@
             <label for="lastName" class="form-label">Last name</label>
             <input id="lastName" class="form-control" type="text" th:field="*{lastName}" required/>
         </div>
+        <div class="mb-3">
+            <label for="pickedFile" class="form-label">Upload a profile Picture</label>
+            <input class="form-control" id="pickedFile" type="hidden" name="avatar" th:field="*{avatarUrl}">
+            <button type="button" id="open">Choose image to upload</button>
+        </div>
         <div class="mb-3 form-check form-switch">
             <label for="private" class="form-label">Make profile only visible to logged in users</label>
             <input id="private" class="form-check-input" type="checkbox" th:checked="*{private}" th:field="*{private}"/>
@@ -61,7 +66,7 @@
             <input id="confirmedPassword" class="form-control" type="password" name="confirmPassword" required/>
         </div>
 
-        <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.checkbox.site.key')}"></div>
+        <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.testing.site.key')}"></div>
 
         <input class="mt-3" value="Sign me up!" type="submit"/>
 
@@ -92,5 +97,6 @@
         }
     }
 </script>
+<script th:src="@{/js/imageUploadFilestack.js}"></script>
 </body>
 </html>
