@@ -26,7 +26,9 @@
 <div th:fragment="sentMessages" class="tab-pane fade" id="sent" role="tabpanel" aria-labelledby="sent-tab">
     <div class="d-flex">
         <ul class="nav flex-column nav-tabs" id="v-tabs-sent" role="tablist" aria-orientation="vertical">
-            <li class="nav-item w-100" th:each="message : ${sent}">
+            <li class="nav-item w-100" th:each="message : ${sent}">From:
+                <a class="subject nav-link w-100" th:text="${message.sender.username}"></a></span>
+                Message:
                 <a class="nav-link w-100" th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
                    th:href="${'#message-' + message.id}"
                    role="tab" th:aria-controls="${'message-' + message.id}"
@@ -58,49 +60,32 @@
         </p>
         <div class="collapse" id="msg">
             <div class="d-flex collapse ">
-<!--                <table class="table table-hover table-dark">-->
-<!--                    <thead>-->
-<!--                    <tr>-->
-<!--                        <th scope="col">#</th>-->
-<!--                        <th scope="col">First</th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody>-->
-<!--                    <tr>-->
-<!--                        <th scope="row">1</th>-->
-<!--                        <td>MarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMark-->
-<!--                            MarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMark-->
-<!--                            MarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMark-->
-<!--                            MarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMarkMark-->
-
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    </tbody>-->
-<!--                </table>-->
 
                 <table class="table table-hover table-dark ">
                     <thead>
                     <tr>
-                        <th scope="col-6">From:</th>
-                        <th scope="col-6">Message:</th>
+                        <th scope="col">From:</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <th scope="row" class="nav flex-column nav-tabs nav-item d-flex w-100 " th:each="message : ${received}"><span>
-                            <a class="subject nav-link w-100" th:text="${message.sender.username}"></a></span>
-                        </th>
                         <td>
-                            <ul class="nav flex-column nav-tabs" th:each="message : ${received}" id="v-tabs" role="tablist" aria-orientation="vertical">
-                                <li class="nav-item d-flex w-100" >
-                                    <a class="subject nav-link w-100"
+                            <ul class="nav flex-column nav-tabs" id="v-tabs" role="tablist" aria-orientation="vertical">
+
+                                <li class="nav-item d-flex w-100" th:each="message : ${received}">
+
+                                <a class="subject nav-link" th:href="@{'/profile/' + ${message.sender.id}}" th:text="${message.sender.username}">
+                                      </a>
+
+                                    <a class="subject flex-column nav-link w-100"
                                        th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
-                                       th:href="${'#message-' + message.id}" role="tab"
+                                       th:href="${'#message-' + message.id}" role="tablist"
                                        th:aria-controls="${'message-' + message.id}"
                                        th:onclick="'javascript:markRead(' + ${message.id} + ')'">
                                         <span th:if="${message.unread}" th:text="${message.message}" class="text-danger"></span>
                                         <span th:unless="${message.unread}" th:text="${message.message}"></span>
                                     </a>
+                                </li>
                                 </li>
                             </ul>
                         </td>
