@@ -266,7 +266,6 @@ class FileController {
         return "redirect:/admin";
     }
 
-
     @PostMapping("files/{id}/comment")
     public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -291,10 +290,38 @@ class FileController {
         return "redirect:/files/" + file.getId();
     }
 
+    @PostMapping("files/{id}/comment/{commentId}")
+    public String replyAComment(@PathVariable long id,@PathVariable long commentId, @RequestParam(name = "replyText") String replyText) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.getOne(user.getId());
+        File file = fileDao.getOne(id);
+        User fileOwner = userDao.getOne(file.getOwner().getId());
+        Comment currentComment = commentDao.getOne(commentId);
+
+        if (fileOwner.getSettings().contains(settingDao.getOne(3L))) {
+            Message newMessage = new Message(currentUser.getUsername() + " has commented on your file: " + file.getTitle(),
+                    new Timestamp(new Date().getTime()), fileOwner, userDao.getOne(1L));
+            messageDao.save(newMessage);
+        }
+
+        Comment newComment = new Comment();
+        newComment.setComment(replyText);
+        newComment.setCreatedAt(new Timestamp(new Date().getTime()));
+        newComment.setFile(fileDao.getOne(id));
+        newComment.setOwner(currentUser);
+        newComment.setParent(currentComment);
+        commentDao.save(newComment);
+
+        return "redirect:/files/" + file.getId();
+    }
+
     @PostMapping("/files/{id}/comment/{commentId}/delete")
     public String deleteComment(@PathVariable long id, @RequestParam(name = "commentId") long commentId) {
         File file = fileDao.getOne(id);
-
+        List<Comment> children = commentDao.findByParent(commentDao.getOne(commentId));
+        for (Comment child : children) {
+            commentDao.deleteById(child.getId());
+        }
         commentDao.deleteById(commentId);
 
         return "redirect:/files/" + file.getId();
