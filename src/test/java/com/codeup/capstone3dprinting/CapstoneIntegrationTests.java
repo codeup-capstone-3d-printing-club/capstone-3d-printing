@@ -17,9 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
@@ -271,7 +268,8 @@ public class CapstoneIntegrationTests {
                 .param("categories", "12")
                 .param("title", "test file title1")
                 .param("description", "this should never work")
-                .param("fileUrl", "test1"))
+                .param("fileUrl", "test1")
+                .param("g-recaptcha-response", "a"))
                 .andExpect(status().is3xxRedirection());
 
         //create file while logged in
@@ -282,7 +280,8 @@ public class CapstoneIntegrationTests {
                 .param("categories", "2")
                 .param("title", "test file title")
                 .param("description", "integration test file" + UUID.randomUUID())
-                .param("fileUrl", "test"))
+                .param("fileUrl", "test")
+                .param("g-recaptcha-response", "a"))
                 .andExpect(status().is3xxRedirection());
 
         testFile = fileDao.findByTitle("test file title");
@@ -334,9 +333,11 @@ public class CapstoneIntegrationTests {
                 .param("lastName", "Tester")
                 .param("firstName", "Another")
                 .param("private", "0")
+                .param("avatarUrl", "test")
                 .param("password", "pass")
-                .param("confirmPassword", "test"))
-                .andExpect(redirectedUrl("/sign-up"));
+                .param("confirmPassword", "test")
+                .param("g-recaptcha-response", "a"))
+                .andExpect(redirectedUrl("/sign-up?failpassword"));
 
         //trying to create an account with an existing username
         this.mvc.perform(post("/sign-up").with(csrf())
@@ -347,8 +348,10 @@ public class CapstoneIntegrationTests {
                 .param("firstName", "Another")
                 .param("private", "0")
                 .param("password", "testpass")
-                .param("confirmPassword", "testpass"))
-                .andExpect(redirectedUrl("/login/?fail"));
+                .param("avatarUrl", "test")
+                .param("confirmPassword", "testpass")
+                .param("g-recaptcha-response", "a"))
+                .andExpect(redirectedUrl("/sign-up/?failusername"));
 
         //trying to create an account with an existing email
         this.mvc.perform(post("/sign-up").with(csrf())
@@ -359,8 +362,10 @@ public class CapstoneIntegrationTests {
                 .param("firstName", "Another")
                 .param("private", "0")
                 .param("password", "testpass")
-                .param("confirmPassword", "testpass"))
-                .andExpect(redirectedUrl("/login/?fail"));
+                .param("avatarUrl", "test")
+                .param("confirmPassword", "testpass")
+                .param("g-recaptcha-response", "a"))
+                .andExpect(redirectedUrl("/sign-up/?failemail"));
 
         //creating an account with correct details
         this.mvc.perform(post("/sign-up").with(csrf())
@@ -370,8 +375,10 @@ public class CapstoneIntegrationTests {
                 .param("lastName", "Tester")
                 .param("firstName", "Another")
                 .param("private", "0")
+                .param("avatarUrl", "test")
                 .param("password", "testpass")
-                .param("confirmPassword", "testpass"))
+                .param("confirmPassword", "testpass")
+                .param("g-recaptcha-response", "a"))
                 .andExpect(redirectedUrl("/login/?success"));
 
         User newUser = userDao.findByUsername("1user");

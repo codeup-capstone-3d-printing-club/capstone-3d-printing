@@ -6,7 +6,9 @@ import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.services.EmailService;
 import com.codeup.capstone3dprinting.services.ReCaptchaValidationService;
+import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,11 +62,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sign-up")
-
     public String saveUser(@ModelAttribute User user, Model model,
                            @RequestParam(name = "confirmPassword") String confirmPassword,
                            @RequestParam(name = "g-recaptcha-response") String captcha) {
         //TODO: need to give user an error message
+
+        System.out.println(captcha);
 
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
             return "redirect:/";
