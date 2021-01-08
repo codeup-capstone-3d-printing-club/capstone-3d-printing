@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,17 +26,22 @@ public class AjaxController {
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.POST)
-    public void readMessage(@PathVariable(name = "id") String id) {
+    public String readMessage(@PathVariable(name = "id") String id, HttpSession session) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
+        List<Message> messages = new ArrayList<>();
 
         Message message = messageDao.getOne(Long.parseLong(id));
 
         if (currentUser.getId() == message.getRecipient().getId()) {
             message.setUnread(false);
             messageDao.save(message);
+            messages = messageDao.findByRecipientAndUnread(currentUser, true);
+            session.setAttribute("unread", messages.size());
+
         }
+        return String.valueOf(messages.size());
 
     }
 
