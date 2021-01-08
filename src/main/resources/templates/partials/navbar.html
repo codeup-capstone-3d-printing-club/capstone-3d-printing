@@ -38,7 +38,7 @@
                         <li sec:authorize="isAuthenticated()" class="nav-item">
                             <form th:action="@{/profile/{id}(id=${#authentication.principal.id})}" th:method="get">
                                 <button class="btn-link btn nav-link" style="display: inline-block;margin-top: -1px">
-                                    <i class="fas fa-user-astronaut"></i>
+                                    <i aria-labelledby="profile button" class="fas fa-user-astronaut"></i>
                                 </button>
                             </form>
                         </li>
@@ -47,7 +47,7 @@
                                 <button class="btn-link btn nav-link btn position-relative image"
                                         style="margin-bottom: -4px;">
                                     <!--<                       <button  class="btn position-relative image d-flex justify-content-end">-->
-                                    <i class="far fa-envelope fa-lg"></i>
+                                    <i aria-labelledby="inbox Button" class="far fa-envelope fa-lg"></i>
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99 <span
                                             class="d-none">unread messages</span></span>
                                 </button>
@@ -62,7 +62,7 @@
                     <form class="searchbar" th:fragment="searchbar" th:action="@{/files/search}" th:method="post">
                         <input style="border-radius: 5px" type="text" name="search" placeholder="Search...">
 
-                        <button class="searchBtn" type="submit" name="searchBar" style="margin-top: 0px;"><i
+                        <button aria-labelledby="searchButton" class="searchBtn" type="submit" name="searchBar" style="margin-top: 0px;"><i
                                 class="fas fa-search" style="border-radius: 5px;"></i></button>
                     </form>
                 </div>

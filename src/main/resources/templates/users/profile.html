@@ -157,11 +157,11 @@
                                     <div class="card-footer" sec:authorize="isAuthenticated()"
                                          th:if="${#authentication.principal.id == user.id}">
                                         <a th:href="@{/files/{id}/edit(id=${file.id})}" class="btn btn-dark"><i
-                                                class="fas fa-edit"></i></a>
+                                                aria-labelledby="edit File Button" class="fas fa-edit"></i></a>
                                         <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="post"
                                               class="d-inline-block">
                                             <button th:type="submit" class="btn btn-danger"><i
-                                                    class="fas fa-trash-alt"></i></button>
+                                                    aria-labelledby="Delete File Button" class="fas fa-trash-alt"></i></button>
                                         </form>
                                         <!--                                        <a th:href="@{/files/{id}/delete(id=${file.id})}" class="btn btn-danger"><i-->
                                         <!--                                                class="fas fa-trash-alt"></i></a>-->

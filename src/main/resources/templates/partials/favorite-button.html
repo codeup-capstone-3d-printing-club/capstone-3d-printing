@@ -4,10 +4,10 @@
 <!-- Controller serving the page has to pass down a file (to be favored)
     and whether or not the current user is already favoriting this -->
 <form th:fragment="favorite" th:action="@{/files/favorite/{id}(id=${file.id})}" th:method="post">
-    <button class="favoriteBtn" th:if="${favorited}" type="submit" name="unfavorite"><i
+    <button class="favoriteBtn" th:if="${favorited}" type="submit" name="unfavorite"><i aria-labelledby="unfavorite button"
             class="fas fa-heart unfavorite"></i></button>
     <input type="hidden" name="favorited" th:value="${favorited}">
-    <button class="favoriteBtn" th:if="${!favorited}" type="submit" name="favorite"><i class="far fa-heart favorite"></i>
+    <button class="favoriteBtn" th:if="${!favorited}" type="submit" aria-labelledby="favorite button" name="favorite"><i class="far fa-heart favorite"></i>
     </button>
 </form>
 
