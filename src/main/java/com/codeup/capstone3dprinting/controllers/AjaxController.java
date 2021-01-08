@@ -9,6 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/ajax")
 public class AjaxController {
@@ -21,7 +24,7 @@ public class AjaxController {
         this.messageDao = messageDao;
     }
 
-    @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/read/{id}", method = RequestMethod.POST)
     public void readMessage(@PathVariable(name = "id") String id) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -34,6 +37,19 @@ public class AjaxController {
             messageDao.save(message);
         }
 
+    }
+
+    @RequestMapping(value="/unread", method = RequestMethod.GET)
+    public String getUnreadCount(HttpSession session) {
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.getOne(user.getId());
+
+        List<Message> messages = messageDao.findByRecipientAndUnread(currentUser, true);
+
+        session.setAttribute("unread", messages.size());
+
+        return String.valueOf(messages.size());
     }
 
 

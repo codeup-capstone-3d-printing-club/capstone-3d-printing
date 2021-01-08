@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,27 +27,10 @@ class SettingController {
         this.userDao = userDao;
     }
 
-    @GetMapping("/settings")
-    public String index(Model model) {
-
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = userDao.getOne(user.getId());
-
-        List<Setting> settings = settingDao.findAll();
-        List<Long> checked = new ArrayList<>();
-        
-        for (Setting setting: currentUser.getSettings()) {
-            checked.add(setting.getId());
-        }
-
-        model.addAttribute("settings", settings);
-        model.addAttribute("checked", checked);
-
-        return "users/settings";
-    }
-    
     @PostMapping("/settings")
-    public String updateSettings(@RequestParam("setting") List<String> settings) {
+    @ResponseBody
+    public String updateSettings(@RequestParam(name = "setting", required = false) List<String> settings,
+                                 RedirectAttributes redir) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
@@ -61,7 +46,9 @@ class SettingController {
         currentUser.setSettings(newSettings);
         userDao.save(currentUser);
 
-        return "redirect:/settings";
+        redir.addFlashAttribute("settingsMsg", "Notification setting saved");
+
+        return null;
     }
     
     
