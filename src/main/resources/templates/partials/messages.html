@@ -23,27 +23,7 @@
     </div>
 </div>
 
-<div th:fragment="sentMessages" class="tab-pane fade" id="sent" role="tabpanel" aria-labelledby="sent-tab">
-    <div class="d-flex">
-        <ul class="nav flex-column nav-tabs" id="v-tabs-sent" role="tablist" aria-orientation="vertical">
-            <li class="nav-item w-100" th:each="message : ${sent}">From:
-                <a class="subject nav-link w-100" th:text="${message.sender.username}"></a></span>
-                Message:
-                <a class="nav-link w-100" th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
-                   th:href="${'#message-' + message.id}"
-                   role="tab" th:aria-controls="${'message-' + message.id}"
-                   th:text="${message.message}"></a>
-            </li>
-        </ul>
-        <div class="tab-content" id="v-tabContent-sent" >
-            <div class="tab-pane fade" th:each="message : ${sent}" th:id="${'message-' + message.id}"
-                 role="tabpanel"
-                 th:aria-labelledby="${'message-' + message.id + '-tab'}">
-                <div th:replace="partials/messages::full-message"></div>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 
 <div th:fragment="messageOptions" class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
@@ -60,7 +40,6 @@
         </p>
         <div class="collapse" id="msg">
             <div class="d-flex collapse ">
-
                 <table class="table table-hover table-dark ">
                     <thead>
                     <tr>
@@ -71,12 +50,8 @@
                     <tr>
                         <td>
                             <ul class="nav flex-column nav-tabs" id="v-tabs" role="tablist" aria-orientation="vertical">
-
                                 <li class="nav-item d-flex w-100" th:each="message : ${received}">
-
-                                <a class="subject nav-link" th:href="@{'/profile/' + ${message.sender.id}}" th:text="${message.sender.username}">
-                                      </a>
-
+                                    <a class="subject nav-link" th:href="@{'/profile/' + ${message.sender.id}}" th:text="${message.sender.username}"></a>
                                     <a class="subject flex-column nav-link w-100"
                                        th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
                                        th:href="${'#message-' + message.id}" role="tablist"
@@ -85,7 +60,6 @@
                                         <span th:if="${message.unread}" th:text="${message.message}" class="text-danger"></span>
                                         <span th:unless="${message.unread}" th:text="${message.message}"></span>
                                     </a>
-                                </li>
                                 </li>
                             </ul>
                         </td>
@@ -103,10 +77,50 @@
             </div>
         </div>
     </div>
+<!--sent-->
+    <div th:fragment="sentMessages" class="tab-pane fade show active " data-toggle="pill"   id="inbox" role="tabpanel" aria-labelledby="sent-tab">
+        <!--            collapse-->
+        <p>
+            <a class="btn btn-primary width-80" data-toggle="collapse" href="#sentMsg" role="button" aria-expanded="false" aria-controls="collapseExample">Sent</a>
+        </p>
+        <div class="collapse" id="sentMsg">
+            <div class="d-flex collapse ">
+                <table class="table table-hover table-dark ">
+                    <thead>
+                    <tr>
+                        <th scope="col">From:</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <ul class="nav flex-column nav-tabs" id="v-tabs-sent" role="tabpanel" aria-orientation="vertical" aria-labelledby="sent-tab">
+                                <li class="nav-item d-flex w-100" th:each="message : ${sent}">
+                                    <a class="subject nav-link" th:href="@{'/profile/' + ${message.sender.id}}" th:text="${message.sender.username}"></a>
+                                    <a class="subject flex-column nav-link w-100"
+                                       th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
+                                       th:href="${'#message-' + message.id}" role="tab"
+                                       th:aria-controls="${'message-' + message.id}"
+                                       th:text="${message.message}">
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
-
-    <a class="nav-link" id="sent-tab" data-toggle="pill" href="#sent"
-       role="tab" aria-controls="sent" aria-selected="false">Sent</a>
+            </div>
+        </div>
+        <div class="tab-content"  style="" id="v-pills-tabContent">
+            <div class="tab-pane fade"  th:each="message : ${sent}"
+                 th:id="${'message-' + message.id}"
+                 role="tabpanel"
+                 th:aria-labelledby="${'message-' + message.id + '-tab'}">
+                <div th:replace="partials/messages::full-message"></div>
+            </div>
+        </div>
+    </div>
 
 
     <a class="nav-link" id="trash-tab" data-toggle="pill" href="#trash"
