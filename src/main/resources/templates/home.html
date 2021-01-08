@@ -5,25 +5,47 @@
 </head>
 <body class="background">
 <nav th:replace="partials/navbar :: navbar"></nav>
-
-<div id="welcome">
-<!--    <h1>Welcome to</h1>-->
-    <h1 class="title filter-shadow">SQUARECUBED</h1>
-</div>
 <div class="container">
     <div class="row">
-        <div class="d-flex justify-content-center">
-            <div id="3d" class="box">
-                <div class="inner">
-                    <span class="filter-shadow">3D DESIGNS</span>
-                </div>
-                <div class="inner">
-                    <span class="text-shadow">3D DESIGNS</span>
-                </div>
-            </div>
-        </div>
+<div id="welcome" >
+<!--    <h1>Welcome to</h1>-->
+    <h2 class="title filter-shadow">
+        <a href="/about" style="text-decoration: none; color: white; max-height:  167px !important;">
+            <span style="background: #3d3c3c; line-height: 167px">SQ</span>UARECUBED
+        </a>
+    </h2>
+<!--</div>-->
+<!--        <div class="d-flex justify-content-center backgroundDiv">-->
+<!--            <div id="3d" class="box">-->
+<!--                <div class="inner">-->
+<!--                    <span class="filter-shadow">3D DESIGNS</span>-->
+<!--                </div>-->
+<!--                <div class="inner">-->
+<!--                    <span class="text-shadow">3D DESIGNS</span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div  id="card1" class="card  text-white backgroundDiv">
+    <img  class="card-img" alt="..." th:src="@{/image/3d printer image 1.png}"/>
+    <div class="card-img-overlay container">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text justify-content-end" >This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text">Last updated 3 mins ago</p>
     </div>
 </div>
+
+<!--<section  id="homeThings" class="backgroundDiv mt-3">-->
+<!--   <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod-->
+<!--       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,-->
+<!--       quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.-->
+<!--       Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.-->
+<!--       Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
+<!--   </h2>-->
+<!--</section>-->
+
 <div class="d-none" th:text="${message}"></div>
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>

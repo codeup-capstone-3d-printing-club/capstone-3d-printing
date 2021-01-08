@@ -1,9 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="partials/header_partial :: head">
+<head >
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title id="pageTitle">File</title>
 </head>
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        $('span').each(function() {-->
+<!--            var classes = $.trim($(this).attr('class'));-->
+<!--            var count = classes.split(' ');-->
+<!--            var text = $(this).text();-->
+
+<!--            if (count.length === 2 && text.length > 10) {-->
+<!--                $(this).text(text.substr(0, (text.length - 10)) + "...");-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+
+<!--</script>-->
 
 <div th:fragment="full-message" class="p-1">
     <div>
@@ -29,7 +44,8 @@
 <div th:fragment="messageOptions" class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
      aria-orientation="vertical">
 
-    <script th:inline="javascript"></script>
+    <script th:inline="javascript">
+    </script>
 
 <!--INBOX PARTIAL-->
     <div th:fragment="inboxMessages" class="tab-pane fade show active " data-toggle="pill"   id="inbox" role="tabpanel"
@@ -40,7 +56,7 @@
         </p>
         <div class="collapse" id="msg">
             <div class="d-flex collapse ">
-                <table class="table table-hover table-dark ">
+                <table  class="table table-hover table-dark ">
                     <thead>
                     <tr>
                         <th scope="col">From:</th>
@@ -49,15 +65,16 @@
                     <tbody>
                     <tr>
                         <td>
-                            <ul class="nav flex-column nav-tabs" id="v-tabs" role="tablist" aria-orientation="vertical">
-                                <li class="nav-item d-flex w-100" th:each="message : ${received}">
+
+                            <ul  class="nav flex-column nav-tabs d-flex w-60" id="sentence" role="tablist" aria-orientation="vertical">
+                                <li  class="nav-item d-flex w-60" th:each="message : ${received}">
                                     <a class="subject nav-link" th:href="@{'/profile/' + ${message.sender.id}}" th:text="${message.sender.username}"></a>
-                                    <a class="subject flex-column nav-link w-100"
+                                    <a id="message" class="subject flex-column nav-link w-100"
                                        th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
                                        th:href="${'#message-' + message.id}" role="tablist"
                                        th:aria-controls="${'message-' + message.id}"
                                        th:onclick="'javascript:markRead(' + ${message.id} + ')'">
-                                        <span th:if="${message.unread}" th:text="${message.message}" class="text-danger"></span>
+                                        <span th:if="${message.unread}" th:text="${message.message}" style="color: red; text-overflow: ellipsis;" class="sentence slice">hgfhgfhghgdfhhgdfhfhgfjhvjhjhgv</span>
                                         <span th:unless="${message.unread}" th:text="${message.message}"></span>
                                     </a>
                                 </li>
