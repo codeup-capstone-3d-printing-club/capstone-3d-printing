@@ -48,8 +48,12 @@
                                         style="margin-bottom: -4px;">
                                     <!--<                       <button  class="btn position-relative image d-flex justify-content-end">-->
                                     <i class="far fa-envelope fa-lg"></i>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99 <span
-                                            class="d-none">unread messages</span></span>
+                                    <div th:if="${unread != null}">
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"
+                                            th:text="${unread.size()}">
+                                            <span class="d-none">unread messages</span>
+                                        </span>
+                                    </div>
                                 </button>
                             </a>
                         </li>

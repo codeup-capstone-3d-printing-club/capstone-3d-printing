@@ -36,7 +36,9 @@
          aria-labelledby="inbox-tab">
 <!--            collapse-->
         <p>
-            <a class="btn btn-primary" data-toggle="collapse" href="#msg" role="button" aria-expanded="false" aria-controls="collapseExample">Inbox</a>
+            <a class="btn btn-primary" data-toggle="collapse" href="#msg" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Inbox <span th:if="${unread != null}" class="badge rounded-pill bg-secondary" th:text="${unread.size()}"></span>
+            </a>
         </p>
         <div class="collapse" id="msg">
             <div class="d-flex collapse ">
