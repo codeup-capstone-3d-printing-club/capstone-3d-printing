@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ class SettingController {
     }
 
     @PostMapping("/settings")
+    @ResponseBody
     public String updateSettings(@RequestParam(name = "setting", required = false) List<String> settings,
                                  RedirectAttributes redir) {
 
@@ -46,7 +48,7 @@ class SettingController {
 
         redir.addFlashAttribute("settingsMsg", "Notification setting saved");
 
-        return "redirect:/profile/" + currentUser.getId() + "/edit";
+        return null;
     }
     
     

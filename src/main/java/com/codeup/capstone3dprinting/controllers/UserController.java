@@ -162,10 +162,12 @@ class UserController {
     }
 
     @PostMapping("/profile/{id}/edit")
+    @ResponseBody
     public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
         User user = userDao.getOne(id);
         System.out.println("userEdit.isPrivate() = " + userEdit.isPrivate());
 
+        //TODO: lacks validation and error handling
         user.setUsername(userEdit.getUsername());
         user.setFirstName(userEdit.getFirstName());
         user.setLastName(userEdit.getLastName());
@@ -178,7 +180,7 @@ class UserController {
             }
         }
         userDao.save(user);
-        return "redirect:/profile/" + user.getId();
+        return null;
     }
 
     @PostMapping("/profile/{id}/changeAvatar")

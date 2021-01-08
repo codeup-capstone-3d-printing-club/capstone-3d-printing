@@ -9,8 +9,6 @@
 
         <h5>Change password</h5>
 
-        <div class="alert alert-danger" th:if="${errorMsg != null}" th:text="${errorMsg}"></div>
-
         <div class="form-group">
             <label for="current">Current Password</label>
             <input type="password" name="currentPassword" id="current" class="field form-control">
@@ -21,7 +19,37 @@
             <label for="confirm">Confirm New Password</label>
             <input type="password" name="confirmPassword" id="confirm" class="field form-control">
 
-            <input type="submit" th:value="Save">
+            <div class="row">
+                <button class="col-2" type="button" th:onclick="'javascript:savePassword()'" id="password-save">Save</button>
+                <div class="col-10">
+                    <span class="d-none alert-success" id="password-update">Changes saved</span>
+                </div>
+                <div class="col-auto"><span id="password-msg"></span></div>
+            </div>
+
+            <script>
+                function savePassword() {
+                    $("#password-save").prop("disabled", true)
+                    let msg = $("#password-msg");
+
+                    $.ajax({
+                        url: "/change-password?" + $("#password-change").serialize(),
+                        type: "POST",
+                        headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                        success: function (data) {
+                            if (data === "Password changed") {
+                                $("#password-update").removeClass("d-none").fadeIn(10).fadeOut(4500);
+                                msg.addClass("alert-success").removeClass("alert-danger")
+                            } else {
+                                msg.addClass("alert-danger").removeClass("alert-success")
+                            }
+                            msg.text(data);
+                            $("#password-save").prop("disabled", false);
+
+                        }
+                    })
+                }
+            </script>
         </div>
     </form>
 </div>
@@ -70,7 +98,8 @@
                 </label>
             </div>
             <div class="row">
-                <button class="col-2" type="button" th:onclick="'javascript:saveSettings()'" id="save-settings">Save</button>
+                <button class="col-2" type="button" th:onclick="'javascript:saveSettings()'" id="save-settings">Save
+                </button>
                 <div class="col-auto">
                     <span class="d-none alert-success" id="changes">Changes saved</span>
                 </div>
@@ -95,7 +124,7 @@
     </form>
 </div>
 <div th:fragment="user-details">
-    <form class="backgroundDiv login" th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" method="post">
+    <form id="details-form" class="backgroundDiv login" th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" method="post">
         <h5>Account Details</h5>
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
@@ -122,7 +151,29 @@
             <input id="private" class="form-check-input" type="checkbox" th:value="${user.private}"
                    th:field="*{private}" th:checked="*{private}"/>
         </div>
-        <input type="submit" th:value="Save">
+        <div class="row">
+            <button class="col-2" type="button" th:onclick="'javascript:saveDetails(' + ${user.id} + ')'" id="save-details">Save
+            </button>
+            <div class="col-auto">
+                <span class="d-none alert-success" id="details">Changes saved</span>
+            </div>
+        </div>
+
+        <script>
+            function saveDetails(id) {
+                $("#save-details").prop("disabled", true)
+
+                $.ajax({
+                    url: "/profile/" + id + "/edit?" + $("#details-form").serialize(),
+                    type: "POST",
+                    headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                    success: function () {
+                        $("#details").removeClass("d-none").fadeIn(10).fadeOut(4500);
+                        $("#save-details").prop("disabled", false)
+                    }
+                })
+            }
+        </script>
     </form>
 </div>
 

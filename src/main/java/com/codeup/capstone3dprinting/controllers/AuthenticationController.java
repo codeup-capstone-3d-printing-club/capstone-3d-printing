@@ -136,6 +136,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/change-password")
+    @ResponseBody
     public String changePassword(@RequestParam(name = "currentPassword") String currentPassword,
                                  @RequestParam(name = "newPassword") String newPassword,
                                  @RequestParam(name = "confirmPassword") String confirmPassword,
@@ -143,8 +144,6 @@ public class AuthenticationController {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
-        String msg;
-
 
         //if the current password is entered correctly
         if (passwordEncoder.matches(currentPassword, user.getPassword())) {
@@ -153,17 +152,16 @@ public class AuthenticationController {
             if (newPassword.equals(confirmPassword)) {
                 currentUser.setPassword(passwordEncoder.encode(newPassword));
                 userDao.save(currentUser);
-                return "redirect:/logout-change";
+                return "Password changed";
             } else {
                 //does not match and can't change password
-                msg = "Passwords don't match";
+                return "Passwords don't match";
             }
         } else {
             //current password is incorrect and can't change password
-            msg = "Incorrect password";
+            return "Incorrect password";
         }
-        redir.addFlashAttribute("errorMsg", msg);
-        return "redirect:/profile/" + currentUser.getId() + "/edit";
+
     }
 
     @GetMapping("/logout-change")
