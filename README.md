@@ -3,7 +3,7 @@ A full-stack Java application made with Spring Boot.
 
 ## Table of Contents
 1. [Demo](https://github.com/codeup-capstone-3d-printing-club/capstone-3d-printing#demo)
-2. [Technology Applied](https://github.com/codeup-capstone-3d-printing-club/capstone-3d-printing#libraries-and-utilities-applied)
+2. [Technologies Applied](https://github.com/codeup-capstone-3d-printing-club/capstone-3d-printing#libraries-and-utilities-applied)
 3. [Setup Instruction](https://github.com/codeup-capstone-3d-printing-club/capstone-3d-printing#setup-instruction)
 4. [Some General Examples](https://github.com/codeup-capstone-3d-printing-club/capstone-3d-printing#some-general-examples)
 
