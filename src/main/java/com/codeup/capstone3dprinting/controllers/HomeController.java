@@ -15,5 +15,10 @@ public class HomeController {
     public String showAboutPage() {
         return "about";
     }
+
+    @GetMapping("/FAQ")
+    public String frequentlyAskedPage() {
+        return "FAQ";
+    }
 }
 
