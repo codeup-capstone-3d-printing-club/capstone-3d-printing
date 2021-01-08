@@ -4,7 +4,10 @@
 <!-- update password, de-activate your account, update email -->
 
 <div th:fragment="account-manager">
-    <form th:fragment="change-password" id="password-change" method="post" th:action="@{/change-password}">
+    <form class="backgroundDiv login" th:fragment="change-password" id="password-change" method="post"
+          th:action="@{/change-password}">
+
+        <h5>Change password</h5>
 
         <div th:text="${errorMsg}"></div>
 
@@ -54,17 +57,68 @@
 </div>
 
 <div th:fragment="settings">
-    <form th:action="@{/settings}" th:method="post">
+    <form class="backgroundDiv login" th:action="@{/settings}" th:method="post">
+        <h5>Notification Settings</h5>
+        <p>Receive notifications when a...</p>
         <div class="form-group">
             <div th:each="setting : ${settings}">
-                <input type="checkbox" class="form-check" th:id="${'setting' + setting.id}"
-                       th:name="setting" th:value="${setting.id}" th:checked="${checked.contains(setting.id)}">
-                <label th:for="${'setting' + setting.id}" class="form-check-label"
-                       th:text="${setting.description}"></label>
+                <label class="form-check-label d-flex">
+                    <input type="checkbox" class="form-check" th:id="${'setting' + setting.id}"
+                           th:name="setting" th:value="${setting.id}" th:checked="${checked.contains(setting.id)}">
+                    <span th:text="${setting.description}"></span>
+
+                </label>
             </div>
             <input type="submit">
         </div>
     </form>
 </div>
+<div th:fragment="user-details">
+    <form class="backgroundDiv login" th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" method="post">
+        <h5>Account Details</h5>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input name="username" class="form-control" type="text" id="username" th:value="${user.username}"
+                   th:field="*{username}"/>
+        </div>
+        <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" id="firstName" name="firstName" class="form-control" th:value="${user.firstName}"
+                   th:field="*{firstName}"/>
+        </div>
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" id="lastName" name="lastName" class="form-control" th:value="${user.lastName}"
+                   th:field="*{lastName}"/>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-control" th:value="${user.email}"
+                   th:field="*{email}"/>
+        </div>
+        <div class="mb-3 form-check form-switch">
+            <label for="private" class="form-label">Make profile only visible to logged in users</label>
+            <input id="private" class="form-check-input" type="checkbox" th:value="${user.private}"
+                   th:field="*{private}" th:checked="*{private}"/>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</div>
 
+<div th:fragment="delete-button">
+    <div class="backgroundDiv login">
+        <button class="btn btn-danger" onclick="showAccountDeleteForm('deleteAccount')">Delete Account</button>
+        <div style="display: none" id="deleteAccount" class="alert alert-danger" role="alert">
+            <form th:action="@{/profile/{id}/deleteAccount(id=${user.id})}"
+                  method="post">
+
+                <h5>Are you sure you'd like to delete your account? This can't be undone.</h5>
+                <input type="hidden" th:value="${user.id}">
+                <input class="btn btn-danger" type="submit" value="Yes, delete Account">
+                <a class="btn btn-success" th:href="@{/profile/{id}(id=${user.id})}">Changed my mind</a>
+
+            </form>
+        </div>
+    </div>
+</div>
 </html>
