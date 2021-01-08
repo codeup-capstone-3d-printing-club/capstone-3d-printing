@@ -59,7 +59,6 @@
 <div th:fragment="settings">
     <form id="settingsForm" class="backgroundDiv login" th:action="@{/settings}" th:method="post">
         <h5>Notification Settings</h5>
-        <div class="alert-success alert" th:if="${settingsMsg != null}" th:text="${settingsMsg}"></div>
         <p>Receive notifications when a...</p>
         <div class="form-group">
             <div th:each="setting : ${settings}">
@@ -70,15 +69,24 @@
 
                 </label>
             </div>
-            <button type="button" th:onclick="'javascript:saveSettings()'">Save</button>
+            <div class="row">
+                <button class="col-2" type="button" th:onclick="'javascript:saveSettings()'" id="save-settings">Save</button>
+                <div class="col-auto">
+                    <span class="d-none alert-success" id="changes">Changes saved</span>
+                </div>
+            </div>
+
             <script>
                 function saveSettings() {
+                    $("#save-settings").prop("disabled", true)
+
                     $.ajax({
                         url: "/settings?" + $("#settingsForm").serialize(),
                         type: "POST",
                         headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
                         success: function () {
-                            console.log("save settings works");
+                            $("#changes").removeClass("d-none").fadeIn(10).fadeOut(4500);
+                            $("#save-settings").prop("disabled", false)
                         }
                     })
                 }
