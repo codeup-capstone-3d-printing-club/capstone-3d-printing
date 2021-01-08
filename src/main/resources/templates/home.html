@@ -7,7 +7,7 @@
 <nav th:replace="partials/navbar :: navbar"></nav>
 
 <div id="welcome">
-<!--    <h1>Welcome to</h1>-->
+    <!--    <h1>Welcome to</h1>-->
     <h1 class="title filter-shadow">SQUARECUBED</h1>
 </div>
 <div class="container">
@@ -27,6 +27,25 @@
 <div class="d-none" th:text="${message}"></div>
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
+<script>
+    const fetchById = (id) => fetch(`https://api.thingiverse.com/things/${id}/?access_token=4fbdbe0de9bba7766008096f689409a5`)
+        .then(res => res.json())
+        .catch(err => console.log(err));
 
+    fetchById(4652388).then(data => console.log(data));
+
+    const fetchByFileId = (id) => fetch(`https://api.thingiverse.com/files/${id}/?access_token=4fbdbe0de9bba7766008096f689409a5`)
+        .then(res => res.json())
+        .catch(err => console.log(err));
+
+    fetchByFileId(4652388).then(data => console.log(data));
+
+    const fetchMostPopular = () => fetch(`https://api.thingiverse.com/search/?sort=popular&access_token=4fbdbe0de9bba7766008096f689409a5`)
+        .then(res => res.json())
+        .catch(err => console.log(err));
+
+    fetchMostPopular().then(data => console.log(data));
+
+</script>
 </body>
 </html>

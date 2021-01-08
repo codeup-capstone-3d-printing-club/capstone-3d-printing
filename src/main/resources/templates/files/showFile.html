@@ -149,7 +149,7 @@
                             </div>
                         </div>
 
-                        <div sec:authorize="isAuthenticated()"
+                        <div class="d-inline-block" sec:authorize="isAuthenticated()"
                              th:if="${#authentication.principal.id==comment.getOwner().id}">
                             <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
                                   th:method="post">
