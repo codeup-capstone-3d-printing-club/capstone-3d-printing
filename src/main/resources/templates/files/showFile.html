@@ -8,7 +8,10 @@
 <nav th:replace="partials/navbar :: navbar"></nav>
 
 <div class="container">
-    <div class="backgroundDiv" style="height: fit-content">
+    <div class="text-center" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id!=file.owner.id && file.isPrivate()}">
+        <h2>Sorry, this is a private file.</h2>
+    </div>
+    <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id || !file.isPrivate()}" class="backgroundDiv" style="height: fit-content">
         <h1 th:text="${file.title}">Individual File</h1>
 
         <div class="row">
@@ -33,12 +36,6 @@
                             <div id="carouselExampleFade" class="carousel slide carousel-fade"
                                  data-bs-ride="carousel">
                                 <div class="carousel-inner">
-                                    <!--                        <div class="carousel-item active">-->
-                                    <!--                            <img th:src="${imgFiles.get(0).img_url}" class="d-block w-100" alt="...">-->
-                                    <!--                        </div>-->
-                                    <!--                        <div th:each="img : ${imgFiles.subList(1,(imgFiles.size() - 1))}" class="carousel-item">-->
-                                    <!--                            <img th:src="${img.img_url}" class="d-block w-100" alt="file img"/>-->
-                                    <!--                        </div>-->
                                     <div class="carousel-item active">
                                         <img src="http://via.placeholder.com/640x360" class="d-block w-100" alt="...">
                                     </div>
@@ -63,25 +60,34 @@
             </div>
 
             <div class="col-12 col-md-4 mb-3">
-                <div>Date created: <span th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></div>
-                <div>Date last updated: <span th:text="${#dates.format(file.updatedAt, 'yyyy-MM-dd')}"></span></div>
-                <p>Is private = <span th:text="${file.private}"></span></p>
-                <!--    TODO: only show this if admin-->
-                <p>Is flagged = <span th:text="${file.isFlagged()}"></span></p>
-                <div>Created By:
-                    <a th:href="@{'/profile/' + ${file.owner.getId()}}" th:text="${file.getOwner().getUsername()}"></a>
+                <div>
+                    <span th:unless="${file.getOwner().getAvatarUrl() == 'none'}">
+                        <img th:src="${file.getOwner().avatarUrl}" alt="user profile picture"
+                             style="width:3rem;border-radius: 50%">
+                    </span>
+                    <a th:href="@{'/profile/' + ${file.getOwner().id}}"
+                       th:text="${file.getOwner().username}"></a>
+                    <span>created at </span>
+                    <span th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span>
+<!--                    <div class="d-inline" sec:authorize="isAuthenticated()"-->
+<!--                         th:if="${#authentication.principal.id != user.id}">-->
+<!--                        <form th:replace="partials/follow-button::follow"></form>-->
+<!--                    </div>-->
+                    <div>Last updated at <span th:text="${#dates.format(file.updatedAt, 'yyyy-MM-dd')}"></span></div>
                 </div>
+                <div th:if="${file.private}">This is a private file</div>
+                <!--    TODO: only show this if admin-->
+                <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin}">
+                    <div th:if="${file.isFlagged()}">This is file has been flagged.</div>
+                </div>
+<!--                <p>Is flagged = <span th:text="${file.isFlagged()}"></span></p>-->
                 <div>
                     <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
                           th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
-                        <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit</a></button>
+                        <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit File</a></button>
                     </form>
                 </div>
-                <button class="btn btn-outline-danger">follow</button>
                 <button class="btn btn-outline-danger">download</button>
-                <button class="btn btn-outline-danger">like</button>
-                <button class="btn btn-outline-danger">add to list</button>
-                <button class="btn btn-outline-danger">comment</button>
 
                 <div class="d-inline" sec:authorize="isAuthenticated()"
                      th:if="${#authentication.principal.id!=file.owner.id}">
@@ -149,7 +155,7 @@
                             </div>
                         </div>
 
-                        <div class="d-inline-block" sec:authorize="isAuthenticated()"
+                        <div class="d-inline" sec:authorize="isAuthenticated()"
                              th:if="${#authentication.principal.id==comment.getOwner().id}">
                             <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
                                   th:method="post">
