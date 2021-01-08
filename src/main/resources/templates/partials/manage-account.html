@@ -43,6 +43,7 @@
                             } else {
                                 msg.addClass("alert-danger").removeClass("alert-success")
                             }
+                            $("#password-change div input").val("");
                             msg.text(data);
                             $("#password-save").prop("disabled", false);
 
