@@ -21,7 +21,7 @@ public class AjaxController {
         this.messageDao = messageDao;
     }
 
-    @RequestMapping(value = "/read/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/read/{id}", method = RequestMethod.POST)
     public void readMessage(@PathVariable(name = "id") String id) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -21,7 +21,7 @@
             <label for="confirm">Confirm New Password</label>
             <input type="password" name="confirmPassword" id="confirm" class="field form-control">
 
-            <input type="submit">
+            <input type="submit" th:value="Save">
         </div>
     </form>
 </div>
@@ -57,8 +57,9 @@
 </div>
 
 <div th:fragment="settings">
-    <form class="backgroundDiv login" th:action="@{/settings}" th:method="post">
+    <form id="settingsForm" class="backgroundDiv login" th:action="@{/settings}" th:method="post">
         <h5>Notification Settings</h5>
+        <div class="alert-success alert" th:if="${settingsMsg != null}" th:text="${settingsMsg}"></div>
         <p>Receive notifications when a...</p>
         <div class="form-group">
             <div th:each="setting : ${settings}">
@@ -69,7 +70,19 @@
 
                 </label>
             </div>
-            <input type="submit" th:value="Save">
+            <button type="button" th:onclick="'javascript:saveSettings()'">Save</button>
+            <script>
+                function saveSettings() {
+                    $.ajax({
+                        url: "/settings?" + $("#settingsForm").serialize(),
+                        type: "POST",
+                        headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                        success: function () {
+                            console.log("save settings works");
+                        }
+                    })
+                }
+            </script>
         </div>
     </form>
 </div>
@@ -101,7 +114,7 @@
             <input id="private" class="form-check-input" type="checkbox" th:value="${user.private}"
                    th:field="*{private}" th:checked="*{private}"/>
         </div>
-        <input type="submit" value="Submit">
+        <input type="submit" th:value="Save">
     </form>
 </div>
 

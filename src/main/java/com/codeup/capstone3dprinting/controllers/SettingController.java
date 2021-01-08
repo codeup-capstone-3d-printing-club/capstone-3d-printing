@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,8 @@ class SettingController {
     }
 
     @PostMapping("/settings")
-    public String updateSettings(@RequestParam(name = "setting", required = false) List<String> settings) {
+    public String updateSettings(@RequestParam(name = "setting", required = false) List<String> settings,
+                                 RedirectAttributes redir) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
@@ -41,6 +43,8 @@ class SettingController {
 
         currentUser.setSettings(newSettings);
         userDao.save(currentUser);
+
+        redir.addFlashAttribute("settingsMsg", "Notification setting saved");
 
         return "redirect:/profile/" + currentUser.getId() + "/edit";
     }
