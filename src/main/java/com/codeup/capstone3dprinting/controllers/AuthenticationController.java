@@ -143,6 +143,8 @@ public class AuthenticationController {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
+        String msg;
+
 
         //if the current password is entered correctly
         if (passwordEncoder.matches(currentPassword, user.getPassword())) {
@@ -154,14 +156,14 @@ public class AuthenticationController {
                 return "redirect:/logout-change";
             } else {
                 //does not match and can't change password
-                redir.addFlashAttribute("errorMsg", "Passwords don't match");
-                return "redirect:/messages";
+                msg = "Passwords don't match";
             }
         } else {
             //current password is incorrect and can't change password
-            redir.addFlashAttribute("errorMsg", "Incorrect password");
-            return "redirect:/messages";
+            msg = "Incorrect password";
         }
+        redir.addFlashAttribute("errorMsg", msg);
+        return "redirect:/profile/" + currentUser.getId() + "/edit";
     }
 
     @GetMapping("/logout-change")

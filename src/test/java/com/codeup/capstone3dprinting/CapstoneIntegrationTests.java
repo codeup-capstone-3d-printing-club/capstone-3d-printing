@@ -144,7 +144,7 @@ public class CapstoneIntegrationTests {
                 .param("newPassword", "newpass1")
                 .param("confirmPassword", "newpass1")
                 .param("currentPassword", "password"))
-                .andExpect(redirectedUrl("/messages"));
+                .andExpect(flash().attribute("errorMsg", "Incorrect password"));
 
         //when new password doesn't match with confirm
         this.mvc.perform(post("/change-password").with(csrf())
@@ -152,7 +152,7 @@ public class CapstoneIntegrationTests {
                 .param("newPassword", "newpass1")
                 .param("confirmPassword", "newpass2")
                 .param("currentPassword", "pass"))
-                .andExpect(redirectedUrl("/messages"));
+                .andExpect(flash().attribute("errorMsg", "Passwords don't match"));
 
         //should result in successful password change, then log the user out
         this.mvc.perform(post("/change-password").with(csrf())
