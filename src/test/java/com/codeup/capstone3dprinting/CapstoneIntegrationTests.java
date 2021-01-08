@@ -126,7 +126,7 @@ public class CapstoneIntegrationTests {
         assertTrue(message.isUnread());
 
         //simulates clicking on message to read
-        this.mvc.perform(get("/ajax/read/" + message.getId()).with(csrf())
+        this.mvc.perform(post("/ajax/read/" + message.getId()).with(csrf())
                 .session((MockHttpSession) httpSession));
 
         //should not be marked unread now
@@ -144,7 +144,7 @@ public class CapstoneIntegrationTests {
                 .param("newPassword", "newpass1")
                 .param("confirmPassword", "newpass1")
                 .param("currentPassword", "password"))
-                .andExpect(flash().attribute("errorMsg", "Incorrect password"));
+                .andExpect(content().string(containsString("Incorrect password")));
 
         //when new password doesn't match with confirm
         this.mvc.perform(post("/change-password").with(csrf())
@@ -152,7 +152,7 @@ public class CapstoneIntegrationTests {
                 .param("newPassword", "newpass1")
                 .param("confirmPassword", "newpass2")
                 .param("currentPassword", "pass"))
-                .andExpect(flash().attribute("errorMsg", "Passwords don't match"));
+                .andExpect(content().string(containsString("Passwords don't match")));
 
         //should result in successful password change, then log the user out
         this.mvc.perform(post("/change-password").with(csrf())
@@ -160,7 +160,7 @@ public class CapstoneIntegrationTests {
                 .param("newPassword", "newpass1")
                 .param("confirmPassword", "newpass1")
                 .param("currentPassword", "pass"))
-                .andExpect(redirectedUrl("/logout-change"));
+                .andExpect(content().string(containsString("Password changed")));
 
         //the user tries to log in with the wrong password
         this.mvc.perform(post("/login").with(csrf())
