@@ -67,20 +67,23 @@
                         <td>
 
                             <ul  class="nav flex-column nav-tabs d-flex w-60" id="sentence" role="tablist" aria-orientation="vertical">
-                                <li  class="nav-item d-flex w-60" th:each="message : ${received}">
+                                <li    class="nav-item d-flex w-100" th:each="message : ${received}">
                                     <a class="subject nav-link" th:href="@{'/profile/' + ${message.sender.id}}" th:text="${message.sender.username}"></a>
                                     <a id="message" class="subject flex-column nav-link w-100"
                                        th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
                                        th:href="${'#message-' + message.id}" role="tablist"
                                        th:aria-controls="${'message-' + message.id}"
                                        th:onclick="'javascript:markRead(' + ${message.id} + ')'">
-                                        <span th:if="${message.unread}" th:text="${message.message}" style="color: red; text-overflow: ellipsis;" class="sentence slice">hgfhgfhghgdfhhgdfhfhgfjhvjhjhgv</span>
-                                        <span th:unless="${message.unread}" th:text="${message.message}"></span>
+                                        <span  th:if="${message.unread}"   th:text="${#strings.abbreviate(message.message, 20)}" style="color: red;" ></span>
+                                        <span th:unless="${message.unread}" th:text="${#strings.abbreviate(message.message, 20)}" ></span>
                                     </a>
+
+
                                 </li>
                             </ul>
                         </td>
                     </tr>
+
                     </tbody>
                 </table>
                 <div class="tab-content " id="v-tabContent">
