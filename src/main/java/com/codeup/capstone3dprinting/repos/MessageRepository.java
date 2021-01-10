@@ -11,5 +11,8 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findBySenderEquals(User user);
     Message findMessageById(Long id);
     Message findByMessage(String message);
+    List<Message> findByRecipientAndUnread(User user, boolean unread);
+
+
 }
 

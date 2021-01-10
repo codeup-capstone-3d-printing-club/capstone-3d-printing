@@ -48,9 +48,10 @@
         crossorigin="anonymous"></script>
 <script>
     function markRead(id) {
-        console.log(id);
         $.ajax({
             url: "/ajax/read/" + id,
+            type: "POST",
+            headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
             success: function () {
                 $("#message-" + id + "-tab>span").removeClass("text-danger");
             }
