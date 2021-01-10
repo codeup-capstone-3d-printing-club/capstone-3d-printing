@@ -11,14 +11,45 @@
 
 /*    position: relative;}*/
 
+
+
 .colorBackground{
-    background-image: linear-gradient(#858788,#a40000, black);
+    background-image: linear-gradient(#530101,#a40000, black);
 }
 body {
 
     padding: 2em;
     /*background: linear-gradient(180deg, #f14, #ff8300) fixed;*/
     font-family: "Avenir Next Condensed", sans-serif;
+}
+.table{
+    width: 60%;
+}
+#sentence{
+    /*max-width: 20em;*/
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.background {
+    background-blend-mode: multiply;
+    background: #7e0505 url('../image/3d_bg.jpg') no-repeat  center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: 100%;
+
+}
+
+.card-img{
+
+    margin-top: 20px;
+ max-height: 15em;
+    max-width: 10em;
+}
+#card1{
+    margin-top: 20em;
 }
 
 h1 {
@@ -51,7 +82,7 @@ h1 {
 }
 
 .box .inner {
-    width: 6em;
+    width: 20em;
     height: 5em;
     line-height: 4.7em;
     font-size: 4rem;
@@ -99,14 +130,6 @@ h1 {
 
 #welcome {
     margin-top: 4em;
-}
-
-.background {
-    background: url('../image/3d_bg.jpg') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
 }
 
 
