@@ -5,6 +5,7 @@ import com.codeup.capstone3dprinting.models.File;
 import com.codeup.capstone3dprinting.models.Rating;
 import com.codeup.capstone3dprinting.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,8 +18,10 @@ public interface FileRepository extends JpaRepository<File, Long> {
   List<File> findByCategories(Category category);
   List<File> findAllByDescriptionIsLike(String searchTerm);
   List<File> findAllByTitleIsLike(String searchTerm);
-  List<File> findAllByOwnerIsLike(String searchTerm);
   File findByTitle(String title);
 
-//  List<File> findTop5ByRatingsOrderByRatings(List<Rating> ratings);
+  @Query(value = "SELECT * FROM files ORDER BY average_rating DESC LIMIT 5",
+          nativeQuery = true)
+  List<File> getTop5();
+
 }

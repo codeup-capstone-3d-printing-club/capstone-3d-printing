@@ -6,10 +6,7 @@ import com.codeup.capstone3dprinting.repos.FileRepository;
 import com.codeup.capstone3dprinting.repos.RatingRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.GeneratedValue;
 import java.util.List;
@@ -25,7 +22,11 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String landingPage() {
+    public String landingPage(Model model) {
+        List<File> top5 = fileDao.getTop5();
+
+        model.addAttribute("topRated", top5);
+
         return "home";
     }
 
@@ -38,12 +39,8 @@ public class HomeController {
     public String frequentlyAskedPage() {
         return "FAQ";
     }
-//
-//    @GetMapping("/topRated")
-//    public String rating( Model model){
-//        List<File> top5 = fileDao.findTop5ByRatingsOrderByRatings(ratingDao.findAll());
-//        return "home";
-//    }
+
+
 
 }
 

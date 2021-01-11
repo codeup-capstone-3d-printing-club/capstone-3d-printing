@@ -7,75 +7,83 @@
 <nav th:replace="partials/navbar :: navbar"></nav>
 
 
-
-
 <div class="container">
     <div class="row">
-<div id="welcome" >
-<!--    <h1>Welcome to</h1>-->
-    <h2 class="title filter-shadow">
-        <a href="/about" style="text-decoration: none; color: white; max-height:  167px !important;">
-            <span style="background: #3d3c3c; line-height: 167px">SQ</span>UARECUBED
-        </a>
-    </h2>
-<!--</div>-->
-<!--        <div class="d-flex justify-content-center backgroundDiv">-->
-<!--            <div id="3d" class="box">-->
-<!--                <div class="inner">-->
-<!--                    <span class="filter-shadow">3D DESIGNS</span>-->
-<!--                </div>-->
-<!--                <div class="inner">-->
-<!--                    <span class="text-shadow">3D DESIGNS</span>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+        <div id="welcome">
+            <!--    <h1>Welcome to</h1>-->
+            <h2 class="title filter-shadow">
+                <a href="/about" style="text-decoration: none; color: white; max-height:  167px !important;">
+                    <span style="background: #3d3c3c; line-height: 167px">SQ</span>UARECUBED
+                </a>
+            </h2>
+            <!--</div>-->
+            <!--        <div class="d-flex justify-content-center backgroundDiv">-->
+            <!--            <div id="3d" class="box">-->
+            <!--                <div class="inner">-->
+            <!--                    <span class="filter-shadow">3D DESIGNS</span>-->
+            <!--                </div>-->
+            <!--                <div class="inner">-->
+            <!--                    <span class="text-shadow">3D DESIGNS</span>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--</div>-->
 
-<div  id="card1" class="card  text-white backgroundDiv">
-    <img  class="card-img" alt="..." th:src="@{/image/3d printer image 1.png}"/>
-    <div class="card-img-overlay container">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text justify-content-end" >This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text">Last updated 3 mins ago</p>
-    </div>
-</div>
+            <div id="card1" class="card  text-white backgroundDiv">
+                <img class="card-img" alt="..." th:src="@{/image/3d printer image 1.png}"/>
+                <div class="card-img-overlay container">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text justify-content-end">This is a wider card with supporting text below as a
+                        natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text">Last updated 3 mins ago</p>
+                </div>
+            </div>
 
-    <ul  class="nav flex-column nav-tabs d-flex w-60"  role="tablist" aria-orientation="vertical">
-        <li    class="nav-item d-flex w-100" th:each="message : ${received}">
-            <a class="subject nav-link" th:href="@{'/profile/' + ${message.sender.id}}" th:text="${message.sender.username}"></a>
-            <a  class="subject flex-column nav-link w-100"
-                th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
-                th:href="${'#message-' + message.id}" role="tablist"
-                th:aria-controls="${'message-' + message.id}"
-                th:onclick="'javascript:markRead(' + ${message.id} + ')'">
-                <span  th:if="${message.unread}"   th:text="${#strings.abbreviate(message.message, 40)}" style="color: red;" ></span>
-                <span th:unless="${message.unread}" th:text="${#strings.abbreviate(message.message, 40)}" ></span>
-            </a>
-        </li>
-    </ul>
-<div class="d-none" th:text="${message}"></div>
-<footer th:replace="partials/footer_partial :: footer"></footer>
-<section th:replace="partials/partials_scripts :: script"></section>
-<script>
-    const fetchById = (id) => fetch(`https://api.thingiverse.com/things/${id}/?access_token=4fbdbe0de9bba7766008096f689409a5`)
-        .then(res => res.json())
-        .catch(err => console.log(err));
+            <ul class="nav flex-column nav-tabs d-flex w-60" role="tablist" aria-orientation="vertical">
+                <li class="nav-item d-flex w-100" th:each="message : ${received}">
+                    <a class="subject nav-link" th:href="@{'/profile/' + ${message.sender.id}}"
+                       th:text="${message.sender.username}"></a>
+                    <a class="subject flex-column nav-link w-100"
+                       th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
+                       th:href="${'#message-' + message.id}" role="tablist"
+                       th:aria-controls="${'message-' + message.id}"
+                       th:onclick="'javascript:markRead(' + ${message.id} + ')'">
+                        <span th:if="${message.unread}" th:text="${#strings.abbreviate(message.message, 40)}"
+                              style="color: red;"></span>
+                        <span th:unless="${message.unread}"
+                              th:text="${#strings.abbreviate(message.message, 40)}"></span>
+                    </a>
+                </li>
+            </ul>
 
-    fetchById(4652388).then(data => console.log(data));
+            <div th:each="file : ${topRated}">
+<!--                <div th:text="${file.title}"></div>-->
+            </div>
 
-    const fetchByFileId = (id) => fetch(`https://api.thingiverse.com/files/${id}/?access_token=4fbdbe0de9bba7766008096f689409a5`)
-        .then(res => res.json())
-        .catch(err => console.log(err));
+            <div class="d-none" th:text="${message}"></div>
+            <footer th:replace="partials/footer_partial :: footer"></footer>
+            <section th:replace="partials/partials_scripts :: script"></section>
+            <script>
 
-    fetchByFileId(4652388).then(data => console.log(data));
+                const fetchById = (id) => fetch(`https://api.thingiverse.com/things/${id}/?access_token=4fbdbe0de9bba7766008096f689409a5`)
+                    .then(res => res.json())
+                    .catch(err => console.log(err));
 
-    const fetchMostPopular = () => fetch(`https://api.thingiverse.com/search/?sort=popular&access_token=4fbdbe0de9bba7766008096f689409a5`)
-        .then(res => res.json())
-        .catch(err => console.log(err));
+                fetchById(4652388).then(data => console.log(data));
 
-    fetchMostPopular().then(data => console.log(data));
+                const fetchByFileId = (id) => fetch(`https://api.thingiverse.com/files/${id}/?access_token=4fbdbe0de9bba7766008096f689409a5`)
+                    .then(res => res.json())
+                    .catch(err => console.log(err));
 
-</script>
+                fetchByFileId(4652388).then(data => console.log(data));
+
+                const fetchMostPopular = () => fetch(`https://api.thingiverse.com/search/?sort=popular&access_token=4fbdbe0de9bba7766008096f689409a5`)
+                    .then(res => res.json())
+                    .catch(err => console.log(err));
+
+                fetchMostPopular().then(data => console.log(data));
+
+            </script>
 </body>
 </html>
