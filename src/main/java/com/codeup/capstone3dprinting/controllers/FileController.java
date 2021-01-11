@@ -152,6 +152,7 @@ class FileController {
         fileToBeSaved.setCreatedAt(timestamp1);
         fileToBeSaved.setUpdatedAt(timestamp1);
         fileToBeSaved.setOwner(currentUser);
+        fileToBeSaved.setAverageRating(0);
 
         List<Category> categoryList = new ArrayList<>();
         if (newCategories == null) {
