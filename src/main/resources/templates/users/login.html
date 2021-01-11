@@ -27,12 +27,15 @@
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" name="password" class="form-control" id="password">
+            <div th:replace="partials/manage-account::recovery-link"></div>
         </div>
         <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.invisible.site.key')}"
              data-callback="onSubmit" data-size="invisible" data-badge="bottomright">
         </div>
         <input class="mb-3" type="submit" value="Log In"/>
-        <div th:replace="partials/manage-account::recovery-link"></div>
+        <div >
+            <a th:href="@{'/sign-up'}">Register if you haven't</a>
+        </div>
     </form>
 </div>
 

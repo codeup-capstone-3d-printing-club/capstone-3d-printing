@@ -1,6 +1,12 @@
 # SquareCubed
 A full-stack Java application made with Spring Boot.
 
+- Spring Boot 
+- Hibernate ORM + JPA
+- Thymeleaf
+- MySQL
+- BootStrap CSS Framework
+
 ## Table of Contents
 1. [Demo](https://github.com/codeup-capstone-3d-printing-club/capstone-3d-printing#demo)
 2. [Technologies Applied](https://github.com/codeup-capstone-3d-printing-club/capstone-3d-printing#libraries-and-utilities-applied)
@@ -11,13 +17,8 @@ A full-stack Java application made with Spring Boot.
 
 ### Libraries and Utilities Applied
 
-- Implementing BootStrap CSS Framework
-- Spring Boot 
-- Hibernate ORM + JPA
-- Thymeleaf
-- MySQL
 - Lombok
-- Three.js [link](https:///)
+- Three.js [link](https://https://threejs.org//)
 - jQuery [link](https://jquery.com/)
 - reCAPTCHA
 - Filestack

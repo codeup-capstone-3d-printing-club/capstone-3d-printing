@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <body>
-<div th:fragment="login-modal" class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div th:fragment="login-modal" class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content backgroundDiv">
             <div class="modal-header">
@@ -12,14 +13,19 @@
                 <form class="backgroundDiv login" th:action="@{/login}" method="post">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input class="form-control" id="username" name="username" type="text" aria-describedby="emailHelp">
+                        <input class="form-control" id="username" name="username" type="text"
+                               aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" name="password" class="form-control" id="password">
+                        <div th:replace="partials/manage-account::recovery-link"></div>
                     </div>
                     <input type="submit" value="Log In"/>
                 </form>
+                <div class="my-3">
+                    <a th:href="@{'/sign-up'}">Register if you haven't</a>
+                </div>
             </div>
         </div>
     </div>
