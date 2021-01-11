@@ -25,12 +25,7 @@ body {
 .table{
     width: 60%;
 }
-#sentence{
-    /*max-width: 20em;*/
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+
 
 .background {
     background-blend-mode: multiply;
@@ -40,6 +35,10 @@ body {
     -o-background-size: cover;
     background-size: 100%;
 
+}
+.messageItem{
+    max-width: 25em;
+    border-radius: 10px;
 }
 
 .card-img{
@@ -132,7 +131,9 @@ h1 {
     margin-top: 4em;
 }
 
-
+a{
+    text-decoration: none;
+}
 /*Font and background colors*/
 .navbar {
     width: auto;
@@ -201,6 +202,7 @@ footer {
     opacity: 80%;
     margin-top: 400px;
     z-index: 1;
+
 }
 
 .links {
