@@ -57,35 +57,34 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-4 mb-3">
+            <div class="col-12 col-md-4 mb-3 d-flex flex-column align-item-start justify-content-around">
                 <div>
                     <span th:unless="${file.getOwner().getAvatarUrl() == 'none'}">
                         <img th:src="${file.getOwner().avatarUrl}" alt="user profile picture"
-                             style="width:3rem;border-radius: 50%">
+                             style="width:4rem;border-radius: 50%">
                     </span>
                     <a th:href="@{'/profile/' + ${file.getOwner().id}}"
-                       th:text="${file.getOwner().username}"></a>
+                       th:text="${file.getOwner().username}" class="fs-5 mx-3"></a>
                     <span>created at </span>
                     <span th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span>
-<!--                    <div class="d-inline" sec:authorize="isAuthenticated()"-->
-<!--                         th:if="${#authentication.principal.id != user.id}">-->
-<!--                        <form th:replace="partials/follow-button::follow"></form>-->
-<!--                    </div>-->
-                    <div>Last updated at <span th:text="${#dates.format(file.updatedAt, 'yyyy-MM-dd')}"></span></div>
+                    <div class="mx-2">Last updated at <span th:text="${#dates.format(file.updatedAt, 'yyyy-MM-dd')}"></span></div>
                 </div>
-                <div th:if="${file.private}">This is a private file</div>
+                <!--                    <div class="d-inline" sec:authorize="isAuthenticated()"-->
+                <!--                         th:if="${#authentication.principal.id != user.id}">-->
+                <!--                        <form th:replace="partials/follow-button::follow"></form>-->
+                <!--                    </div>-->
+                <div th:if="${file.private}" style="color: red">This is a private file</div>
                 <!--    TODO: only show this if admin-->
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin}">
-                    <div th:if="${file.isFlagged()}">This is file has been flagged.</div>
+                    <div th:if="${file.isFlagged()}" class="alert alert-danger">This is file has been flagged.</div>
                 </div>
-<!--                <p>Is flagged = <span th:text="${file.isFlagged()}"></span></p>-->
                 <div>
                     <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
                           th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
-                        <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit File</a></button>
+                        <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}" class="btn btn-danger">Edit File</a></button>
                     </form>
                 </div>
-                <a th:href="@{file.file_url}" class="btn btn-outline-danger" th:download="${file.title}">download</a>
+<!--                <a th:href="@{file.file_url}" class="btn btn-outline-danger btn-sm" th:download="${file.title}">download</a>-->
 
                 <div class="d-inline" sec:authorize="isAuthenticated()"
                      th:if="${#authentication.principal.id!=file.owner.id}">
@@ -93,25 +92,50 @@
                 </div>
 
                 <div sec:authorize="!isAuthenticated()">
-                        <button class="favoriteBtn" data-bs-toggle="modal" data-bs-target="#loginModal">
-                            <i class="far fa-heart favorite"></i>
-                        </button>
+                    <button class="favoriteBtn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i class="far fa-heart favorite"></i>
+                    </button>
                 </div>
 
-                <div>Categories:
+                <div>
+                    <h5>Categories: </h5>
                     <span th:each="category : ${file.categories}">
-                    <a th:href="@{'/files/' + '?category=' + ${category.category}}" th:text="${category.category}"></a>
+                    <a th:href="@{'/files/' + '?category=' + ${category.category}}" th:text="${category.category}"
+                       class="btn btn-sm btn-secondary"></a>
                     </span>
+                </div>
+
+                <!--TODO: needs to be one rating per file, per user-->
+                <div class="backgroundDiv mt-4" style="border: grey solid 1px">
+                    <h5>Rating: </h5><h5 th:text="${#numbers.formatDecimal(averageRating,1,2)}"></h5>
+                    <form th:action="@{/files/{id}/rating(id=${file.id})}" th:method="post">
+                        <label for="ratings">Rate this object</label>
+                        <select id="ratings" th:name="ratings">
+                            <option th:value="1">1</option>
+                            <option th:value="2">2</option>
+                            <option th:value="3">3</option>
+                            <option th:value="4">4</option>
+                            <option th:value="5">5</option>
+                            <option th:value="6">6</option>
+                            <option th:value="7">7</option>
+                            <option th:value="8">8</option>
+                            <option th:value="9">9</option>
+                            <option th:value="10">10</option>
+                        </select>
+                        <input th:type="submit" value="Submit">
+                    </form>
                 </div>
             </div>
 
             <div class="col-12 col-md-8">
-                <div>Description:
+                <hr>
+                <div>
+                    <h4>Description</h4>
                     <p th:text="${file.description}"></p>
                 </div>
                 <hr>
 
-                <h4>Comments:</h4>
+                <h4>Comments</h4>
                 <div th:each="comment : ${allCommentsForThisPost}">
                     <!--                    <h2 th:text="${comment.getOwner().getUsername()}"></h2>-->
                     <div class="backgroundDiv" th:if="${comment.getParent() == null}">
@@ -121,7 +145,7 @@
                                  style="width:2rem;border-radius: 50%">
                         </span>
                             <a th:href="@{'/profile/' + ${comment.getOwner().id}}"
-                               th:text="${comment.getOwner().username}"></a>
+                               th:text="${comment.getOwner().username}" class="mx-2"></a>
                             <span>created at </span>
                             <span th:text="${#dates.format(comment.createdAt,'yyyy-MM-dd')}"></span>
                         </div>
@@ -133,7 +157,7 @@
                                  style="width:2rem;border-radius: 50%">
                             </span>
                             <a class="" th:href="@{'/profile/' + ${child.getOwner().id}}"
-                               th:text="${child.getOwner().username}"></a>
+                               th:text="${child.getOwner().username}" class="mx-2"></a>
                             <span>created at </span>
                             <span th:text="${#dates.format(child.createdAt,'yyyy-MM-dd')}"></span>
                             <blockquote th:text="${child.getComment()}"></blockquote>
@@ -141,7 +165,7 @@
                         <hr>
                         <div sec:authorize="isAuthenticated()">
                             <div>
-                                <a class="btn btn-secondary" data-bs-toggle="collapse" th:href="'#id'+${comment.id}"
+                                <a class="btn btn-secondary btn-sm" data-bs-toggle="collapse" th:href="'#id'+${comment.id}"
                                    role="button"
                                    aria-expanded="false" aria-controls="collapseExample">
                                     Add a reply:
@@ -164,7 +188,7 @@
                             <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
                                   th:method="post">
                                 <input type="hidden" name="commentId" th:value="${comment.id}">
-                                <button class="btn btn-danger" th:type="submit">Delete comment</button>
+                                <button class="btn btn-danger btn-sm" th:type="submit">Delete comment</button>
                             </form>
                         </div>
                     </div>
@@ -173,7 +197,7 @@
                 <div sec:authorize="isAuthenticated()">
                     <form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
                         <div class="mb-3">
-                            <label for="commentbox" class="form-label">Leave your comment: </label>
+                            <label for="commentbox" class="form-label fs-5">Leave your comment: </label>
                             <textarea name="commentText" id="commentbox" class="form-control field"></textarea>
                         </div>
                         <input th:type="submit" value="post comment" class="btn btn-secondary">
@@ -195,26 +219,6 @@
                 <!--    TODO:rendering needs to go in to the following tag-->
                 <div th:value="${file.fileUrl}"></div>
 
-                <!--TODO: needs to be one rating per file, per user-->
-                <div class="backgroundDiv mt-4" style="border: grey solid 1px">
-                    <h5>Rating: </h5><h5 th:text="${#numbers.formatDecimal(averageRating,1,2)}"></h5>
-                    <form th:action="@{/files/{id}/rating(id=${file.id})}" th:method="post">
-                        <label for="ratings">Rate this object</label>
-                        <select id="ratings" th:name="ratings">
-                            <option th:value="1">1</option>
-                            <option th:value="2">2</option>
-                            <option th:value="3">3</option>
-                            <option th:value="4">4</option>
-                            <option th:value="5">5</option>
-                            <option th:value="6">6</option>
-                            <option th:value="7">7</option>
-                            <option th:value="8">8</option>
-                            <option th:value="9">9</option>
-                            <option th:value="10">10</option>
-                        </select>
-                        <input th:type="submit" value="Submit">
-                    </form>
-                </div>
             </div>
         </div>
     </div>
