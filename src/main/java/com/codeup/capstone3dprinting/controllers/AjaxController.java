@@ -30,7 +30,7 @@ public class AjaxController {
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.POST)
-    public void readMessage(@PathVariable(name = "id") String id) {
+    public String readMessage(@PathVariable(name = "id") String id, HttpSession session) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
@@ -41,6 +41,12 @@ public class AjaxController {
             message.setUnread(false);
             messageDao.save(message);
         }
+
+        String unread = String.valueOf(messageDao.findByRecipientAndUnread(currentUser, true).size());
+
+        session.setAttribute("unread", unread);
+
+        return unread;
 
     }
 

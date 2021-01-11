@@ -5,7 +5,7 @@
 </head>
 <body class="colorBackground">
 <nav th:replace="partials/navbar :: navbar"></nav>
-<div class="container">
+<div class="container backgroundDiv login">
     <form th:method="post" th:action="@{/messages/send}">
         <div class="form-group">
             <div th:if="${param.error}">Recipient username does not exist</div>
@@ -20,7 +20,7 @@
                       placeholder="Write your message here..." th:text="${msg}"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Send</button>
     </form>
 </div>
 
