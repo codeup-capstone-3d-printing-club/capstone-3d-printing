@@ -147,6 +147,14 @@ class UserController {
     public String showEditForm(@PathVariable long id, Model model) {
         User user = userDao.getOne(id);
 
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+            User userLoggedIn = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User currentUser = userDao.getOne(userLoggedIn.getId());
+            if(currentUser.getId() != user.getId()) {
+                return "redirect:/profile/" + currentUser.getId();
+            }
+        }
+
         List<Setting> settings = settingDao.findAll();
         List<Long> checked = new ArrayList<>();
 
