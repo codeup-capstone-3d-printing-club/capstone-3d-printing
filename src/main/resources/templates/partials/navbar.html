@@ -57,12 +57,7 @@
                                                 type: "GET",
                                                 headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
                                                 success: function (data) {
-                                                    if (parseInt(data) > 0) {
-                                                        $("#unread").removeClass("d-none");
-                                                        $("#unread").text(data);
-                                                    } else {
-                                                        $("#unread").addClass("d-none");
-                                                    }
+                                                    $("#unread").text(data);
                                                 }
                                             });
                                         });

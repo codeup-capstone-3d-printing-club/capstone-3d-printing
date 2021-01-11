@@ -28,10 +28,6 @@
         <!-- SENT -->
 <!--        <div th:replace="partials/messages::sentMessages"></div>-->
 
-
-        <!-- TODO: trash functionality will probably require a small database change -->
-        <div class="tab-pane fade" id="trash" role="tabpanel" aria-labelledby="trash-tab">trash</div>
-
     </div>
 
 </div>
@@ -52,8 +48,9 @@
             url: "/ajax/read/" + id,
             type: "POST",
             headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
-            success: function () {
+            success: function (data) {
                 $("#message-" + id + "-tab>span").removeClass("text-danger");
+                $("#unread").text(data);
             }
         })
     }
