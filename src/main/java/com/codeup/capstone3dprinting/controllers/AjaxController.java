@@ -1,12 +1,15 @@
 package com.codeup.capstone3dprinting.controllers;
 
 
+import com.codeup.capstone3dprinting.models.File;
 import com.codeup.capstone3dprinting.models.Message;
 import com.codeup.capstone3dprinting.models.User;
+import com.codeup.capstone3dprinting.repos.FileRepository;
 import com.codeup.capstone3dprinting.repos.MessageRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -18,10 +21,12 @@ public class AjaxController {
 
     private final MessageRepository messageDao;
     private final UserRepository userDao;
+    private final FileRepository fileDao;
 
-    public AjaxController(MessageRepository messageDao, UserRepository userDao) {
+    public AjaxController(MessageRepository messageDao, UserRepository userDao, FileRepository fileDao) {
         this.userDao = userDao;
         this.messageDao = messageDao;
+        this.fileDao = fileDao;
     }
 
     @RequestMapping(value = "/read/{id}", method = RequestMethod.POST)
@@ -51,6 +56,5 @@ public class AjaxController {
 
         return String.valueOf(messages.size());
     }
-
 
 }

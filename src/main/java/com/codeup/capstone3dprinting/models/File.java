@@ -41,6 +41,9 @@ public class File {
     @Column(name = "is_flagged", nullable = false)
     private boolean isFlagged;
 
+    @Column(name = "average_rating")
+    private double averageRating = 0;
+
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;

@@ -91,11 +91,6 @@ class FileController {
         List<Comment> thisFilesComments = commentDao.getAllByFile_Id(id);
         List<Rating> ListOfRatingObjs = ratingDao.getAllByFile_Id(id);
         List<Integer> thisFileRatings = getRatingsList(ListOfRatingObjs);
-        double sum = 0;
-        for (int i : thisFileRatings) {
-            sum = sum + i;
-        }
-        sum = sum / thisFileRatings.size();
 
         boolean favorited = false;
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
@@ -114,7 +109,7 @@ class FileController {
         }
         model.addAttribute("favorited", favorited);
         model.addAttribute("imgFiles", images);
-        model.addAttribute("averageRating", Math.round(sum));
+        model.addAttribute("averageRating", file.getAverageRating());
         model.addAttribute("allCommentsForThisPost", thisFilesComments);
         model.addAttribute("file", file);
         model.addAttribute("user", file.getOwner());
@@ -340,6 +335,18 @@ class FileController {
         newRating.setRating(rating);
         newRating.setFile(fileDao.getOne(id));
         ratingDao.save(newRating);
+
+        List<Rating> list = ratingDao.getAllByFile_Id(id);
+
+        double newSum = file.getAverageRating() * (list.size() - 1) + newRating.getRating();
+
+        System.out.println("file.getAverageRating() = " + file.getAverageRating());
+        System.out.println("list.size() = " + list.size());
+        System.out.println("newRating.getRating() = " + newRating.getRating());
+        System.out.println("newSum / list.size() = " + newSum / list.size());
+
+        file.setAverageRating(newSum / list.size());
+        fileDao.save(file);
 
         return "redirect:/files/" + file.getId();
     }
