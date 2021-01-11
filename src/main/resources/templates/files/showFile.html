@@ -6,12 +6,10 @@
 </head>
 <body class="colorBackground">
 <nav th:replace="partials/navbar :: navbar"></nav>
+<div th:replace="partials/login-modal :: login-modal"></div>
 
 <div class="container">
-    <div class="text-center" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id!=file.owner.id && file.isPrivate()}">
-        <h2>Sorry, this is a private file.</h2>
-    </div>
-    <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id || !file.isPrivate()}" class="backgroundDiv" style="height: fit-content">
+    <div class="backgroundDiv" style="height: fit-content">
         <h1 th:text="${file.title}">Individual File</h1>
 
         <div class="row">
@@ -92,6 +90,12 @@
                 <div class="d-inline" sec:authorize="isAuthenticated()"
                      th:if="${#authentication.principal.id!=file.owner.id}">
                     <form th:replace="partials/favorite-button::favorite"></form>
+                </div>
+
+                <div sec:authorize="!isAuthenticated()">
+                        <button class="favoriteBtn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <i class="far fa-heart favorite"></i>
+                        </button>
                 </div>
 
                 <div>Categories:

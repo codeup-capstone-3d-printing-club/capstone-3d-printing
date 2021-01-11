@@ -107,6 +107,10 @@ class FileController {
                     break;
                 }
             }
+
+            if (file.isPrivate() && currentUser.getId() != file.getOwner().getId()) {
+                return "redirect:/privateFile/" + file.getId();
+            }
         }
         model.addAttribute("favorited", favorited);
         model.addAttribute("imgFiles", images);
@@ -117,6 +121,7 @@ class FileController {
         if (file.isPrivate() && !(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User)) {
             return "redirect:/privateFile/" + file.getId();
         }
+        System.out.println("SecurityContextHolder.getContext().getAuthentication().getPrincipal() = " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return "files/showFile";
     }
 
