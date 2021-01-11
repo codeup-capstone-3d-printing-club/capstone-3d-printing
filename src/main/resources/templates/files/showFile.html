@@ -85,7 +85,7 @@
                         <button type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit File</a></button>
                     </form>
                 </div>
-                <button class="btn btn-outline-danger">download</button>
+                <a th:href="@{file.file_url}" class="btn btn-outline-danger" th:download="${file.title}">download</a>
 
                 <div class="d-inline" sec:authorize="isAuthenticated()"
                      th:if="${#authentication.principal.id!=file.owner.id}">
