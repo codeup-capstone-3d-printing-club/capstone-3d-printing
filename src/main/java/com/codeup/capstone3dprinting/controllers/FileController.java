@@ -91,11 +91,6 @@ class FileController {
         List<Comment> thisFilesComments = commentDao.getAllByFile_Id(id);
         List<Rating> ListOfRatingObjs = ratingDao.getAllByFile_Id(id);
         List<Integer> thisFileRatings = getRatingsList(ListOfRatingObjs);
-        double sum = 0;
-        for (int i : thisFileRatings) {
-            sum = sum + i;
-        }
-        sum = sum / thisFileRatings.size();
 
         boolean favorited = false;
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
@@ -107,16 +102,21 @@ class FileController {
                     break;
                 }
             }
+
+            if (file.isPrivate() && currentUser.getId() != file.getOwner().getId()) {
+                return "redirect:/privateFile/" + file.getId();
+            }
         }
         model.addAttribute("favorited", favorited);
         model.addAttribute("imgFiles", images);
-        model.addAttribute("averageRating", Math.round(sum));
+        model.addAttribute("averageRating", file.getAverageRating());
         model.addAttribute("allCommentsForThisPost", thisFilesComments);
         model.addAttribute("file", file);
         model.addAttribute("user", file.getOwner());
         if (file.isPrivate() && !(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User)) {
             return "redirect:/privateFile/" + file.getId();
         }
+        System.out.println("SecurityContextHolder.getContext().getAuthentication().getPrincipal() = " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return "files/showFile";
     }
 
@@ -152,6 +152,7 @@ class FileController {
         fileToBeSaved.setCreatedAt(timestamp1);
         fileToBeSaved.setUpdatedAt(timestamp1);
         fileToBeSaved.setOwner(currentUser);
+        fileToBeSaved.setAverageRating(0);
 
         List<Category> categoryList = new ArrayList<>();
         if (newCategories == null) {
@@ -266,7 +267,6 @@ class FileController {
         return "redirect:/admin";
     }
 
-
     @PostMapping("files/{id}/comment")
     public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -291,10 +291,38 @@ class FileController {
         return "redirect:/files/" + file.getId();
     }
 
+    @PostMapping("files/{id}/comment/{commentId}")
+    public String replyAComment(@PathVariable long id,@PathVariable long commentId, @RequestParam(name = "replyText") String replyText) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.getOne(user.getId());
+        File file = fileDao.getOne(id);
+        User fileOwner = userDao.getOne(file.getOwner().getId());
+        Comment currentComment = commentDao.getOne(commentId);
+
+        if (fileOwner.getSettings().contains(settingDao.getOne(3L))) {
+            Message newMessage = new Message(currentUser.getUsername() + " has commented on your file: " + file.getTitle(),
+                    new Timestamp(new Date().getTime()), fileOwner, userDao.getOne(1L));
+            messageDao.save(newMessage);
+        }
+
+        Comment newComment = new Comment();
+        newComment.setComment(replyText);
+        newComment.setCreatedAt(new Timestamp(new Date().getTime()));
+        newComment.setFile(fileDao.getOne(id));
+        newComment.setOwner(currentUser);
+        newComment.setParent(currentComment);
+        commentDao.save(newComment);
+
+        return "redirect:/files/" + file.getId();
+    }
+
     @PostMapping("/files/{id}/comment/{commentId}/delete")
     public String deleteComment(@PathVariable long id, @RequestParam(name = "commentId") long commentId) {
         File file = fileDao.getOne(id);
-
+        List<Comment> children = commentDao.findByParent(commentDao.getOne(commentId));
+        for (Comment child : children) {
+            commentDao.deleteById(child.getId());
+        }
         commentDao.deleteById(commentId);
 
         return "redirect:/files/" + file.getId();
@@ -308,6 +336,18 @@ class FileController {
         newRating.setRating(rating);
         newRating.setFile(fileDao.getOne(id));
         ratingDao.save(newRating);
+
+        List<Rating> list = ratingDao.getAllByFile_Id(id);
+
+        double newSum = file.getAverageRating() * (list.size() - 1) + newRating.getRating();
+
+        System.out.println("file.getAverageRating() = " + file.getAverageRating());
+        System.out.println("list.size() = " + list.size());
+        System.out.println("newRating.getRating() = " + newRating.getRating());
+        System.out.println("newSum / list.size() = " + newSum / list.size());
+
+        file.setAverageRating(newSum / list.size());
+        fileDao.save(file);
 
         return "redirect:/files/" + file.getId();
     }

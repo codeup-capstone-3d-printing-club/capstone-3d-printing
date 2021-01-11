@@ -4,52 +4,30 @@
 <head th:replace="partials/header_partial :: head">
     <title id="pageTitle">Edit your profile</title>
 </head>
-<body class="background">
+<body class="colorBackground">
 <nav th:replace="partials/navbar :: navbar"></nav>
 
 <div class="container">
-    <form class="backgroundDiv login" th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" method="post">
-        <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input name="username" class="form-control" type="text" id="username" th:value="${user.username}"
-                   th:field="*{username}"/>
-        </div>
-        <div class="mb-3">
-            <label for="firstName" class="form-label">First Name</label>
-            <input type="text" id="firstName" name="firstName" class="form-control" th:value="${user.firstName}"
-                   th:field="*{firstName}"/>
-        </div>
-        <div class="mb-3">
-            <label for="lastName" class="form-label">Last Name</label>
-            <input type="text" id="lastName" name="lastName" class="form-control" th:value="${user.lastName}"
-                   th:field="*{lastName}"/>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" id="email" name="email" class="form-control" th:value="${user.email}"
-                   th:field="*{email}"/>
-        </div>
-        <div class="mb-3 form-check form-switch">
-            <label for="private" class="form-label">Make profile only visible to logged in users</label>
-            <input id="private" class="form-check-input" type="checkbox" th:value="${user.private}"
-                   th:field="*{private}" th:checked="*{private}"/>
-        </div>
-        <input type="submit" value="Submit">
-    </form>
-    <div>
-        <button class="btn btn-danger" onclick="showAccountDeleteForm('deleteAccount')">Delete Account</button>
-        <div style="display: none" id="deleteAccount" class="alert alert-danger" role="alert">
-            <form th:action="@{/profile/{id}/deleteAccount(id=${user.id})}"
-                  method="post">
 
-                <h5>Are you sure you'd like to delete your account? This can't be undone.</h5>
-                <input type="hidden" th:value="${user.id}">
-                <input class="btn btn-danger" type="submit" value="Yes, delete Account">
-                <a class="btn btn-success" th:href="@{/profile/{id}(id=${user.id})}">Changed my mind</a>
+    <div class="row">
 
-            </form>
+        <div class="col-12">
+            <div th:replace="partials/manage-account::user-details"></div>
+        </div>
+
+        <div class="col-12">
+            <div th:replace="partials/manage-account::settings"></div>
+        </div>
+
+        <div class="col-12">
+            <div th:replace="partials/manage-account::account-manager"></div>
+        </div>
+
+        <div class="col-12">
+            <div th:replace="partials/manage-account::delete-button"></div>
         </div>
     </div>
+
 </div>
 
 <script th:src="@{/js/accountDeleteForm.js}"></script>

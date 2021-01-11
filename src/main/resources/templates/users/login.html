@@ -3,18 +3,18 @@
 <head th:include="partials/header_partial::head">
     <title id="pageTitle">Log In</title>
 </head>
-<body class="background">
+<body class="colorBackground">
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <nav th:replace="partials/navbar :: navbar"></nav>
 
+<h1>Log In</h1>
 <div class="container">
-    <div class="backgroundDiv login">
-        <h1>Log In</h1>
+    <div th:if="${!param.isEmpty()}" class="backgroundDiv login">
         <div th:if="${param.error}">
-            Invalid Username and Password.
+            Invalid Username and Password
         </div>
         <div th:if="${param.logout}">
-            You have been logged out.
+            You have been logged out
         </div>
     </div>
 
@@ -22,18 +22,21 @@
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
             <input class="form-control" id="username" name="username" type="text" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <!--            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>-->
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" name="password" class="form-control" id="password">
+            <div th:replace="partials/manage-account::recovery-link"></div>
         </div>
         <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.invisible.site.key')}"
              data-callback="onSubmit" data-size="invisible" data-badge="bottomright">
         </div>
-        <input type="submit" value="Log In"/>
+        <input class="mb-3" type="submit" value="Log In"/>
+        <div >
+            <a th:href="@{'/sign-up'}">Register if you haven't</a>
+        </div>
     </form>
-    <div th:replace="partials/manage-account::recovery-link"></div>
 </div>
 
 <footer th:replace="partials/footer_partial :: footer"></footer>

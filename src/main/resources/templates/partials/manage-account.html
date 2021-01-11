@@ -4,9 +4,10 @@
 <!-- update password, de-activate your account, update email -->
 
 <div th:fragment="account-manager">
-    <form th:fragment="change-password" id="password-change" method="post" th:action="@{/change-password}">
+    <form class="backgroundDiv login" th:fragment="change-password" id="password-change" method="post"
+          th:action="@{/change-password}">
 
-        <div th:text="${errorMsg}"></div>
+        <h5>Change password</h5>
 
         <div class="form-group">
             <label for="current">Current Password</label>
@@ -18,7 +19,38 @@
             <label for="confirm">Confirm New Password</label>
             <input type="password" name="confirmPassword" id="confirm" class="field form-control">
 
-            <input type="submit">
+            <div class="row">
+                <button class="mt-3 col-2" type="button" th:onclick="'javascript:savePassword()'" id="password-save">Save</button>
+                <div class="col-10">
+                    <span class="d-none alert-success" id="password-update">Changes saved</span>
+                </div>
+                <div class="col-auto"><span id="password-msg"></span></div>
+            </div>
+
+            <script>
+                function savePassword() {
+                    $("#password-save").prop("disabled", true)
+                    let msg = $("#password-msg");
+
+                    $.ajax({
+                        url: "/change-password?" + $("#password-change").serialize(),
+                        type: "POST",
+                        headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                        success: function (data) {
+                            if (data === "Password changed") {
+                                $("#password-update").removeClass("d-none").fadeIn(10).fadeOut(4500);
+                                msg.addClass("alert-success").removeClass("alert-danger")
+                            } else {
+                                msg.addClass("alert-danger").removeClass("alert-success")
+                            }
+                            $("#password-change div input").val("");
+                            msg.text(data);
+                            $("#password-save").prop("disabled", false);
+
+                        }
+                    })
+                }
+            </script>
         </div>
     </form>
 </div>
@@ -54,17 +86,112 @@
 </div>
 
 <div th:fragment="settings">
-    <form th:action="@{/settings}" th:method="post">
+    <form id="settingsForm" class="backgroundDiv login" th:action="@{/settings}" th:method="post">
+        <h5>Notification Settings</h5>
+        <p>Receive notifications when a...</p>
         <div class="form-group">
             <div th:each="setting : ${settings}">
-                <input type="checkbox" class="form-check" th:id="${'setting' + setting.id}"
-                       th:name="setting" th:value="${setting.id}" th:checked="${checked.contains(setting.id)}">
-                <label th:for="${'setting' + setting.id}" class="form-check-label"
-                       th:text="${setting.description}"></label>
+                <label class="form-check-label d-flex">
+                    <input type="checkbox" class="form-check" th:id="${'setting' + setting.id}"
+                           th:name="setting" th:value="${setting.id}" th:checked="${checked.contains(setting.id)}">
+                    <span th:text="${setting.description}"></span>
+
+                </label>
             </div>
-            <input type="submit">
+            <div class="row">
+                <button class="col-2" type="button" th:onclick="'javascript:saveSettings()'" id="save-settings">Save
+                </button>
+                <div class="col-auto">
+                    <span class="d-none alert-success" id="changes">Changes saved</span>
+                </div>
+            </div>
+
+            <script>
+                function saveSettings() {
+                    $("#save-settings").prop("disabled", true)
+
+                    $.ajax({
+                        url: "/settings?" + $("#settingsForm").serialize(),
+                        type: "POST",
+                        headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                        success: function () {
+                            $("#changes").removeClass("d-none").fadeIn(10).fadeOut(4500);
+                            $("#save-settings").prop("disabled", false)
+                        }
+                    })
+                }
+            </script>
         </div>
     </form>
 </div>
+<div th:fragment="user-details">
+    <form id="details-form" class="backgroundDiv login" th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" method="post">
+        <h5>Account Details</h5>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input name="username" class="form-control" type="text" id="username" th:value="${user.username}"
+                   th:field="*{username}"/>
+        </div>
+        <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" id="firstName" name="firstName" class="form-control" th:value="${user.firstName}"
+                   th:field="*{firstName}"/>
+        </div>
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" id="lastName" name="lastName" class="form-control" th:value="${user.lastName}"
+                   th:field="*{lastName}"/>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-control" th:value="${user.email}"
+                   th:field="*{email}"/>
+        </div>
+        <div class="mb-3 form-check form-switch">
+            <label for="private" class="form-label">Make profile only visible to logged in users</label>
+            <input id="private" class="form-check-input" type="checkbox" th:value="${user.private}"
+                   th:field="*{private}" th:checked="*{private}"/>
+        </div>
+        <div class="row">
+            <button class="col-2" type="button" th:onclick="'javascript:saveDetails(' + ${user.id} + ')'" id="save-details">Save
+            </button>
+            <div class="col-auto">
+                <span class="d-none alert-success" id="details">Changes saved</span>
+            </div>
+        </div>
 
+        <script>
+            function saveDetails(id) {
+                $("#save-details").prop("disabled", true)
+
+                $.ajax({
+                    url: "/profile/" + id + "/edit?" + $("#details-form").serialize(),
+                    type: "POST",
+                    headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                    success: function () {
+                        $("#details").removeClass("d-none").fadeIn(10).fadeOut(4500);
+                        $("#save-details").prop("disabled", false)
+                    }
+                })
+            }
+        </script>
+    </form>
+</div>
+
+<div th:fragment="delete-button">
+    <div class="backgroundDiv login">
+        <button class="btn btn-danger" onclick="showAccountDeleteForm('deleteAccount')">Delete Account</button>
+        <div style="display: none" id="deleteAccount" class="alert alert-danger" role="alert">
+            <form th:action="@{/profile/{id}/deleteAccount(id=${user.id})}"
+                  method="post">
+
+                <h5>Are you sure you'd like to delete your account? This can't be undone.</h5>
+                <input type="hidden" th:value="${user.id}">
+                <input class="btn btn-danger" type="submit" value="Yes, delete Account">
+                <a class="btn btn-success" th:href="@{/profile/{id}(id=${user.id})}">Changed my mind</a>
+
+            </form>
+        </div>
+    </div>
+</div>
 </html>

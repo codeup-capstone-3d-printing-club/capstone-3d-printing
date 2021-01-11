@@ -47,9 +47,29 @@
                                 <button class="btn-link btn nav-link btn position-relative image"
                                         style="margin-bottom: -4px;">
                                     <!--<                       <button  class="btn position-relative image d-flex justify-content-end">-->
+
                                     <i aria-labelledby="inbox Button" class="far fa-envelope fa-lg"></i>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99 <span
-                                            class="d-none">unread messages</span></span>
+                                
+                                    <script>
+                                        $(function () {
+                                            $.ajax({
+                                                url: "/ajax/unread",
+                                                type: "GET",
+                                                headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                                                success: function (data) {
+                                                    if (parseInt(data) > 0) {
+                                                        $("#unread").removeClass("d-none");
+                                                        $("#unread").text(data);
+                                                    } else {
+                                                        $("#unread").addClass("d-none");
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                    <span id="unread" th:text="${session.unread}"
+                                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"></span>
+
                                 </button>
                             </a>
                         </li>

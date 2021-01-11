@@ -11,14 +11,44 @@
 
 /*    position: relative;}*/
 
+
+
 .colorBackground{
-    background-image: linear-gradient(#858788,#a40000, black);
+    background-image: linear-gradient(#530101,#a40000, black);
 }
 body {
 
     padding: 2em;
     /*background: linear-gradient(180deg, #f14, #ff8300) fixed;*/
     font-family: "Avenir Next Condensed", sans-serif;
+}
+.table{
+    width: 60%;
+}
+
+
+.background {
+    background-blend-mode: multiply;
+    background: #7e0505 url('../image/3d_bg.jpg') no-repeat  center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: 100%;
+
+}
+.messageItem{
+    max-width: 25em;
+    border-radius: 10px;
+}
+
+.card-img{
+
+    margin-top: 20px;
+ max-height: 15em;
+    max-width: 10em;
+}
+#card1{
+    margin-top: 20em;
 }
 
 h1 {
@@ -51,7 +81,7 @@ h1 {
 }
 
 .box .inner {
-    width: 6em;
+    width: 20em;
     height: 5em;
     line-height: 4.7em;
     font-size: 4rem;
@@ -101,15 +131,9 @@ h1 {
     margin-top: 4em;
 }
 
-.background {
-    background: url('../image/3d_bg.jpg') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+a{
+    text-decoration: none;
 }
-
-
 /*Font and background colors*/
 .navbar {
     width: auto;
@@ -123,7 +147,8 @@ body, .welcome, h1, h2, h3, h4, #formFont {
     background: rgba(0, 0, 0, 0.7);
     margin-top: 1em;
     margin-bottom: 1em;
-    margin-right: 2px;
+    margin-right: auto;
+    margin-left: auto;
     border-radius: 10px;
     /*max-width: 60%;*/
     padding: 1em;
@@ -177,7 +202,8 @@ footer {
     background-color: black;
     opacity: 80%;
     margin-top: 400px;
-    z-index: -1;
+    z-index: 1;
+
 }
 
 .links {

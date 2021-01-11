@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -30,6 +31,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder()) // How to encode and verify passwords
         ;
     }
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -57,4 +60,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticated()
         ;
     }
+
 }
