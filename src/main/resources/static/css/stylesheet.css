@@ -147,7 +147,8 @@ body, .welcome, h1, h2, h3, h4, #formFont {
     background: rgba(0, 0, 0, 0.7);
     margin-top: 1em;
     margin-bottom: 1em;
-    margin-right: 2px;
+    margin-right: auto;
+    margin-left: auto;
     border-radius: 10px;
     /*max-width: 60%;*/
     padding: 1em;
