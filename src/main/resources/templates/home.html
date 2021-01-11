@@ -41,15 +41,19 @@
     </div>
 </div>
 
-<!--<section  id="homeThings" class="backgroundDiv mt-3">-->
-<!--   <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod-->
-<!--       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,-->
-<!--       quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.-->
-<!--       Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.-->
-<!--       Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
-<!--   </h2>-->
-<!--</section>-->
-
+    <ul  class="nav flex-column nav-tabs d-flex w-60"  role="tablist" aria-orientation="vertical">
+        <li    class="nav-item d-flex w-100" th:each="message : ${received}">
+            <a class="subject nav-link" th:href="@{'/profile/' + ${message.sender.id}}" th:text="${message.sender.username}"></a>
+            <a  class="subject flex-column nav-link w-100"
+                th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
+                th:href="${'#message-' + message.id}" role="tablist"
+                th:aria-controls="${'message-' + message.id}"
+                th:onclick="'javascript:markRead(' + ${message.id} + ')'">
+                <span  th:if="${message.unread}"   th:text="${#strings.abbreviate(message.message, 40)}" style="color: red;" ></span>
+                <span th:unless="${message.unread}" th:text="${#strings.abbreviate(message.message, 40)}" ></span>
+            </a>
+        </li>
+    </ul>
 <div class="d-none" th:text="${message}"></div>
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
