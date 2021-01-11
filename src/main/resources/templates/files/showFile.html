@@ -156,7 +156,7 @@
                             <img th:src="${child.getOwner().avatarUrl}" alt="user profile picture"
                                  style="width:2rem;border-radius: 50%">
                             </span>
-                            <a class="" th:href="@{'/profile/' + ${child.getOwner().id}}"
+                            <a th:href="@{'/profile/' + ${child.getOwner().id}}"
                                th:text="${child.getOwner().username}" class="mx-2"></a>
                             <span>created at </span>
                             <span th:text="${#dates.format(child.createdAt,'yyyy-MM-dd')}"></span>
