@@ -12,7 +12,7 @@
         <h1>
             <span th:text="${file.title}"></span>
             is private, <a th:href="@{/privateFileRedirect/{id}(id=${file.id})}">login</a>
-            to continue.</h1>
+            to continue or look at something else.</h1>
     </div>
 </div>
 <footer th:replace=" partials/footer_partial :: footer"></footer>
