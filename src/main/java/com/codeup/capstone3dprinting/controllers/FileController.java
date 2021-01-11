@@ -190,6 +190,15 @@ class FileController {
     @GetMapping("/files/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
         File file = fileDao.getOne(id);
+
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+            User userLoggedIn = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User currentUser = userDao.getOne(userLoggedIn.getId());
+            if(currentUser.getId() != userDao.findByFiles(file).getId()) {
+                return "redirect:/files/" + file.getId();
+            }
+        }
+
         List<FileImage> images = imageDao.getAllByFile_Id(id);
         FileImage newImg = new FileImage();
         model.addAttribute("newImg", newImg);
