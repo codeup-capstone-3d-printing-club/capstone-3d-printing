@@ -49,9 +49,9 @@
 
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}" class="mt-2">
                     <form th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" th:value="*{id}"
-                          method="post">
-                        <button type="button" class="btn btn-danger"><a
-                                th:href="@{/profile/{id}/edit(id=*{id})}">Edit Profile</a>
+                          method="get">
+                        <button type="submit" class="btn btn-danger">
+                            Edit Profile
                         </button>
                     </form>
                 </div>
