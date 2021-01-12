@@ -425,7 +425,7 @@ public class CapstoneIntegrationTests {
         //correct token for user: 1user
         this.mvc.perform(get("/confirm-account")
                 .param("token", tokenDao.findByUser(newUser).getConfirmationToken()))
-                .andExpect(status().isOk());
+                .andExpect(redirectedUrl("/login?activated"));
 
         User verifiedUser = userDao.findByUsername("1user");
 
