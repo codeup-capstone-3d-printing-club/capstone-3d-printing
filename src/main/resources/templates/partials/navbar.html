@@ -74,7 +74,7 @@
                     </ul>
                 </section>
                 <div class="searchbar input-group justify-content-end">
-                    <form class="searchbar" th:fragment="searchbar" th:action="@{/files/search}" th:method="post">
+                    <form class="searchbar" th:fragment="searchbar" th:action="@{/files/search}" th:method="get">
                         <input style="border-radius: 5px" type="text" name="search" placeholder="Search...">
 
                         <button aria-labelledby="searchButton" class="searchBtn" type="submit" name="searchBar" style="margin-top: 0px;"><i

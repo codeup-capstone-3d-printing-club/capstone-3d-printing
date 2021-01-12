@@ -365,24 +365,22 @@ class FileController {
         return "redirect:/files/" + id;
     }
 
-    @PostMapping("files/search")
+    @GetMapping("files/search")
     public String search(@RequestParam(name = "search") String searchTerm, Model model) {
         List<File> searched = fileDao.findAllByDescriptionIsLike("%" + searchTerm + "%");
         List<File> searchedTitle = fileDao.findAllByTitleIsLike("%" + searchTerm + "%");
         List<User> searchedUsers = userDao.findAllByUsernameIsLike("%" + searchTerm + "%");
 
-        for (File file : searchedTitle) {
-            if (!searched.contains(file)) {
-                searched.add(file);
+        for (User user : searchedUsers) {
+            for (File file : user.getFiles()) {
+                searched.remove(file);
+                searched.add(0, file);
             }
         }
 
-        for (User user : searchedUsers) {
-            for (File file : user.getFiles()) {
-                if (!searched.contains(file)) {
-                    searched.add(file);
-                }
-            }
+        for (File file : searchedTitle) {
+            searched.remove(file);
+            searched.add(0, file);
         }
 
         HashMap<String, Integer> categoryAndFileNumber = new HashMap<>();
@@ -398,9 +396,9 @@ class FileController {
         }
 
         model.addAttribute("categoryHashmap", categoryAndFileNumber);
-
         model.addAttribute("files", searched);
-        model.addAttribute("results", searched.size() + " Result" + (searched.size() == 1 ? "" : "s"));
+        model.addAttribute("results", searched.size() + " Result" + (searched.size() == 1 ? " " : "s ") + "for '"
+                + searchTerm + "'");
         model.addAttribute("pageTitle", "All Categories");
         model.addAttribute("totalFileNumber", searched.size());
 
