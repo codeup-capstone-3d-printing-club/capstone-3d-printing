@@ -16,13 +16,7 @@
                 <div onclick="allCategories()" style="cursor: pointer;"
                    class="list-group-item list-group-item-action backgroundDiv link-danger m-0 d-flex justify-content-between align-items-center rounded-0">
                     All Categories<span class="badge bg-danger" th:text="${totalFileNumber}"></span></div>
-                    <script>
-                        function allCategories() {
-                            $(".fileCard").each(function() {
-                                $(this).removeClass("d-none");
-                            })
-                        }
-                    </script>
+
 <!--                <div th:each="category : ${categories}" class="list-group-item list-group-item-action backgroundDiv d-flex justify-content-between align-items-center m-0">-->
 <!--                    <a th:href="@{'/files/' + '?category=' + ${category.category}}"-->
 <!--                       class="link-danger" th:text="${category.category}"></a>-->
@@ -36,20 +30,6 @@
 <!--                    <a th:href="@{'/files/' + '?category=' + ${categoryhash.getKey()}}"-->
 <!--                       class="link-danger text-decoration-none" th:text="${categoryhash.key}"></a>-->
                     <span class="badge bg-danger" th:text="${categoryhash.getValue()}"></span>
-                    <script>
-                        function switchTo(element) {
-                            let categoryName = element.dataset.category;
-                            $(".fileCard").each(function () {
-                                if ($(this).hasClass(categoryName)) {
-                                    $(this).removeClass("d-none");
-                                } else {
-                                    $(this).addClass("d-none");
-                                }
-                            });
-
-
-                        }
-                    </script>
                 </div>
             </div>
         </div>
@@ -98,6 +78,6 @@
 
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
-
+<script th:src="@{/js/categoryFilter.js}"></script>
 </body>
 </html>
