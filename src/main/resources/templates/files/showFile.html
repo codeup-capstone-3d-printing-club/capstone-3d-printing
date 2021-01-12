@@ -3,6 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="partials/header_partial :: head">
     <title id="pageTitle">File</title>
+    <script type="text/javascript" src="../../static/js/dat.gui/build/dat.gui.min.js"></script>
 </head>
 <body class="colorBackground">
 <nav th:replace="partials/navbar :: navbar"></nav>
@@ -27,7 +28,7 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="model" role="tabpanel" aria-labelledby="home-tab">
                         <!--            3D file is rendered in this div-->
-                        <div class="mb-3" id="renderer"></div>
+                        <div class="mb-3" style="size: 7em;" id="renderer"></div>
                     </div>
                     <div class="tab-pane fade" id="image" role="tabpanel" aria-labelledby="profile-tab">
                         <div th:if="${imgFiles != null}" class="">
@@ -225,8 +226,8 @@
 </div>
 
 <footer th:replace="partials/footer_partial :: footer"></footer>
-<script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
-<script type="module" th:src="@{/js/renderer.js}"></script>
+<script th:inline="javascript">const fileUrl =[[${file.fileUrl}]]</script>
+<script type="module" th:src="@{/js/anotherRender.js}"></script>
 <section th:replace="partials/partials_scripts :: script"></section>
 </body>
 </html>

@@ -2,6 +2,7 @@
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header_partial :: head">
     <title id="pageTitle">Browse Files</title>
+    <script type="module" th:src="@{/js/indexRender.js}"></script>
 </head>
 <body class="colorBackground">
 <nav class="sticky-top" th:replace="partials/navbar :: navbar"></nav>
@@ -14,27 +15,27 @@
         <div class="col-1 col-sm-2">
             <div class="list-group fs-5">
                 <div onclick="allCategories()" style="cursor: pointer;"
-                   class="list-group-item list-group-item-action backgroundDiv link-danger m-0 d-flex justify-content-between align-items-center rounded-0">
+                     class="list-group-item list-group-item-action backgroundDiv link-danger m-0 d-flex justify-content-between align-items-center rounded-0">
                     All Categories<span class="badge bg-danger" th:text="${totalFileNumber}"></span></div>
-                    <script>
-                        function allCategories() {
-                            $(".fileCard").each(function() {
-                                $(this).removeClass("d-none");
-                            })
-                        }
-                    </script>
-<!--                <div th:each="category : ${categories}" class="list-group-item list-group-item-action backgroundDiv d-flex justify-content-between align-items-center m-0">-->
-<!--                    <a th:href="@{'/files/' + '?category=' + ${category.category}}"-->
-<!--                       class="link-danger" th:text="${category.category}"></a>-->
-<!--                    <span class="badge bg-danger rounded-pill">14</span>-->
-<!--                </div>-->
+                <script>
+                    function allCategories() {
+                        $(".fileCard").each(function () {
+                            $(this).removeClass("d-none");
+                        })
+                    }
+                </script>
+                <!--                <div th:each="category : ${categories}" class="list-group-item list-group-item-action backgroundDiv d-flex justify-content-between align-items-center m-0">-->
+                <!--                    <a th:href="@{'/files/' + '?category=' + ${category.category}}"-->
+                <!--                       class="link-danger" th:text="${category.category}"></a>-->
+                <!--                    <span class="badge bg-danger rounded-pill">14</span>-->
+                <!--                </div>-->
 
                 <div th:each="categoryhash : ${categoryHashmap}" onclick="switchTo(this)" style="cursor: pointer;"
                      class="list-group-item list-group-item-action backgroundDiv d-flex justify-content-between align-items-center m-0 rounded-0"
-                th:data-category="${categoryhash.key}">
+                     th:data-category="${categoryhash.key}">
                     <span class="link-danger text-decoration-none" th:text="${categoryhash.key}"></span>
-<!--                    <a th:href="@{'/files/' + '?category=' + ${categoryhash.getKey()}}"-->
-<!--                       class="link-danger text-decoration-none" th:text="${categoryhash.key}"></a>-->
+                    <!--                    <a th:href="@{'/files/' + '?category=' + ${categoryhash.getKey()}}"-->
+                    <!--                       class="link-danger text-decoration-none" th:text="${categoryhash.key}"></a>-->
                     <span class="badge bg-danger" th:text="${categoryhash.getValue()}"></span>
                     <script>
                         function switchTo(element) {
@@ -53,13 +54,17 @@
                 </div>
             </div>
         </div>
-
         <div class="col-sm-9">
             <div class="row justify-content-between content">
                 <div class="fileCard backgroundDiv col-11 col-md-3 col-lg-3 col-sm-10 d-flex flex-column align-items-center justify-content-between fs-5"
                      th:each="file : ${files}" th:id="${'file' + file.id}">
-                    <img class="image" src="https://picsum.photos/500/400"
-                         alt="randomized picture">
+                    <div class="card-img dontShowOnMobile" style="height: 100px; width: 100px" th:data-original-title="${file.fileUrl}" th:id="${'renderIndex' + file.id}">
+<!--                        <script th:inline="javascript">-->
+<!--                            window.fileUrl = [[${file.fileUrl}]];-->
+<!--                            console.log(fileUrl)</script>-->
+                        <script type="module" th:src="@{/js/indexRender.js}"></script>
+                    </div>
+
                     <div class="mt-2">
                         <a th:href="@{'/files/' + ${file.id}}" th:text="${file.title}"></a>
                         <!--                <p th:text="${file.description}"></p>-->
@@ -69,6 +74,7 @@
                                     let id = /*[[${file.id}]]*/;
                                     $("#file" + id).addClass(/*[[${category.category}]]*/);
                                 }
+
                                 addCategoryClasses();
                             </script>
                         </div>
@@ -96,6 +102,7 @@
     </div>
 </div>
 
+<script type="module" th:src="@{/js/indexRender.js}"></script>
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
 
