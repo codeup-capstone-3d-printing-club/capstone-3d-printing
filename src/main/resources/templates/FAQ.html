@@ -1,10 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/header_partial :: head">
+    <title id="pageTitle">About</title>
 </head>
-<body>
+<body class="colorBackground">
+<nav th:replace="partials/navbar :: navbar"></nav>
 
+<div class="container my-5">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        <div class="col">
+            <div class="card h-100 text-center bg-dark">
+                <img src="https://picsum.photos/500/400" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Bianca Reusch</h5>
+                    <p class="card-text">text</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-dark">
+                            <a href="https://github.com/" class="d-flex flex-row justify-content-evenly align-items-center">
+                                <i class="fab fa-github"></i><span>GitHub</span></a>
+                        </li>
+                        <li class="list-group-item bg-dark">
+                            <a href="https://www.linkedin.com/in//" class="d-flex flex-row justify-content-evenly align-items-center">
+                                <i class="fab fa-linkedin-in"></i><span>LinkedIn</span></a>
+                        </li>
+                        <li class="list-group-item bg-dark">
+                            <a href="" class="d-flex flex-row justify-content-evenly align-items-center">
+                                <i class="far fa-envelope"></i><span>Email</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 bg-dark text-center">
+                <img src="https://picsum.photos/500/400" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">John McNay</h5>
+                    <p class="card-text">text</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-dark">
+                            <a href="https://github.com/" class="d-flex flex-row justify-content-evenly align-items-center">
+                                <i class="fab fa-github"></i><span>GitHub</span></a>
+                        </li>
+                        <li class="list-group-item bg-dark">
+                            <a href="https://www.linkedin.com/in//" class="d-flex flex-row justify-content-evenly align-items-center">
+                                <i class="fab fa-linkedin-in"></i><span>LinkedIn</span></a>
+                        </li>
+                        <li class="list-group-item bg-dark">
+                            <a href="" class="d-flex flex-row justify-content-evenly align-items-center">
+                                <i class="far fa-envelope"></i><span>Email</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 bg-dark text-center">
+                <img src="https://picsum.photos/500/400" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Li Wang</h5>
+                    <p class="card-text">text</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-dark">
+                            <a href="https://github.com/liliwang1" class="d-flex flex-row justify-content-evenly align-items-center">
+                                <i class="fab fa-github"></i><span>GitHub</span></a>
+                        </li>
+                        <li class="list-group-item bg-dark">
+                            <a href="https://www.linkedin.com/in/lili-wang1/" class="d-flex flex-row justify-content-evenly align-items-center">
+                                <i class="fab fa-linkedin-in"></i><span>LinkedIn</span></a>
+                        </li>
+                        <li class="list-group-item bg-dark">
+                            <a href="mailto:li.wang876@gmail.com" class="d-flex flex-row justify-content-evenly align-items-center">
+                                <i class="far fa-envelope"></i><span>Email</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 bg-dark text-center">
+                <img src="https://picsum.photos/500/400" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Michael Satterfield</h5>
+                    <p class="card-text">text</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-dark">
+                            <a href="https://github.com/" class="d-flex flex-row justify-content-evenly  align-items-center">
+                                <i class="fab fa-github"></i><span>GitHub</span></a>
+                        </li>
+                        <li class="list-group-item bg-dark">
+                            <a href="https://www.linkedin.com/in//" class="d-flex flex-row justify-content-evenly align-items-center">
+                                <i class="fab fa-linkedin-in"></i><span>LinkedIn</span></a>
+                        </li>
+                        <li class="list-group-item bg-dark">
+                            <a href="" class="d-flex flex-row justify-content-evenly align-items-center">
+                                <i class="far fa-envelope"></i><span>Email</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="partials/footer_partial :: footer"></footer>
+<section th:replace="partials/partials_scripts :: script"></section>
 </body>
 </html>

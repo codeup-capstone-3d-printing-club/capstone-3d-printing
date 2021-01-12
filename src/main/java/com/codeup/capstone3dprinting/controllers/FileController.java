@@ -107,6 +107,7 @@ class FileController {
         return "files/showFile";
     }
 
+
     @GetMapping("/files/create")
     public String viewCreateForm(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
