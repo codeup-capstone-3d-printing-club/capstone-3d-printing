@@ -6,7 +6,7 @@
 <form th:fragment="follow" th:action="@{/users/follow/{id}(id=${user.id})}" th:method="post">
     <button class="followBtn" th:if="${following}" type="submit" name="unfollow"><i aria-labelledby="unfollow button" class="fas fa-bell-slash unfollow"></i></button>
     <input type="hidden" name="following" th:value="${following}">
-    <button class="followBtn" th:if="${!following}" type="submit" name="follow"><i aria-labelledby="follow button" class="fas fa-bell follow"></iaria-labelledby></button>
+    <button class="followBtn" th:if="${!following}" type="submit" name="follow"><i aria-labelledby="follow button" class="fas fa-bell follow"></i></button>
 </form>
 
 </html>

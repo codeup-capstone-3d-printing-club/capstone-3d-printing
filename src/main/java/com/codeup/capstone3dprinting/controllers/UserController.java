@@ -173,7 +173,6 @@ class UserController {
     @ResponseBody
     public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
         User user = userDao.getOne(id);
-        System.out.println("userEdit.isPrivate() = " + userEdit.isPrivate());
 
         //TODO: lacks validation and error handling
         user.setUsername(userEdit.getUsername());
