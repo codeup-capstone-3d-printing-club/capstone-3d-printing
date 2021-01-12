@@ -159,7 +159,11 @@
                                  style="width:2rem;border-radius: 50%">
                             </span>
                             <a th:href="@{'/profile/' + ${child.getOwner().id}}"
+<<<<<<< HEAD
                                th:text="${child.getOwner().username}" class="mx-2 fs-5"></a>
+=======
+                               th:text="${child.getOwner().username}" class="mx-2"></a>
+>>>>>>> master
                             <span>created at </span>
                             <span th:text="${#dates.format(child.createdAt,'yyyy-MM-dd')}"></span>
                             <blockquote class="mx-5" th:text="${child.getComment()}"></blockquote>

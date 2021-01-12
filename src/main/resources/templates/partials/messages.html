@@ -30,8 +30,6 @@
 <div th:fragment="messageOptions" class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
      aria-orientation="vertical">
 
-    <script th:inline="javascript">
-    </script>
     <div class="tab-content col-lg-8" id="v-tabContent">
         <div class="tab-pane fade"  th:each="message : ${received}"
              th:id="${'message-' + message.id}"
@@ -67,8 +65,8 @@
                                        th:href="${'#message-' + message.id}" role="tablist"
                                        th:aria-controls="${'message-' + message.id}"
                                        th:onclick="'javascript:markRead(' + ${message.id} + ')'">
-                                        <span  th:if="${message.unread}"   th:text="${#strings.abbreviate(message.message, 20)}" style="color: red;" ></span>
-                                        <span th:unless="${message.unread}" th:text="${#strings.abbreviate(message.message, 20)}" ></span>
+                                        <span th:if="${message.unread}" th:text="${#strings.abbreviate(message.message, 20)}" class="text-danger"></span>
+                                        <span th:unless="${message.unread}" th:text="${#strings.abbreviate(message.message, 20)}"></span>
                                     </a>
                                 </li>
                             </ul>
@@ -127,9 +125,6 @@
 
     </div>
 
-
-    <a class="nav-link" id="trash-tab" data-toggle="pill" href="#trash"
-       role="tab" aria-controls="trash" aria-selected="false">Trash</a>
 </div>
 
 </div>

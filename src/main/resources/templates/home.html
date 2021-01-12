@@ -4,86 +4,189 @@
     <title id="pageTitle">SquareCubed</title>
 </head>
 <body class="background">
-<nav th:replace="partials/navbar :: navbar"></nav>
 
-
+<nav class="sticky-top" th:replace="partials/navbar :: navbar"></nav>
 <div class="container">
     <div class="row">
-        <div id="welcome">
+        <div id="welcome" class="mt-5 mb-5 ">
             <!--    <h1>Welcome to</h1>-->
             <h2 class="title filter-shadow">
                 <a href="/about" style="text-decoration: none; color: white; max-height:  167px !important;">
                     <span style="background: #3d3c3c; line-height: 167px">SQ</span>UARECUBED
                 </a>
             </h2>
-            <!--</div>-->
-            <!--        <div class="d-flex justify-content-center backgroundDiv">-->
-            <!--            <div id="3d" class="box">-->
-            <!--                <div class="inner">-->
-            <!--                    <span class="filter-shadow">3D DESIGNS</span>-->
-            <!--                </div>-->
-            <!--                <div class="inner">-->
-            <!--                    <span class="text-shadow">3D DESIGNS</span>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--        </div>-->
-            <!--    </div>-->
-            <!--</div>-->
+        </div>
+<!--        <div class="d-flex justify-content-center backgroundDiv">-->
+<!--            <div id="3d" class="box">-->
+<!--                <div class="inner">-->
+<!--                    <span class="filter-shadow">3D DESIGNS</span>-->
+<!--                </div>-->
+<!--                <div class="inner">-->
+<!--                    <span class="text-shadow">3D DESIGNS</span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+</div>
+</div>
+</div>
+</div>
 
-            <div id="card1" class="card  text-white backgroundDiv">
-                <img class="card-img" alt="..." th:src="@{/image/3d printer image 1.png}"/>
-                <div class="card-img-overlay container">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text justify-content-end">This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a little bit longer.</p>
-                    <p class="card-text">Last updated 3 mins ago</p>
-                </div>
-            </div>
+</div>
+<section class="card p-3 colorBackground" style="border-radius: 10px;">
+    <!--                <img class="card-img" alt="..." th:src="@{/image/3d printer image 1.png}"/>-->
+    <div class="mt-5" style="font-family: 'Bebas Neue', cursive; ">
+        <h2 class="card-title">Check out our Top 5 Rated 3d Uploads!</h2>
+        <hr>
+        <p class="card-text justify-content-end">
+        <div >
+            <ol >
+                <li th:each="file : ${topRated}">
+                    <h2><a class="bg-light" th:href="@{'/files/' + ${file.id}}" th:text="${file.title} "></a></h2>
 
-            <ul class="nav flex-column nav-tabs d-flex w-60" role="tablist" aria-orientation="vertical">
-                <li class="nav-item d-flex w-100" th:each="message : ${received}">
-                    <a class="subject nav-link" th:href="@{'/profile/' + ${message.sender.id}}"
-                       th:text="${message.sender.username}"></a>
-                    <a class="subject flex-column nav-link w-100"
-                       th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
-                       th:href="${'#message-' + message.id}" role="tablist"
-                       th:aria-controls="${'message-' + message.id}"
-                       th:onclick="'javascript:markRead(' + ${message.id} + ')'">
-                        <span th:if="${message.unread}" th:text="${#strings.abbreviate(message.message, 40)}"
-                              style="color: red;"></span>
-                        <span th:unless="${message.unread}"
-                              th:text="${#strings.abbreviate(message.message, 40)}"></span>
-                    </a>
+                <h4>by: <span th:text="${file.owner.username}"></span></h4>
+                <h3>Rating: <span class="ml-0" th:text="${file.averageRating}"></span></h3>
+
                 </li>
-            </ul>
+            </ol>
 
-            <div th:each="file : ${topRated}">
-<!--                <div th:text="${file.title}"></div>-->
-            </div>
+            <!--                <div th:text="${file.title}"></div>-->
+        </div>
 
-            <div class="d-none" th:text="${message}"></div>
-            <footer th:replace="partials/footer_partial :: footer"></footer>
-            <section th:replace="partials/partials_scripts :: script"></section>
-            <script>
+        <p class="card-text">Last updated 3 mins ago</p>
 
-                const fetchById = (id) => fetch(`https://api.thingiverse.com/things/${id}/?access_token=4fbdbe0de9bba7766008096f689409a5`)
-                    .then(res => res.json())
-                    .catch(err => console.log(err));
+    </div>
+    <hr>
+</section>
 
-                fetchById(4652388).then(data => console.log(data));
+<!--<div class="container-fluid bg-gradient p-5">-->
+<!--    <ol class="row m-auto text-center w-75">-->
 
-                const fetchByFileId = (id) => fetch(`https://api.thingiverse.com/files/${id}/?access_token=4fbdbe0de9bba7766008096f689409a5`)
-                    .then(res => res.json())
-                    .catch(err => console.log(err));
+<!--        <li class="col-4 princing-item red"th:each="file : ${topRated}" >-->
 
-                fetchByFileId(4652388).then(data => console.log(data));
+<!--&lt;!&ndash;                <h3 class="text-light"></h3>&ndash;&gt;-->
+<!--                <h2 class="my-0 display-2 text-light font-weight-normal mb-3"><span class="h3"><h2><a  th:href="@{'/files/' + ${file.id}}" th:text="${file.title} "></a></h2></span>-->
 
-                const fetchMostPopular = () => fetch(`https://api.thingiverse.com/search/?sort=popular&access_token=4fbdbe0de9bba7766008096f689409a5`)
-                    .then(res => res.json())
-                    .catch(err => console.log(err));
+<!--                <h4>by: <span th:text="${file.owner.username}"></span></h4>-->
+<!--&lt;!&ndash;                <h3>Rating: <span class="ml-0" th:text="${file.averageRating}"></span></h3>&ndash;&gt;-->
+<!--                </h2>-->
+<!--            <p class="pricing-divider ">-->
+<!--                <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>-->
+<!--&lt;!&ndash;          <path class='deco-layer deco-layer&#45;&#45;1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729&ndash;&gt;-->
+<!--&lt;!&ndash;	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6'></path>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <path class='deco-layer deco-layer&#45;&#45;2' d='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729&ndash;&gt;-->
+<!--&lt;!&ndash;	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z' fill='#FFFFFF' opacity='0.6'></path>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <path class='deco-layer deco-layer&#45;&#45;3' d='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716&ndash;&gt;-->
+<!--&lt;!&ndash;	H42.401L43.415,98.342z' fill='#FFFFFF' opacity='0.7'></path>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <path class='deco-layer deco-layer&#45;&#45;4' d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428&ndash;&gt;-->
+<!--&lt;!&ndash;	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z' fill='#FFFFFF'></path>&ndash;&gt;-->
+<!--        </svg>-->
+<!--            </p>-->
 
-                fetchMostPopular().then(data => console.log(data));
+<!--            <div class="card-body bg-white mt-0 shadow">-->
+<!--                <ul class="list-unstyled mb-5 position-relative">-->
+<!--&lt;!&ndash;                    <li><b>10</b> users included</li>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li><b>2 GB</b> of storage</li>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li><b>Free </b>Email support</li>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li><b>Help center access</b></li>&ndash;&gt;-->
+<!--                </ul>-->
+<!--                <button type="button" class="btn btn-lg btn-block  btn-custom "th:text="'Rating: '+${file.averageRating}"></button>-->
+<!--            </div>-->
+<!--        </li>-->
 
-            </script>
+
+
+
+<!--        <div class="col-4 princing-item blue">-->
+<!--            <div class="pricing-divider ">-->
+<!--                <h3 class="text-light">#2</h3>-->
+<!--                <h4 class="my-0 display-2 text-light font-weight-normal mb-3"><span class="h3">$</span> 250 <span class="h5">/mo</span></h4>-->
+<!--                <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>-->
+<!--          <path class='deco-layer deco-layer&#45;&#45;1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729-->
+<!--	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6'></path>-->
+<!--                    <path class='deco-layer deco-layer&#45;&#45;2' d='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729-->
+<!--	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z' fill='#FFFFFF' opacity='0.6'></path>-->
+<!--                    <path class='deco-layer deco-layer&#45;&#45;3' d='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716-->
+<!--	H42.401L43.415,98.342z' fill='#FFFFFF' opacity='0.7'></path>-->
+<!--                    <path class='deco-layer deco-layer&#45;&#45;4' d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428-->
+<!--	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z' fill='#FFFFFF'></path>-->
+<!--        </svg>-->
+<!--            </div>-->
+
+<!--            <div class="card-body bg-white mt-0 shadow">-->
+<!--                <ul class="list-unstyled mb-5 position-relative">-->
+<!--                    <li><b>100 </b>users included</li>-->
+<!--                    <li><b>10 GB</b> of storage</li>-->
+<!--                    <li><b>Free</b>Email support</li>-->
+<!--                    <li><b>Help center access</b></li>-->
+<!--                </ul>-->
+<!--                <button type="button" class="btn btn-lg btn-block  btn-custom ">Sign up for free</button>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+
+
+
+
+<!--        <div class="col-4 princing-item green">-->
+<!--            <div class="pricing-divider ">-->
+<!--                <h3 class="text-light">#3</h3>-->
+<!--                <h4 class="my-0 display-2 text-light font-weight-normal mb-3"><span class="h3">$</span> 450 <span class="h5">/mo</span></h4>-->
+<!--                <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>-->
+<!--          <path class='deco-layer deco-layer&#45;&#45;1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729-->
+<!--	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6'></path>-->
+<!--                    <path class='deco-layer deco-layer&#45;&#45;2' d='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729-->
+<!--	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z' fill='#FFFFFF' opacity='0.6'></path>-->
+<!--                    <path class='deco-layer deco-layer&#45;&#45;3' d='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716-->
+<!--	H42.401L43.415,98.342z' fill='#FFFFFF' opacity='0.7'></path>-->
+<!--                    <path class='deco-layer deco-layer&#45;&#45;4' d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428-->
+<!--	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z' fill='#FFFFFF'></path>-->
+<!--        </svg>-->
+<!--            </div>-->
+
+<!--            <div class="card-body bg-white mt-0 shadow">-->
+<!--                <ul class="list-unstyled mb-5 position-relative">-->
+<!--                    <li><b>300</b> users included</li>-->
+<!--                    <li><b>20 GB</b> of storage</li>-->
+<!--                    <li><b>Free</b> Email support</li>-->
+<!--                    <li><b>Help center access</b></li>-->
+<!--                </ul>-->
+<!--                <button type="button" class="btn btn-lg btn-block  btn-custom ">Sign up for free</button>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+
+
+
+
+<!--    </ol>-->
+<!--</div>-->
+
+<script>
+
+    const fetchById = (id) => fetch(`https://api.thingiverse.com/things/${id}/?access_token=4fbdbe0de9bba7766008096f689409a5`)
+        .then(res => res.json())
+        .catch(err => console.log(err));
+
+    fetchById(4652388).then(data => console.log(data));
+
+    const fetchByFileId = (id) => fetch(`https://api.thingiverse.com/files/${id}/?access_token=4fbdbe0de9bba7766008096f689409a5`)
+        .then(res => res.json())
+        .catch(err => console.log(err));
+
+    fetchByFileId(4652388).then(data => console.log(data));
+
+    const fetchMostPopular = () => fetch(`https://api.thingiverse.com/search/?sort=popular&access_token=4fbdbe0de9bba7766008096f689409a5`)
+        .then(res => res.json())
+        .catch(err => console.log(err));
+
+    fetchMostPopular().then(data => console.log(data));
+
+</script>
+
+<footer th:replace="partials/footer_partial :: footer"></footer>
+<section th:replace="partials/partials_scripts :: script"></section>
 </body>
 </html>
