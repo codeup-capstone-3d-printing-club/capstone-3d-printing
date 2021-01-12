@@ -2,6 +2,8 @@ function allCategories() {
     $(".fileCard").each(function() {
         $(this).removeClass("d-none");
     });
+
+    $("#page-title").text("All Categories");
 }
 
 function switchTo(element) {
@@ -13,4 +15,6 @@ function switchTo(element) {
             $(this).addClass("d-none");
         }
     });
+
+    $("#page-title").text(categoryName);
 }
