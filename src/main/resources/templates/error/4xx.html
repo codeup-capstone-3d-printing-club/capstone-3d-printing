@@ -12,8 +12,8 @@
         <div th:case="'Not Found'">
             <h1>404</h1>
             <h1>Page not found!!</h1>
-            <div class="d-flex flex-column justify-content-center align-items-center" >
-                <div style="width:50%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/9Iwn9QqdjF1hm" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/motion-stop-interesting-9Iwn9QqdjF1hm">via GIPHY</a></p>
+            <div class="d-flex flex-column justify-content-center align-items-center my-3">
+                <img th:src="@{/image/climbing-stairs.gif}" alt="3d-climbing-bear">
             </div>
         </div>
         <div th:case="'Forbidden'">
