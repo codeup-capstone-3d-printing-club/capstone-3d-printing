@@ -58,10 +58,12 @@ addShadowedLight(1, 1, 1, 0xffffff, 1.35);
 addShadowedLight(0.5, 1, -1, 0xffaa00, 1);
 
 let i;
-for(i = 7;i < 13;i++) {
+for(i = 0;i < 3;i++) {
     var idString = "renderIndex" + i.toString();
     var fileUrl = $('#renderIndex' + i.toString()).data('original-title');
-    if(!document.getElementById(idString)){continue;}
+    if(!document.getElementById(idString)){
+        continue;
+    }
     let container = document.getElementById(idString)
 
     renderer.setSize($(container).width(), $(container).height());
@@ -102,7 +104,7 @@ for(i = 7;i < 13;i++) {
 
 // Colored binary STL
     loader.load(fileUrl, function (geometry) {
-        let meshMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF, specular: 0x111111, shininess: 200});
+        let meshMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
         if (geometry.hasColors) {
             meshMaterial = new THREE.MeshPhongMaterial({opacity: geometry.alpha, vertexColors: true});
         }
@@ -121,10 +123,10 @@ for(i = 7;i < 13;i++) {
     };
 
 // Run game loop (render,repeat)
-    let GameLoop = function () {
-        requestAnimationFrame(GameLoop,);
+    let animate = function (time) {
+        requestAnimationFrame(animate);
 
         render();
     };
-    GameLoop();
+    animate();
 }
