@@ -1,14 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head >
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title id="pageTitle">File</title>
+</head>
+
 <nav th:fragment="navbar">
-    <nav class="navbar navbar-expand-lg  navbar-dark mb-3">
+    <nav class="navbar navbar-expand-lg  navbar-dark mb-5">
         <div class="container-fluid">
             <a class="navbar-brand" href="">Square<sup>3</sup></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse container" id="navbarNav">
-                <section class="col-6">
-                    <ul class="navbar-nav nav-fill justify-content-evenly pt-4">
+            <div class="collapse navbar-collapse container "data-target="#navbarNav" id="navbarNav">
+                <section class="col-lg-6 col-sm-12">
+                    <ul class="navbar-nav nav-fill justify-content-evenly collapseBackground pt-4">
                         <li class="nav-item">
                             <a class="nav-link icon " href="/">Home</a>
                         </li>

@@ -6,6 +6,7 @@ import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.services.EmailService;
 import com.codeup.capstone3dprinting.services.ReCaptchaValidationService;
+
 import com.mailjet.client.errors.MailjetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

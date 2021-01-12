@@ -4,6 +4,7 @@ import com.codeup.capstone3dprinting.models.*;
 import com.codeup.capstone3dprinting.repos.*;
 
 import com.codeup.capstone3dprinting.services.EmailService;
+
 import com.mailjet.client.errors.MailjetException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
