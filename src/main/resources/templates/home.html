@@ -3,9 +3,10 @@
 <head th:include="partials/header_partial :: head">
     <title id="pageTitle">SquareCubed</title>
 </head>
-<body class="background">
 
-<nav class="sticky-top" th:replace="partials/navbar :: navbar"></nav>
+
+<nav th:replace="partials/navbar :: navbar"></nav>
+<body class="background">
 <div class="container">
     <div class="row">
 
@@ -15,7 +16,7 @@
                     <span style="background: #3d3c3c; line-height: 167px">SQ</span>UARECUBED
                 </a>
             </h1>
-            <h2 class="describe text-center">Upload, Share and Rate 3D Printer Models</h2>
+            <h2 class="describe text-center">Share and Rate 3D Printer Models</h2>
             <hr>
 
 <!--        <div class="d-flex justify-content-center backgroundDiv">-->
@@ -44,9 +45,9 @@
         <div>
             <ol>
                 <li id="listNumber" th:each="file : ${topRated}">
-                    <h2><a class="" th:href="@{'/files/' + ${file.id}}" th:text="${file.title}"></a></h2>
-                    <h3 th:text="${file.description}"></h3>
-                        <img  th:if="${file.images.size()>0}" th:src="${file.images.get(0).img_url}" class="thumbnailPic d-block w-20" alt="file img"/>
+                    <h2><a style="color: black" th:href="@{'/files/' + ${file.id}}" th:text="${file.title}"></a></h2>
+                    <h4 th:text="${file.description}"></h4>
+                    <a th:href="@{'/files/' + ${file.id}}"><img  th:if="${file.images.size()>0}" th:src="${file.images.get(0).img_url}" class="thumbnailPic d-block w-20" alt="file img"/></a>
 <!--                    </div>-->
 
                 <h4>by: <span th:text="${file.owner.username}"></span></h4>
