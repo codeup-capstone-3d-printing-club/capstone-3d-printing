@@ -47,6 +47,7 @@ class UserController {
     }
 
     @PostMapping("/users/follow/{id}")
+    @ResponseBody
     public String followUser(@PathVariable long id,
                              @RequestParam(name = "following") boolean following) {
 
@@ -73,7 +74,7 @@ class UserController {
 
         userDao.save(currentUser);
 
-        return "redirect:/profile/" + id;
+        return (following ? "unfollow" : "follow");
     }
 
     @GetMapping("/profile/{id}")

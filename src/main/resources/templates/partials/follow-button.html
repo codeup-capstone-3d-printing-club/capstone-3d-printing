@@ -3,10 +3,43 @@
 
 <!-- Controller serving the page has to pass down a user (to be followed)
     and whether or not the current user is already following -->
-<form th:fragment="follow" th:action="@{/users/follow/{id}(id=${user.id})}" th:method="post">
-    <button class="followBtn" th:if="${following}" type="submit" name="unfollow"><i aria-labelledby="unfollow button" class="fas fa-bell-slash unfollow"></i></button>
-    <input type="hidden" name="following" th:value="${following}">
-    <button class="followBtn" th:if="${!following}" type="submit" name="follow"><i aria-labelledby="follow button" class="fas fa-bell follow"></i></button>
+<form id="follow-form" th:fragment="follow" th:action="@{/users/follow/{id}(id=${user.id})}" th:method="post">
+    <button class="followBtn" th:if="${following}" type="button" name="unfollow" th:onclick="'javascript:followUnfollow(' + ${user.id} + ')'"><i aria-labelledby="unfollow button" class="fas fa-bell-slash unfollow follow-bell"></i></button>
+    <input id="follow-value" type="hidden" name="following" th:value="${following}">
+    <button class="followBtn" th:if="${!following}" type="button" name="follow" th:onclick="'javascript:followUnfollow(' + ${user.id} + ')'"><i aria-labelledby="follow button" class="fas fa-bell follow follow-bell"></i></button>
+    <script>
+        function followUnfollow(id) {
+
+            $(".followBtn").prop("disabled", true)
+
+            $.ajax({
+                url: "/users/follow/" + id + "?" + $('#follow-form').serialize(),
+                type: "POST",
+                headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                success: function (str) {
+                    let $btn = $(".followBtn");
+
+                    if (str === "follow") {
+                        $('.follow-bell').removeClass("follow")
+                            .addClass("fa-bell-slash")
+                            .addClass("unfollow")
+                            .removeClass("fa-bell");
+
+                        $('#follow-value').val(true);
+
+                    } else {
+                        $('.follow-bell').removeClass("unfollow")
+                            .addClass("fa-bell")
+                            .addClass("follow")
+                            .removeClass("fa-bell-slash");
+                        $('#follow-value').val(false);
+                    }
+
+                    $btn.prop("disabled", false);
+                }
+            });
+        }
+    </script>
 </form>
 
 </html>
