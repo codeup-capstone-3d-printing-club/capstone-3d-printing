@@ -35,10 +35,10 @@
         </div>
         <br>
         <div class="my-6 mx-2">
-            <div>Pick categories:</div>
+            <div>Pick categories (limit three):</div>
             <th:block th:each="category : ${categoryList}">
                 <div class="form-check form-check-inline m-2">
-                    <input class="form-check-input" type="checkbox"
+                    <input class="form-check-input checkbox" type="checkbox"
                            th:id="${category.category}" name="categories" th:value="${category.id}"/>
                     <label class="form-check-label" th:for="${category.category}"
                            th:text="${category.category}"></label>
@@ -73,6 +73,15 @@
             return false;
         }
     }
+</script>
+<script>
+    $('.checkbox').click(function(){
+        if ($('.checkbox:checked').length >= 3) {
+            $(".checkbox").not(":checked").attr("disabled",true);
+        }
+        else
+            $(".checkbox").not(":checked").removeAttr('disabled');
+    });
 </script>
 </body>
 </html>
