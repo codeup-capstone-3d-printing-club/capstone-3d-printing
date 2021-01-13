@@ -61,23 +61,22 @@ public class CapstoneIntegrationTests {
 
         testUser = userDao.findByUsernameIgnoreCase("testUser");
 
-        // Creates the test user if not exists
-        if(testUser == null){
-            User newUser = new User();
-            newUser.setUsername("testUser");
-            newUser.setPassword(passwordEncoder.encode("pass"));
-            newUser.setEmail("testUser@codeup.com");
-            newUser.setAvatarUrl("");
-            newUser.setFirstName("Testy");
-            newUser.setLastName("Testerson");
-            newUser.setActive(true);
-            newUser.setAdmin(false);
-            newUser.setVerified(true);
-            newUser.setJoinedAt(new Timestamp(0));
-            newUser.setFlagged(false);
 
-            testUser = userDao.save(newUser);
-        }
+        User newUser = testUser == null ? new User() : testUser;
+        newUser.setUsername("testUser");
+        newUser.setPassword(passwordEncoder.encode("pass"));
+        newUser.setEmail("testUser@codeup.com");
+        newUser.setAvatarUrl("");
+        newUser.setFirstName("Testy");
+        newUser.setLastName("Testerson");
+        newUser.setPrivate(false);
+        newUser.setActive(true);
+        newUser.setAdmin(false);
+        newUser.setVerified(true);
+        newUser.setJoinedAt(new Timestamp(0));
+        newUser.setFlagged(false);
+
+        testUser = userDao.save(newUser);
 
         // Throws a Post request to /login and expect a redirection to the Ads index page after being logged in
         httpSession = this.mvc.perform(post("/login").with(csrf())
@@ -88,11 +87,6 @@ public class CapstoneIntegrationTests {
                 .andReturn()
                 .getRequest()
                 .getSession();
-    }
-
-    @After
-    public void postTest() {
-        userDao.delete(userDao.findByUsername("testUser"));
     }
 
     @Test
@@ -136,8 +130,7 @@ public class CapstoneIntegrationTests {
     }
 
     @Test
-    public void testChangePassword() throws Exception {
-
+    public void whenWrongPasswordIsEnteredDuringChangePassword() throws Exception {
         //when current password is entered in wrong
         this.mvc.perform(post("/change-password").with(csrf())
                 .session((MockHttpSession) httpSession)
@@ -145,7 +138,10 @@ public class CapstoneIntegrationTests {
                 .param("confirmPassword", "newpass1")
                 .param("currentPassword", "password"))
                 .andExpect(content().string(containsString("Incorrect password")));
+    }
 
+    @Test
+    public void whenPasswordsDontMatchDuringChangePassword() throws Exception {
         //when new password doesn't match with confirm
         this.mvc.perform(post("/change-password").with(csrf())
                 .session((MockHttpSession) httpSession)
@@ -153,7 +149,10 @@ public class CapstoneIntegrationTests {
                 .param("confirmPassword", "newpass2")
                 .param("currentPassword", "pass"))
                 .andExpect(content().string(containsString("Passwords don't match")));
+    }
 
+    @Test
+    public void whenChangePasswordIsSuccessful() throws Exception {
         //should result in successful password change, then log the user out
         this.mvc.perform(post("/change-password").with(csrf())
                 .session((MockHttpSession) httpSession)
@@ -162,29 +161,41 @@ public class CapstoneIntegrationTests {
                 .param("currentPassword", "pass"))
                 .andExpect(content().string(containsString("Password changed")));
 
+        //revert for other tests
+        testUser.setPassword(passwordEncoder.encode("pass"));
+    }
+
+    @Test
+    public void whenUserTriesToLoginWithIncorrectPassword() throws Exception {
         //the user tries to log in with the wrong password
         this.mvc.perform(post("/login").with(csrf())
                 .session((MockHttpSession) httpSession)
                 .param("username", "testUser")
-                .param("password", "pass"))
+                .param("password", "somethingElse"))
                 .andExpect(status().is(HttpStatus.FOUND.value()))
                 .andExpect(redirectedUrl("/login?error"))
                 .andReturn()
                 .getRequest()
                 .getSession();
+    }
 
+    @Test
+    public void whenLoggedOutAndAttemptToChangePassword() throws Exception {
         //user, while logged out, tries to re-post or directly post to change password
         this.mvc.perform(post("/change-password")
                 .param("newPassword", "newpass1")
                 .param("confirmPassword", "newpass2")
                 .param("currentPassword", "pass"))
                 .andExpect(status().is4xxClientError());
+    }
 
-        //user signs in correctly with the newly changed password
+    @Test
+    public void whenUserSuccessfullyLogsIn() throws Exception {
+
         this.mvc.perform(post("/login").with(csrf())
                 .session((MockHttpSession) httpSession)
                 .param("username", "testUser")
-                .param("password", "newpass1"))
+                .param("password", "pass"))
                 .andExpect(status().is(HttpStatus.FOUND.value()))
                 .andExpect(redirectedUrl("/"))
                 .andReturn()
@@ -194,25 +205,35 @@ public class CapstoneIntegrationTests {
     }
 
     @Test
-    public void testPasswordRecovery() throws Exception {
-
+    public void whenLoggedInUserGoesToPasswordRecoveryPage() throws Exception {
         //if logged in, don't need to access the page
         this.mvc.perform(get("/password-recovery").with(csrf())
                 .session((MockHttpSession) httpSession))
                 .andExpect(redirectedUrl("/"));
+    }
 
-
+    @Test
+    public void whenLoggedInUserDirectlyPostsToPasswordRecovery() throws Exception {
         //if you try to post directly while still logged in
         this.mvc.perform(post("/password-recovery").with(csrf())
                 .session((MockHttpSession) httpSession)
                 .param("email", testUser.getEmail()))
                 .andExpect(redirectedUrl("/"));
+    }
 
+
+    @Test
+    public void whenUserGoesToPasswordRecoveryPage() throws Exception {
         //if you aren't logged in, load the correct page
         this.mvc.perform(get("/password-recovery").with(csrf()))
                 .andExpect(content().string(containsString("Please enter the email associated with your account")));
+    }
 
-        this.mvc.perform(post("/logout").with(csrf()).session((MockHttpSession) httpSession))
+    @Test
+    public void testPasswordRecovery() throws Exception {
+
+        this.mvc.perform(post("/logout").with(csrf())
+                .session((MockHttpSession) httpSession))
                 .andExpect(redirectedUrl("/login?logout"));
 
         assertEquals(testUser.getEmail(), "testUser@codeup.com");
@@ -251,16 +272,8 @@ public class CapstoneIntegrationTests {
         assertNotEquals(userDao.findByUsernameIgnoreCase("testUser").getPassword(), token);
     }
 
-    //TODO: email verification
-
-    //TODO: signing up process
-
-
     @Test
-    public void testFiles() throws Exception {
-
-        //TODO: more atomic categories and files
-
+    public void whenUserAttemptsCreateFileWhileNotLoggedIn() throws Exception {
         //attempt to create a file while not logged in
         this.mvc.perform(post("/files/create").with(csrf())
                 .contentType("application/x-www-form-urlencoded")
@@ -271,6 +284,10 @@ public class CapstoneIntegrationTests {
                 .param("fileUrl", "test1")
                 .param("g-recaptcha-response", "a"))
                 .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    public void testCreateAndDeleteFile() throws Exception {
 
         //create file while logged in
         this.mvc.perform(post("/files/create").with(csrf())
@@ -290,8 +307,6 @@ public class CapstoneIntegrationTests {
         this.mvc.perform(get("/files/" + testFile.getId()))
                 .andExpect(content().string(containsString(testFile.getDescription())));
 
-        //TODO: test show file when private while not logged in as well as logged in
-
         //show all files
         this.mvc.perform(get("/files"))
                 .andExpect(content().string(containsString("All Files")));
@@ -299,11 +314,8 @@ public class CapstoneIntegrationTests {
         assertEquals(testFile.getCategories().size(), 2);
         assertEquals(testFile.getCategories().get(0).getCategory(), "Art");
 
-        this.mvc.perform(get("/files/?category=" + testFile.getCategories().get(0).getCategory()))
-                .andExpect(content().string(containsString("test file title")));
-
-        //don't delete file if you don't own it      //TODO: make more atomic
-        this.mvc.perform(post("/files/" + fileDao.findByTitle("file #1").getId() + "/delete").with(csrf())
+        //don't delete file if you don't own it
+        this.mvc.perform(post("/files/" + fileDao.findByTitle("file #2").getId() + "/delete").with(csrf())
                 .session((MockHttpSession) httpSession))
                 .andExpect(redirectedUrl("/profile/" + testUser.getId() + "?error"));
 
@@ -316,15 +328,20 @@ public class CapstoneIntegrationTests {
     }
 
     @Test
-    public void testUserSignUp() throws Exception {
-
+    public void whenLoggedInUserGoesToSignUpPage() throws Exception {
         this.mvc.perform(get("/sign-up").with(csrf())
                 .session((MockHttpSession) httpSession))
                 .andExpect(redirectedUrl("/"));
+    }
 
+    @Test
+    public void whenUserGoesToSignUpPage() throws Exception {
         this.mvc.perform(get("/sign-up"))
                 .andExpect(content().string(containsString("Create an account")));
+    }
 
+    @Test
+    public void whenUserSignsUpWithMismatchedPasswords() throws Exception {
         //signing up when passwords don't match
         this.mvc.perform(post("/sign-up").with(csrf())
                 .contentType("application/x-www-form-urlencoded")
@@ -338,6 +355,10 @@ public class CapstoneIntegrationTests {
                 .param("confirmPassword", "test")
                 .param("g-recaptcha-response", "a"))
                 .andExpect(redirectedUrl("/sign-up?failpassword"));
+    }
+
+    @Test
+    public void whenUserSignsUpWithExistingUserName() throws Exception {
 
         //trying to create an account with an existing username
         this.mvc.perform(post("/sign-up").with(csrf())
@@ -352,7 +373,10 @@ public class CapstoneIntegrationTests {
                 .param("confirmPassword", "testpass")
                 .param("g-recaptcha-response", "a"))
                 .andExpect(redirectedUrl("/sign-up/?failusername"));
+    }
 
+    @Test
+    public void whenUserSignsUpWithExistingEmail() throws Exception {
         //trying to create an account with an existing email
         this.mvc.perform(post("/sign-up").with(csrf())
                 .contentType("application/x-www-form-urlencoded")
@@ -366,6 +390,10 @@ public class CapstoneIntegrationTests {
                 .param("confirmPassword", "testpass")
                 .param("g-recaptcha-response", "a"))
                 .andExpect(redirectedUrl("/sign-up/?failemail"));
+    }
+
+    @Test
+    public void testUserSignUpAndConfirmation() throws Exception {
 
         //creating an account with correct details
         this.mvc.perform(post("/sign-up").with(csrf())
@@ -389,7 +417,7 @@ public class CapstoneIntegrationTests {
         //non-existent token
         this.mvc.perform(get("/confirm-account")
                 .param("token", String.valueOf(UUID.randomUUID())))
-                .andExpect(content().string(containsString("The link is invalid or broken!")));
+                .andExpect(content().string(containsString("The email verification link is invalid or broken. Try account recovery for a new link.")));
 
         //verified flag should still be false at this point
         assertFalse(newUser.isVerified());
@@ -397,7 +425,7 @@ public class CapstoneIntegrationTests {
         //correct token for user: 1user
         this.mvc.perform(get("/confirm-account")
                 .param("token", tokenDao.findByUser(newUser).getConfirmationToken()))
-                .andExpect(status().isOk());
+                .andExpect(redirectedUrl("/login?activated"));
 
         User verifiedUser = userDao.findByUsername("1user");
 
@@ -411,7 +439,6 @@ public class CapstoneIntegrationTests {
 
 
     //TODO: notification tests
-
 
 
 }

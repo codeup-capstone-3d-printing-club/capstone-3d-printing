@@ -1,14 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head >
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title id="pageTitle">File</title>
+</head>
+
 <nav th:fragment="navbar">
-    <nav class="navbar navbar-expand-lg  navbar-dark mb-3">
+    <nav class="navbar navbar-expand-lg  navbar-dark mb-5">
         <div class="container-fluid">
             <a class="navbar-brand" href="">Square<sup>3</sup></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse container" id="navbarNav">
-                <section class="col-6">
-                    <ul class="navbar-nav nav-fill justify-content-evenly">
+            <div class="collapse navbar-collapse container "data-target="#navbarNav" id="navbarNav">
+                <section class="col-lg-6 col-sm-12">
+                    <ul class="navbar-nav nav-fill justify-content-evenly collapseBackground pt-4">
                         <li class="nav-item">
                             <a class="nav-link icon " href="/">Home</a>
                         </li>
@@ -28,13 +36,6 @@
                         <li sec:authorize="!isAuthenticated()" class="nav-item">
                             <a class="nav-link " href="/login">Login</a>
                         </li>
-                        <li sec:authorize="isAuthenticated()" class="logout nav-item">
-                            <form th:action="@{/logout}" th:method="post">
-                                <button class="btn-link btn nav-link" style="display: inline-block;margin-top: -1px">
-                                    Logout
-                                </button>
-                            </form>
-                        </li>
                         <li sec:authorize="isAuthenticated()" class="nav-item">
                             <form th:action="@{/profile/{id}(id=${#authentication.principal.id})}" th:method="get">
                                 <button class="btn-link btn nav-link" style="display: inline-block;margin-top: -1px">
@@ -44,12 +45,9 @@
                         </li>
                         <li sec:authorize="isAuthenticated()" id="messages" class="nav-item">
                             <a href="/messages">
-                                <button class="btn-link btn nav-link btn position-relative image"
-                                        style="margin-bottom: -4px;">
-                                    <!--<                       <button  class="btn position-relative image d-flex justify-content-end">-->
-
+                                <button class="btn-link btn nav-link btn position-relative image "
+                                        style="margin-bottom: -4px; margin-left: 1em;">
                                     <i aria-labelledby="inbox Button" class="far fa-envelope fa-lg"></i>
-                                
                                     <script>
                                         $(function () {
                                             $.ajax({
@@ -67,14 +65,21 @@
 
                                 </button>
                             </a>
+                        <li sec:authorize="isAuthenticated()" class="logout nav-item">
+                            <form th:action="@{/logout}" th:method="post">
+                                <button class="btn-link btn nav-link" style="display: inline-block;margin-top: -1px; margin-left: -12px">
+                                    Logout
+                                </button>
+                            </form>
                         </li>
-                        <li class="nav-item">
+                        </li>
+                        <li class="nav-item" >
                             <a class="nav-link icon" href="/about">About</a>
                         </li>
                     </ul>
                 </section>
                 <div class="searchbar input-group justify-content-end">
-                    <form class="searchbar" th:fragment="searchbar" th:action="@{/files/search}" th:method="post">
+                    <form class="searchbar" th:fragment="searchbar" th:action="@{/files/search}" th:method="get">
                         <input style="border-radius: 5px" type="text" name="search" placeholder="Search...">
 
                         <button aria-labelledby="searchButton" class="searchBtn" type="submit" name="searchBar" style="margin-top: 0px;"><i

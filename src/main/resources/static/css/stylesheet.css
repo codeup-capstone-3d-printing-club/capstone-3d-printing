@@ -14,7 +14,7 @@
 
 
 .colorBackground{
-    background-image: linear-gradient(#530101,#a40000, black);
+    background-image: linear-gradient(#6a7777, #367071, #0a220c);
 }
 body {
 
@@ -27,20 +27,22 @@ body {
 }
 
 
-.background {
-    background-blend-mode: multiply;
-    background: #7e0505 url('../image/3d_bg.jpg') no-repeat  center center;
+.background{
+    background-blend-mode: soft-light;
+    background: #407272 url('../image/blackmetal.jpg') no-repeat  fixed  center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: 100%;
+    /*background-size: 100%;*/
 
 }
 .messageItem{
     max-width: 25em;
     border-radius: 10px;
 }
-
+#listNumber{
+    font-size: 30px;
+}
 .card-img{
 
     margin-top: 20px;
@@ -51,16 +53,26 @@ body {
     margin-top: 20em;
 }
 
+.thumbnailPic{
+    max-width: 10em;
+}
 h1 {
     color: #613;
     text-align: center;
 }
-
+.describe{
+    margin-top: -15.6em;
+    position: relative;
+}
 .title {
     font-weight: 600;
     /*text-transform: uppercase;*/
     text-align: center;
     font-size: 10em;
+    margin-bottom: 3em;
+    margin-top: 1em;
+
+
 }
 
 .filter-shadow {
@@ -136,11 +148,16 @@ a{
 }
 /*Font and background colors*/
 .navbar {
+
     width: auto;
+    background-color: black;
+    opacity: 90%;
+    z-index: 4;
 }
 
+
 body, .welcome, h1, h2, h3, h4, #formFont {
-    color: white;
+    color: whitesmoke;
 }
 
 .backgroundDiv {
@@ -185,10 +202,6 @@ body, .welcome, h1, h2, h3, h4, #formFont {
     margin-left: 1em;
 }
 
-.navbar {
-    background-color: black;
-    opacity: 80%;
-}
 
 footer {
     position: relative;
@@ -199,7 +212,7 @@ footer {
     background-color: black;
     opacity: 80%;
     margin-top: 200px;
-    z-index: 3;
+    z-index: 0;
 
 }
 
@@ -278,67 +291,6 @@ li {
 ul li {
     margin-bottom:1.4rem;
 }
-.pricing-divider {
-    border-radius: 20px;
-    background: #C64545;
-    padding: 1em 0 4em;
-    position: relative;
-}
-.blue .pricing-divider{
-    background: #2D5772;
-}
-.green .pricing-divider {
-    background: #1AA85C;
-}
-.red b {
-    color:#C64545
-}
-.blue b {
-    color:#2D5772
-}
-.green b {
-    color:#1AA85C
-}
-.pricing-divider-img {
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 80px;
-}
-.deco-layer {
-    -webkit-transition: -webkit-transform 0.5s;
-    transition: transform 0.5s;
-}
-.btn-custom  {
-    background:#C64545; color:#fff; border-radius:20px
-}
-
-.img-float {
-    width:50px; position:absolute;top:-3.5rem;right:1rem
-}
-
-.princing-item {
-    transition: all 150ms ease-out;
-}
-.princing-item:hover {
-    transform: scale(1.05);
-}
-.princing-item:hover .deco-layer--1 {
-    -webkit-transform: translate3d(15px, 0, 0);
-    transform: translate3d(15px, 0, 0);
-}
-.princing-item:hover .deco-layer--2 {
-    -webkit-transform: translate3d(-15px, 0, 0);
-    transform: translate3d(-15px, 0, 0);
-}
-
-
-
-
-
-
-
 
 
 /*media queries*/
@@ -350,6 +302,11 @@ ul li {
 
     .searchbar {
         display: block;
+        text-align: center;
+    }
+
+    .describe{
+        margin-top: -200px;
     }
 }
 

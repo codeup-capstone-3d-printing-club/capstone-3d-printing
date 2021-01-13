@@ -2,8 +2,10 @@ package com.codeup.capstone3dprinting.controllers;
 
 import com.codeup.capstone3dprinting.models.*;
 import com.codeup.capstone3dprinting.repos.*;
+
 import com.codeup.capstone3dprinting.services.EmailService;
 
+import com.mailjet.client.errors.MailjetException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +32,8 @@ class UserController {
     private final ConfirmationTokenRepository confirmDao;
 
     public UserController(UserRepository userDao, FileRepository fileDao, EmailService emailService,
-                          PasswordEncoder passwordEncoder, SettingRepository settingDao, MessageRepository messageDao, ConfirmationTokenRepository confirmDao) {
+                          PasswordEncoder passwordEncoder, SettingRepository settingDao, MessageRepository messageDao,
+                          ConfirmationTokenRepository confirmDao) {
         this.userDao = userDao;
         this.fileDao = fileDao;
         this.passwordEncoder = passwordEncoder;
@@ -47,6 +50,7 @@ class UserController {
     }
 
     @PostMapping("/users/follow/{id}")
+    @ResponseBody
     public String followUser(@PathVariable long id,
                              @RequestParam(name = "following") boolean following) {
 
@@ -73,7 +77,7 @@ class UserController {
 
         userDao.save(currentUser);
 
-        return "redirect:/profile/" + id;
+        return (following ? "unfollow" : "follow");
     }
 
     @GetMapping("/profile/{id}")
@@ -173,7 +177,6 @@ class UserController {
     @ResponseBody
     public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
         User user = userDao.getOne(id);
-        System.out.println("userEdit.isPrivate() = " + userEdit.isPrivate());
 
         //TODO: lacks validation and error handling
         user.setUsername(userEdit.getUsername());
@@ -234,7 +237,7 @@ class UserController {
 
     //    redirects to admin bc nonAdmin users shouldn't be able to deactivate/activate users
     @PostMapping("/users/{id}/deactivate")
-    public String deactivateUser(@PathVariable long id, RedirectAttributes redir) {
+    public String deactivateUser(@PathVariable long id, RedirectAttributes redir) throws MailjetException {
         User user = userDao.getOne(id);
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
@@ -254,7 +257,7 @@ class UserController {
     }
 
     @PostMapping("/users/{id}/activate")
-    public String activateUser(@PathVariable long id, RedirectAttributes redir) {
+    public String activateUser(@PathVariable long id, RedirectAttributes redir) throws MailjetException {
         User user = userDao.getOne(id);
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 

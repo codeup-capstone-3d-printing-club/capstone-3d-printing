@@ -6,9 +6,9 @@ import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.services.EmailService;
 import com.codeup.capstone3dprinting.services.ReCaptchaValidationService;
-import org.hibernate.cfg.Environment;
+
+import com.mailjet.client.errors.MailjetException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,15 +64,13 @@ public class AuthenticationController {
     @PostMapping("/sign-up")
     public String saveUser(@ModelAttribute User user, Model model,
                            @RequestParam(name = "confirmPassword") String confirmPassword,
-                           @RequestParam(name = "g-recaptcha-response") String captcha) {
-        //TODO: need to give user an error message
+                           @RequestParam(name = "g-recaptcha-response") String captcha) throws MailjetException {
 
-        System.out.println(captcha);
 
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
             return "redirect:/";
         }
-  
+
         if (!user.getPassword().equals(confirmPassword)) {
             return "redirect:/sign-up?failpassword";
         }
@@ -90,14 +88,14 @@ public class AuthenticationController {
         user.setVerified(false);
         user.setActive(true);
         user.setJoinedAt(new Timestamp(new Date().getTime()));
-        if(user.getAvatarUrl().equals("")){
-        user.setAvatarUrl("/image/placeholder-avatar.jpg");
+        if (user.getAvatarUrl().equals("")) {
+            user.setAvatarUrl("/image/placeholder-avatar.jpg");
         }
+
         User existingUserEmail = userDao.findByEmailIgnoreCase(user.getEmail());
         User existingUsername = userDao.findByUsernameIgnoreCase(user.getUsername());
 
         if (existingUserEmail != null) {
-            // TODO: give the user a more detailed message about why account creation failed
             return "redirect:/sign-up/?failemail";
         } else if (existingUsername != null) {
             return "redirect:/sign-up/?failusername";
@@ -128,11 +126,12 @@ public class AuthenticationController {
             User user = userDao.findByEmailIgnoreCase(token.getUser().getEmail());
             user.setVerified(true);
             userDao.save(user);
+            return "redirect:/login?activated";
         } else {
-            //TODO: send to a different page other than home
-            model.addAttribute("message", "The link is invalid or broken!");
+            model.addAttribute("msg", "The email verification link is invalid or broken. Try account recovery for a new link.");
+            return "users/recover-password";
         }
-        return "home";
+
     }
 
     @PostMapping("/change-password")
@@ -236,7 +235,7 @@ public class AuthenticationController {
 
     @PostMapping("/password-recovery")
     public String recoverPassword(@RequestParam(name = "email") String email,
-                                  RedirectAttributes redir) {
+                                  RedirectAttributes redir) throws MailjetException {
 
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
             return "redirect:/";

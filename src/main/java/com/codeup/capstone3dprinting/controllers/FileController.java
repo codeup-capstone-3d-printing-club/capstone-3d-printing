@@ -44,28 +44,15 @@ class FileController {
     }
 
     @GetMapping("/files")
-    public String showAllFiles(Model model, @RequestParam(required = false) String category) {
+    public String showAllFiles(Model model) {
         HashMap<String, Integer> categoryAndFileNumber = new HashMap<>();
         for (Category categoryList : categoryDao.findAll()) {
             categoryAndFileNumber.put(capitalizeFirstLetter(categoryList.getCategory()), fileDao.findByCategories(categoryList).size());
         }
         model.addAttribute("categoryHashmap", categoryAndFileNumber);
 
-        //if there are no categories, get all files
-        if (category == null) {
-            model.addAttribute("files", fileDao.findAll());
-            model.addAttribute("pageTitle", "All Files");
-
-            //otherwise, grab only files that include the category
-        } else {
-            Category requestedCategory = categoryDao.findCategoryByCategory(category);
-            model.addAttribute("requestedCategories", requestedCategory);
-            model.addAttribute("files", fileDao.findByCategories(requestedCategory));
-            model.addAttribute("pageTitle", capitalizeFirstLetter(requestedCategory.getCategory()));
-        }
-
-        //return the full set of categories for display
-//        model.addAttribute("categories", categoryDao.findAll());
+        model.addAttribute("files", fileDao.findAll());
+        model.addAttribute("pageTitle", "All Categories");
         model.addAttribute("totalFileNumber", fileDao.findAll().size());
 
         return "index";
@@ -119,6 +106,7 @@ class FileController {
         System.out.println("SecurityContextHolder.getContext().getAuthentication().getPrincipal() = " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return "files/showFile";
     }
+
 
     @GetMapping("/files/create")
     public String viewCreateForm(Model model) {
@@ -190,7 +178,7 @@ class FileController {
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
             User userLoggedIn = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User currentUser = userDao.getOne(userLoggedIn.getId());
-            if(currentUser.getId() != userDao.findByFiles(file).getId()) {
+            if (currentUser.getId() != userDao.findByFiles(file).getId()) {
                 return "redirect:/files/" + file.getId();
             }
         }
@@ -301,7 +289,7 @@ class FileController {
     }
 
     @PostMapping("files/{id}/comment/{commentId}")
-    public String replyAComment(@PathVariable long id,@PathVariable long commentId, @RequestParam(name = "replyText") String replyText) {
+    public String replyAComment(@PathVariable long id, @PathVariable long commentId, @RequestParam(name = "replyText") String replyText) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
         File file = fileDao.getOne(id);
@@ -378,23 +366,43 @@ class FileController {
         return "redirect:/files/" + id;
     }
 
-    @PostMapping("files/search")
+    @GetMapping("files/search")
     public String search(@RequestParam(name = "search") String searchTerm, Model model) {
         List<File> searched = fileDao.findAllByDescriptionIsLike("%" + searchTerm + "%");
         List<File> searchedTitle = fileDao.findAllByTitleIsLike("%" + searchTerm + "%");
         List<User> searchedUsers = userDao.findAllByUsernameIsLike("%" + searchTerm + "%");
 
-        for (File file : searchedTitle) {
-            if (!searched.contains(file)) {
-                searched.add(file);
+        for (User user : searchedUsers) {
+            for (File file : user.getFiles()) {
+                searched.remove(file);
+                searched.add(0, file);
             }
         }
 
-        model.addAttribute("users", searchedUsers);
+        for (File file : searchedTitle) {
+            searched.remove(file);
+            searched.add(0, file);
+        }
+
+        HashMap<String, Integer> categoryAndFileNumber = new HashMap<>();
+        for (Category categoryList : categoryDao.findAll()) {
+            categoryAndFileNumber.put(capitalizeFirstLetter(categoryList.getCategory()), 0);
+        }
+
+        for (File file: searched) {
+            for (Category category: file.getCategories()) {
+                String cat = category.getCategory();
+                categoryAndFileNumber.put(cat, categoryAndFileNumber.get(cat) + 1);
+            }
+        }
+
+        model.addAttribute("categoryHashmap", categoryAndFileNumber);
         model.addAttribute("files", searched);
-        model.addAttribute("categories", categoryDao.findAll());
-        model.addAttribute("pageTitle", searched.size() + " Result" + (searched.size() == 1 ? "" : "s"));
-        model.addAttribute("userResults", searchedUsers.size() + " Result" + (searchedUsers.size() == 1 ? "" : "s"));
+        model.addAttribute("results", searched.size() + " Result" + (searched.size() == 1 ? " " : "s ") + "for '"
+                + searchTerm + "'");
+        model.addAttribute("pageTitle", "All Categories");
+        model.addAttribute("totalFileNumber", searched.size());
+
         return "index";
     }
 
