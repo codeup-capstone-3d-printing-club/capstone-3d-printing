@@ -28,7 +28,7 @@ body {
 
 .background{
     background-blend-mode: soft-light;
-    background: #407272 url('../image/blackmetal.jpg') no-repeat  fixed  center;
+    background: #407272 url('../image/blackmetal.jpg') no-repeat  fixed  center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -203,15 +203,15 @@ body, .welcome, h1, h2, h3, h4, #formFont {
 
 
 footer {
-    position: relative;
+    /*position: relative;*/
     padding: 2em;
-    height: 300px;
-    bottom: 0;
-    width: 100%;
-    background-color: black;
-    opacity: 80%;
+    /*height: 300px;*/
+    /*bottom: 0;*/
+    /*width: 100%;*/
+    /*background-color: black;*/
+    /*opacity: 80%;*/
     margin-top: 200px;
-    z-index: 0;
+    /*z-index: 0;*/
 
 }
 
