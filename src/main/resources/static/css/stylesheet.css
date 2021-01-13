@@ -26,7 +26,6 @@ body {
     width: 60%;
 }
 
-
 .background{
     background-blend-mode: soft-light;
     background: #407272 url('../image/blackmetal.jpg') no-repeat  fixed  center;
@@ -329,3 +328,8 @@ ul li {
     }
 }
 
+#categories-container {
+    max-height: 50vh;
+    overflow-y: scroll;
+
+}
