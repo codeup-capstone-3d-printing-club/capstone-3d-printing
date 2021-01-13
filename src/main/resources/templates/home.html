@@ -7,35 +7,37 @@
 
 <nav th:replace="partials/navbar :: navbar"></nav>
 <body class="background">
+<div id="bg-img" class="colorBackground" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1" ></div>
+<script>
+    $(function() {
+        $("#bg-img").fadeOut(1500);
+    });
+</script>
 <div class="container">
     <div class="row">
 
-            <!--    <h1>Welcome to</h1>-->
-            <h1 class="title filter-shadow">
-                <a href="/about" style="text-decoration: none; color: white; max-height:  167px !important;">
-                    <span style="background: #3d3c3c; line-height: 167px">SQ</span>UARECUBED
-                </a>
-            </h1>
-            <h2 class="describe text-center">Share and Rate 3D Printer Models</h2>
-            <hr>
+        <!--    <h1>Welcome to</h1>-->
+        <h1 class="title filter-shadow">
+            <a href="/about" style="text-decoration: none; color: white; max-height:  167px !important;">
+                <span style="background: #3d3c3c; line-height: 167px">SQ</span>UARECUBED
+            </a>
+        </h1>
+        <h2 class="describe text-center">Share and Rate 3D Printer Models</h2>
+        <hr>
 
-<!--        <div class="d-flex justify-content-center backgroundDiv">-->
-<!--            <div id="3d" class="box">-->
-<!--                <div class="inner">-->
-<!--                    <span class="filter-shadow">3D DESIGNS</span>-->
-<!--                </div>-->
-<!--                <div class="inner">-->
-<!--                    <span class="text-shadow">3D DESIGNS</span>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div class="d-flex justify-content-center backgroundDiv">-->
+        <!--            <div id="3d" class="box">-->
+        <!--                <div class="inner">-->
+        <!--                    <span class="filter-shadow">3D DESIGNS</span>-->
+        <!--                </div>-->
+        <!--                <div class="inner">-->
+        <!--                    <span class="text-shadow">3D DESIGNS</span>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
 </div>
-</div>
-</div>
-</div>
 
-</div>
 <section class="card p-3 colorBackground" style="border-radius: 10px;">
 
     <div class="mt-5" style="font-family: 'Bebas Neue', cursive; ">
@@ -47,11 +49,13 @@
                 <li id="listNumber" th:each="file : ${topRated}">
                     <h2><a style="color: black" th:href="@{'/files/' + ${file.id}}" th:text="${file.title}"></a></h2>
                     <h4 th:text="${file.description}"></h4>
-                    <a th:href="@{'/files/' + ${file.id}}"><img  th:if="${file.images.size()>0}" th:src="${file.images.get(0).img_url}" class="thumbnailPic d-block w-20" alt="file img"/></a>
-<!--                    </div>-->
+                    <a th:href="@{'/files/' + ${file.id}}"><img th:if="${file.images.size()>0}"
+                                                                th:src="${file.images.get(0).img_url}"
+                                                                class="thumbnailPic d-block w-20" alt="file img"/></a>
+                    <!--                    </div>-->
 
-                <h4>by: <span th:text="${file.owner.username}"></span></h4>
-                <h3>Rating: <span class="ml-0" th:text="${file.averageRating}"></span></h3>
+                    <h4>by: <span th:text="${file.owner.username}"></span></h4>
+                    <h3>Rating: <span class="ml-0" th:text="${file.averageRating}"></span></h3>
 
                 </li>
             </ol>
@@ -103,8 +107,6 @@
 <!--        </li>-->
 
 
-
-
 <!--        <div class="col-4 princing-item blue">-->
 <!--            <div class="pricing-divider ">-->
 <!--                <h3 class="text-light">#2</h3>-->
@@ -133,10 +135,6 @@
 <!--        </div>-->
 
 
-
-
-
-
 <!--        <div class="col-4 princing-item green">-->
 <!--            <div class="pricing-divider ">-->
 <!--                <h3 class="text-light">#3</h3>-->
@@ -163,10 +161,6 @@
 <!--                <button type="button" class="btn btn-lg btn-block  btn-custom ">Sign up for free</button>-->
 <!--            </div>-->
 <!--        </div>-->
-
-
-
-
 
 
 <!--    </ol>-->
