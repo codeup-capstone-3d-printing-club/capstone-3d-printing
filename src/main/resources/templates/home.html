@@ -3,19 +3,22 @@
 <head th:include="partials/header_partial :: head">
     <title id="pageTitle">SquareCubed</title>
 </head>
-<body class="background">
 
-<nav class="sticky-top" th:replace="partials/navbar :: navbar"></nav>
+
+<nav th:replace="partials/navbar :: navbar"></nav>
+<body class="background">
 <div class="container">
     <div class="row">
-        <div id="welcome" class="mt-5 mb-5 ">
+
             <!--    <h1>Welcome to</h1>-->
-            <h2 class="title filter-shadow">
+            <h1 class="title filter-shadow">
                 <a href="/about" style="text-decoration: none; color: white; max-height:  167px !important;">
                     <span style="background: #3d3c3c; line-height: 167px">SQ</span>UARECUBED
                 </a>
-            </h2>
-        </div>
+            </h1>
+            <h2 class="describe text-center">Share and Rate 3D Printer Models</h2>
+            <hr>
+
 <!--        <div class="d-flex justify-content-center backgroundDiv">-->
 <!--            <div id="3d" class="box">-->
 <!--                <div class="inner">-->
@@ -34,15 +37,18 @@
 
 </div>
 <section class="card p-3 colorBackground" style="border-radius: 10px;">
-    <!--                <img class="card-img" alt="..." th:src="@{/image/3d printer image 1.png}"/>-->
+
     <div class="mt-5" style="font-family: 'Bebas Neue', cursive; ">
-        <h2 class="card-title">Check out our Top 5 Rated 3d Uploads!</h2>
+        <h1 style="text-align: left!important;" class="card-title">Check out our Top 5 Rated 3d Uploads!</h1>
         <hr>
         <p class="card-text justify-content-end">
-        <div >
-            <ol >
-                <li th:each="file : ${topRated}">
-                    <h2><a class="bg-light" th:href="@{'/files/' + ${file.id}}" th:text="${file.title} "></a></h2>
+        <div>
+            <ol>
+                <li id="listNumber" th:each="file : ${topRated}">
+                    <h2><a style="color: black" th:href="@{'/files/' + ${file.id}}" th:text="${file.title}"></a></h2>
+                    <h4 th:text="${file.description}"></h4>
+                    <a th:href="@{'/files/' + ${file.id}}"><img  th:if="${file.images.size()>0}" th:src="${file.images.get(0).img_url}" class="thumbnailPic d-block w-20" alt="file img"/></a>
+<!--                    </div>-->
 
                 <h4>by: <span th:text="${file.owner.username}"></span></h4>
                 <h3>Rating: <span class="ml-0" th:text="${file.averageRating}"></span></h3>
@@ -57,7 +63,9 @@
 
     </div>
     <hr>
+
 </section>
+
 
 <!--<div class="container-fluid bg-gradient p-5">-->
 <!--    <ol class="row m-auto text-center w-75">-->
@@ -188,5 +196,6 @@
 
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
+<script type="module" th:src="@{/js/renderer.js}"></script>
 </body>
 </html>

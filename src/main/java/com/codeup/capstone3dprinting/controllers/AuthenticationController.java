@@ -6,6 +6,8 @@ import com.codeup.capstone3dprinting.repos.ConfirmationTokenRepository;
 import com.codeup.capstone3dprinting.repos.UserRepository;
 import com.codeup.capstone3dprinting.services.EmailService;
 import com.codeup.capstone3dprinting.services.ReCaptchaValidationService;
+
+import com.mailjet.client.errors.MailjetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
@@ -62,7 +64,7 @@ public class AuthenticationController {
     @PostMapping("/sign-up")
     public String saveUser(@ModelAttribute User user, Model model,
                            @RequestParam(name = "confirmPassword") String confirmPassword,
-                           @RequestParam(name = "g-recaptcha-response") String captcha) {
+                           @RequestParam(name = "g-recaptcha-response") String captcha) throws MailjetException {
 
 
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
@@ -124,10 +126,12 @@ public class AuthenticationController {
             User user = userDao.findByEmailIgnoreCase(token.getUser().getEmail());
             user.setVerified(true);
             userDao.save(user);
+            return "redirect:/login?activated";
         } else {
             model.addAttribute("msg", "The email verification link is invalid or broken. Try account recovery for a new link.");
+            return "users/recover-password";
         }
-        return "users/recover-password";
+
     }
 
     @PostMapping("/change-password")
@@ -231,7 +235,7 @@ public class AuthenticationController {
 
     @PostMapping("/password-recovery")
     public String recoverPassword(@RequestParam(name = "email") String email,
-                                  RedirectAttributes redir) {
+                                  RedirectAttributes redir) throws MailjetException {
 
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
             return "redirect:/";
