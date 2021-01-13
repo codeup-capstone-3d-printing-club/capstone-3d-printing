@@ -13,7 +13,7 @@
     <div class="text-center" th:text="${results}"></div>
     <div class="row">
         <div class="col-1 col-sm-2">
-            <div class="list-group fs-5">
+            <div id="categories-container" class="list-group fs-5 border">
                 <div onclick="allCategories()" style="cursor: pointer;"
                    class="list-group-item list-group-item-action backgroundDiv link-danger m-0 d-flex justify-content-between align-items-center rounded-0">
                     All Categories<span class="badge bg-danger" th:text="${totalFileNumber}"></span></div>
