@@ -225,8 +225,8 @@
 </div>
 
 <footer th:replace="partials/footer_partial :: footer"></footer>
-<script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
-<script type="module" th:src="@{/js/renderer.js}"></script>
+<script th:inline="javascript">const fileUrl =[[${file.fileUrl}]]</script>
+<script type="module" th:src="@{/js/anotherRender.js}"></script>
 <section th:replace="partials/partials_scripts :: script"></section>
 </body>
 </html>

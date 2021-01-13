@@ -115,11 +115,12 @@ public class IntegrationTests {
     }
 
 
-//    @After
-//    public void postTest() {
-//        fileDao.delete(fileDao.findByTitle("TestFile"));
-//        userDao.delete(userDao.findByUsername("testUser"));
-//    }
+    @After
+    public void postTest() {
+        fileDao.delete(fileDao.findByTitle("PrivateTestFile"));
+        fileDao.delete(fileDao.findByTitle("TestFile"));
+        userDao.delete(userDao.findByUsername("testUser"));
+    }
 
     @Test
     public void contextLoads() {
