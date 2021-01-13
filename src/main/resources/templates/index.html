@@ -58,8 +58,8 @@
             <div class="row justify-content-between content">
                 <div class="fileCard backgroundDiv col-11 col-md-3 col-lg-3 col-sm-10 d-flex flex-column align-items-center justify-content-between fs-5"
                      th:each="file : ${files}" th:id="${'file' + file.id}">
-                    <div class="card-img dontShowOnMobile" style="height: 100px; width: 100px" th:data-original-title="${file.fileUrl}" th:id="${'renderIndex' + file.id}">
-                        <script type="module" th:src="@{/js/indexRender.js}"></script>
+                    <div class="card-img" th:data-original-title="${file.fileUrl}" th:id="${'renderIndex' + file.id}">
+<!--                        <script type="module" th:src="@{/js/indexRender.js}"></script>-->
                     </div>
 
                     <div class="mt-2">
@@ -99,7 +99,7 @@
     </div>
 </div>
 
-<script type="module" th:src="@{/js/indexRender.js}"></script>
+<!--<script type="module" th:src="@{/js/indexRender.js}"></script>-->
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
 

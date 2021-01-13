@@ -4,18 +4,11 @@ import {STLLoader} from './util/STLLoader.js';
 
 let degree = Math.PI / 180;
 
-// Setup
-let scene = new THREE.Scene();
-let camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 1000);
-let renderer = new THREE.WebGLRenderer({antialias: true});
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
-renderer.outputEncoding = THREE.sRGBEncoding;
-renderer.shadowMap.enabled = true;
+
 
 //background fog kinda sets the color of the object
 scene.background = new THREE.Color(0xadabab);
-scene.fog = new THREE.Fog(0x111111, 0, 1500);
+scene.fog = new THREE.Fog(0x111111, 0, 500);
 // Ground (comment out line: "scene.add( plane );" if Ground is not needed...)
 let plane = new THREE.Mesh(
     new THREE.PlaneBufferGeometry(1000, 1000),
@@ -24,8 +17,9 @@ let plane = new THREE.Mesh(
 plane.rotation.x = -90 * degree;
 plane.position.y = -50;
 plane.position.x = 0;
-scene.add(plane);
 plane.receiveShadow = true;
+scene.add(plane);
+
 
 // Camera positioning
 camera.position.z = 100;
@@ -56,37 +50,49 @@ function addShadowedLight(x, y, z, color, intensity) {
 
 addShadowedLight(1, 1, 1, 0xffffff, 1.35);
 addShadowedLight(0.5, 1, -1, 0xffaa00, 1);
+let animate = function () {
+    requestAnimationFrame(animate);
+};
+function onWindowResize(i, container) {
 
+    camera[i].aspect = window.innerWidth / window.innerHeight;
+    camera[i].updateProjectionMatrix();
+
+    renderer[i].setSize($(container).width(), $(container).height());
+}
+let render = [];
+let scene = [];
+let camera = [];
+let renderer = [];
+let loader = [];
+let mesh = [];
 let i;
-for(i = 0;i < 3;i++) {
-    var idString = "renderIndex" + i.toString();
-    var fileUrl = $('#renderIndex' + i.toString()).data('original-title');
+for(i = 0;i < 10;i++) {
+    let idString = "renderIndex" + i.toString();
+    let fileUrl = $('#renderIndex' + i.toString()).data('original-title');
+    console.log(fileUrl);
     if(!document.getElementById(idString)){
         continue;
     }
     let container = document.getElementById(idString)
-
-    renderer.setSize($(container).width(), $(container).height());
-    container.appendChild(renderer.domElement);
+// Setup
+    scene[i] = new THREE.Scene();
+    camera[i] = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 1000);
+    renderer[i] = new THREE.WebGLRenderer();
+    renderer[i].setPixelRatio(window.devicePixelRatio);
+    renderer[i].setSize(window.innerWidth / 2, window.innerHeight / 2);
+    renderer[i].outputEncoding = THREE.sRGBEncoding;
+    renderer[i].shadowMap.enabled = true;
+    renderer[i].setSize($(container).width(), $(container).height());
+    container.appendChild(renderer[i].domElement);
 
 
 // Resize after viewport-size-change
-    window.addEventListener('resize', onWindowResize, false);
-
-    function onWindowResize() {
-
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize($(container).width(), $(container).height());
-    }
-
-
-
+    window.addEventListener('resize',function(){onWindowResize(i,container)} , false);
 
 
 // ASCII file - STL Import
-    let loader = new STLLoader(); //loaders are for different files(ascii/binary), however you can't use them together bc it will render the file 2/3 times
+    loader[i] = new STLLoader(); //loaders are for different files(ascii/binary), however you can't use them together bc it will render the file 2/3 times
 // loader.load(fileUrl, function (geometry) {
 //     let material = new THREE.MeshLambertMaterial({color: 0xFFFFFF, specular: 0x111111, shininess: 200});
 //     let mesh = new THREE.Mesh(geometry, material);
@@ -103,30 +109,27 @@ for(i = 0;i < 3;i++) {
 // });
 
 // Colored binary STL
-    loader.load(fileUrl, function (geometry) {
+    loader[i].load(fileUrl, function (geometry) {
         let meshMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
         if (geometry.hasColors) {
             meshMaterial = new THREE.MeshPhongMaterial({opacity: geometry.alpha, vertexColors: true});
         }
-        const mesh = new THREE.Mesh(geometry, meshMaterial);
-        mesh.position.set(0, 0, 0);
-        mesh.scale.set(0.3, 0.3, 0.3);
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
-        scene.add(mesh);
+        mesh[i] = new THREE.Mesh(geometry, meshMaterial);
+        mesh[i].position.set(0, 0, 0);
+        mesh[i].scale.set(0.3, 0.3, 0.3);
+        mesh[i].castShadow = true;
+        mesh[i].receiveShadow = true;
+        scene[i].add(mesh);
     });
 
 // Draw scene
-    let render = function () {
-        renderer.render(scene, camera);
-        camera.lookAt(cameraTarget);
+        render[i]  = function () {
+        renderer[i].render(scene, camera);
+        camera[i].lookAt(cameraTarget);
     };
 
 // Run game loop (render,repeat)
-    let animate = function (time) {
-        requestAnimationFrame(animate);
-
-        render();
-    };
+    render[i]();
     animate();
+console.log( idString + " has rendered");
 }

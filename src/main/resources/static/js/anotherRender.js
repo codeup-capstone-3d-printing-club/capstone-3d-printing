@@ -124,7 +124,7 @@ loader.load(fileUrl, function (geometry) {
 // Camera positioning
 camera.position.z = 100;
 camera.position.y = 50;
-camera.rotation.x = degree;
+camera.rotation.x = -45 / degree;
 let cameraTarget = new THREE.Vector3(0, -0.25, 0);
 
 // Ambient light (necessary for Phong/Lambert-materials, not for Basic)
