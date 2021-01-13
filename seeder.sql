@@ -19,12 +19,9 @@ VALUES ('this is a test', NOW(), 1, 2, true),
        ('second reply', NOW(), 2, 1, true);
 
 INSERT INTO files (created_at, description, title, file_url, is_private, updated_at, owner_id, is_flagged, average_rating)
-VALUES (NOW(), 'this is a description for #1', 'file #1', 'none', false, NOW(), 1, false, 0),
-       (NOW(), 'this is a description for #2', 'file #2', 'none', false, NOW(), 1, false, 0),
-       (NOW(), 'this is a description for #3', 'file #3', 'none', false, NOW(), 2, false, 0),
-       (NOW(), 'this is a description for #4', 'file #4', 'none', false, NOW(), 2, false, 0),
-       (NOW(), 'this is a description for #5', 'file #5', 'none', false, NOW(), 3, false, 0),
-       (NOW(), 'this is a description for #6', 'file #6', 'none', false, NOW(), 3, false, 0);
+VALUES (NOW(), 'heart ring signet', 'Heart Ring', 'https://cdn.filestackcontent.com/1BLLVcGQoyGcD48MZd0w', false, NOW(), 1, false, 0),
+       (NOW(), 'table', 'table', 'https://cdn.filestackcontent.com/1BLLVcGQoyGcD48MZd0w', false, NOW(), 1, false, 0);
+
 
 INSERT INTO categories(category)
 VALUES ('Art'),
@@ -51,12 +48,7 @@ VALUES ('Art'),
 
 INSERT INTO file_category(file_id, category_id)
 VALUES (1, 1),
-       (2, 2),
-       (3, 3),
-       (3, 1),
-       (4, 2),
-       (5, 3),
-       (6, 4);
+       (2, 2);
 
 INSERT INTO settings(description)
 VALUES ('Followed user posts a file'),
