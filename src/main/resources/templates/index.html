@@ -57,8 +57,8 @@
                         <div class="d-none" th:each="category : ${file.categories}">
                             <script th:inline="javascript">
                                 function addCategoryClasses() {
-                                    let id = /*[[${file.id}]]*/;
-                                    $("#file" + id).addClass(/*[[${category.category}]]*/);
+                                    let id = [[${file.id}]];
+                                    $("#file" + id).addClass([[${category.category}]]);
                                 }
 
                                 addCategoryClasses();
