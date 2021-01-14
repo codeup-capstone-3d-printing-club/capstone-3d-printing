@@ -1,6 +1,8 @@
 # SquareCubed
 A full-stack Java application made with Spring Boot.
 
+Squarecubed offers 3D-model creators a platform to connect and share their files. This full-stack Java application uses the Three.js library to render models in the browser. It was also built using Bootstrap, JavaScript, jQuery, AJAX, MySQL, reCAPTCHA, Mailjet API and Filestack API.
+
 - Spring Boot 
 - Hibernate ORM + JPA
 - Thymeleaf

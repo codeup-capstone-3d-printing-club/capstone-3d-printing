@@ -30,7 +30,7 @@
 
 <h2 class="adminSubHeadings">All active Users</h2>
 <div class="allUsers backgroundDiv p-3" style="border: black 2px solid" th:each="user : ${allUsers}">
-    <h5 th:text="${user.username}"></h5>
+    <a th:href="@{/profile/{id}(id=${user.id})}" th:text="${user.username}"></a>
     <p th:text="${user.joinedAt}"></p>
     <form th:action="@{/users/{id}/flag(id=${user.id})}" th:method="post">
         <button th:type="submit" class="btn btn-danger p-1 m-1">Flag User</button>
@@ -45,7 +45,7 @@
 
 <h2 class="adminSubHeadings">Flagged Posts</h2>
 <div class="allFlaggedPosts backgroundDiv p-3" style="border: black 2px solid" th:each="post : ${flaggedPosts}">
-<h3 th:text="${post.title}"></h3>
+<a th:href="@{/files/{id}(id=${post.id})}" th:text="${post.title}"></a>
     <p th:text="${post.description}"></p>
     <p th:text="${post.isFlagged()}"></p>
     <form th:action="@{/files/{id}/unflag(id=${post.id})}" th:method="post">

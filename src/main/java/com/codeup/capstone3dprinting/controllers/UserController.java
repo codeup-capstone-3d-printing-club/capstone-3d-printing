@@ -175,14 +175,12 @@ class UserController {
 
     @PostMapping("/profile/{id}/edit")
     @ResponseBody
-    public String editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
+    public void editProfile(@PathVariable long id, @ModelAttribute User userEdit) {
         User user = userDao.getOne(id);
 
         //TODO: lacks validation and error handling
-        user.setUsername(userEdit.getUsername());
         user.setFirstName(userEdit.getFirstName());
         user.setLastName(userEdit.getLastName());
-        user.setEmail(userEdit.getEmail());
         user.setPrivate(userEdit.isPrivate());
         if (user.isPrivate()) {
             List<File> userFiles = user.getFiles();
@@ -191,7 +189,6 @@ class UserController {
             }
         }
         userDao.save(user);
-        return null;
     }
 
     @PostMapping("/profile/{id}/changeAvatar")
