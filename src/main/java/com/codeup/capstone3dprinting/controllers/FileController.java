@@ -144,7 +144,7 @@ class FileController {
 
         List<Category> categoryList = new ArrayList<>();
         if (newCategories == null) {
-            categoryList.add(categoryDao.findCategoryByCategory("other"));
+            categoryList.add(categoryDao.findCategoryByCategory("Technology"));
         } else {
             for (long id : newCategories) {
                 categoryList.add(categoryDao.getOne(id));
