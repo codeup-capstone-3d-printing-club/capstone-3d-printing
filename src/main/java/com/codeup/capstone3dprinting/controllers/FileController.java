@@ -286,7 +286,7 @@ class FileController {
         newComment.setCreatedAt(new Timestamp(new Date().getTime()));
         newComment.setFile(fileDao.getOne(id));
         newComment.setOwner(currentUser);
-        newComment = commentDao.save(newComment);
+        commentDao.save(newComment);
 
         return "redirect:/files/" + id;
     }
@@ -313,7 +313,7 @@ class FileController {
         newComment.setParent(currentComment);
         commentDao.save(newComment);
 
-        return "redirect:/files/" + file.getId();
+        return "redirect:/files/" + id;
     }
 
     @PostMapping("/files/{id}/comment/{commentId}/delete")

@@ -179,13 +179,13 @@
                             </div>
                             <div th:id="'id'+${comment.id}" class="collapse">
                                 <form th:action="@{/files/{id1}/comment/{id2}(id1=${file.id}, id2=${comment.id})}"
-                                      th:method="post">
+                                      th:method="post" id="reply-form">
                                     <div class="mb-3">
                                         <textarea name="replyText" id="commentbox1"
                                                   class="form-control field"></textarea>
                                     </div>
-                                    <button th:type="button">post comment</button>
-
+                                    <button class="reply-btn" th:type="button"
+                                            th:onclick="'javascript:postReply(' + ${file.id} + ', ' + ${comment.id} + ')'">post comment</button>
                                 </form>
                             </div>
                         </div>
@@ -259,13 +259,29 @@
             type: "POST",
             headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
             success: function (data) {
-                console.log(data);
-
                 let page = document.createElement("html");
                 $(page).html(data);
                 $('#comments-container').html(page.querySelector("#comments-container").innerHTML);
 
                 $("#post-btn").prop("disabled", false)
+            }
+        });
+    }
+
+    function postReply(fileId, commentId) {
+        $(".reply-btn").prop("disabled", true)
+
+        $.ajax({
+            url: "/files/" + fileId + "/comment/" + commentId + "?" + $("#reply-form").serialize(),
+            type: "POST",
+            headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+            success: function (data) {
+
+                let page = document.createElement("html");
+                $(page).html(data);
+                $('#comments-container').html(page.querySelector("#comments-container").innerHTML);
+
+                $(".reply-btn").prop("disabled", false)
             }
         });
     }
