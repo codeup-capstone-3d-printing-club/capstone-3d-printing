@@ -208,23 +208,7 @@
                             <label for="commentbox" class="form-label fs-5">Leave your comment: </label>
                             <textarea name="commentText" id="commentbox" class="form-control field"></textarea>
                         </div>
-                        <button id="post-btn" th:type="button" class="btn btn-secondary" onclick="postComment()">post comment</button>
-                        <script>
-                            function postComment() {
-                                console.log("postComment works");
-                                $("#post-btn").prop("disabled", true)
-
-                                $.ajax({
-                                    url: "/files/" + [[${file.id}]] + "/comment?" + $("#post-form").serialize(),
-                                    type: "POST",
-                                    headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
-                                    success: function (data) {
-                                        console.log(data);
-                                        $("#post-btn").prop("disabled", false)
-                                    }
-                                });
-                            }
-                        </script>
+                        <button id="post-btn" th:type="button" class="btn btn-secondary" th:onclick="'postComment(' + ${file.id} + ')'">post comment</button>
                     </form>
                 </div>
 
@@ -255,7 +239,6 @@
 <script th:inline="javascript">
     function deleteComment(fileId, id) {
         $(".delete-btn").prop("disabled", true)
-        console.log(id);
 
         $.ajax({
             url: "/files/" + fileId + "/comment/" + id + "/delete?" + $("#delete-form").serialize(),
@@ -264,6 +247,21 @@
             success: function () {
                 $("#comments-main-" + id).fadeOut(500);
                 $(".delete-btn").prop("disabled", false)
+            }
+        });
+    }
+    function postComment(fileId) {
+        console.log("postComment works");
+
+        $("#post-btn").prop("disabled", true)
+
+        $.ajax({
+            url: "/files/" + fileId + "/comment?" + $("#post-form").serialize(),
+            type: "POST",
+            headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+            success: function (data) {
+                console.log(data);
+                $("#post-btn").prop("disabled", false)
             }
         });
     }

@@ -269,7 +269,7 @@ class FileController {
 
     @PostMapping("/files/{id}/comment")
     @ResponseBody
-    public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) throws JsonProcessingException {
+    public void comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText, Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
         File file = fileDao.getOne(id);
@@ -287,9 +287,9 @@ class FileController {
         newComment.setCreatedAt(new Timestamp(new Date().getTime()));
         newComment.setFile(fileDao.getOne(id));
         newComment.setOwner(currentUser);
-        commentDao.save(newComment);
+        newComment = commentDao.save(newComment);
 
-        return "test";
+        model.addAttribute("newComment", newComment);
     }
 
     @PostMapping("files/{id}/comment/{commentId}")
