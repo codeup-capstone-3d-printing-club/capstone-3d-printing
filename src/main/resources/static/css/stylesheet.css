@@ -8,6 +8,7 @@
 }
 
 html, body {
+    position: relative;
     min-width: 100%;
     min-height: 100%;
 }
@@ -150,7 +151,7 @@ a{
 /*Font and background colors*/
 .navbar {
 
-    width: auto;
+    width: 100%;
     background-color: black;
     opacity: 90%;
     z-index: 4;
@@ -195,14 +196,15 @@ body, .welcome, h1, h2, h3, h4, #formFont {
 
 
 footer {
-    /*position: relative;*/
+    position: static;
     padding: 2em;
     /*height: 300px;*/
-    /*bottom: 0;*/
+    bottom: 0;
     /*width: 100%;*/
     /*background-color: black;*/
     /*opacity: 80%;*/
-    margin-top: 200px;
+    /*margin: 0 auto;*/
+    margin-top: 30em;
     /*z-index: 0;*/
 
 }
