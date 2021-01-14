@@ -2,6 +2,9 @@
 
 import * as THREE from './util/three.module.js';
 import {STLLoader} from './util/STLLoader.js';
+import {GLTFLoader} from './util/GLTFLoader.js';
+// import {GCodeLoader} from './util/GCodeLoader.js';
+import {OBJLoader} from './util/OBJLoader.js';
 import * as os from './util/OrbitControls.js';
 // import * as dat from './dat.gui/build/dat.gui';
 // import * as light from "./dat.gui/build/dat.gui.module.js";
@@ -90,8 +93,38 @@ scene.add(plane);
 plane.receiveShadow = true;
 
 // ASCII file - STL Import
-let loader = new STLLoader(); //loaders are for different files(ascii/binary), however you can't use them together bc it will render the file 2/3 times
-// loader.load(fileUrl, function (geometry) {
+// let stlLoader = new STLLoader(); //loaders are for different files(ascii/binary), however you can't use them together bc it will render the file 2/3 times
+let gltfLoader = new GLTFLoader();
+
+// Load a glTF resource
+gltfLoader.load(
+    // resource URL
+    'src/main/resources/static/js/Duck.gltf',
+    // called when the resource is loaded
+    function ( gltf ) {
+
+        scene.add( gltf.scene );
+
+        gltf.animations; // Array<THREE.AnimationClip>
+        gltf.scene; // THREE.Group
+        gltf.scenes; // Array<THREE.Group>
+        gltf.cameras; // Array<THREE.Camera>
+        gltf.asset; // Object
+
+    },
+    // called while loading is progressing
+    function ( xhr ) {
+
+        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+    },
+    // called when loading has errors
+    function ( error ) {
+        console.log(error);
+    }
+);
+
+// stlLoader.load(fileUrl, function (geometry) {
 //     let material = new THREE.MeshLambertMaterial({color: 0xFFFFFF, specular: 0x111111, shininess: 200});
 //     let mesh = new THREE.Mesh(geometry, material);
 //     mesh.position.set(0, 0, 0);
@@ -99,7 +132,7 @@ let loader = new STLLoader(); //loaders are for different files(ascii/binary), h
 // });
 
 // Binary files - STL Import
-// loader.load(fileUrl, function (geometry) {
+// stlLoader.load(fileUrl, function (geometry) {
 //     let material = new THREE.MeshLambertMaterial({color: 0xFFFFFF, specular: 0x111111, shininess: 200});
 //     let mesh = new THREE.Mesh(geometry, material);
 //     mesh.position.set(0, 20, 0);
@@ -108,18 +141,18 @@ let loader = new STLLoader(); //loaders are for different files(ascii/binary), h
 
 // Colored binary STL
 
-loader.load(fileUrl, function (geometry) {
-    let meshMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF, specular: 0x111111, shininess: 200});
-    if (geometry.hasColors) {
-        meshMaterial = new THREE.MeshPhongMaterial({opacity: geometry.alpha, vertexColors: true});
-    }
-    const mesh = new THREE.Mesh(geometry, meshMaterial);
-    mesh.position.set(0, 0, 0);
-    mesh.scale.set(0.3, 0.3, 0.3);
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    scene.add(mesh);
-});
+// stlLoader.load(fileUrl, function (geometry) {
+//     let meshMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF, specular: 0x111111, shininess: 200});
+//     if (geometry.hasColors) {
+//         meshMaterial = new THREE.MeshPhongMaterial({opacity: geometry.alpha, vertexColors: true});
+//     }
+//     const mesh = new THREE.Mesh(geometry, meshMaterial);
+//     mesh.position.set(0, 0, 0);
+//     mesh.scale.set(0.3, 0.3, 0.3);
+//     mesh.castShadow = true;
+//     mesh.receiveShadow = true;
+//     scene.add(mesh);
+// });
 
 // Camera positioning
 camera.position.z = 100;
