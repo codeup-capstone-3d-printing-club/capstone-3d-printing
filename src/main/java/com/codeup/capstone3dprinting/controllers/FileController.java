@@ -268,8 +268,7 @@ class FileController {
     }
 
     @PostMapping("/files/{id}/comment")
-    @ResponseBody
-    public void comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText, Model model) {
+    public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
         File file = fileDao.getOne(id);
@@ -289,7 +288,7 @@ class FileController {
         newComment.setOwner(currentUser);
         newComment = commentDao.save(newComment);
 
-        model.addAttribute("newComment", newComment);
+        return "redirect:/files/" + id;
     }
 
     @PostMapping("files/{id}/comment/{commentId}")

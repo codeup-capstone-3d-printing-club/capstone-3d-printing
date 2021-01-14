@@ -131,15 +131,15 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
-                <hr>
-                <div>
-                    <h4>Description</h4>
-                    <p th:text="${file.description}"></p>
-                </div>
-                <hr>
+            <hr>
+            <div>
+                <h4>Description</h4>
+                <p th:text="${file.description}"></p>
+            </div>
+            <hr>
+            <h4>Comments</h4>
 
-                <h4>Comments</h4>
+            <div class="col-12 col-md-8" id="comments-container">
                 <div th:each="comment : ${allCommentsForThisPost}" th:id="${'comments-main-' + comment.id}">
                     <!--                    <h2 th:text="${comment.getOwner().getUsername()}"></h2>-->
                     <div class="backgroundDiv" th:if="${comment.getParent() == null}">
@@ -202,7 +202,7 @@
                     </div>
                 </div>
 
-                <div sec:authorize="isAuthenticated()">
+                <div sec:authorize="isAuthenticated()" id="comment-box">
                     <form id="post-form" th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
                         <div class="mb-3">
                             <label for="commentbox" class="form-label fs-5">Leave your comment: </label>
@@ -251,7 +251,6 @@
         });
     }
     function postComment(fileId) {
-        console.log("postComment works");
 
         $("#post-btn").prop("disabled", true)
 
@@ -261,6 +260,11 @@
             headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
             success: function (data) {
                 console.log(data);
+
+                let page = document.createElement("html");
+                $(page).html(data);
+                $('#comments-container').html(page.querySelector("#comments-container").innerHTML);
+
                 $("#post-btn").prop("disabled", false)
             }
         });
