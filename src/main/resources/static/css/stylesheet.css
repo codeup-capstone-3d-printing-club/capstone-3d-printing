@@ -8,6 +8,7 @@
 }
 
 html, body {
+
     position: relative;
     min-width: 100%;
     min-height: 100%;
@@ -17,11 +18,9 @@ html, body {
 
 .colorBackground{
     background-image: linear-gradient(#6a7777, #367071, #0a220c);
+
 }
 body {
-
-    padding: 2em;
-    /*background: linear-gradient(180deg, #f14, #ff8300) fixed;*/
     font-family: "Avenir Next Condensed", sans-serif;
 }
 .table{
@@ -151,8 +150,10 @@ a{
 /*Font and background colors*/
 .navbar {
 
+    margin-top: 1em;
     width: 100%;
-    background-color: black;
+    /*background-color: #e2a87f;*/
+    background-color: #0a220c;
     opacity: 90%;
     z-index: 4;
 }
