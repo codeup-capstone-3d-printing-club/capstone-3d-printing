@@ -82,20 +82,20 @@
                 <div>
                     <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
                           th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
-                        <button class="btn btn-danger" type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit
+                        <button class="btn" style="background-color: #407272" type="button"><a style="color: white" th:href="@{/files/{id}/edit(id=${file.id})}">Edit
                             File</a></button>
                     </form>
                 </div>
                 <!--                <a th:href="@{file.file_url}" class="btn btn-outline-danger btn-sm" th:download="${file.title}">download</a>-->
 
-                <div class="d-inline" sec:authorize="isAuthenticated()"
+                <div class="" sec:authorize="isAuthenticated()"
                      th:if="${#authentication.principal.id!=file.owner.id}">
                     <form th:replace="partials/favorite-button::favorite"></form>
                 </div>
 
                 <div sec:authorize="!isAuthenticated()">
                     <button class="favoriteBtn" data-bs-toggle="modal" data-bs-target="#loginModal">
-                        <i class="far fa-heart favorite"></i>
+                        <i class="far fa-heart favorite"></i> <span class="text-muted">like</span>
                     </button>
                 </div>
 
