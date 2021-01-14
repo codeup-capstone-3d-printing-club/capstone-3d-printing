@@ -6,8 +6,8 @@
     <title id="pageTitle">File</title>
 </head>
 
-<nav th:fragment="navbar">
-    <nav class="navbar navbar-expand-lg  navbar-dark mb-5">
+<div class="container">
+    <nav  th:fragment="navbar" class="navbar navbar-expand-lg  navbar-dark mb-5 px-2 ">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Square<sup>3</sup></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -16,7 +16,7 @@
             </button>
             <div class="collapse navbar-collapse" data-target="#navbarNav" id="navbarNav">
                 <section class="col-lg-6 col-sm-12">
-                    <ul class="navbar-nav nav-fill align-items-center justify-content-evenly collapseBackground pt-0">
+                    <ul class="navbar-nav nav-fill align-items-center justify-content-around collapseBackground pt-0">
                         <li class="nav-item m-0">
                             <a class="nav-link icon navIconLink" href="/files/create">
                                 <i aria-labelledby="upload" class="fas fa-cloud-upload-alt"></i>
@@ -101,6 +101,6 @@
             </div>
         </div>
     </nav>
-</nav>
+</div>
 
 </html>
