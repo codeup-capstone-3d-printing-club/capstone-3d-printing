@@ -27,7 +27,7 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="model" role="tabpanel" aria-labelledby="home-tab">
                         <!--            3D file is rendered in this div-->
-                        <div class="mb-3"  id="renderer"></div>
+                        <div class="mb-3" id="renderer"></div>
                     </div>
                     <div class="tab-pane fade" id="image" role="tabpanel" aria-labelledby="profile-tab">
                         <div th:if="${imgFiles != null}" class="">
@@ -66,8 +66,10 @@
                     <a th:href="@{'/profile/' + ${file.getOwner().id}}"
                        th:text="${file.getOwner().username}" class="fs-4 mx-3"></a>
                     <span>
-                        <span>created at <span th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></span><br>
-                        <span class="mx-auto">Last updated at <span th:text="${#dates.format(file.updatedAt, 'yyyy-MM-dd')}"></span></span>
+                        <span>created at <span
+                                th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></span><br>
+                        <span class="mx-auto">Last updated at <span
+                                th:text="${#dates.format(file.updatedAt, 'yyyy-MM-dd')}"></span></span>
                     </span>
                 </div>
                 <!--                    <div class="d-inline" sec:authorize="isAuthenticated()"-->
@@ -138,7 +140,7 @@
                 <hr>
 
                 <h4>Comments</h4>
-                <div th:each="comment : ${allCommentsForThisPost}">
+                <div th:each="comment : ${allCommentsForThisPost}" th:id="${'comments-main-' + comment.id}">
                     <!--                    <h2 th:text="${comment.getOwner().getUsername()}"></h2>-->
                     <div class="backgroundDiv" th:if="${comment.getParent() == null}">
                         <div>
@@ -159,11 +161,8 @@
                                  style="width:2rem;border-radius: 50%">
                             </span>
                             <a th:href="@{'/profile/' + ${child.getOwner().id}}"
-<<<<<<< HEAD
                                th:text="${child.getOwner().username}" class="mx-2 fs-5"></a>
-=======
-                               th:text="${child.getOwner().username}" class="mx-2"></a>
->>>>>>> master
+
                             <span>created at </span>
                             <span th:text="${#dates.format(child.createdAt,'yyyy-MM-dd')}"></span>
                             <blockquote class="mx-5" th:text="${child.getComment()}"></blockquote>
@@ -185,17 +184,35 @@
                                         <textarea name="replyText" id="commentbox1"
                                                   class="form-control field"></textarea>
                                     </div>
-                                    <input th:type="submit" value="post comment">
+                                    <button th:type="button">post comment</button>
                                 </form>
                             </div>
                         </div>
 
                         <div class="d-inline" sec:authorize="isAuthenticated()"
                              th:if="${#authentication.principal.id==comment.getOwner().id}">
-                            <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
+                            <form id="delete-form" th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
                                   th:method="post">
                                 <input type="hidden" name="commentId" th:value="${comment.id}">
-                                <button class="btn btn-danger btn-sm" th:type="submit">Delete comment</button>
+                                <button id="delete-btn" class="btn btn-danger btn-sm" th:type="button" onclick="deleteComment()">Delete
+                                    comment
+                                </button>
+                                <script th:inline="javascript">
+                                    function deleteComment() {
+                                        $("#delete-btn").prop("disabled", true)
+
+                                        $.ajax({
+                                            url: "/files/" + [[${file.id}]] + "/comment/" + [[${comment.id}]] + "/delete?" + $("#delete-form").serialize(),
+                                            type: "POST",
+                                            headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                                            success: function (data) {
+                                                $("#comments-main-" + data).fadeOut(1000);
+                                                $("#delete-comment").prop("disabled", false)
+                                            }
+                                        })
+
+                                    }
+                                </script>
                             </form>
                         </div>
                     </div>
@@ -207,7 +224,12 @@
                             <label for="commentbox" class="form-label fs-5">Leave your comment: </label>
                             <textarea name="commentText" id="commentbox" class="form-control field"></textarea>
                         </div>
-                        <input th:type="submit" value="post comment" class="btn btn-secondary">
+                        <button th:type="button" class="btn btn-secondary" onclick="postComment()">post comment</button>
+                        <script>
+                            function postComment() {
+                                console.log("postComment works");
+                            }
+                        </script>
                     </form>
                 </div>
 
@@ -232,7 +254,7 @@
 </div>
 
 <footer th:replace="partials/footer_partial :: footer"></footer>
-<script th:inline="javascript">const fileUrl =[[${file.fileUrl}]]</script>
+<script th:inline="javascript">const fileUrl = [[${file.fileUrl}]]</script>
 <script type="module" th:src="@{/js/anotherRender.js}"></script>
 <section th:replace="partials/partials_scripts :: script"></section>
 </body>

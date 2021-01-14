@@ -314,6 +314,7 @@ class FileController {
     }
 
     @PostMapping("/files/{id}/comment/{commentId}/delete")
+    @ResponseBody
     public String deleteComment(@PathVariable long id, @RequestParam(name = "commentId") long commentId) {
         File file = fileDao.getOne(id);
         List<Comment> children = commentDao.findByParent(commentDao.getOne(commentId));
@@ -322,7 +323,7 @@ class FileController {
         }
         commentDao.deleteById(commentId);
 
-        return "redirect:/files/" + file.getId();
+        return String.valueOf(commentId);
     }
 
     @PostMapping("files/{id}/rating")
