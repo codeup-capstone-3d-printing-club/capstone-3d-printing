@@ -151,8 +151,8 @@
                                        th:text="${file.title}"></a>
                                     <div class="card-body">Created at: <span
                                             th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></div>
-                                    <img class="image" src="https://picsum.photos/300/200"
-                                         alt="randomized picture">
+<!--                                    <img class="image" src="https://picsum.photos/300/200"-->
+<!--                                         alt="randomized picture">-->
                                     <div class="card-body" th:text="${file.description}"></div>
                                     <div class="card-footer" sec:authorize="isAuthenticated()"
                                          th:if="${#authentication.principal.id == user.id}">
