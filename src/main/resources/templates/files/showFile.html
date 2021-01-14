@@ -179,7 +179,7 @@
                             </div>
                             <div th:id="'id'+${comment.id}" class="collapse">
                                 <form th:action="@{/files/{id1}/comment/{id2}(id1=${file.id}, id2=${comment.id})}"
-                                      th:method="post" id="reply-form">
+                                      th:method="post" th:id="'reply-form' + ${comment.id}">
                                     <div class="mb-3">
                                         <textarea name="replyText" id="commentbox1"
                                                   class="form-control field"></textarea>
@@ -192,7 +192,7 @@
 
                         <div class="d-inline" sec:authorize="isAuthenticated()"
                              th:if="${#authentication.principal.id==comment.getOwner().id}">
-                            <form id="delete-form" th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
+                            <form th:id="'delete-form' + ${comment.id}" th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
                                   th:method="post">
                                 <button class="delete-btn btn btn-danger btn-sm" th:type="button" th:onclick="'javascript:deleteComment(' + ${file.id} + ', ' + ${comment.id} + ')'">Delete
                                     comment
@@ -241,7 +241,7 @@
         $(".delete-btn").prop("disabled", true)
 
         $.ajax({
-            url: "/files/" + fileId + "/comment/" + id + "/delete?" + $("#delete-form").serialize(),
+            url: "/files/" + fileId + "/comment/" + id + "/delete?" + $("#delete-form" + id).serialize(),
             type: "POST",
             headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
             success: function () {
@@ -272,7 +272,7 @@
         $(".reply-btn").prop("disabled", true)
 
         $.ajax({
-            url: "/files/" + fileId + "/comment/" + commentId + "?" + $("#reply-form").serialize(),
+            url: "/files/" + fileId + "/comment/" + commentId + "?" + $("#reply-form" + commentId).serialize(),
             type: "POST",
             headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
             success: function (data) {
