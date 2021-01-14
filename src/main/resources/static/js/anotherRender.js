@@ -43,7 +43,7 @@ let degree = Math.PI / 180;
 let container = document.getElementById('renderer');
 // Setup
 let scene = new THREE.Scene();
-let camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 1000);
+let camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.01, 200);
 let renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
@@ -72,21 +72,23 @@ function onWindowResize() {
 // });
 
 //background fog kinda sets the color of the object
-scene.background = new THREE.Color(0xadabab);
+scene.background = new THREE.Color(0x808080);
 scene.fog = new THREE.Fog(0x111111, 0, 1500);
 // Adding controls
 let controls = new os.OrbitControls(camera, renderer.domElement);
 
 // Ground (comment out line: "scene.add( plane );" if Ground is not needed...)
 let plane = new THREE.Mesh(
-    new THREE.PlaneBufferGeometry(1000, 1000),
+    new THREE.PlaneBufferGeometry(150, 150),
     new THREE.MeshPhongMaterial({color: 0x999999, specular: 0x101010})
 );
-plane.rotation.x = -90 * degree;
-plane.position.y = -50;
+plane.rotation.x = degree;
+plane.position.y = 0;
+//does not raise and lower plane
 plane.position.x = 0;
-scene.add(plane);
 plane.receiveShadow = true;
+scene.add(plane);
+
 
 // ASCII file - STL Import
 let loader = new STLLoader(); //loaders are for different files(ascii/binary), however you can't use them together bc it will render the file 2/3 times
@@ -112,19 +114,24 @@ loader.load(fileUrl, function (geometry) {
     if (geometry.hasColors) {
         meshMaterial = new THREE.MeshPhongMaterial({opacity: geometry.alpha, vertexColors: true});
     }
-    const mesh = new THREE.Mesh(geometry, meshMaterial);
+    let mesh = new THREE.Mesh(geometry, meshMaterial);
+    //raise mesh to lift model off the plane so they don't intersect
     mesh.position.set(0, 0, 0);
-    mesh.scale.set(0.3, 0.3, 0.3);
+    mesh.scale.set(0.35, 0.35, 0.35);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     scene.add(mesh);
+
 });
 
 // Camera positioning
-camera.position.z = 100;
-camera.position.y = 50;
+camera.position.z = 25;
+// camera.position.x = 0; doesn't allow for rotation
+camera.position.y = -80;
 camera.rotation.x = -45 / degree;
-let cameraTarget = new THREE.Vector3(0, -0.25, 0);
+
+camera.position.setLength(5);
+let cameraTarget = new THREE.Vector3(0,0,0);
 
 // Ambient light (necessary for Phong/Lambert-materials, not for Basic)
 let ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
