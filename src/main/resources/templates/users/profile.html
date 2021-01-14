@@ -36,7 +36,7 @@
 
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
                     <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post" id="submitAvatar">
-                        <button th:type="button" class="btn btn-danger" onclick="showAvatarForm('AvatarFilePicker')">
+                        <button th:type="button" class="btn" style="background-color: #407272" onclick="showAvatarForm('AvatarFilePicker')">
                             Change Avatar
                         </button>
                         <div style="display: none" id="AvatarFilePicker">
@@ -50,7 +50,7 @@
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}" class="mt-2">
                     <form th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" th:value="*{id}"
                           method="get">
-                        <button type="submit" class="btn btn-danger">
+                        <button type="submit" class="btn" style="background-color: #407272">
                             Edit Profile
                         </button>
                     </form>
@@ -124,18 +124,18 @@
 
                 <ul class="nav nav-pills mb-3 nav-fill fs-5" id="myTab" role="tablist">
                     <li class="nav-item backgroundDiv" role="presentation">
-                        <a class="nav-link link-danger" id="files-tab" data-bs-toggle="pill" href="#files" role="tab">Uploaded
+                        <a class="nav-link" style="color: #407272" id="files-tab" data-bs-toggle="pill" href="#files" role="tab">Uploaded
                             Files</a>
                         <div class="fs-6" th:text="${thisUsersFiles.size()}"></div>
                     </li>
                     <li sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}"
                         class="nav-item backgroundDiv" role="presentation">
-                        <a class="nav-link link-danger" id="follow-tab" data-bs-toggle="pill" href="#follow" role="tab">Follow
+                        <a class="nav-link" style="color: #407272" id="follow-tab" data-bs-toggle="pill" href="#follow" role="tab">Follow
                             Feed</a>
                         <div class="fs-6" th:text="${feed.size()}"></div>
                     </li>
                     <li class="nav-item backgroundDiv" role="presentation">
-                        <a class="nav-link link-danger" id="favorites-tab" data-bs-toggle="pill" href="#favorites"
+                        <a class="nav-link" style="color: #407272" id="favorites-tab" data-bs-toggle="pill" href="#favorites"
                            role="tab">Favorites</a>
                         <div class="fs-6" th:text="${favorites.size()}"></div>
                     </li>
@@ -147,12 +147,12 @@
                             <h3 class="text-center"><span th:text="${user.username}"></span>'s uploaded files</h3>
                             <div th:each="file : ${thisUsersFiles}" class="col-12 col-md-6">
                                 <div class="card backgroundDiv d-flex flex-column align-items-center justify-content-between">
-                                    <a th:href="@{'/files/' + ${file.id}}" class="card-title link-danger fs-5"
+                                    <a th:href="@{'/files/' + ${file.id}}" class="card-title fs-5" style="color: #407272"
                                        th:text="${file.title}"></a>
                                     <div class="card-body">Created at: <span
                                             th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></div>
-                                    <img class="image" src="https://picsum.photos/300/200"
-                                         alt="randomized picture">
+<!--                                    <img class="image" src="https://picsum.photos/300/200"-->
+<!--                                         alt="randomized picture">-->
                                     <div class="card-body" th:text="${file.description}"></div>
                                     <div class="card-footer" sec:authorize="isAuthenticated()"
                                          th:if="${#authentication.principal.id == user.id}">

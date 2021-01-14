@@ -9,7 +9,7 @@
 <nav th:fragment="navbar">
     <nav class="navbar navbar-expand-lg  navbar-dark mb-5">
         <div class="container-fluid">
-            <a class="navbar-brand" href="">Square<sup>3</sup></a>
+            <a class="navbar-brand" href="/">Square<sup>3</sup></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -18,28 +18,39 @@
                 <section class="col-lg-6 col-sm-12">
                     <ul class="navbar-nav nav-fill align-items-center justify-content-evenly collapseBackground pt-0">
                         <li class="nav-item m-0">
-                            <a class="nav-link icon " href="/">Home</a>
+                            <a class="nav-link icon navIconLink" href="/files/create">
+                                <i aria-labelledby="upload" class="fas fa-cloud-upload-alt"></i>
+                                <span class="navIconLabel">Upload</span>
+                            </a>
                         </li>
-                        <li class="nav-item m-0">
-                            <a class="nav-link icon " href="/files/create">Upload</a>
-                        </li>
-                        <li class="nav-item m-0">
-                            <a class="nav-link icon" href="/files">3-D Models</a>
+                        <li class="nav-item m-0 d-flex flex-column">
+                            <a class="nav-link icon p-0 navIconLink" href="/files"><i aria-labelledby="3d models"
+                                                                                      class="fas fa-cubes"></i>
+                                <span class="navIconLabel">3D Models</span></a>
                         </li>
                         <li sec:authorize="isAuthenticated()" th:if="${#authentication.principal.admin}"
                             class="nav-item m-0">
-                            <a class="nav-link icon" href="/admin">Admin Dashboard</a>
+                            <a class="nav-link icon navIconLink" href="/admin"><i aria-labelledby="adminDashboard"
+                                                                                  class="fas fa-users-cog"></i>
+                                <span class="navIconLabel">Admin Dashboard</span>
+                            </a>
                         </li>
                         <li sec:authorize="!isAuthenticated()" class="nav-item m-0">
-                            <a class="nav-link" href="/sign-up">Join</a>
+                            <a class="nav-link navIconLink" href="/sign-up"><i aria-labelledby="sign-up"
+                                                                               class="fas fa-user-plus"></i>
+                                <span class="navIconLabel">Join</span></a>
                         </li>
                         <li sec:authorize="!isAuthenticated()" class="nav-item m-0">
-                            <a class="nav-link " href="/login">Login</a>
+                            <a class="nav-link navIconLink" href="/login"><i aria-labelledby="login"
+                                                                             class="fas fa-sign-in-alt"></i>
+                                <span class="navIconLabel">Login</span></a>
                         </li>
                         <li sec:authorize="isAuthenticated()" class="nav-item m-0">
                             <form th:action="@{/profile/{id}(id=${#authentication.principal.id})}" th:method="get">
-                                <button class="btn-link btn nav-link" style="display: inline-block;margin-top: -1px">
-                                    <i aria-labelledby="profile button" class="fas fa-user-astronaut"></i> Profile
+                                <button class="btn-link btn nav-link navIconLink"
+                                        style="display: inline-block;margin-top: -1px">
+                                    <i aria-labelledby="profile button" class="fas fa-user-astronaut"></i>
+                                    <span class="navIconLabel">Profile</span>
                                 </button>
                             </form>
                         </li>
@@ -61,27 +72,28 @@
                                     </script>
                                     <span id="unread" th:text="${session.unread}"
                                           class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"></span>
-
+                                    <span>Inbox</span>
                                 </button>
                             </a>
                         </li>
                         <li class="nav-item m-0">
-                            <a class="nav-link icon" href="/about">About</a>
+                            <a class="nav-link icon" href="/about"><i class="fas fa-laptop-code"></i>
+                                <span>About</span></a>
                         </li>
                     </ul>
                 </section>
                 <div class="searchbar input-group align-items-center justify-content-end">
                     <form class="searchbar" th:fragment="searchbar" th:action="@{/files/search}" th:method="get">
                         <input style="border-radius: 5px" type="text" name="search" placeholder="Search...">
-
-                        <button aria-labelledby="searchButton" class="searchBtn" type="submit"
-                                style="margin-top: 0px;"><i
-                                class="fas fa-search" style="border-radius: 5px;"></i></button>
+                        <button aria-labelledby="searchButton" style="border-radius: 7px;" class="searchBtn mt-0"
+                                type="submit" name="searchBar"><i
+                                class="fas fa-search"></i></button>
                     </form>
                     <div sec:authorize="isAuthenticated()" class="nav-item m-0">
                         <form th:action="@{/logout}" th:method="post">
                             <button style="color: #bbbbbb" class="btn-link btn nav-link icon">
-                                Logout
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
                             </button>
                         </form>
                     </div>

@@ -11,8 +11,8 @@
             <div class="card backgroundDiv d-flex flex-column align-items-center justify-content-between">
                 <a th:href="@{'/files/' + ${file.id}}" class="card-title link-danger"
                    th:text="${file.title}"></a>
-                <img class="image" src="https://picsum.photos/300/200"
-                     alt="randomized picture">
+<!--                <img class="image" src="https://picsum.photos/300/200"-->
+<!--                     alt="randomized picture">-->
                 <div class="card-body" th:text="${file.description}"></div>
                 <a th:text="${file.owner.username}" th:href="@{/profile/{id}(id=*{file.owner.id})}"></a>
             </div>
