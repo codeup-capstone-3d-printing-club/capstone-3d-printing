@@ -185,6 +185,7 @@
                                                   class="form-control field"></textarea>
                                     </div>
                                     <button th:type="button">post comment</button>
+
                                 </form>
                             </div>
                         </div>
@@ -193,41 +194,35 @@
                              th:if="${#authentication.principal.id==comment.getOwner().id}">
                             <form id="delete-form" th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
                                   th:method="post">
-                                <input type="hidden" name="commentId" th:value="${comment.id}">
-                                <button id="delete-btn" class="btn btn-danger btn-sm" th:type="button" onclick="deleteComment()">Delete
+                                <button class="delete-btn btn btn-danger btn-sm" th:type="button" th:onclick="'javascript:deleteComment(' + ${file.id} + ', ' + ${comment.id} + ')'">Delete
                                     comment
                                 </button>
-                                <script th:inline="javascript">
-                                    function deleteComment() {
-                                        $("#delete-btn").prop("disabled", true)
-
-                                        $.ajax({
-                                            url: "/files/" + [[${file.id}]] + "/comment/" + [[${comment.id}]] + "/delete?" + $("#delete-form").serialize(),
-                                            type: "POST",
-                                            headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
-                                            success: function (data) {
-                                                $("#comments-main-" + data).fadeOut(1000);
-                                                $("#delete-comment").prop("disabled", false)
-                                            }
-                                        })
-
-                                    }
-                                </script>
                             </form>
                         </div>
                     </div>
                 </div>
 
                 <div sec:authorize="isAuthenticated()">
-                    <form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
+                    <form id="post-form" th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
                         <div class="mb-3">
                             <label for="commentbox" class="form-label fs-5">Leave your comment: </label>
                             <textarea name="commentText" id="commentbox" class="form-control field"></textarea>
                         </div>
-                        <button th:type="button" class="btn btn-secondary" onclick="postComment()">post comment</button>
+                        <button id="post-btn" th:type="button" class="btn btn-secondary" onclick="postComment()">post comment</button>
                         <script>
                             function postComment() {
                                 console.log("postComment works");
+                                $("#post-btn").prop("disabled", true)
+
+                                $.ajax({
+                                    url: "/files/" + [[${file.id}]] + "/comment?" + $("#post-form").serialize(),
+                                    type: "POST",
+                                    headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                                    success: function (data) {
+                                        console.log(data);
+                                        $("#post-btn").prop("disabled", false)
+                                    }
+                                });
                             }
                         </script>
                     </form>
@@ -257,5 +252,21 @@
 <script th:inline="javascript">const fileUrl = [[${file.fileUrl}]]</script>
 <script type="module" th:src="@{/js/anotherRender.js}"></script>
 <section th:replace="partials/partials_scripts :: script"></section>
+<script th:inline="javascript">
+    function deleteComment(fileId, id) {
+        $(".delete-btn").prop("disabled", true)
+        console.log(id);
+
+        $.ajax({
+            url: "/files/" + fileId + "/comment/" + id + "/delete?" + $("#delete-form").serialize(),
+            type: "POST",
+            headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+            success: function () {
+                $("#comments-main-" + id).fadeOut(500);
+                $(".delete-btn").prop("disabled", false)
+            }
+        });
+    }
+</script>
 </body>
 </html>

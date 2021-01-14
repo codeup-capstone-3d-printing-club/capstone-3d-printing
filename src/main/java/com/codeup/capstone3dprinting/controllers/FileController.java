@@ -3,6 +3,9 @@ package com.codeup.capstone3dprinting.controllers;
 import com.codeup.capstone3dprinting.models.*;
 import com.codeup.capstone3dprinting.repos.*;
 import com.codeup.capstone3dprinting.services.ReCaptchaValidationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -264,8 +267,9 @@ class FileController {
         return "redirect:/admin";
     }
 
-    @PostMapping("files/{id}/comment")
-    public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
+    @PostMapping("/files/{id}/comment")
+    @ResponseBody
+    public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) throws JsonProcessingException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
         File file = fileDao.getOne(id);
@@ -285,7 +289,7 @@ class FileController {
         newComment.setOwner(currentUser);
         commentDao.save(newComment);
 
-        return "redirect:/files/" + file.getId();
+        return "test"
     }
 
     @PostMapping("files/{id}/comment/{commentId}")
@@ -315,15 +319,13 @@ class FileController {
 
     @PostMapping("/files/{id}/comment/{commentId}/delete")
     @ResponseBody
-    public String deleteComment(@PathVariable long id, @RequestParam(name = "commentId") long commentId) {
-        File file = fileDao.getOne(id);
+    public void deleteComment(@PathVariable long id, @PathVariable(name = "commentId") long commentId) {
+
         List<Comment> children = commentDao.findByParent(commentDao.getOne(commentId));
         for (Comment child : children) {
             commentDao.deleteById(child.getId());
         }
         commentDao.deleteById(commentId);
-
-        return String.valueOf(commentId);
     }
 
     @PostMapping("files/{id}/rating")
