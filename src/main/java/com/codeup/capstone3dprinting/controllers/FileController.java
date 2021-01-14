@@ -289,7 +289,7 @@ class FileController {
         newComment.setOwner(currentUser);
         commentDao.save(newComment);
 
-        return "test"
+        return "test";
     }
 
     @PostMapping("files/{id}/comment/{commentId}")
