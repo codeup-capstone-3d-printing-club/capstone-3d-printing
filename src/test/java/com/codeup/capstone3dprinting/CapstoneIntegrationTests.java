@@ -2,7 +2,6 @@ package com.codeup.capstone3dprinting;
 
 import com.codeup.capstone3dprinting.models.*;
 import com.codeup.capstone3dprinting.repos.*;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
