@@ -10,7 +10,7 @@
 <h2 class="adminSubHeadings">All Posts</h2>
 
 <div class="allposts backgroundDiv p-3" style="border: black 2px solid; max-width:50%;" th:each="post : ${allPosts}">
-<h5 th:text="${post.title}"></h5>
+<a th:href="@{/files/{id}(id=${post.id})}" th:text="${post.title}"></a>
     <p th:text="${post.description}"></p>
     <form th:action="@{/files/{id}/flag(id=${post.id})}" th:method="post">
         <button th:type="submit" class="btn btn-outline-danger p-1 m-1">Flag Post</button>
@@ -21,7 +21,7 @@
 </div>
 <h2 class="adminSubHeadings">All admins</h2>
 <div class="allUsers backgroundDiv p-3" style="border: black 2px solid" th:each="admin : ${allAdmins}">
-    <h5 th:text="${admin.username}"></h5>
+    <a th:href="@{/profile/{id}(id=${admin.id})}" th:text="${admin.username}"></a>
     <p th:text="${admin.joinedAt}"></p>
     <form th:action="@{/users/{id}/removeAdmin(id=${admin.id})}" th:method="post">
         <button th:type="submit" class="btn btn-outline-danger p-1 m-1">Remove from admins</button>
@@ -54,7 +54,7 @@
 </div>
 <h2 class="adminSubHeadings">Flagged Users</h2>
 <div class="allFlaggedUsers backgroundDiv p-3"  style="border: black 2px solid" th:each="user : ${flaggedUsers}">
-    <h3 th:text="${user.username}"></h3>
+    <a th:href="@{/profile/{id}(id=${user.id})}" th:text="${user.username}"></a>
     <p th:text="${user.joinedAt}"></p>
     <p th:text="${user.isFlagged()}"></p>
     <form th:action="@{/users/{id}/unflag(id=${user.id})}" th:method="post">
@@ -63,7 +63,7 @@
 </div>
 <h2 class="adminSubHeadings">Deactivated Users</h2>
 <div class="allDeactivatedUsers backgroundDiv p-3"  style="border: black 2px solid" th:each="deUser : ${deactivatedUsers}">
-    <h3 th:text="${deUser.username}"></h3>
+    <a th:href="@{/profile/{id}(id=${deUser.id})}" th:text="${deUser.username}"></a>
     <p th:text="${deUser.joinedAt}"></p>
     <p th:text="${deUser.active}"></p>
     <form th:action="@{/users/{id}/activate(id=${deUser.id})}" th:method="post">

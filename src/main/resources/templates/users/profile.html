@@ -36,12 +36,12 @@
 
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
                     <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post" id="submitAvatar">
-                        <button th:type="button" class="btn" style="background-color: #407272" onclick="showAvatarForm('AvatarFilePicker')">
+                        <button th:type="button" class="btn btn-outline-secondary whiteFont" style="background-color: #407272" onclick="showAvatarForm('AvatarFilePicker')">
                             Change Avatar
                         </button>
                         <div style="display: none" id="AvatarFilePicker">
                             <input class="form-control" id="pickedFile" type="hidden" name="avatar">
-                            <button type="button" id="open">Choose image to upload</button>
+                            <button type="button" class="btn btn-outline-secondary whiteFont mt-2" id="open">Choose image to upload</button>
                             <!--            <button th:type="submit" class="btn btn-danger">Submit new Avatar</button>-->
                         </div>
                     </form>
@@ -50,7 +50,7 @@
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}" class="mt-2">
                     <form th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" th:value="*{id}"
                           method="get">
-                        <button type="submit" class="btn" style="background-color: #407272">
+                        <button type="submit" class="btn btn-outline-secondary whiteFont" style="background-color: #407272">
                             Edit Profile
                         </button>
                     </form>
@@ -147,7 +147,7 @@
                             <h3 class="text-center"><span th:text="${user.username}"></span>'s uploaded files</h3>
                             <div th:each="file : ${thisUsersFiles}" class="col-12 col-md-6">
                                 <div class="card backgroundDiv d-flex flex-column align-items-center justify-content-between">
-                                    <a th:href="@{'/files/' + ${file.id}}" class="card-title fs-5" style="color: #407272"
+                                    <a th:href="@{'/files/' + ${file.id}}" class="card-title fs-5" style="color: #8bd7d7"
                                        th:text="${file.title}"></a>
                                     <div class="card-body">Created at: <span
                                             th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></div>
@@ -156,11 +156,11 @@
                                     <div class="card-body" th:text="${file.description}"></div>
                                     <div class="card-footer" sec:authorize="isAuthenticated()"
                                          th:if="${#authentication.principal.id == user.id}">
-                                        <a th:href="@{/files/{id}/edit(id=${file.id})}" class="btn btn-dark"><i
+                                        <a th:href="@{/files/{id}/edit(id=${file.id})}" class="btn btn-outline-secondary whiteFont"><i
                                                 aria-labelledby="edit File Button" class="fas fa-edit"></i></a>
                                         <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="post"
                                               class="d-inline-block">
-                                            <button th:type="submit" class="btn btn-danger"><i
+                                            <button th:type="submit" class="btn btn-outline-danger"><i
                                                     aria-labelledby="Delete File Button" class="fas fa-trash-alt"></i></button>
                                         </form>
                                         <!--                                        <a th:href="@{/files/{id}/delete(id=${file.id})}" class="btn btn-danger"><i-->
