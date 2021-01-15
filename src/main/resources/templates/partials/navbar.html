@@ -85,10 +85,11 @@
                 <div class="searchbar input-group align-items-center justify-content-end">
                     <form class="searchbar" th:fragment="searchbar" th:action="@{/files/search}" th:method="get">
                         <input style="border-radius: 5px" type="text" name="search" placeholder="Search...">
-                        <button aria-labelledby="searchButton" style="border-radius: 7px;" class="searchBtn mt-0"
+                        <a aria-labelledby="searchButton" style="border-radius: 7px;" class="searchBtn mt-0"
                                 type="submit" name="searchBar"><i
-                                class="fas fa-search"></i></button>
+                                class="fas fa-search"></i></a>
                     </form>
+
                     <div sec:authorize="isAuthenticated()" class="nav-item m-0">
                         <form th:action="@{/logout}" th:method="post">
                             <button style="color: #bbbbbb" class="btn-link btn nav-link icon">
