@@ -334,6 +334,7 @@ class FileController {
     }
 
     @PostMapping("files/{id}/rating")
+    @ResponseBody
     public String rateFile(@PathVariable long id, @RequestParam(name = "ratings") int rating) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
@@ -358,7 +359,7 @@ class FileController {
         file.setAverageRating(newSum / list.size());
         fileDao.save(file);
 
-        return "redirect:/files/" + file.getId();
+        return String.valueOf(file.getAverageRating());
     }
 
     @PostMapping("files/favorite/{id}")
