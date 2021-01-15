@@ -176,7 +176,7 @@ body, .welcome, h1, h2, h3, h4, #formFont {
     margin: 1em auto;
     border-radius: 7px;
     /*max-width: 60%;*/
-    /*padding: 1em;*/
+    padding: 1em;
     border: black 2px solid
 }
 
