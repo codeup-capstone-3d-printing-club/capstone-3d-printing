@@ -7,7 +7,6 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <nav th:replace="partials/navbar :: navbar"></nav>
 
-<h1>Log In</h1>
 <div class="container">
     <div th:if="${!param.isEmpty()}" class="backgroundDiv login">
         <div th:if="${param.error}">

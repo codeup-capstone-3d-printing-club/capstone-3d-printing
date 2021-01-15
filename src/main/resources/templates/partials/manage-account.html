@@ -11,16 +11,16 @@
 
         <div class="form-group">
             <div class="mb-3">
-            <label for="current">Current Password</label>
-            <input type="password" name="currentPassword" id="current" class="field form-control">
+                <label for="current">Current Password</label>
+                <input type="password" name="currentPassword" id="current" class="field form-control">
             </div>
             <div class="mb-3">
-            <label for="new">New Password</label>
-            <input type="password" name="newPassword" id="new" class="field form-control">
+                <label for="new">New Password</label>
+                <input type="password" name="newPassword" id="new" class="field form-control">
             </div>
             <div class="mb-3">
-            <label for="confirm">Confirm New Password</label>
-            <input type="password" name="confirmPassword" id="confirm" class="field form-control">
+                <label for="confirm">Confirm New Password</label>
+                <input type="password" name="confirmPassword" id="confirm" class="field form-control">
             </div>
 
             <button class="mt-3 col-2 btn btn-outline-secondary whiteFont" type="button"
@@ -68,8 +68,8 @@
     <form th:method="post" th:action="@{/password-recovery}">
         <div class="form-group">
             <div class="mb-3">
-            <label for="email">Please enter the email associated with your account</label>
-            <input id="email" name="email" class="field form-control">
+                <label for="email">Please enter the email associated with your account</label>
+                <input id="email" name="email" class="field form-control">
             </div>
             <input th:class="btn btn-outline-secondary whiteFont" type="submit">
         </div>
@@ -110,8 +110,8 @@
             <button class="col-2 btn btn-outline-secondary whiteFont" type="button"
                     th:onclick="'javascript:saveSettings()'" id="save-settings">Save
             </button>
-            <div class="col-auto">
-                <span class="d-none alert-success" id="changes">Changes saved</span>
+            <div class="col-auto d-flex align-items-center">
+                <span class="d-none text-white col-auto" id="changes">Changes saved</span>
             </div>
 
 
@@ -162,15 +162,17 @@
             <input id="private" class="form-check-input" type="checkbox" th:value="${user.private}"
                    th:field="*{private}" th:checked="*{private}"/>
         </div>
+        <div class="row">
+            <button class="col-2 btn btn-outline-secondary whiteFont" type="button"
+                    th:onclick="'javascript:saveDetails(' + ${user.id} + ')'" id="save-details">Save
+            </button>
+            <div class="col-auto d-flex align-items-center">
 
-        <button class="col-2 btn btn-outline-secondary whiteFont" type="button"
-                th:onclick="'javascript:saveDetails(' + ${user.id} + ')'" id="save-details">Save
-        </button>
-        <div class="col-auto">
-            <span class="d-none alert-success" id="details">Changes saved</span>
+            <span class="col-auto d-none text-white" id="details">Changes saved</span>
+            </div>
+
+
         </div>
-
-
         <script>
             function saveDetails(id) {
                 $("#save-details").prop("disabled", true)
@@ -190,7 +192,7 @@
 </div>
 
 <div th:fragment="delete-button">
-    <div class="backgroundDiv login">
+    <div class="backgroundDiv login inline-block">
         <button class="btn btn-outline-danger whiteFont" onclick="showAccountDeleteForm('deleteAccount')">Delete
             Account
         </button>
