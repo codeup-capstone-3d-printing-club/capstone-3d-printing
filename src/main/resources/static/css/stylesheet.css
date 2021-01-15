@@ -153,6 +153,7 @@ h1 {
 /*}*/
 
 a{
+    color:lightsteelblue;
     text-decoration: none;
 }
 /*Font and background colors*/
@@ -166,7 +167,6 @@ a{
     z-index: 4;
 }
 
-
 body, .welcome, h1, h2, h3, h4, #formFont {
     color: whitesmoke;
 }
@@ -179,6 +179,10 @@ body, .welcome, h1, h2, h3, h4, #formFont {
     /*padding: 1em;*/
     border: black 2px solid
 }
+
+a:hover{
+    color: #48dada;
+
 
 .whiteFont{
     color: white;
@@ -285,10 +289,6 @@ li {
     color: goldenrod;
 }
 
-a{
-    color:lightsteelblue;
-}
-
 .gray{
     color:gray;
 }
@@ -320,7 +320,7 @@ ul li {
     /*width: 40px*/
 }
 .admin-tab:hover {
-    background-color: #0f52fc;
+    background-color: #48dada;
     color: white;
 }
 
@@ -429,7 +429,7 @@ ul li {
 }
 
 .file-title-link:hover {
-    color: #407272;
+    color: #12bebe;
 }
 
 .file-title-link:active {
@@ -441,7 +441,7 @@ ul li {
 }
 
 .navIconLink:hover {
-    color: #407272 !important;
+    color: #48dada !important;
 }
 
 .navIconLink:active {

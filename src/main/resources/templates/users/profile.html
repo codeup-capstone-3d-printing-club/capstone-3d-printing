@@ -14,9 +14,9 @@
     <!--    </div>-->
     <div class="row">
         <div class="col-12 col-sm-6 col-md-3">
-            <div class="backgroundDiv d-flex flex-column align-items-center justify-content-start overflow-auto">
+            <div class="backgroundDiv d-flex flex-column align-items-center justify-content-center">
                 <div th:unless="${user.avatarUrl == 'none'}">
-                    <img th:src="${user.avatarUrl}" alt="user profile picture" style="width:15em;">
+                    <img th:src="${user.avatarUrl}" alt="user profile picture" class="col-12">
                 </div>
 
                 <div class="d-flex align-items-center mt-2">
@@ -35,22 +35,28 @@
                 <hr>
 
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
-                    <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post" id="submitAvatar">
-                        <button th:type="button" class="btn btn-outline-secondary whiteFont" style="background-color: #407272" onclick="showAvatarForm('AvatarFilePicker')">
+                    <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" class="d-flex flex-column"
+                          th:method="post" id="submitAvatar">
+                        <button th:type="button" class="btn btn-outline-secondary whiteFont"
+                                style="background-color: #407272" onclick="showAvatarForm('AvatarFilePicker')">
                             Change Avatar
                         </button>
                         <div style="display: none" id="AvatarFilePicker">
                             <input class="form-control" id="pickedFile" type="hidden" name="avatar">
-                            <button type="button" class="btn btn-outline-secondary whiteFont mt-2" id="open">Choose image to upload</button>
+                            <button type="button" class="btn btn-outline-secondary whiteFont mt-2" id="open">Choose
+                                image to upload
+                            </button>
                             <!--            <button th:type="submit" class="btn btn-danger">Submit new Avatar</button>-->
                         </div>
                     </form>
                 </div>
-
+                <hr style="color: white">
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}" class="mt-2">
-                    <form th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" th:value="*{id}"
+                    <form th:object="${user}" class="d-flex flex-column" th:action="@{/profile/{id}/edit(id=*{id})}"
+                          th:value="*{id}"
                           method="get">
-                        <button type="submit" class="btn btn-outline-secondary whiteFont" style="background-color: #407272">
+                        <button type="submit" class="btn btn-outline-secondary whiteFont"
+                                style="background-color: #407272">
                             Edit Profile
                         </button>
                     </form>
@@ -124,18 +130,21 @@
 
                 <ul class="nav nav-pills mb-3 nav-fill fs-5" id="myTab" role="tablist">
                     <li class="nav-item backgroundDiv" role="presentation">
-                        <a class="nav-link active" style="color: #407272" id="files-tab" data-bs-toggle="pill" href="#files" role="tab">Uploaded
+                        <a class="nav-link active" style="color: #407272" id="files-tab" data-bs-toggle="pill"
+                           href="#files" role="tab">Uploaded
                             Files</a>
                         <div class="fs-6" th:text="${thisUsersFiles.size()}"></div>
                     </li>
                     <li sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}"
                         class="nav-item backgroundDiv" role="presentation">
-                        <a class="nav-link" style="color: #407272" id="follow-tab" data-bs-toggle="pill" href="#follow" role="tab">Follow
+                        <a class="nav-link" style="color: #407272" id="follow-tab" data-bs-toggle="pill" href="#follow"
+                           role="tab">Follow
                             Feed</a>
                         <div class="fs-6" th:text="${feed.size()}"></div>
                     </li>
                     <li class="nav-item backgroundDiv" role="presentation">
-                        <a class="nav-link" style="color: #407272" id="favorites-tab" data-bs-toggle="pill" href="#favorites"
+                        <a class="nav-link hoverColor" style="color: #407272" id="favorites-tab" data-bs-toggle="pill"
+                           href="#favorites"
                            role="tab">Favorites</a>
                         <div class="fs-6" th:text="${favorites.size()}"></div>
                     </li>
@@ -146,22 +155,27 @@
                         <div class="row">
                             <h3 class="text-center"><span th:text="${user.username}"></span>'s uploaded files</h3>
                             <div th:each="file : ${thisUsersFiles}" class="col-12 col-md-6">
-                                <div class="card backgroundDiv d-flex flex-column align-items-center justify-content-between">
-                                    <a th:href="@{'/files/' + ${file.id}}" class="card-title fs-5 file-title-link"
-                                       th:text="${file.title}"></a>
-                                    <div class="card-body">Created at: <span
-                                            th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></div>
-<!--                                    <img class="image" src="https://picsum.photos/300/200"-->
-<!--                                         alt="randomized picture">-->
+                                <div class="card backgroundDiv d-flex flex-column align-items-start justify-content-between">
+                                    <div class="card-header">
+                                        <a th:href="@{'/files/' + ${file.id}}" class="card-title fs-5 file-title-link"
+                                           th:text="${file.title}"></a>
+                                    </div>
+
+                                    <!--                                    <img class="image" src="https://picsum.photos/300/200"-->
+                                    <!--                                         alt="randomized picture">-->
                                     <div class="card-body" th:text="${file.description}"></div>
+                                    <div class="card-footer mb-2 text-muted">Created at: <span
+                                            th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></div>
                                     <div class="card-footer" sec:authorize="isAuthenticated()"
                                          th:if="${#authentication.principal.id == user.id}">
-                                        <a th:href="@{/files/{id}/edit(id=${file.id})}" class="btn btn-outline-secondary whiteFont"><i
+                                        <a th:href="@{/files/{id}/edit(id=${file.id})}"
+                                           class="btn btn-outline-secondary whiteFont"><i
                                                 aria-labelledby="edit File Button" class="fas fa-edit"></i></a>
                                         <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="post"
                                               class="d-inline-block">
                                             <button th:type="submit" class="btn btn-outline-danger"><i
-                                                    aria-labelledby="Delete File Button" class="fas fa-trash-alt"></i></button>
+                                                    aria-labelledby="Delete File Button" class="fas fa-trash-alt"></i>
+                                            </button>
                                         </form>
                                         <!--                                        <a th:href="@{/files/{id}/delete(id=${file.id})}" class="btn btn-danger"><i-->
                                         <!--                                                class="fas fa-trash-alt"></i></a>-->

@@ -10,22 +10,27 @@
         <h5>Change password</h5>
 
         <div class="form-group">
+            <div class="mb-3">
             <label for="current">Current Password</label>
             <input type="password" name="currentPassword" id="current" class="field form-control">
-
+            </div>
+            <div class="mb-3">
             <label for="new">New Password</label>
             <input type="password" name="newPassword" id="new" class="field form-control">
-
+            </div>
+            <div class="mb-3">
             <label for="confirm">Confirm New Password</label>
             <input type="password" name="confirmPassword" id="confirm" class="field form-control">
-
-            <div class="row">
-                <button class="mt-3 col-2" type="button" th:onclick="'javascript:savePassword()'" id="password-save">Save</button>
-                <div class="col-10">
-                    <span class="d-none alert-success" id="password-update">Changes saved</span>
-                </div>
-                <div class="col-auto"><span id="password-msg"></span></div>
             </div>
+
+            <button class="mt-3 col-2 btn btn-outline-secondary whiteFont" type="button"
+                    th:onclick="'javascript:savePassword()'" id="password-save">Save
+            </button>
+            <div class="col-10">
+                <span class="d-none alert-success" id="password-update">Changes saved</span>
+            </div>
+            <div class="col-auto"><span id="password-msg"></span></div>
+
 
             <script>
                 function savePassword() {
@@ -62,9 +67,11 @@
 <div th:fragment="recovery-email">
     <form th:method="post" th:action="@{/password-recovery}">
         <div class="form-group">
+            <div class="mb-3">
             <label for="email">Please enter the email associated with your account</label>
             <input id="email" name="email" class="field form-control">
-            <input type="submit">
+            </div>
+            <input th:class="btn btn-outline-secondary whiteFont" type="submit">
         </div>
     </form>
 </div>
@@ -91,20 +98,22 @@
         <p>Receive notifications when a...</p>
         <div class="form-group">
             <div th:each="setting : ${settings}">
-                <label class="form-check-label d-flex">
-                    <input type="checkbox" class="form-check" th:id="${'setting' + setting.id}"
-                           th:name="setting" th:value="${setting.id}" th:checked="${checked.contains(setting.id)}">
-                    <span th:text="${setting.description}"></span>
+                <div class="mb-3">
+                    <label class="form-check-label d-flex">
+                        <input type="checkbox" class="form-check" th:id="${'setting' + setting.id}"
+                               th:name="setting" th:value="${setting.id}" th:checked="${checked.contains(setting.id)}">
+                        <span th:text="${setting.description}"></span>
 
-                </label>
-            </div>
-            <div class="row">
-                <button class="col-2" type="button" th:onclick="'javascript:saveSettings()'" id="save-settings">Save
-                </button>
-                <div class="col-auto">
-                    <span class="d-none alert-success" id="changes">Changes saved</span>
+                    </label>
                 </div>
             </div>
+            <button class="col-2 btn btn-outline-secondary whiteFont" type="button"
+                    th:onclick="'javascript:saveSettings()'" id="save-settings">Save
+            </button>
+            <div class="col-auto">
+                <span class="d-none alert-success" id="changes">Changes saved</span>
+            </div>
+
 
             <script>
                 function saveSettings() {
@@ -125,13 +134,14 @@
     </form>
 </div>
 <div th:fragment="user-details">
-    <form id="details-form" class="backgroundDiv login" th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" method="post">
+    <form id="details-form" class="backgroundDiv login" th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}"
+          method="post">
         <h5>Account Details</h5>
-<!--        <div class="mb-3">-->
-<!--            <label for="username" class="form-label">Username</label>-->
-<!--            <input name="username" class="form-control" type="text" id="username" th:value="${user.username}"-->
-<!--                   th:field="*{username}"/>-->
-<!--        </div>-->
+        <!--        <div class="mb-3">-->
+        <!--            <label for="username" class="form-label">Username</label>-->
+        <!--            <input name="username" class="form-control" type="text" id="username" th:value="${user.username}"-->
+        <!--                   th:field="*{username}"/>-->
+        <!--        </div>-->
         <div class="mb-3">
             <label for="firstName" class="form-label">First Name</label>
             <input type="text" id="firstName" name="firstName" class="form-control" th:value="${user.firstName}"
@@ -142,23 +152,24 @@
             <input type="text" id="lastName" name="lastName" class="form-control" th:value="${user.lastName}"
                    th:field="*{lastName}"/>
         </div>
-<!--        <div class="mb-3">-->
-<!--            <label for="email" class="form-label">Email</label>-->
-<!--            <input type="email" id="email" name="email" class="form-control" th:value="${user.email}"-->
-<!--                   th:field="*{email}"/>-->
-<!--        </div>-->
+        <!--        <div class="mb-3">-->
+        <!--            <label for="email" class="form-label">Email</label>-->
+        <!--            <input type="email" id="email" name="email" class="form-control" th:value="${user.email}"-->
+        <!--                   th:field="*{email}"/>-->
+        <!--        </div>-->
         <div class="mb-3 form-check form-switch">
             <label for="private" class="form-label">Make profile only visible to logged in users</label>
             <input id="private" class="form-check-input" type="checkbox" th:value="${user.private}"
                    th:field="*{private}" th:checked="*{private}"/>
         </div>
-        <div class="row">
-            <button class="col-2" type="button" th:onclick="'javascript:saveDetails(' + ${user.id} + ')'" id="save-details">Save
-            </button>
-            <div class="col-auto">
-                <span class="d-none alert-success" id="details">Changes saved</span>
-            </div>
+
+        <button class="col-2 btn btn-outline-secondary whiteFont" type="button"
+                th:onclick="'javascript:saveDetails(' + ${user.id} + ')'" id="save-details">Save
+        </button>
+        <div class="col-auto">
+            <span class="d-none alert-success" id="details">Changes saved</span>
         </div>
+
 
         <script>
             function saveDetails(id) {
@@ -180,7 +191,9 @@
 
 <div th:fragment="delete-button">
     <div class="backgroundDiv login">
-        <button class="btn btn-danger" onclick="showAccountDeleteForm('deleteAccount')">Delete Account</button>
+        <button class="btn btn-outline-danger whiteFont" onclick="showAccountDeleteForm('deleteAccount')">Delete
+            Account
+        </button>
         <div style="display: none" id="deleteAccount" class="alert alert-danger" role="alert">
             <form th:action="@{/profile/{id}/deleteAccount(id=${user.id})}"
                   method="post">
