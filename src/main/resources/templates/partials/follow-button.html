@@ -16,26 +16,13 @@
                 url: "/users/follow/" + id + "?" + $('#follow-form').serialize(),
                 type: "POST",
                 headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
-                success: function (str) {
-                    let $btn = $(".followBtn");
+                success: function (data) {
 
-                    if (str === "follow") {
-                        $('.follow-bell').removeClass("follow")
-                            .addClass("fa-bell-slash")
-                            .addClass("unfollow")
-                            .removeClass("fa-bell");
+                    let page = document.createElement("html");
+                    $(page).html(data);
+                    $('#follow-form').html(page.querySelector("#follow-form").innerHTML);
 
-                        $('#follow-value').val(true);
-
-                    } else {
-                        $('.follow-bell').removeClass("unfollow")
-                            .addClass("fa-bell")
-                            .addClass("follow")
-                            .removeClass("fa-bell-slash");
-                        $('#follow-value').val(false);
-                    }
-
-                    $btn.prop("disabled", false);
+                    $(".followBtn").prop("disabled", false)
                 }
             });
         }
