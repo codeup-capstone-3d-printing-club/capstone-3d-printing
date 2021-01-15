@@ -131,22 +131,33 @@
                 <ul class="nav nav-pills mb-3 nav-fill fs-5" id="myTab" role="tablist">
                     <li class="nav-item backgroundDiv" role="presentation">
                         <a class="nav-link active" style="color: #407272" id="files-tab" data-bs-toggle="pill"
-                           href="#files" role="tab">Uploaded
-                            Files</a>
-                        <div class="fs-6" th:text="${thisUsersFiles.size()}"></div>
+                           href="#files" role="tab">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span style="margin-right: 10px">Uploaded Files</span>
+                                <span class="badge bg-light text-black-50" th:text="${thisUsersFiles.size()}"></span>
+                            </div>
+                        </a>
                     </li>
                     <li sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}"
                         class="nav-item backgroundDiv" role="presentation">
                         <a class="nav-link" style="color: #407272" id="follow-tab" data-bs-toggle="pill" href="#follow"
-                           role="tab">Follow
-                            Feed</a>
-                        <div class="fs-6" th:text="${feed.size()}"></div>
+                           role="tab">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span style="margin-right: 10px">Follow Feed</span>
+                                <span class="badge bg-light text-black-50" th:text="${feed.size()}"></span>
+                            </div>
+                        </a>
                     </li>
                     <li class="nav-item backgroundDiv" role="presentation">
-                        <a class="nav-link hoverColor" style="color: #407272" id="favorites-tab" data-bs-toggle="pill"
+                        <a class="nav-link hoverColor"
+                           style="color: #407272" id="favorites-tab" data-bs-toggle="pill"
                            href="#favorites"
-                           role="tab">Favorites</a>
-                        <div class="fs-6" th:text="${favorites.size()}"></div>
+                           role="tab">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span style="margin-right: 10px;">Favorites</span> <span
+                                    class="badge bg-light text-black-50" th:text="${favorites.size()}"></span>
+                            </div>
+                        </a>
                     </li>
                 </ul>
 
