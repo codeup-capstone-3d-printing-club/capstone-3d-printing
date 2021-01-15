@@ -25,17 +25,17 @@
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="model" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade show active overflow-auto" id="model" role="tabpanel" aria-labelledby="home-tab">
                         <!--            3D file is rendered in this div-->
                         <div class="mb-3" id="renderer"></div>
                     </div>
-                    <div class="tab-pane fade" id="image" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="tab-pane fade overflow-auto" id="image" role="tabpanel" aria-labelledby="profile-tab">
                         <div th:if="${imgFiles != null}" class="">
                             <div id="carouselExampleFade" class="carousel slide carousel-fade"
                                  data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <img src="http://via.placeholder.com/640x360" class="d-block w-100" alt="...">
+                                        <img th:src="@{/image/teal-square.png}" class="d-block w-100" alt="...">
                                     </div>
                                     <div th:each="img : ${imgFiles}" class="carousel-item">
                                         <img th:src="${img.img_url}" class="d-block w-100" alt="file img"/>
