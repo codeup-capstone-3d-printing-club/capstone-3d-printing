@@ -14,12 +14,13 @@
     <div class="text-center mb-3" th:text="${results}"></div>
 
     <div class="row indexView display-flex justify-content-start align-content-center flex-wrap">
-        <div class="col-12 col-md-3 mb-3">
-            <div id="categories-container" class="list-group fs-5 border">
+        <div class="col-12 col-md-3 mb-3 mt-0">
+            <div id="categories-container" class=" list-group fs-5 border mt-0">
                 <div onclick="allCategories()" style="cursor: pointer;"
                      class="list-group-item list-group-item-action whiteFont backgroundDiv m-0 d-flex justify-content-between align-items-center rounded-0">
                     All Categories<span class="badge whiteFont" th:text="${totalFileNumber}"></span></div>
-                <div th:each="categoryhash : ${categoryHashmap}" onclick="switchTo(this.dataset.category)" style="cursor: pointer;"
+                <div th:each="categoryhash : ${categoryHashmap}" onclick="switchTo(this.dataset.category)"
+                     style="cursor: pointer;"
 
                      class="list-group-item list-group-item-action backgroundDiv d-flex justify-content-between align-items-center m-0 rounded-0"
                      th:data-category="${categoryhash.key}">
@@ -30,36 +31,44 @@
                 </div>
             </div>
         </div>
-        <div class="col d-flex flex-wrap">
-            <div class="fileCard card backgroundDiv mt-0 col-12 col-md-5 d-flex flex-column align-content-start justify-content-between fs-5"
-                 th:each="file : ${files}" th:id="${'file' + file.id}">
-<!--                <div class="card-img" th:data-original-title="${file.fileUrl}" th:id="${'renderIndex' + file.id}">-->
-                    <!--                        <script type="module" th:src="@{/js/indexRender.js}"></script>-->
-<!--                </div>-->
 
-                <div class="card-body">
-                    <div class="text-center">
-                    <a class="card-title whiteFont" style="font-weight: bold;" th:href="@{'/files/' + ${file.id}}" th:text="${file.title}"></a>
-                    </div>
-                    <p class="card-text text-left" style="font-weight:lighter;" th:text="${#strings.abbreviate(file.description, (file.description.length()>80 ? file.description.length() * 0.5 : 60 ))}"></p>
-                    <div class="d-none" th:each="category : ${file.categories}">
-                        <script th:inline="javascript">
-                            function addCategoryClasses() {
-                                let id = /*[[${file.id}]]*/;
-                                $("#file" + id).addClass(/*[[${category.category}]]*/);
-                            }
-                            addCategoryClasses();
-                        </script>
-                    </div>
+
+        <!--        file cards-->
+        <div class="col d-flex flex-wrap">
+            <div class="fileCard card backgroundDiv p-0 mt-0 col-12 col-md-5 d-flex flex-column align-content-start justify-content-between fs-5"
+                 th:each="file : ${files}" th:id="${'file' + file.id}">
+                <div class="card-img" th:data-original-title="${file.fileUrl}" th:id="${'renderIndex' + file.id}">
+                    <script type="module" th:src="@{/js/indexRender.js}"></script>
                 </div>
-                <div>
+                <h2 class="card-header bg-light"><a style="font-weight: bold; color: #14560b" th:href="@{'/files/' + ${file.id}}"
+                                                    th:text="${file.title}"></a></h2>
+
+                <p class="card-text text-left px-2" style="font-weight:lighter;"
+                   th:text="${#strings.abbreviate(file.description, (file.description.length()>80 ? file.description.length() * 0.5 : 60 ))}"></p>
+                <div class="d-none" th:each="category : ${file.categories}">
+                    <script th:inline="javascript">
+                        function addCategoryClasses() {
+                            let id = /*[[${file.id}]]*/;
+                            $("#file" + id).addClass(/*[[${category.category}]]*/);
+                        }
+
+                        addCategoryClasses();
+                    </script>
+                </div>
+                <div class="text-start px-2">
                     <span>By: </span><a class="card-link whiteFont" th:href="@{'/profile/' + ${file.owner.id}}"
                                         th:text="${file.owner.username}"></a>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
+<!--        **********************************
+
+-->
+<!--    </div>-->
+<!--</div>-->
 
 <!--<script type="module" th:src="@{/js/indexRender.js}"></script>-->
 <footer th:replace="partials/footer_partial :: footer"></footer>
