@@ -8,19 +8,21 @@
 }
 
 html, body {
+
+    position: relative;
     min-width: 100%;
     min-height: 100%;
 }
 
-
+.whiteFont{
+    color:white;
+}
 
 .colorBackground{
-    background-image: linear-gradient(#6a7777, #367071, #0a220c);
+    background-image: radial-gradient(#81bcae, #367071, #0a220c);
+
 }
 body {
-
-    padding: 2em;
-    /*background: linear-gradient(180deg, #f14, #ff8300) fixed;*/
     font-family: "Avenir Next Condensed", sans-serif;
 }
 .table{
@@ -76,6 +78,9 @@ h1 {
 
 }
 
+.icon,.nav-link{
+    color: white !important;
+}
 .filter-shadow {
     color: transparent;
     background: linear-gradient(180deg, #fefefe, #bbb);
@@ -150,9 +155,11 @@ a{
 /*Font and background colors*/
 .navbar {
 
-    width: auto;
-    background-color: black;
-    opacity: 90%;
+    margin-top: 2em;
+    width: 100%;
+    /*background-color: #e2a87f;*/
+    background-color: #151414;
+    opacity: 92%;
     z-index: 4;
 }
 
@@ -162,7 +169,7 @@ body, .welcome, h1, h2, h3, h4, #formFont {
 }
 
 .backgroundDiv {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     margin: 1em auto;
     border-radius: 10px;
     /*max-width: 60%;*/
@@ -195,14 +202,15 @@ body, .welcome, h1, h2, h3, h4, #formFont {
 
 
 footer {
-    /*position: relative;*/
+    position: static;
     padding: 2em;
     /*height: 300px;*/
-    /*bottom: 0;*/
+    bottom: 0;
     /*width: 100%;*/
     /*background-color: black;*/
     /*opacity: 80%;*/
-    margin-top: 200px;
+    /*margin: 0 auto;*/
+    margin-top: 30em;
     /*z-index: 0;*/
 
 }
@@ -271,9 +279,11 @@ li {
 .unfavorite:hover {
     color: goldenrod;
 }
-.teal{
-    color:teal;
+
+a{
+    color:lightsteelblue;
 }
+
 .gray{
     color:gray;
 }
@@ -332,7 +342,8 @@ ul li {
         font-size: 3.7em;
     }
 
-    .searchbar {
+    .
+    ar {
         display: block;
         text-align: center;
     }
