@@ -17,7 +17,7 @@ html, body {
 
 
 .colorBackground{
-    background-image: linear-gradient(#6a7777, #367071, #0a220c);
+    background-image: radial-gradient(#81bcae, #367071, #0a220c);
 
 }
 body {
@@ -76,6 +76,9 @@ h1 {
 
 }
 
+.icon,.nav-link{
+    color: white !important;
+}
 .filter-shadow {
     color: transparent;
     background: linear-gradient(180deg, #fefefe, #bbb);
@@ -153,7 +156,7 @@ a{
     margin-top: 1em;
     width: 100%;
     /*background-color: #e2a87f;*/
-    background-color: #0a220c;
+    background-color: #000000;
     opacity: 90%;
     z-index: 4;
 }
@@ -164,7 +167,7 @@ body, .welcome, h1, h2, h3, h4, #formFont {
 }
 
 .backgroundDiv {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     margin: 1em auto;
     border-radius: 10px;
     /*max-width: 60%;*/
@@ -275,7 +278,7 @@ li {
     color: goldenrod;
 }
 .teal{
-    color:teal;
+    color:white;
 }
 .gray{
     color:gray;
