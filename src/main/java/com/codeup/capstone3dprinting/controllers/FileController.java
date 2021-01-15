@@ -3,6 +3,9 @@ package com.codeup.capstone3dprinting.controllers;
 import com.codeup.capstone3dprinting.models.*;
 import com.codeup.capstone3dprinting.repos.*;
 import com.codeup.capstone3dprinting.services.ReCaptchaValidationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -144,7 +147,7 @@ class FileController {
 
         List<Category> categoryList = new ArrayList<>();
         if (newCategories == null) {
-            categoryList.add(categoryDao.findCategoryByCategory("other"));
+            categoryList.add(categoryDao.findCategoryByCategory("Technology"));
         } else {
             for (long id : newCategories) {
                 categoryList.add(categoryDao.getOne(id));
@@ -264,7 +267,7 @@ class FileController {
         return "redirect:/admin";
     }
 
-    @PostMapping("files/{id}/comment")
+    @PostMapping("/files/{id}/comment")
     public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
@@ -285,7 +288,7 @@ class FileController {
         newComment.setOwner(currentUser);
         commentDao.save(newComment);
 
-        return "redirect:/files/" + file.getId();
+        return "redirect:/files/" + id;
     }
 
     @PostMapping("files/{id}/comment/{commentId}")
@@ -310,19 +313,18 @@ class FileController {
         newComment.setParent(currentComment);
         commentDao.save(newComment);
 
-        return "redirect:/files/" + file.getId();
+        return "redirect:/files/" + id;
     }
 
     @PostMapping("/files/{id}/comment/{commentId}/delete")
-    public String deleteComment(@PathVariable long id, @RequestParam(name = "commentId") long commentId) {
-        File file = fileDao.getOne(id);
+    @ResponseBody
+    public void deleteComment(@PathVariable long id, @PathVariable(name = "commentId") long commentId) {
+
         List<Comment> children = commentDao.findByParent(commentDao.getOne(commentId));
         for (Comment child : children) {
             commentDao.deleteById(child.getId());
         }
         commentDao.deleteById(commentId);
-
-        return "redirect:/files/" + file.getId();
     }
 
     @PostMapping("files/{id}/rating")

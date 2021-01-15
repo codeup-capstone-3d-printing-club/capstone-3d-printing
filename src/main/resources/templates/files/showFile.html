@@ -27,7 +27,7 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="model" role="tabpanel" aria-labelledby="home-tab">
                         <!--            3D file is rendered in this div-->
-                        <div class="mb-3"  id="renderer"></div>
+                        <div class="mb-3" id="renderer"></div>
                     </div>
                     <div class="tab-pane fade" id="image" role="tabpanel" aria-labelledby="profile-tab">
                         <div th:if="${imgFiles != null}" class="">
@@ -66,8 +66,10 @@
                     <a th:href="@{'/profile/' + ${file.getOwner().id}}"
                        th:text="${file.getOwner().username}" class="fs-4 mx-3"></a>
                     <span>
-                        <span>created at <span th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></span><br>
-                        <span class="mx-auto">Last updated at <span th:text="${#dates.format(file.updatedAt, 'yyyy-MM-dd')}"></span></span>
+                        <span>created at <span
+                                th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></span><br>
+                        <span class="mx-auto">Last updated at <span
+                                th:text="${#dates.format(file.updatedAt, 'yyyy-MM-dd')}"></span></span>
                     </span>
                 </div>
                 <!--                    <div class="d-inline" sec:authorize="isAuthenticated()"-->
@@ -82,20 +84,20 @@
                 <div>
                     <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
                           th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
-                        <button class="btn btn-outline-danger" type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit
+                        <button class="btn" style="background-color: #407272" type="button"><a style="color: white" th:href="@{/files/{id}/edit(id=${file.id})}">Edit
                             File</a></button>
                     </form>
                 </div>
                 <!--                <a th:href="@{file.file_url}" class="btn btn-outline-danger btn-sm" th:download="${file.title}">download</a>-->
 
-                <div class="d-inline" sec:authorize="isAuthenticated()"
+                <div class="" sec:authorize="isAuthenticated()"
                      th:if="${#authentication.principal.id!=file.owner.id}">
                     <form th:replace="partials/favorite-button::favorite"></form>
                 </div>
 
                 <div sec:authorize="!isAuthenticated()">
                     <button class="favoriteBtn" data-bs-toggle="modal" data-bs-target="#loginModal">
-                        <i class="far fa-heart favorite"></i>
+                        <i class="far fa-heart favorite"></i> <span class="text-muted">like</span>
                     </button>
                 </div>
 
@@ -124,21 +126,21 @@
                             <option th:value="9">9</option>
                             <option th:value="10">10</option>
                         </select>
-                        <input th:type="submit" class="btn btn-outline-secondary whiteFont" value="Submit">
+                        <input th:type="submit" value="Submit">
                     </form>
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
-                <hr>
-                <div>
-                    <h4>Description</h4>
-                    <p th:text="${file.description}"></p>
-                </div>
-                <hr>
+            <hr>
+            <div>
+                <h4>Description</h4>
+                <p th:text="${file.description}"></p>
+            </div>
+            <hr>
+            <h4>Comments</h4>
 
-                <h4>Comments</h4>
-                <div th:each="comment : ${allCommentsForThisPost}">
+            <div class="col-12 col-md-8" id="comments-container">
+                <div th:each="comment : ${allCommentsForThisPost}" th:id="${'comments-main-' + comment.id}">
                     <!--                    <h2 th:text="${comment.getOwner().getUsername()}"></h2>-->
                     <div class="backgroundDiv" th:if="${comment.getParent() == null}">
                         <div>
@@ -160,7 +162,6 @@
                             </span>
                             <a th:href="@{'/profile/' + ${child.getOwner().id}}"
                                th:text="${child.getOwner().username}" class="mx-2 fs-5"></a>
-<!--                               th:text="${child.getOwner().username}" class="mx-2"></a>-->
                             <span>created at </span>
                             <span th:text="${#dates.format(child.createdAt,'yyyy-MM-dd')}"></span>
                             <blockquote class="mx-5" th:text="${child.getComment()}"></blockquote>
@@ -168,7 +169,7 @@
                         <hr>
                         <div sec:authorize="isAuthenticated()">
                             <div>
-                                <a class="btn btn-outline-secondary btn-sm" data-bs-toggle="collapse"
+                                <a class="btn btn-secondary btn-sm" data-bs-toggle="collapse"
                                    th:href="'#id'+${comment.id}"
                                    role="button"
                                    aria-expanded="false" aria-controls="collapseExample">
@@ -177,34 +178,36 @@
                             </div>
                             <div th:id="'id'+${comment.id}" class="collapse">
                                 <form th:action="@{/files/{id1}/comment/{id2}(id1=${file.id}, id2=${comment.id})}"
-                                      th:method="post">
+                                      th:method="post" th:id="'reply-form' + ${comment.id}">
                                     <div class="mb-3">
                                         <textarea name="replyText" id="commentbox1"
                                                   class="form-control field"></textarea>
                                     </div>
-                                    <input th:type="submit" class="btn btn-outline-secondary whiteFont" value="post comment">
+                                    <button class="reply-btn" th:type="button"
+                                            th:onclick="'javascript:postReply(' + ${file.id} + ', ' + ${comment.id} + ')'">post comment</button>
                                 </form>
                             </div>
                         </div>
 
                         <div class="d-inline" sec:authorize="isAuthenticated()"
                              th:if="${#authentication.principal.id==comment.getOwner().id}">
-                            <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
+                            <form th:id="'delete-form' + ${comment.id}" th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
                                   th:method="post">
-                                <input type="hidden" name="commentId" th:value="${comment.id}">
-                                <button class="btn btn-outline-danger btn-sm" th:type="submit">Delete comment</button>
+                                <button class="delete-btn btn btn-danger btn-sm" th:type="button" th:onclick="'javascript:deleteComment(' + ${file.id} + ', ' + ${comment.id} + ')'">Delete
+                                    comment
+                                </button>
                             </form>
                         </div>
                     </div>
                 </div>
 
-                <div sec:authorize="isAuthenticated()">
-                    <form th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
+                <div sec:authorize="isAuthenticated()" id="comment-box">
+                    <form id="post-form" th:action="@{/files/{id}/comment(id=${file.id})}" th:method="post">
                         <div class="mb-3">
                             <label for="commentbox" class="form-label fs-5">Leave your comment: </label>
                             <textarea name="commentText" id="commentbox" class="form-control field"></textarea>
                         </div>
-                        <input th:type="submit" value="post comment" class="btn btn-outline-secondary">
+                        <button id="post-btn" th:type="button" class="btn btn-secondary" th:onclick="'postComment(' + ${file.id} + ')'">post comment</button>
                     </form>
                 </div>
 
@@ -220,6 +223,7 @@
                 <!--                        <img th:src="${img.img_url}" alt="file img"/>-->
                 <!--                    </div>-->
                 <!--                </div>-->
+                <!--    TODO:rendering needs to go in to the following tag-->
                 <div th:value="${file.fileUrl}"></div>
 
             </div>
@@ -228,8 +232,58 @@
 </div>
 
 <footer th:replace="partials/footer_partial :: footer"></footer>
-<script th:inline="javascript">const fileUrl =[[${file.fileUrl}]]</script>
+<script th:inline="javascript">const fileUrl = [[${file.fileUrl}]]</script>
 <script type="module" th:src="@{/js/anotherRender.js}"></script>
 <section th:replace="partials/partials_scripts :: script"></section>
+<script th:inline="javascript">
+    function deleteComment(fileId, id) {
+        $(".delete-btn").prop("disabled", true)
+
+        $.ajax({
+            url: "/files/" + fileId + "/comment/" + id + "/delete?" + $("#delete-form" + id).serialize(),
+            type: "POST",
+            headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+            success: function () {
+                $("#comments-main-" + id).fadeOut(500);
+                $(".delete-btn").prop("disabled", false)
+            }
+        });
+    }
+    function postComment(fileId) {
+
+        $("#post-btn").prop("disabled", true)
+
+        $.ajax({
+            url: "/files/" + fileId + "/comment?" + $("#post-form").serialize(),
+            type: "POST",
+            headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+            success: function (data) {
+                let page = document.createElement("html");
+                $(page).html(data);
+                $('#comments-container').html(page.querySelector("#comments-container").innerHTML);
+
+                $("#post-btn").prop("disabled", false)
+            }
+        });
+    }
+
+    function postReply(fileId, commentId) {
+        $(".reply-btn").prop("disabled", true)
+
+        $.ajax({
+            url: "/files/" + fileId + "/comment/" + commentId + "?" + $("#reply-form" + commentId).serialize(),
+            type: "POST",
+            headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+            success: function (data) {
+
+                let page = document.createElement("html");
+                $(page).html(data);
+                $('#comments-container').html(page.querySelector("#comments-container").innerHTML);
+
+                $(".reply-btn").prop("disabled", false)
+            }
+        });
+    }
+</script>
 </body>
 </html>
