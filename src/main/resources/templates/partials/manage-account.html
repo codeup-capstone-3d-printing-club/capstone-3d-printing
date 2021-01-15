@@ -29,8 +29,7 @@
             <div class="col-10">
                 <span class="d-none alert-success" id="password-update">Changes saved</span>
             </div>
-            <div class="col-auto"><span id="password-msg"></span></div>
-
+            <div class="col-auto mt-1"><span id="password-msg"></span></div>
 
             <script>
                 function savePassword() {
@@ -114,7 +113,6 @@
                 <span class="d-none text-white col-auto" id="changes">Changes saved</span>
             </div>
 
-
             <script>
                 function saveSettings() {
                     $("#save-settings").prop("disabled", true)
@@ -162,16 +160,11 @@
             <input id="private" class="form-check-input" type="checkbox" th:value="${user.private}"
                    th:field="*{private}" th:checked="*{private}"/>
         </div>
-        <div class="row">
-            <button class="col-2 btn btn-outline-secondary whiteFont" type="button"
-                    th:onclick="'javascript:saveDetails(' + ${user.id} + ')'" id="save-details">Save
-            </button>
-            <div class="col-auto d-flex align-items-center">
-
+        <button class="col-2 btn btn-outline-secondary whiteFont" type="button"
+                th:onclick="'javascript:saveDetails(' + ${user.id} + ')'" id="save-details">Save
+        </button>
+        <div class="col-auto d-flex align-items-center">
             <span class="col-auto d-none text-white" id="details">Changes saved</span>
-            </div>
-
-
         </div>
         <script>
             function saveDetails(id) {
@@ -196,7 +189,7 @@
         <button class="btn btn-outline-danger whiteFont" onclick="showAccountDeleteForm('deleteAccount')">Delete
             Account
         </button>
-        <div style="display: none" id="deleteAccount" class="alert alert-danger" role="alert">
+        <div style="display: none" id="deleteAccount" class="alert alert-danger mt-3" role="alert">
             <form th:action="@{/profile/{id}/deleteAccount(id=${user.id})}"
                   method="post">
 
