@@ -47,7 +47,7 @@
         <div>
             <ol>
                 <li id="listNumber" th:each="file : ${topRated}">
-                    <h2><a style="color: black" th:href="@{'/files/' + ${file.id}}" th:text="${file.title}"></a></h2>
+                    <h2><a style="color: #e2a87f" th:href="@{'/files/' + ${file.id}}" th:text="${file.title}"></a></h2>
                     <h4 th:text="${file.description}"></h4>
                     <a th:href="@{'/files/' + ${file.id}}"><img th:if="${file.images.size()>0}"
                                                                 th:src="${file.images.get(0).img_url}"
@@ -71,100 +71,6 @@
 </section>
 
 
-<!--<div class="container-fluid bg-gradient p-5">-->
-<!--    <ol class="row m-auto text-center w-75">-->
-
-<!--        <li class="col-4 princing-item red"th:each="file : ${topRated}" >-->
-
-<!--&lt;!&ndash;                <h3 class="text-light"></h3>&ndash;&gt;-->
-<!--                <h2 class="my-0 display-2 text-light font-weight-normal mb-3"><span class="h3"><h2><a  th:href="@{'/files/' + ${file.id}}" th:text="${file.title} "></a></h2></span>-->
-
-<!--                <h4>by: <span th:text="${file.owner.username}"></span></h4>-->
-<!--&lt;!&ndash;                <h3>Rating: <span class="ml-0" th:text="${file.averageRating}"></span></h3>&ndash;&gt;-->
-<!--                </h2>-->
-<!--            <p class="pricing-divider ">-->
-<!--                <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>-->
-<!--&lt;!&ndash;          <path class='deco-layer deco-layer&#45;&#45;1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729&ndash;&gt;-->
-<!--&lt;!&ndash;	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6'></path>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <path class='deco-layer deco-layer&#45;&#45;2' d='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729&ndash;&gt;-->
-<!--&lt;!&ndash;	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z' fill='#FFFFFF' opacity='0.6'></path>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <path class='deco-layer deco-layer&#45;&#45;3' d='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716&ndash;&gt;-->
-<!--&lt;!&ndash;	H42.401L43.415,98.342z' fill='#FFFFFF' opacity='0.7'></path>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <path class='deco-layer deco-layer&#45;&#45;4' d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428&ndash;&gt;-->
-<!--&lt;!&ndash;	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z' fill='#FFFFFF'></path>&ndash;&gt;-->
-<!--        </svg>-->
-<!--            </p>-->
-
-<!--            <div class="card-body bg-white mt-0 shadow">-->
-<!--                <ul class="list-unstyled mb-5 position-relative">-->
-<!--&lt;!&ndash;                    <li><b>10</b> users included</li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li><b>2 GB</b> of storage</li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li><b>Free </b>Email support</li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li><b>Help center access</b></li>&ndash;&gt;-->
-<!--                </ul>-->
-<!--                <button type="button" class="btn btn-lg btn-block  btn-custom "th:text="'Rating: '+${file.averageRating}"></button>-->
-<!--            </div>-->
-<!--        </li>-->
-
-
-<!--        <div class="col-4 princing-item blue">-->
-<!--            <div class="pricing-divider ">-->
-<!--                <h3 class="text-light">#2</h3>-->
-<!--                <h4 class="my-0 display-2 text-light font-weight-normal mb-3"><span class="h3">$</span> 250 <span class="h5">/mo</span></h4>-->
-<!--                <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>-->
-<!--          <path class='deco-layer deco-layer&#45;&#45;1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729-->
-<!--	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6'></path>-->
-<!--                    <path class='deco-layer deco-layer&#45;&#45;2' d='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729-->
-<!--	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z' fill='#FFFFFF' opacity='0.6'></path>-->
-<!--                    <path class='deco-layer deco-layer&#45;&#45;3' d='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716-->
-<!--	H42.401L43.415,98.342z' fill='#FFFFFF' opacity='0.7'></path>-->
-<!--                    <path class='deco-layer deco-layer&#45;&#45;4' d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428-->
-<!--	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z' fill='#FFFFFF'></path>-->
-<!--        </svg>-->
-<!--            </div>-->
-
-<!--            <div class="card-body bg-white mt-0 shadow">-->
-<!--                <ul class="list-unstyled mb-5 position-relative">-->
-<!--                    <li><b>100 </b>users included</li>-->
-<!--                    <li><b>10 GB</b> of storage</li>-->
-<!--                    <li><b>Free</b>Email support</li>-->
-<!--                    <li><b>Help center access</b></li>-->
-<!--                </ul>-->
-<!--                <button type="button" class="btn btn-lg btn-block  btn-custom ">Sign up for free</button>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-<!--        <div class="col-4 princing-item green">-->
-<!--            <div class="pricing-divider ">-->
-<!--                <h3 class="text-light">#3</h3>-->
-<!--                <h4 class="my-0 display-2 text-light font-weight-normal mb-3"><span class="h3">$</span> 450 <span class="h5">/mo</span></h4>-->
-<!--                <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1' preserveAspectRatio='none' version='1.1' viewBox='0 0 300 100' width='300px' x='0px' xml:space='preserve' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg' y='0px'>-->
-<!--          <path class='deco-layer deco-layer&#45;&#45;1' d='M30.913,43.944c0,0,42.911-34.464,87.51-14.191c77.31,35.14,113.304-1.952,146.638-4.729-->
-<!--	c48.654-4.056,69.94,16.218,69.94,16.218v54.396H30.913V43.944z' fill='#FFFFFF' opacity='0.6'></path>-->
-<!--                    <path class='deco-layer deco-layer&#45;&#45;2' d='M-35.667,44.628c0,0,42.91-34.463,87.51-14.191c77.31,35.141,113.304-1.952,146.639-4.729-->
-<!--	c48.653-4.055,69.939,16.218,69.939,16.218v54.396H-35.667V44.628z' fill='#FFFFFF' opacity='0.6'></path>-->
-<!--                    <path class='deco-layer deco-layer&#45;&#45;3' d='M43.415,98.342c0,0,48.283-68.927,109.133-68.927c65.886,0,97.983,67.914,97.983,67.914v3.716-->
-<!--	H42.401L43.415,98.342z' fill='#FFFFFF' opacity='0.7'></path>-->
-<!--                    <path class='deco-layer deco-layer&#45;&#45;4' d='M-34.667,62.998c0,0,56-45.667,120.316-27.839C167.484,57.842,197,41.332,232.286,30.428-->
-<!--	c53.07-16.399,104.047,36.903,104.047,36.903l1.333,36.667l-372-2.954L-34.667,62.998z' fill='#FFFFFF'></path>-->
-<!--        </svg>-->
-<!--            </div>-->
-
-<!--            <div class="card-body bg-white mt-0 shadow">-->
-<!--                <ul class="list-unstyled mb-5 position-relative">-->
-<!--                    <li><b>300</b> users included</li>-->
-<!--                    <li><b>20 GB</b> of storage</li>-->
-<!--                    <li><b>Free</b> Email support</li>-->
-<!--                    <li><b>Help center access</b></li>-->
-<!--                </ul>-->
-<!--                <button type="button" class="btn btn-lg btn-block  btn-custom ">Sign up for free</button>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-<!--    </ol>-->
-<!--</div>-->
 
 <script>
 
@@ -188,8 +94,9 @@
 
 </script>
 
-<footer th:replace="partials/footer_partial :: footer"></footer>
+
 <section th:replace="partials/partials_scripts :: script"></section>
 <script type="module" th:src="@{/js/renderer.js}"></script>
 </body>
+<footer th:replace="partials/footer_partial :: footer"></footer>
 </html>

@@ -7,25 +7,87 @@
 <body class="colorBackground">
 <nav th:replace="partials/navbar :: navbar"></nav>
 
-<section>
-    <div>
-        <h2>How do I upload a file?</h2>
+<div class="container mb-5">
+<div class="row">
+    <h1 class="d-flex justify-content-center mb-4">Frequently Asked Questions</h1>
+</div>
+</div>
+<section class="container p-1">
+
+    <div class="d-flex">
+        <h2 class="col-10">What kind of files can I upload?</h2>
+        <h2 class="col-2  justify-content-end"><i id="q2" class="fas fa-plus-circle"></i></h2>
     </div>
-    <div>
-        <h2>What kind of files can i upload?</h2>
+    <h4 style="color: #e2a87f;display: none" id="a2">
+        Currently Squarecubed supports <span><a href="https://en.wikipedia.org/wiki/STL_(file_format)" target="_blank" style="color:lightskyblue ">.stl</a></span> files with more to come.
+    </h4>
+
+    <div class="d-flex">
+        <h2 class="col-10">How do I change the view of 3D models?</h2>
+        <h2 class="col-2"><i id="q3" class="fas fa-plus-circle "></i></h2>
     </div>
-    <div>
-        <h2>How do I change the view of 3D models?</h2>
+    <h4 style="color: #e2a87f;display: none" id="a3">Controls: move while [holding mouse left / single finger on
+        trackpad] to move camera in x/y plane.
+        move [mouse wheel / two fingers on trackpad] to move up/down in z-direction.
+        hold shift + [mouse wheel / two fingers on trackpad] to zoom in/out via increasing/decreasing
+        field-of-view. </h4>
+
+    <div class="d-flex">
+        <h2 class="col-10">How do I upload a Picture of the physical print?</h2>
+        <h2 class=" col-2"><i id="q4" class="fas fa-plus-circle "></i></h2>
     </div>
-    <div>
-        <h2>How do I upload a Picture of the physical print?</h2>
+    <h4 style="color: #e2a87f;display: none" id="a4">Controls: move while [holding mouse left / single finger on
+        trackpad] to move camera in x/y plane.
+        move [mouse wheel / two fingers on trackpad] to move up/down in z-direction.
+        hold shift + [mouse wheel / two fingers on trackpad] to zoom in/out via increasing/decreasing
+        field-of-view. </h4>
+
+    <div class="d-flex">
+        <h2 class="col-10">How do I send a message?</h2>
+        <h2 class="col-2"><i id="q5" class="fas fa-plus-circle "></i></h2>
     </div>
-    <div>
-        <h2>How do I send a message?</h2>
-    </div>
+    <h4 style="color: #e2a87f;display: none" id="a5">Controls: move while [holding mouse left / single finger on
+        trackpad] to move 2amera in x/y plane.
+        move [mouse wheel / two fingers on trackpad] to move up/down in z-direction.
+        hold shift + [mouse wheel / two fingers on trackpad] to zoom in/out via increasing/decreasing
+        field-of-view. </h4>
+
+
 </section>
 
-<footer th:replace="partials/footer_partial :: footer"></footer>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        $("i").hover(function () {
+            $(this).css("color", "#e2a87f");
+        }, function () {
+            $(this).css("color", "");
+        });
+
+        $("#q1").click(function () {
+            $("#a1").slideToggle();
+        });
+        $("#q2").click(function () {
+            $("#a2").slideToggle();
+        });
+
+        $("#q3").click(function () {
+            $("#a3").slideToggle();
+        });
+
+        $("#q4").click(function () {
+            $("#a4").slideToggle();
+        });
+
+        $("#q5").click(function () {
+            $("#a5").slideToggle();
+        });
+
+    });
+</script>
 <section th:replace="partials/partials_scripts :: script"></section>
 </body>
+<footer th:replace="partials/footer_partial :: footer"></footer>
 </html>
