@@ -370,7 +370,8 @@ ul li {
         display: none;
     }
     .logoMobile{
-        display: flex!important;
+        display: block!important;
+
     }
     .logoSup{
 
