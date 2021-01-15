@@ -7,16 +7,21 @@
 <body class="colorBackground">
 <nav th:replace="partials/navbar :: navbar"></nav>
 
-<div class="container">
-    <div class="backgroundDiv" style="height: fit-content">
-        <h1>
-            <span th:text="${file.title}"></span>
-            is private, <a th:href="@{/privateFileRedirect/{id}(id=${file.id})}">login</a>
-            to continue or <a th:href="@{/files}">look at something else</a> if already logged in.</h1>
+<div class="container mt-4">
+    <div class="row d-flex flex-column align-items-center justify-content-center">
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="backgroundDiv" style="height: fit-content">
+                <h1>
+                    <span th:text="${file.title}"></span>
+                    is private, <a th:href="@{/privateFileRedirect/{id}(id=${file.id})}">login</a>
+                    to continue or <a th:href="@{/files}">look at something else</a> if already logged in.</h1>
+            </div>
+        </div>
     </div>
 </div>
+
 <footer th:replace=" partials/footer_partial :: footer"></footer>
-            <script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
-            <section th:replace="partials/partials_scripts :: script"></section>
+<script th:inline="javascript">const fileUrl =/*[[${file.fileUrl}]]*/</script>
+<section th:replace="partials/partials_scripts :: script"></section>
 </body>
 </html>

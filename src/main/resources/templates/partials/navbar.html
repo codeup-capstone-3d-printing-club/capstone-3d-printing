@@ -9,7 +9,26 @@
 <div class="container">
     <nav  th:fragment="navbar" class=" navbar navbar-expand-lg  navbar-dark mb-5 px-4">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Square<sup>3</sup></a>
+
+<!--            mobile searchbar-->
+            <div class="searchbar2  align-items-center justify-content-center mx-0">
+                <form class="searchbar2" th:fragment="searchbar" th:action="@{/files/search}" th:method="get" id="search-form">
+                    <input style="border-radius: 5px;" type="text" name="search" placeholder="Search...">
+                    <a aria-labelledby="searchButton" style="border-radius: 7px;" class="searchBtn mt-0 mx-2"
+                       type="submit" name="searchBar" onclick="$('#search-form').submit()"><i
+                            class="fas fa-search"></i></a>
+                </form>
+                <div sec:authorize="isAuthenticated()" class="nav-item m-0">
+                    <form th:action="@{/logout}" th:method="post">
+                        <button style="color: #bbbbbb" class="btn-link btn nav-link icon navIconLink">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+<!--            logo main-->
+            <a class="navbar-brand logoMain" href="/">Square<sup>3</sup></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -17,13 +36,19 @@
             <div class="collapse navbar-collapse" data-target="#navbarNav" id="navbarNav">
                 <section class="col-lg-6 col-sm-12">
                     <ul class="navbar-nav nav-fill align-items-center justify-content-around collapseBackground pt-0">
+                        <!--*****logo mobile-->
+                        <li class="nav-item m-0 p-0">
+                            <a class="nav-link icon logoMobile" href="/"><i class="fas fa-home"></i>
+                                <span>Home</span></a>
+                        </li>
+                        <!--*****************-->
                         <li class="nav-item m-0">
                             <a class="nav-link icon navIconLink" href="/files/create">
                                 <i aria-labelledby="upload" class="fas fa-cloud-upload-alt"></i>
                                 <span class="navIconLabel">Upload</span>
                             </a>
                         </li>
-                        <li class="nav-item m-0 d-flex flex-column">
+                        <li class="nav-link m-0 d-flex flex-column">
                             <a class="nav-link icon p-0 navIconLink" href="/files"><i aria-labelledby="3d models"
                                                                                       class="fas fa-cubes"></i>
                                 <span class="navIconLabel">3D Models</span></a>
@@ -89,7 +114,6 @@
                                 type="submit" name="searchBar" onclick="$('#search-form').submit()"><i
                                 class="fas fa-search"></i></a>
                     </form>
-
                     <div sec:authorize="isAuthenticated()" class="nav-item m-0">
                         <form th:action="@{/logout}" th:method="post">
                             <button style="color: #bbbbbb" class="btn-link btn nav-link icon navIconLink">
