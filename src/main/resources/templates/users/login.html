@@ -19,6 +19,14 @@
         <div th:if="${param.activated}">
             Your account has been successfully activated!
         </div>
+        <div th:if="${param.success}">
+            <div>
+                Your account has been successfully created!
+            </div>
+            <div>
+                Please confirm the registration from the email we send you.
+            </div>
+        </div>
     </div>
 
     <form class="backgroundDiv login" th:action="@{/login}" method="post">
