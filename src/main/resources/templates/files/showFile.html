@@ -64,7 +64,7 @@
                              style="width:4rem;border-radius: 50%">
                     </span>
                     <a th:href="@{'/profile/' + ${file.getOwner().id}}"
-                       th:text="${file.getOwner().username}" class="fs-4 mx-3"></a>
+                       th:text="${file.getOwner().username}" class="fs-4 mx-3 file-title-link"></a>
                     <span>
                         <span>created at <span
                                 th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></span><br>

@@ -56,7 +56,7 @@
                         </li>
                         <li sec:authorize="isAuthenticated()" id="messages" class="nav-item m-0">
                             <a href="/messages">
-                                <button class="nav-link btn-link btn position-relative mx-auto">
+                                <button class="nav-link btn-link btn position-relative mx-auto navIconLink">
                                     <i aria-labelledby="inbox Button" class="far fa-envelope fa-lg"></i>
                                     <script>
                                         $(function () {
@@ -77,7 +77,7 @@
                             </a>
                         </li>
                         <li class="nav-item m-0">
-                            <a class="nav-link icon" href="/about"><i class="fas fa-laptop-code"></i>
+                            <a class="nav-link icon navIconLink" href="/about"><i class="fas fa-laptop-code"></i>
                                 <span>About</span></a>
                         </li>
                     </ul>
@@ -91,7 +91,7 @@
                     </form>
                     <div sec:authorize="isAuthenticated()" class="nav-item m-0">
                         <form th:action="@{/logout}" th:method="post">
-                            <button style="color: #bbbbbb" class="btn-link btn nav-link icon">
+                            <button style="color: #bbbbbb" class="btn-link btn nav-link icon navIconLink">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span>Logout</span>
                             </button>
