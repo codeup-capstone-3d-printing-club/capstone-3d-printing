@@ -16,13 +16,23 @@
                 url: "/users/follow/" + id + "?" + $('#follow-form').serialize(),
                 type: "POST",
                 headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
-                success: function (data) {
+                success: function () {
 
-                    let page = document.createElement("html");
-                    $(page).html(data);
-                    $('#follow-form').html(page.querySelector("#follow-form").innerHTML);
+                    $(".followBtn").prop("disabled", true);
 
-                    $(".followBtn").prop("disabled", false)
+                    $.ajax({
+                        url: "/profile/" + id,
+                        type: "GET",
+                        headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                        success: function (data) {
+
+                            let page = document.createElement("html");
+                            $(page).html(data);
+                            $('#follow-form').html(page.querySelector("#follow-form").innerHTML);
+
+                            $(".followBtn").prop("disabled", false)
+                        }
+                    });
                 }
             });
         }

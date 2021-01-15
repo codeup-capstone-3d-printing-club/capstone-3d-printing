@@ -83,9 +83,13 @@ class FileController {
         List<Integer> thisFileRatings = getRatingsList(ListOfRatingObjs);
 
         boolean favorited = false;
+        boolean rated = false;
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User currentUser = userDao.getOne(user.getId());
+
+            rated = ratingDao.findRatingByFileAndOwner(file, currentUser) != null;
+
             for (File f : currentUser.getFavorites()) {
                 if (f.getId() == id) {
                     favorited = true;
@@ -97,6 +101,8 @@ class FileController {
                 return "redirect:/privateFile/" + file.getId();
             }
         }
+
+        model.addAttribute("rated", rated);
         model.addAttribute("favorited", favorited);
         model.addAttribute("imgFiles", images);
         model.addAttribute("averageRating", file.getAverageRating());
@@ -328,10 +334,15 @@ class FileController {
     }
 
     @PostMapping("files/{id}/rating")
+    @ResponseBody
     public String rateFile(@PathVariable long id, @RequestParam(name = "ratings") int rating) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userDao.getOne(user.getId());
+
         Rating newRating = new Rating();
         File file = fileDao.getOne(id);
 
+        newRating.setOwner(currentUser);
         newRating.setRating(rating);
         newRating.setFile(fileDao.getOne(id));
         ratingDao.save(newRating);
@@ -348,7 +359,7 @@ class FileController {
         file.setAverageRating(newSum / list.size());
         fileDao.save(file);
 
-        return "redirect:/files/" + file.getId();
+        return String.valueOf(file.getAverageRating());
     }
 
     @PostMapping("files/favorite/{id}")

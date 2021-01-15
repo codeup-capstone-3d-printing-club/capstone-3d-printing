@@ -52,7 +52,7 @@
                     <a th:href="@{'/files/' + ${file.id}}"><img th:if="${file.images.size()>0}"
                                                                 th:src="${file.images.get(0).img_url}"
                                                                 class="thumbnailPic d-block w-20" alt="file img"/></a>
-                    <!--                    </div>-->
+
 
                     <h4>by: <span th:text="${file.owner.username}"></span></h4>
                     <h3>Rating: <span class="ml-0" th:text="${file.averageRating}"></span></h3>

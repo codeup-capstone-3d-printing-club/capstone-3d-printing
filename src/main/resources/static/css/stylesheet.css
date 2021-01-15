@@ -11,12 +11,11 @@ html, body {
 
     position: relative;
     min-width: 100%;
+    /*min-height: 100vh;*/
     min-height: 100%;
 }
 
-.whiteFont{
-    color:white;
-}
+
 
 .colorBackground{
     background-image: radial-gradient(#81bcae, #367071, #0a220c);
@@ -173,15 +172,20 @@ body, .welcome, h1, h2, h3, h4, #formFont {
 }
 
 .backgroundDiv {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.7);
     margin: 1em auto;
-    border-radius: 10px;
+    border-radius: 7px;
     /*max-width: 60%;*/
-    padding: 1em;
+    /*padding: 1em;*/
     border: black 2px solid
 }
+
 a:hover{
     color: #48dada;
+
+
+.whiteFont{
+    color: white;
 }
 
 .content {
@@ -319,6 +323,19 @@ ul li {
     background-color: #48dada;
     color: white;
 }
+
+.list-group-item:hover{
+    background-color: #4c8c7f!important;
+}
+
+
+
+
+
+
+
+
+
 
 
 /*media queries*/

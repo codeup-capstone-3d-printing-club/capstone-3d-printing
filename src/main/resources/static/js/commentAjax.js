@@ -19,12 +19,23 @@ function postComment(fileId) {
         url: "/files/" + fileId + "/comment?" + $("#post-form").serialize(),
         type: "POST",
         headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
-        success: function (data) {
-            let page = document.createElement("html");
-            $(page).html(data);
-            $('#comments-container').html(page.querySelector("#comments-container").innerHTML);
+        success: function () {
 
-            $("#post-btn").prop("disabled", false)
+            $("#post-btn").prop("disabled", true);
+
+            $.ajax({
+                url: "/files/" + fileId,
+                type: "GET",
+                headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                success: function (data) {
+
+                    let page = document.createElement("html");
+                    $(page).html(data);
+                    $('#comments-container').html(page.querySelector("#comments-container").innerHTML);
+
+                    $("#post-btn").prop("disabled", false)
+                }
+            })
         }
     });
 }
@@ -36,13 +47,23 @@ function postReply(fileId, commentId) {
         url: "/files/" + fileId + "/comment/" + commentId + "?" + $("#reply-form" + commentId).serialize(),
         type: "POST",
         headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
-        success: function (data) {
+        success: function () {
 
-            let page = document.createElement("html");
-            $(page).html(data);
-            $('#comments-container').html(page.querySelector("#comments-container").innerHTML);
+            $(".reply-btn").prop("disabled", true);
 
-            $(".reply-btn").prop("disabled", false)
+            $.ajax({
+                url: "/files/" + fileId,
+                type: "GET",
+                headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                success: function (data) {
+
+                    let page = document.createElement("html");
+                    $(page).html(data);
+                    $('#comments-container').html(page.querySelector("#comments-container").innerHTML);
+
+                    $(".reply-btn").prop("disabled", false);
+                }
+            });
         }
     });
 }

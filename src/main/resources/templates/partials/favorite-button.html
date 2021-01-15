@@ -20,13 +20,23 @@
                 url: "/files/favorite/" + fileId + "?" + $("#favorite-form").serialize(),
                 type: "POST",
                 headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
-                success: function (data) {
+                success: function () {
 
-                    let page = document.createElement("html");
-                    $(page).html(data);
-                    $('#favorite-form').html(page.querySelector("#favorite-form").innerHTML);
+                    $(".favoriteBtn").prop("disabled", true)
 
-                    $(".favoriteBtn").prop("disabled", false)
+                    $.ajax({
+                        url: "/files/" + fileId,
+                        type: "GET",
+                        headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
+                        success: function (data) {
+
+                            let page = document.createElement("html");
+                            $(page).html(data);
+                            $('#favorite-form').html(page.querySelector("#favorite-form").innerHTML);
+
+                            $(".favoriteBtn").prop("disabled", false)
+                        }
+                    });
                 }
             });
         }
