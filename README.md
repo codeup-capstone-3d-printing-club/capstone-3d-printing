@@ -19,11 +19,11 @@ Squarecubed offers 3D-model creators a platform to connect and share their files
 
 ### Libraries and Utilities Applied
 
-- Lombok
+- Lombok [link](https://)
 - Three.js [link](https://https://threejs.org//)
 - jQuery [link](https://jquery.com/)
-- reCAPTCHA
-- Filestack
+- reCAPTCHA [link](https://www.google.com/recaptcha/about/)
+- Filestack [link](https://www.filestack.com/)
 
 ### Setup Instruction
 
