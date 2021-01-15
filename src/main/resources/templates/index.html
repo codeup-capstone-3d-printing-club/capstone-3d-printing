@@ -37,12 +37,17 @@
         <div class="col d-flex flex-wrap">
             <div class="fileCard card backgroundDiv p-0 mt-0 col-12 col-md-5 d-flex flex-column align-content-start justify-content-between fs-5"
                  th:each="file : ${files}" th:id="${'file' + file.id}">
+
                 <div class="card-img" th:data-original-title="${file.fileUrl}" th:id="${'renderIndex' + file.id}">
                     <script type="module" th:src="@{/js/indexRender.js}"></script>
                 </div>
+<!--                title-->
                 <h2 class="card-header bg-light"><a style="font-weight: bold; color: #14560b" th:href="@{'/files/' + ${file.id}}"
                                                     th:text="${file.title}"></a></h2>
-
+<!--                image-->
+                <a th:href="@{'/files/' + ${file.id}}"><img th:if="${file.images.size()>0}"
+                                                            th:src="${file.images.get(0).img_url}"
+                                                            class="thumbnailPic d-block w-20" alt="file img"/></a>
                 <p class="card-text text-left px-2" style="font-weight:lighter;"
                    th:text="${#strings.abbreviate(file.description, (file.description.length()>80 ? file.description.length() * 0.5 : 60 ))}"></p>
                 <div class="d-none" th:each="category : ${file.categories}">
