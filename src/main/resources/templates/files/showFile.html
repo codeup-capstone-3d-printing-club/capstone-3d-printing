@@ -84,7 +84,7 @@
                 <div>
                     <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
                           th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
-                        <button class="btn" style="background-color: #407272" type="button"><a style="color: white" th:href="@{/files/{id}/edit(id=${file.id})}">Edit
+                        <button class="btn btn-outline-secondary whiteFont" style="background-color: #407272" type="button"><a style="color: white" th:href="@{/files/{id}/edit(id=${file.id})}">Edit
                             File</a></button>
                     </form>
                 </div>
@@ -126,7 +126,7 @@
                             <option th:value="9">9</option>
                             <option th:value="10">10</option>
                         </select>
-                        <input th:type="submit" value="Submit">
+                        <input th:type="submit"  class="btn btn-outline-secondary whiteFont" value="Submit">
                     </form>
                 </div>
             </div>
@@ -169,7 +169,7 @@
                         <hr>
                         <div sec:authorize="isAuthenticated()">
                             <div>
-                                <a class="btn btn-secondary btn-sm" data-bs-toggle="collapse"
+                                <a class="btn btn-outline-secondary whiteFont" data-bs-toggle="collapse"
                                    th:href="'#id'+${comment.id}"
                                    role="button"
                                    aria-expanded="false" aria-controls="collapseExample">
@@ -183,7 +183,7 @@
                                         <textarea name="replyText" id="commentbox1"
                                                   class="form-control field"></textarea>
                                     </div>
-                                    <button class="reply-btn" th:type="button"
+                                    <button class="reply-btn btn btn-outline-secondary whiteFont" th:type="button"
                                             th:onclick="'javascript:postReply(' + ${file.id} + ', ' + ${comment.id} + ')'">post comment</button>
                                 </form>
                             </div>
@@ -193,7 +193,7 @@
                              th:if="${#authentication.principal.id==comment.getOwner().id}">
                             <form th:id="'delete-form' + ${comment.id}" th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
                                   th:method="post">
-                                <button class="delete-btn btn btn-danger btn-sm" th:type="button" th:onclick="'javascript:deleteComment(' + ${file.id} + ', ' + ${comment.id} + ')'">Delete
+                                <button class="delete-btn btn btn-outline-danger whiteFont btn-sm" th:type="button" th:onclick="'javascript:deleteComment(' + ${file.id} + ', ' + ${comment.id} + ')'">Delete
                                     comment
                                 </button>
                             </form>
@@ -207,7 +207,7 @@
                             <label for="commentbox" class="form-label fs-5">Leave your comment: </label>
                             <textarea name="commentText" id="commentbox" class="form-control field"></textarea>
                         </div>
-                        <button id="post-btn" th:type="button" class="btn btn-secondary" th:onclick="'postComment(' + ${file.id} + ')'">post comment</button>
+                        <button id="post-btn" th:type="button" class="btn btn-outline-secondary whiteFont" th:onclick="'postComment(' + ${file.id} + ')'">post comment</button>
                     </form>
                 </div>
 
