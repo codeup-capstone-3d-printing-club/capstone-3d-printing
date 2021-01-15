@@ -464,3 +464,7 @@ ul li {
 .navIconLink:active {
     color: darkgray !important;
 }
+
+.hoverColor:hover {
+    background: #407272;
+}
