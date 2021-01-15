@@ -7,41 +7,46 @@
 <nav th:replace="partials/navbar :: navbar"></nav>
 <h1>Editing your file with title: <span th:text="${file.title}"></span></h1>
 
-<div class="container backgroundDiv">
-    <form th:object="${file}" th:action="@{/files/{id}/edit(id=${file.id})}" method="post">
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input name="title" id="title" type="text" class="form-control" th:value="${file.title}" th:field="*{title}"/>
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" th:value="${file.description}" th:field="*{description}"></textarea>
-        </div>
-        <div class="my-3 mx-2 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1" th:checked="${file.private}" name="isPrivate" th:field="*{private}">
-            <label class="form-check-label" for="exampleCheck1">Set as private</label>
-        </div>
-        <input type="submit" value="Submit">
-    </form>
-    <hr>
-
-    <div th:each="img : ${file.images}" style="border: grey 1px solid">
-        <img th:src="${img.img_url}"/>
-        <form th:action="@{/files/{id}/removeImg/{imgID}(id=${file.id}, imgID=${img.id})}" th:method="post">
-            <input type="hidden" name="imgID" th:value="${img.id}">
-            <button th:type="submit">Delete</button>
+<div class="container">
+    <div class="backgroundDiv login">
+        <form th:object="${file}" th:action="@{/files/{id}/edit(id=${file.id})}" method="post">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input name="title" id="title" type="text" class="form-control" th:value="${file.title}" th:field="*{title}"/>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" th:value="${file.description}" th:field="*{description}"></textarea>
+            </div>
+            <div class="my-3 mx-2 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" th:checked="${file.private}" name="isPrivate" th:field="*{private}">
+                <label class="form-check-label" for="exampleCheck1">Set as private</label>
+            </div>
+            <input class="btn btn-outline-secondary whiteFont" type="submit" value="Submit">
         </form>
     </div>
 
-    <div th:if="${file.images.size() < 5}">
-        You can add up to 5 pictures for this post.
-        <form th:action="@{/files/{id}/addImg(id=${file.id})}" method="post" style="border: gray 1px solid;"
-              id="submitAvatar">
-            <input class="form-control" name="newImg" id="pickedFile" th:value="${newImg.img_url}" type="hidden">
-            <button th:type="button" id="open">Choose image to upload</button>
-            <br>
-            <!--        <input th:type="submit">-->
-        </form>
+    <div class="backgroundDiv login overflow-scroll" th:if="${imgFiles != null}">
+        <div th:each="img : ${file.images}" style="" class="my-4">
+            <img th:src="${img.img_url}"/>
+            <form th:action="@{/files/{id}/removeImg/{imgID}(id=${file.id}, imgID=${img.id})}" th:method="post">
+                <input type="hidden" name="imgID" th:value="${img.id}">
+                <button class="mt-3 btn btn-outline-secondary whiteFont" th:type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="backgroundDiv login">
+        <div th:if="${file.images.size() < 5}">
+            You can add up to 5 pictures for this post.
+            <form th:action="@{/files/{id}/addImg(id=${file.id})}" method="post" style=""
+                  id="submitAvatar">
+                <input class="form-control" name="newImg" id="pickedFile" th:value="${newImg.img_url}" type="hidden">
+                <button class="mt-3 btn btn-outline-secondary whiteFont" th:type="button" id="open">Choose image to upload</button>
+                <br>
+                <!--        <input th:type="submit">-->
+            </form>
+        </div>
     </div>
 
     <!--<form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="delete">-->
