@@ -153,11 +153,11 @@ a{
 /*Font and background colors*/
 .navbar {
 
-    margin-top: 1em;
+    margin-top: 2em;
     width: 100%;
     /*background-color: #e2a87f;*/
-    background-color: #000000;
-    opacity: 90%;
+    background-color: #151414;
+    opacity: 92%;
     z-index: 4;
 }
 
