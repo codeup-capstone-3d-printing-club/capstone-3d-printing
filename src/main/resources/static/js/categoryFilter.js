@@ -6,8 +6,7 @@ function allCategories() {
     $("#page-title").text("All Categories");
 }
 
-function switchTo(element) {
-    let categoryName = element.dataset.category;
+function switchTo(categoryName) {
     $(".fileCard").each(function () {
         if ($(this).hasClass(categoryName)) {
             $(this).removeClass("d-none");
