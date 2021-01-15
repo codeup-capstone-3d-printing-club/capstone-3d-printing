@@ -12,22 +12,28 @@
 
     <div class="d-flex align-items-start">
         <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link admin-tab active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab"
+            <a class="nav-link admin-tab active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home"
+               role="tab"
                aria-controls="v-pills-home" aria-selected="true">All
                 posts</a>
-            <a class="nav-link admin-tab" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab"
+            <a class="nav-link admin-tab" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile"
+               role="tab"
                aria-controls="v-pills-profile" aria-selected="false">All
                 admins</a>
-            <a class="nav-link admin-tab" id="v-pills-messages-tab" data-bs-toggle="pill" href="#v-pills-messages" role="tab"
+            <a class="nav-link admin-tab" id="v-pills-messages-tab" data-bs-toggle="pill" href="#v-pills-messages"
+               role="tab"
                aria-controls="v-pills-messages" aria-selected="false">All
                 active users</a>
-            <a class="nav-link admin-tab" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab"
+            <a class="nav-link admin-tab" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings"
+               role="tab"
                aria-controls="v-pills-settings" aria-selected="false">Flagged
                 posts</a>
-            <a class="nav-link admin-tab" id="v-pills-setting-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab"
+            <a class="nav-link admin-tab" id="v-pills-setting-tab" data-bs-toggle="pill" href="#v-pills-flaggedUser"
+               role="tab"
                aria-controls="v-pills-settings" aria-selected="false">Flagged
                 users</a>
-            <a class="nav-link admin-tab" id="v-pills-settin-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab"
+            <a class="nav-link admin-tab" id="v-pills-settin-tab" data-bs-toggle="pill" href="#v-pills-deactivatedUser"
+               role="tab"
                aria-controls="v-pills-settings" aria-selected="false">Deactivated
                 Users</a>
         </div>
@@ -53,13 +59,16 @@
             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                 <h2 class="adminSubHeadings">All admins</h2>
                 <div class="row">
-                    <div class="allUsers backgroundDiv p-3 m-sm-3 col-12 col-sm-5 col-md-2"
-                         style="border: black 2px solid" th:each="admin : ${allAdmins}">
-                        <h5 th:text="${admin.username}"></h5>
-                        <p th:text="${admin.joinedAt}"></p>
-                        <form th:action="@{/users/{id}/removeAdmin(id=${admin.id})}" th:method="post">
-                            <button th:type="submit" class="btn btn-outline-danger p-1 m-1">Remove from admins</button>
-                        </form>
+                    <div class="col">
+                        <div class="allUsers backgroundDiv p-3 m-sm-3 col-12 col-sm-5 col-md-12 m-1"
+                             style="border: black 2px solid" th:each="admin : ${allAdmins}">
+                            <h5 th:text="${admin.username}"></h5>
+                            <p th:text="${admin.joinedAt}"></p>
+                            <form th:action="@{/users/{id}/removeAdmin(id=${admin.id})}" th:method="post">
+                                <button th:type="submit" class="btn btn-outline-danger p-1 m-1">Remove from admins
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,7 +76,8 @@
             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                 <h2 class="adminSubHeadings">All active Users</h2>
                 <div class="row">
-                    <div class="allUsers backgroundDiv p-3 m-sm-3 col-12 col-sm-5 col-md-3"
+                    <!--                    <div class="col">-->
+                    <div class="allUsers backgroundDiv p-3 m-sm-3 col-12 col-sm-5 col-md-12"
                          style="border: black 2px solid" th:each="user : ${allUsers}">
                         <h5 th:text="${user.username}"></h5>
                         <p th:text="${user.joinedAt}"></p>
@@ -83,56 +93,57 @@
                     </div>
                 </div>
             </div>
+<!--        </div>-->
 
-            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                <h2 class="adminSubHeadings">Flagged Posts</h2>
-                <div class="row">
-                    <div class="allFlaggedPosts backgroundDiv p-3 m-3 col-12 col-sm-5 col-md-3"
-                         style="border: black 2px solid"
-                         th:each="post : ${flaggedPosts}">
-                        <h3 th:text="${post.title}"></h3>
-                        <p th:text="${post.description}"></p>
-                        <p th:text="${post.isFlagged()}"></p>
-                        <form th:action="@{/files/{id}/unflag(id=${post.id})}" th:method="post">
-                            <button th:type="submit" class="btn btn-outline-success p-1 m-1">Unflag Post</button>
-                        </form>
-                    </div>
+        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+            <h2 class="adminSubHeadings">Flagged Posts</h2>
+            <div class="row">
+                <div class="allFlaggedPosts backgroundDiv p-3 m-3 col-12 col-sm-5 col-md-12"
+                     style="border: black 2px solid"
+                     th:each="post : ${flaggedPosts}">
+                    <h3 th:text="${post.title}"></h3>
+                    <p th:text="${post.description}"></p>
+                    <p th:text="${post.isFlagged()}"></p>
+                    <form th:action="@{/files/{id}/unflag(id=${post.id})}" th:method="post">
+                        <button th:type="submit" class="btn btn-outline-success p-1 m-1">Unflag Post</button>
+                    </form>
                 </div>
             </div>
+        </div>
 
-            <div class="tab-pane fade" id="v-pills-setting" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                <h2 class="adminSubHeadings">Flagged Users</h2>
-                <div class="row">
-                    <div class="allFlaggedUsers backgroundDiv p-3 m-3 col-12 col-sm-5 col-md-3"
-                         style="border: black 2px solid"
-                         th:each="user : ${flaggedUsers}">
-                        <h3 th:text="${user.username}"></h3>
-                        <p th:text="${user.joinedAt}"></p>
-                        <p th:text="${user.isFlagged()}"></p>
-                        <form th:action="@{/users/{id}/unflag(id=${user.id})}" th:method="post">
-                            <button th:type="submit" class="btn btn-outline-success p-1 m-1">Unflag User</button>
-                        </form>
-                    </div>
+        <div class="tab-pane fade" id="v-pills-flaggedUser" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+            <h2 class="adminSubHeadings">Flagged Users</h2>
+            <div class="row">
+                <div class="allFlaggedUsers backgroundDiv p-3 m-3 col-12 col-sm-5 col-md-12"
+                     style="border: black 2px solid"
+                     th:each="user : ${flaggedUsers}">
+                    <h3 th:text="${user.username}"></h3>
+                    <p th:text="${user.joinedAt}"></p>
+                    <p th:text="${user.isFlagged()}"></p>
+                    <form th:action="@{/users/{id}/unflag(id=${user.id})}" th:method="post">
+                        <button th:type="submit" class="btn btn-outline-success p-1 m-1">Unflag User</button>
+                    </form>
                 </div>
             </div>
+        </div>
 
-            <div class="tab-pane fade" id="v-pills-settin" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                <h2 class="adminSubHeadings">Deactivated Users</h2>
-                <div class="row">
-                    <div class="allDeactivatedUsers backgroundDiv p-3 m-3 col-12 col-sm-5 col-md-3"
-                         style="border: black 2px solid"
-                         th:each="deUser : ${deactivatedUsers}">
-                        <h3 th:text="${deUser.username}"></h3>
-                        <p th:text="${deUser.joinedAt}"></p>
-                        <p th:text="${deUser.active}"></p>
-                        <form th:action="@{/users/{id}/activate(id=${deUser.id})}" th:method="post">
-                            <button th:type="submit" class="btn btn-outline-success p-1 m-1">Re-activate User</button>
-                        </form>
-                    </div>
+        <div class="tab-pane fade" id="v-pills-deactivatedUser" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+            <h2 class="adminSubHeadings">Deactivated Users</h2>
+            <div class="row">
+                <div class="allDeactivatedUsers backgroundDiv p-3 m-3 col-12 col-sm-5 col-md-12"
+                     style="border: black 2px solid"
+                     th:each="deUser : ${deactivatedUsers}">
+                    <h3 th:text="${deUser.username}"></h3>
+                    <p th:text="${deUser.joinedAt}"></p>
+                    <p th:text="${deUser.active}"></p>
+                    <form th:action="@{/users/{id}/activate(id=${deUser.id})}" th:method="post">
+                        <button th:type="submit" class="btn btn-outline-success p-1 m-1">Re-activate User</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <script th:replace="partials/partials_scripts :: script"></script>
