@@ -13,7 +13,7 @@
         <h1 th:text="${file.title}">Individual File</h1>
 
         <div class="row">
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-8 mb-3 mt-2 mr-3">
                 <ul class="nav nav-pills" id="myTab" role="tablist">
                     <li class="nav-item backgroundDiv" role="presentation">
                         <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#model" role="tab"
@@ -33,7 +33,7 @@
                         <div th:if="${imgFiles != null}" class="">
                             <div id="carouselExampleFade" class="carousel slide carousel-fade"
                                  data-bs-ride="carousel">
-                                <div class="carousel-inner">
+                                <div class="carousel-inner overflow-scroll" style="max-height: 50vh;">
                                     <div class="carousel-item active">
                                         <img th:src="@{/image/teal-square.png}" class="d-block w-100" alt="...">
                                     </div>
