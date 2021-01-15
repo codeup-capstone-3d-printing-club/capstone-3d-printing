@@ -180,8 +180,9 @@ body, .welcome, h1, h2, h3, h4, #formFont {
     border: black 2px solid
 }
 
-a:hover{
+a:hover {
     color: #48dada;
+}
 
 
 .whiteFont{
@@ -446,4 +447,8 @@ ul li {
 
 .navIconLink:active {
     color: darkgray !important;
+}
+
+.hoverColor:hover {
+    background: #407272;
 }

@@ -245,21 +245,18 @@ class FileController {
     }
 
     @PostMapping("/files/{id}/delete")
-    public String deleteFilePost(@PathVariable long id) {
+    @ResponseBody
+    public void deleteFilePost(@PathVariable long id) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
         File file = fileDao.getOne(id);
         user = userDao.findByFiles(fileDao.getOne(id));
 
-        if (currentUser.getId() != user.getId()) {
-            return "redirect:/profile/" + currentUser.getId() + "?error";
+        if (currentUser.getId() == user.getId()) {
+            file.setCategories(new ArrayList<>());
+            fileDao.save(file);
+            fileDao.delete(file);
         }
-
-        file.setCategories(new ArrayList<>());
-        fileDao.save(file);
-        fileDao.delete(file);
-//        TODO: redirect back to the list of your own file posts/ or admin dashboard if admin
-        return "redirect:/profile/" + user.getId();
     }
 
     // user can only unflag as admin
