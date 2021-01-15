@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head th:include="partials/header_partial::head">
-    <title id="pageTitle">Compose a new message</title>
+    <title id="pageTitle">SquareCubed | Compose a new message</title>
 </head>
 <body class="colorBackground">
 <nav th:replace="partials/navbar :: navbar"></nav>
@@ -20,7 +20,7 @@
                       placeholder="Write your message here..." th:text="${msg}"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button type="submit" class="btn btn-outline-secondary whiteFont mt-3">Send</button>
     </form>
 </div>
 

@@ -14,7 +14,9 @@ html, body {
     min-height: 100%;
 }
 
-
+.whiteFont{
+    color:white;
+}
 
 .colorBackground{
     background-image: radial-gradient(#81bcae, #367071, #0a220c);
@@ -281,9 +283,11 @@ li {
 .unfavorite:hover {
     color: goldenrod;
 }
-.teal{
-    color:white;
+
+a{
+    color:lightsteelblue;
 }
+
 .gray{
     color:gray;
 }
@@ -306,6 +310,17 @@ ul li {
 #categories-container {
     max-height: 50vh;
     overflow-y: scroll;
+}
+
+.admin-tab {
+    border: 1px solid #3d3c3c;
+    background-color: black;
+    color: white;
+    /*width: 40px*/
+}
+.admin-tab:hover {
+    background-color: #0f52fc;
+    color: white;
 }
 
 

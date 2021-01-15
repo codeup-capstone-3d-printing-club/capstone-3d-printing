@@ -2,7 +2,7 @@
 <html lang="eng" xmlns:th="http://www.thymeleaf.org">
 <head th:include="partials/header_partial::head">
     <meta charset="UTF-8">
-    <title id="pageTitle">View Message</title>
+    <title id="pageTitle">SquareCubed | View Message</title>
 </head>
 <body class="colorBackground">
 <nav th:replace="partials/navbar :: navbar"></nav>
@@ -26,7 +26,6 @@
             SENT AT: <span th:text="${message.sentAt}"></span>
         </div>
     </section>
-
 
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
