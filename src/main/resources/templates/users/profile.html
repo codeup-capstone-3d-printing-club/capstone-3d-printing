@@ -36,12 +36,12 @@
 
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
                     <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" th:method="post" id="submitAvatar">
-                        <button th:type="button" class="btn btn-danger" onclick="showAvatarForm('AvatarFilePicker')">
+                        <button th:type="button" class="btn btn-outline-secondary whiteFont" onclick="showAvatarForm('AvatarFilePicker')">
                             Change Avatar
                         </button>
                         <div style="display: none" id="AvatarFilePicker">
                             <input class="form-control" id="pickedFile" type="hidden" name="avatar">
-                            <button type="button" id="open">Choose image to upload</button>
+                            <button type="button" class="btn btn-outline-secondary mb-3 whiteFont" id="open">Choose image to upload</button>
                             <!--            <button th:type="submit" class="btn btn-danger">Submit new Avatar</button>-->
                         </div>
                     </form>
@@ -50,7 +50,7 @@
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}" class="mt-2">
                     <form th:object="${user}" th:action="@{/profile/{id}/edit(id=*{id})}" th:value="*{id}"
                           method="get">
-                        <button type="submit" class="btn btn-danger">
+                        <button type="submit" class="btn btn-outline-secondary mb-3 whiteFont">
                             Edit Profile
                         </button>
                     </form>
@@ -60,10 +60,10 @@
                     <div class="bg-dark accordion accordion-flush" id="accordionFlushExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingOne">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                <button class="accordion-button collapsed whiteFont" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#flush-collapseOne" aria-expanded="false"
                                         aria-controls="flush-collapseOne">
-                                    <span class="badge bg-secondary mx-2" th:text="${follower.size()}"></span>
+                                    <span class="badge bg-secondary mx-2 whiteFont" th:text="${follower.size()}"></span>
                                     <span class="text-light">Follower</span>
                                 </button>
                             </h2>
@@ -85,10 +85,10 @@
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                <button class="accordion-button collapsed whiteFont" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#flush-collapseTwo" aria-expanded="false"
                                         aria-controls="flush-collapseTwo">
-                                    <span class="badge bg-secondary mx-2" th:text="${followed.size()}"></span>
+                                    <span class="badge bg-secondary mx-2 whiteFont" th:text="${followed.size()}"></span>
                                     <span class="text-light">Following</span>
                                 </button>
                             </h2>
@@ -113,7 +113,7 @@
 
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id != user.id}">
                     <form th:action="@{/users/{id}/flag(id=${user.id})}" th:method="post">
-                        <button th:type="submit" class="btn btn-danger">Flag User</button>
+                        <button th:type="submit" class="btn btn-outline-danger">Flag User</button>
                     </form>
                 </div>
             </div>
@@ -156,11 +156,11 @@
                                     <div class="card-body" th:text="${file.description}"></div>
                                     <div class="card-footer" sec:authorize="isAuthenticated()"
                                          th:if="${#authentication.principal.id == user.id}">
-                                        <a th:href="@{/files/{id}/edit(id=${file.id})}" class="btn btn-dark"><i
+                                        <a th:href="@{/files/{id}/edit(id=${file.id})}" class="btn btn-outline-secondary whiteFont"><i
                                                 aria-labelledby="edit File Button" class="fas fa-edit"></i></a>
                                         <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="post"
                                               class="d-inline-block">
-                                            <button th:type="submit" class="btn btn-danger"><i
+                                            <button th:type="submit" class="btn btn-outline-danger"><i
                                                     aria-labelledby="Delete File Button" class="fas fa-trash-alt"></i></button>
                                         </form>
                                         <!--                                        <a th:href="@{/files/{id}/delete(id=${file.id})}" class="btn btn-danger"><i-->

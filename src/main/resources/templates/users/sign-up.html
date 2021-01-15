@@ -50,7 +50,7 @@
         <div class="mb-3">
             <label for="pickedFile" class="form-label">Upload a profile Picture</label>
             <input class="form-control" id="pickedFile" type="hidden" name="avatar" th:field="*{avatarUrl}">
-            <button type="button" id="open">Choose image to upload</button>
+            <button type="button" class="btn btn-outline-secondary mb-3 whiteFont" id="open">Choose image to upload</button>
         </div>
         <div class="mb-3 form-check form-switch">
             <label for="private" class="form-label">Make profile only visible to logged in users</label>
@@ -69,7 +69,7 @@
 
         <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.testing.site.key')}"></div>
 
-        <input class="mt-3" value="Sign me up!" type="submit"/>
+        <input class="btn btn-outline-secondary mb-3 whiteFont mt-3" value="Sign me up!" type="submit"/>
 
         <div class="my-3">
             <a class="" th:href="@{/login}">Already A User? Sign In!</a>

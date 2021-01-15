@@ -82,7 +82,7 @@
                 <div>
                     <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id==file.owner.id}"
                           th:action="@{/files/{id}/edit(id=${file.id})}" th:value="${file.id}" method="post">
-                        <button class="btn btn-danger" type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit
+                        <button class="btn btn-outline-danger" type="button"><a th:href="@{/files/{id}/edit(id=${file.id})}">Edit
                             File</a></button>
                     </form>
                 </div>
@@ -124,7 +124,7 @@
                             <option th:value="9">9</option>
                             <option th:value="10">10</option>
                         </select>
-                        <input th:type="submit" value="Submit">
+                        <input th:type="submit" class="btn btn-outline-secondary whiteFont" value="Submit">
                     </form>
                 </div>
             </div>
@@ -168,7 +168,7 @@
                         <hr>
                         <div sec:authorize="isAuthenticated()">
                             <div>
-                                <a class="btn btn-secondary btn-sm" data-bs-toggle="collapse"
+                                <a class="btn btn-outline-secondary btn-sm" data-bs-toggle="collapse"
                                    th:href="'#id'+${comment.id}"
                                    role="button"
                                    aria-expanded="false" aria-controls="collapseExample">
@@ -182,7 +182,7 @@
                                         <textarea name="replyText" id="commentbox1"
                                                   class="form-control field"></textarea>
                                     </div>
-                                    <input th:type="submit" value="post comment">
+                                    <input th:type="submit" class="btn btn-outline-secondary whiteFont" value="post comment">
                                 </form>
                             </div>
                         </div>
@@ -192,7 +192,7 @@
                             <form th:action="@{/files/{id}/comment/{commentId}/delete(id=${file.id}, commentId=${comment.id})}"
                                   th:method="post">
                                 <input type="hidden" name="commentId" th:value="${comment.id}">
-                                <button class="btn btn-danger btn-sm" th:type="submit">Delete comment</button>
+                                <button class="btn btn-outline-danger btn-sm" th:type="submit">Delete comment</button>
                             </form>
                         </div>
                     </div>
@@ -204,7 +204,7 @@
                             <label for="commentbox" class="form-label fs-5">Leave your comment: </label>
                             <textarea name="commentText" id="commentbox" class="form-control field"></textarea>
                         </div>
-                        <input th:type="submit" value="post comment" class="btn btn-secondary">
+                        <input th:type="submit" value="post comment" class="btn btn-outline-secondary">
                     </form>
                 </div>
 
@@ -220,7 +220,6 @@
                 <!--                        <img th:src="${img.img_url}" alt="file img"/>-->
                 <!--                    </div>-->
                 <!--                </div>-->
-                <!--    TODO:rendering needs to go in to the following tag-->
                 <div th:value="${file.fileUrl}"></div>
 
             </div>
