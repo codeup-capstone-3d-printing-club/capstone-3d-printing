@@ -6,54 +6,55 @@
 <body class="colorBackground">
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <nav th:replace="partials/navbar :: navbar"></nav>
-<div class="backgroundDiv">
-    <div class="row">
-        <div class="col-auto">
-            <h1 class=" welcome  my-3">Create a 3D File to Share</h1>
+<div class="container">
+    <div class="backgroundDiv">
+        <!--    <div class="row">-->
+        <h1 class=" welcome  my-3">Create a 3D File to Share</h1>
+        <!--    </div>-->
+        <div th:if="${message!=null}">
+            <span class="alert alert-danger" th:text="${message}"></span>
         </div>
+        <!--upload form-->
+        <form id="upload-form" th:action="@{/files/create}" th:method="POST" th:object="${file}"
+              onsubmit="return validateSignup()"
+              class="backgroundDiv card ml-1">
+            <div class="my-3 mx-2">
+                <label for="exampleFormControlInput1" class="form-label">Title</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{title}"
+                       placeholder="Give your 3D model a title" required>
+            </div>
+            <div class="mb-3 mx-2">
+                <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" th:field="*{description}"
+                          rows="3" required></textarea>
+            </div>
+            <div class="mb-6 mx-2">
+                <input class="form-control form-control-lg" id="pickedFile" type="hidden" th:field="*{fileUrl}">
+                <button type="button" class="btn btn-outline-secondary mb-3 whiteFont" id="open">Choose your 3D File
+                </button>
+            </div>
+            <br>
+            <div class="my-6 mx-2">
+                <div>Pick categories (limit three):</div>
+                <th:block th:each="category : ${categoryList}">
+                    <div class="form-check form-check-inline m-2">
+                        <input class="form-check-input checkbox" type="checkbox"
+                               th:id="${category.category}" name="categories" th:value="${category.id}"/>
+                        <label class="form-check-label" th:for="${category.category}"
+                               th:text="${category.category}"></label>
+                    </div>
+                </th:block>
+            </div>
+            <div class="my-3 mx-2 form-check form-switch">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" th:field="*{private}">
+                <label class="form-check-label" for="exampleCheck1">Set as private</label>
+            </div>
+            <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.testing.site.key')}"
+                 data-callback="onSubmit" data-size="invisible" data-badge="inline">
+            </div>
+            <input type="submit" class="btn btn-outline-secondary whiteFont my-3">
+        </form>
     </div>
-    <div th:if="${message!=null}">
-        <span class="alert alert-danger" th:text="${message}"></span>
-    </div>
-    <!--upload form-->
-    <form id="upload-form" th:action="@{/files/create}" th:method="POST" th:object="${file}"
-          onsubmit="return validateSignup()"
-          class="backgroundDiv card ml-1 col-auto">
-        <div class="my-3 mx-2">
-            <label for="exampleFormControlInput1" class="form-label">Title</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{title}"
-                   placeholder="Give your 3D model a title" required>
-        </div>
-        <div class="mb-3 mx-2">
-            <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" th:field="*{description}"
-                      rows="3" required></textarea>
-        </div>
-        <div class="mb-6 mx-2">
-            <input class="form-control form-control-lg" id="pickedFile" type="hidden" th:field="*{fileUrl}">
-            <button type="button" id="open">Choose your 3D File</button>
-        </div>
-        <br>
-        <div class="my-6 mx-2">
-            <div>Pick categories (limit three):</div>
-            <th:block th:each="category : ${categoryList}">
-                <div class="form-check form-check-inline m-2">
-                    <input class="form-check-input checkbox" type="checkbox"
-                           th:id="${category.category}" name="categories" th:value="${category.id}"/>
-                    <label class="form-check-label" th:for="${category.category}"
-                           th:text="${category.category}"></label>
-                </div>
-            </th:block>
-        </div>
-        <div class="my-3 mx-2 form-check form-switch">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1" th:field="*{private}">
-            <label class="form-check-label" for="exampleCheck1">Set as private</label>
-        </div>
-        <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.testing.site.key')}"
-             data-callback="onSubmit" data-size="invisible" data-badge="inline">
-        </div>
-        <input type="submit" class="btn btn-outline-secondary my-3">
-    </form>
 </div>
 <!--<img id="example1" th:src="@{${'/image/3d_ex1'}}" class="rounded img-fluid img-thumbnail" alt="3d Printer">-->
 <footer th:replace="partials/footer_partial :: footer"></footer>
@@ -75,11 +76,10 @@
     }
 </script>
 <script>
-    $('.checkbox').click(function(){
+    $('.checkbox').click(function () {
         if ($('.checkbox:checked').length >= 3) {
-            $(".checkbox").not(":checked").attr("disabled",true);
-        }
-        else
+            $(".checkbox").not(":checked").attr("disabled", true);
+        } else
             $(".checkbox").not(":checked").removeAttr('disabled');
     });
 </script>

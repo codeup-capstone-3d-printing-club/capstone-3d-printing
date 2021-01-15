@@ -9,6 +9,7 @@
 <div class="container">
     <h1 class="mt-3">Admin Dashboard</h1>
 
+
     <div class="d-flex align-items-start">
         <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link admin-tab active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab"
@@ -40,10 +41,10 @@
                         <h5 th:text="${post.title}"></h5>
                         <p th:text="${post.description}"></p>
                         <form th:action="@{/files/{id}/flag(id=${post.id})}" th:method="post">
-                            <button th:type="submit" class="btn btn-danger p-1 m-1">Flag Post</button>
+                            <button th:type="submit" class="btn btn-outline-danger p-1 m-1">Flag Post</button>
                         </form>
                         <form th:action="@{/files/{id}/delete(id=${post.id})}" th:method="delete">
-                            <button th:type="submit" class="btn btn-danger p-1 m-1">Delete Post</button>
+                            <button th:type="submit" class="btn btn-outline-danger p-1 m-1">Delete Post</button>
                         </form>
                     </div>
                 </div>
@@ -57,7 +58,7 @@
                         <h5 th:text="${admin.username}"></h5>
                         <p th:text="${admin.joinedAt}"></p>
                         <form th:action="@{/users/{id}/removeAdmin(id=${admin.id})}" th:method="post">
-                            <button th:type="submit" class="btn btn-danger p-1 m-1">Remove from admins</button>
+                            <button th:type="submit" class="btn btn-outline-danger p-1 m-1">Remove from admins</button>
                         </form>
                     </div>
                 </div>
@@ -71,13 +72,13 @@
                         <h5 th:text="${user.username}"></h5>
                         <p th:text="${user.joinedAt}"></p>
                         <form th:action="@{/users/{id}/flag(id=${user.id})}" th:method="post">
-                            <button th:type="submit" class="btn btn-danger p-1 m-1">Flag User</button>
+                            <button th:type="submit" class="btn btn-outline-danger p-1 m-1">Flag User</button>
                         </form>
                         <form th:action="@{/users/{id}/deactivate(id=${user.id})}" th:method="post">
-                            <button th:type="submit" class="btn btn-danger p-1 m-1">Deactivate User</button>
+                            <button th:type="submit" class="btn btn-outline-danger p-1 m-1">Deactivate User</button>
                         </form>
                         <form th:action="@{/users/{id}/makeAdmin(id=${user.id})}" th:method="post">
-                            <button th:type="submit" class="btn btn-danger p-1 m-1">Make Admin</button>
+                            <button th:type="submit" class="btn btn-outline-danger p-1 m-1">Make Admin</button>
                         </form>
                     </div>
                 </div>
@@ -93,7 +94,7 @@
                         <p th:text="${post.description}"></p>
                         <p th:text="${post.isFlagged()}"></p>
                         <form th:action="@{/files/{id}/unflag(id=${post.id})}" th:method="post">
-                            <button th:type="submit" class="btn btn-danger p-1 m-1">Unflag Post</button>
+                            <button th:type="submit" class="btn btn-outline-success p-1 m-1">Unflag Post</button>
                         </form>
                     </div>
                 </div>
@@ -109,7 +110,7 @@
                         <p th:text="${user.joinedAt}"></p>
                         <p th:text="${user.isFlagged()}"></p>
                         <form th:action="@{/users/{id}/unflag(id=${user.id})}" th:method="post">
-                            <button th:type="submit" class="btn btn-danger p-1 m-1">Unflag User</button>
+                            <button th:type="submit" class="btn btn-outline-success p-1 m-1">Unflag User</button>
                         </form>
                     </div>
                 </div>
@@ -125,7 +126,7 @@
                         <p th:text="${deUser.joinedAt}"></p>
                         <p th:text="${deUser.active}"></p>
                         <form th:action="@{/users/{id}/activate(id=${deUser.id})}" th:method="post">
-                            <button th:type="submit" class="btn btn-danger p-1 m-1">Re-activate User</button>
+                            <button th:type="submit" class="btn btn-outline-success p-1 m-1">Re-activate User</button>
                         </form>
                     </div>
                 </div>
