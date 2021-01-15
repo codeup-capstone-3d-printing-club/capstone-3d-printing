@@ -298,6 +298,17 @@ ul li {
     overflow-y: scroll;
 }
 
+.admin-tab {
+    border: 1px solid #3d3c3c;
+    background-color: black;
+    color: white;
+    /*width: 40px*/
+}
+.admin-tab:hover {
+    background-color: #0f52fc;
+    color: white;
+}
+
 
 /*media queries*/
 @media (min-width: 319px) and (max-width: 575.98px) {
