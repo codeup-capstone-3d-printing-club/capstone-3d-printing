@@ -195,8 +195,8 @@
                                                     aria-labelledby="edit File Button" class="fas fa-edit"></i></a>
                                             <form th:action="@{/files/{id}/delete(id=${file.id})}" th:method="post"
                                                   class="d-inline-block" id="delete-form">
-                                                <button th:type="button" class="btn btn-outline-danger" id="delete-btn">
-                                                    <i aria-labelledby="Delete File Button" th:onclick="'deleteFile(' + ${file.id} +')'"
+                                                <button th:type="button" class="btn btn-outline-danger" id="delete-btn" th:onclick="'deleteFile(' + ${file.id} +')'">
+                                                    <i aria-labelledby="Delete File Button"
                                                        class="fas fa-trash-alt">
                                                     </i>
                                                 </button>
