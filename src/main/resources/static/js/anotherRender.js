@@ -1,4 +1,4 @@
-// Necessary for camera/plane rotation
+    // Necessary for camera/plane rotation
 
 import * as THREE from './util/three.module.js';
 import {STLLoader} from './util/STLLoader.js';
@@ -53,7 +53,7 @@ container.appendChild(renderer.domElement);
 
 // Resize after viewport-size-change
 window.addEventListener('resize', onWindowResize, false);
-
+onWindowResize();
 function onWindowResize() {
 
     camera.aspect = window.innerWidth / window.innerHeight;
