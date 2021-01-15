@@ -33,7 +33,7 @@
                         <div th:if="${imgFiles != null}" class="">
                             <div id="carouselExampleFade" class="carousel slide carousel-fade"
                                  data-bs-ride="carousel">
-                                <div class="carousel-inner">
+                                <div class="carousel-inner overflow-scroll" style="max-height: 50vh;">
                                     <div class="carousel-item active">
                                         <img th:src="@{/image/teal-square.png}" class="d-block w-100" alt="...">
                                     </div>
