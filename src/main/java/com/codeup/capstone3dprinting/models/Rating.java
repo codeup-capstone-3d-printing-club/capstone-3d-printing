@@ -23,6 +23,10 @@ public class Rating {
     @Column(nullable = false)
     private int rating;
 
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
+
     public Rating(){}
 
     public Rating(long id, int rating, File file){

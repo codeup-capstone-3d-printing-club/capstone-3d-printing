@@ -21,12 +21,12 @@
             <div class="my-3 mx-2">
                 <label for="exampleFormControlInput1" class="form-label">Title</label>
                 <input type="text" class="form-control" id="exampleFormControlInput1" th:field="*{title}"
-                       placeholder="Give your 3D model a title" required>
+                       placeholder="Give your 3D model a title" maxlength="40" required>
             </div>
             <div class="mb-3 mx-2">
                 <label for="exampleFormControlTextarea1" class="form-label">Description</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" th:field="*{description}"
-                          rows="3" required></textarea>
+                          rows="3" maxlength="255" required></textarea>
             </div>
             <div class="mb-6 mx-2">
                 <input class="form-control form-control-lg" id="pickedFile" type="hidden" th:field="*{fileUrl}">

@@ -112,7 +112,7 @@
                 <!--TODO: needs to be one rating per file, per user-->
                 <div class="backgroundDiv mt-4" style="border: grey solid 1px">
                     <h5>Rating: </h5><h5 th:text="${#numbers.formatDecimal(averageRating,1,2)}"></h5>
-                    <form th:action="@{/files/{id}/rating(id=${file.id})}" th:method="post">
+                    <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id!=file.owner.id && !rated}" th:action="@{/files/{id}/rating(id=${file.id})}" th:method="post">
                         <label for="ratings">Rate this object</label>
                         <select id="ratings" th:name="ratings">
                             <option th:value="1">1</option>
