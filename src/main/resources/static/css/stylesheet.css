@@ -39,6 +39,10 @@ body {
     /*background-size: 100%;*/
 
 }
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background: #7a7a7a;
+}
 .messageItem{
     max-width: 25em;
     border-radius: 10px;
@@ -406,3 +410,26 @@ ul li {
 
 }
 
+.file-title-link {
+    color: #48dada;
+}
+
+.file-title-link:hover {
+    color: #407272;
+}
+
+.file-title-link:active {
+    color: papayawhip;
+}
+
+.navIconLink {
+    color: white !important;
+}
+
+.navIconLink:hover {
+    color: #407272 !important;
+}
+
+.navIconLink:active {
+    color: darkgray !important;
+}

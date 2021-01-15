@@ -47,13 +47,13 @@ class FileController {
     }
 
     @GetMapping("/files")
-    public String showAllFiles(Model model) {
+    public String showAllFiles(Model model, @RequestParam(name = "category", required = false) String categoryName) {
         HashMap<String, Integer> categoryAndFileNumber = new HashMap<>();
         for (Category categoryList : categoryDao.findAll()) {
             categoryAndFileNumber.put(capitalizeFirstLetter(categoryList.getCategory()), fileDao.findByCategories(categoryList).size());
         }
         model.addAttribute("categoryHashmap", categoryAndFileNumber);
-
+        model.addAttribute("initialCategory", categoryName);
         model.addAttribute("files", fileDao.findAll());
         model.addAttribute("pageTitle", "All Categories");
         model.addAttribute("totalFileNumber", fileDao.findAll().size());

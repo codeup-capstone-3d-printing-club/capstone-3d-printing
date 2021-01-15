@@ -19,7 +19,8 @@
                 <div onclick="allCategories()" style="cursor: pointer;"
                      class="list-group-item list-group-item-action whiteFont backgroundDiv m-0 d-flex justify-content-between align-items-center rounded-0">
                     All Categories<span class="badge whiteFont" th:text="${totalFileNumber}"></span></div>
-                <div th:each="categoryhash : ${categoryHashmap}" onclick="switchTo(this)" style="cursor: pointer;"
+                <div th:each="categoryhash : ${categoryHashmap}" onclick="switchTo(this.dataset.category)" style="cursor: pointer;"
+
                      class="list-group-item list-group-item-action backgroundDiv d-flex justify-content-between align-items-center m-0 rounded-0"
                      th:data-category="${categoryhash.key}">
                     <span class="whiteFont text-decoration-none" th:text="${categoryhash.key}"></span>
@@ -64,5 +65,12 @@
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
 <script th:src="@{/js/categoryFilter.js}"></script>
+<script th:inline="javascript">
+    console.log([[${initialCategory}]])
+
+    if ([[${initialCategory}]] != null) {
+        switchTo([[${initialCategory}]])
+    }
+</script>
 </body>
 </html>

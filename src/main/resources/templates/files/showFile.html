@@ -64,7 +64,7 @@
                              style="width:4rem;border-radius: 50%">
                     </span>
                     <a th:href="@{'/profile/' + ${file.getOwner().id}}"
-                       th:text="${file.getOwner().username}" class="fs-4 mx-3"></a>
+                       th:text="${file.getOwner().username}" class="fs-4 mx-3 file-title-link"></a>
                     <span>
                         <span>created at <span
                                 th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></span><br>
@@ -235,55 +235,8 @@
 <script th:inline="javascript">const fileUrl = [[${file.fileUrl}]]</script>
 <script type="module" th:src="@{/js/anotherRender.js}"></script>
 <section th:replace="partials/partials_scripts :: script"></section>
-<script th:inline="javascript">
-    function deleteComment(fileId, id) {
-        $(".delete-btn").prop("disabled", true)
+<script th:src="@{/js/commentAjax.js}">
 
-        $.ajax({
-            url: "/files/" + fileId + "/comment/" + id + "/delete?" + $("#delete-form" + id).serialize(),
-            type: "POST",
-            headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
-            success: function () {
-                $("#comments-main-" + id).fadeOut(500);
-                $(".delete-btn").prop("disabled", false)
-            }
-        });
-    }
-    function postComment(fileId) {
-
-        $("#post-btn").prop("disabled", true)
-
-        $.ajax({
-            url: "/files/" + fileId + "/comment?" + $("#post-form").serialize(),
-            type: "POST",
-            headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
-            success: function (data) {
-                let page = document.createElement("html");
-                $(page).html(data);
-                $('#comments-container').html(page.querySelector("#comments-container").innerHTML);
-
-                $("#post-btn").prop("disabled", false)
-            }
-        });
-    }
-
-    function postReply(fileId, commentId) {
-        $(".reply-btn").prop("disabled", true)
-
-        $.ajax({
-            url: "/files/" + fileId + "/comment/" + commentId + "?" + $("#reply-form" + commentId).serialize(),
-            type: "POST",
-            headers: {"X-CSRF-TOKEN": $("input[name='_csrf']").val()},
-            success: function (data) {
-
-                let page = document.createElement("html");
-                $(page).html(data);
-                $('#comments-container').html(page.querySelector("#comments-container").innerHTML);
-
-                $(".reply-btn").prop("disabled", false)
-            }
-        });
-    }
 </script>
 </body>
 </html>
