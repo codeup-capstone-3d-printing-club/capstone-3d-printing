@@ -180,9 +180,9 @@ body, .welcome, h1, h2, h3, h4, #formFont {
     border: black 2px solid
 }
 
-a:hover{
+a:hover {
     color: #48dada;
-
+}
 
 .whiteFont{
     color: white;
@@ -360,10 +360,20 @@ ul li {
         font-size: 3.7em;
     }
 
-    .
-    ar {
-        display: block;
-        text-align: center;
+    .searchbar{
+        display: none;
+    }
+    .searchbar2 {
+        display: flex!important;
+    }
+    .logoMain{
+        display: none;
+    }
+    .logoMobile{
+        display: flex!important;
+    }
+    .logoSup{
+
     }
 
     .describe{
@@ -375,6 +385,12 @@ ul li {
     .searchBar {
         display: flex;
         justify-content: flex-end;
+    }
+    .searchbar2{
+        display: none;
+    }
+    .logoMobile{
+        display: none;
     }
     .categoryDiv {
         margin-top: 2em;
