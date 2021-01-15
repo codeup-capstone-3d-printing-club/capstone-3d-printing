@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="partials/header_partial :: head">
-    <title id="pageTitle">SquareCubed | 400 Error</title>
+    <title id="pageTitle">SquareCubed | Client Error</title>
 </head>
 <body class="colorBackground">
 <nav th:replace="partials/navbar :: navbar"></nav>
@@ -11,13 +11,17 @@
     <th:block th:switch="${error}">
         <div th:case="'Not Found'">
             <h1>404</h1>
-            <h1>Page not found!!</h1>
+            <h1>There is nothing here</h1>
+            <h1>Look at something else</h1>
             <div class="d-flex flex-column justify-content-center align-items-center my-3">
                 <img th:src="@{/image/climbing-stairs.gif}" alt="3d-climbing-bear">
             </div>
         </div>
         <div th:case="'Forbidden'">
             <h1>You don't have permission to view this page.</h1>
+            <div class="d-flex flex-column justify-content-center align-items-center my-3">
+                <img th:src="@{/image/climbing-stairs.gif}" alt="3d-climbing-bear">
+            </div>
         </div>
     </th:block>
 </div>
