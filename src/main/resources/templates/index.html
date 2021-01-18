@@ -17,8 +17,10 @@
         <div class="col-12 col-md-3 mb-3 mt-0">
             <div id="categories-container" class=" list-group fs-5 border mt-0">
                 <div onclick="allCategories()" style="cursor: pointer;"
-                     class="list-group-item list-group-item-action whiteFont backgroundDiv m-0 d-flex justify-content-between align-items-center rounded-0">
-                    All Categories<span class="badge whiteFont" th:text="${totalFileNumber}"></span></div>
+                     class="list-group-item list-group-item-action whiteFont backgroundDiv m-0 d-flex
+                     justify-content-between align-items-center rounded-0">
+                    <span class="whiteFont text-decoration-none">All Categories</span>
+                    <span class="badge whiteFont" th:text="${totalFileNumber}"></span></div>
                 <div th:each="categoryhash : ${categoryHashmap}" onclick="switchTo(this.dataset.category)"
                      style="cursor: pointer;"
                      class="list-group-item list-group-item-action backgroundDiv d-flex justify-content-between align-items-center m-0 rounded-0"

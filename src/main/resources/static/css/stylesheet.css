@@ -468,3 +468,7 @@ ul li {
 .hoverColor:hover {
     background: #407272;
 }
+
+.accordion-button {
+    color: white;
+}
