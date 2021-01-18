@@ -12,11 +12,11 @@
 
 <!--            mobile searchbar-->
             <div class="searchbar2  align-items-center justify-content-center mx-0">
-                <form class="searchbar2" th:fragment="searchbar" th:action="@{/files/search}" th:method="get" id="search-form">
+                <form class="searchbar2" th:fragment="searchbar" th:action="@{/files/search}" th:method="get" id="search-form-2">
                     <input style="border-radius: 5px;" type="text" name="search" placeholder="Search...">
                     <a aria-labelledby="searchButton" style="border-radius: 7px;" class="searchBtn mt-0 mx-2"
-                       type="submit" name="searchBar" onclick="$('#search-form').submit()"><i
-                            class="fas fa-search"></i></a>
+                       type="submit" name="searchBar" onclick="$('#search-form-2').submit()">
+                        <i class="fas fa-search"></i></a>
                 </form>
                 <div sec:authorize="isAuthenticated()" class="nav-item m-0">
                     <form th:action="@{/logout}" th:method="post">
@@ -108,10 +108,10 @@
                     </ul>
                 </section>
                 <div class="searchbar input-group align-items-center justify-content-end">
-                    <form class="searchbar" th:fragment="searchbar" th:action="@{/files/search}" th:method="get" id="search-form">
+                    <form class="searchbar" th:fragment="searchbar" th:action="@{/files/search}" th:method="get" id="search-form-1">
                         <input style="border-radius: 5px;" type="text" name="search" placeholder="Search...">
                         <a aria-labelledby="searchButton" style="border-radius: 7px;" class="searchBtn mt-0 mx-2"
-                                type="submit" name="searchBar" onclick="$('#search-form').submit()"><i
+                           name="searchBar" onclick="$('#search-form-1').submit()"><i
                                 class="fas fa-search"></i></a>
                     </form>
                     <div sec:authorize="isAuthenticated()" class="nav-item m-0">
