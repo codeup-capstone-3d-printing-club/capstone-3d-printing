@@ -11,11 +11,15 @@
 <div class="container">
     <div th:if="${param.sent}">Message Sent!</div>
 
-    <div class="backgroundDiv">
+    <div class="backgroundDiv w-50">
         <div th:replace="partials/messages::messageOptions"></div>
     </div>
   
-    <div class="backgroundDiv"><h4><a class="btn btn-outline-secondary whiteFont" href="/messages/compose" style="text-decoration: none; color: white;margin-left: 2em">Compose a message</a></h4></div>
+    <div class="backgroundDiv w-50 row justify-content-center">
+        <h4 class="m-0 w-auto">
+            <a class="btn btn-outline-secondary whiteFont m-0" href="/messages/compose" style="text-decoration: none; color: white;margin-left: 2em">Compose a message</a>
+        </h4>
+    </div>
 </div>
   
 <footer th:include="partials/footer_partial::footer"></footer>

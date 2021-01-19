@@ -20,7 +20,7 @@
     </div>
 
     <div>
-        SENT AT: <span th:text="${message.sentAt}"></span>
+        SENT AT: <span th:text="${#temporals.format(message.sentAt.toLocalDateTime(), 'MM-dd-yyyy HH:mm')}"></span>
     </div>
 </div>
 
@@ -42,13 +42,13 @@
     <div th:fragment="inboxMessages" class="tab-pane fade show active" data-toggle="pill"   id="inbox" role="tabpanel"
          aria-labelledby="inbox-tab">
 <!--            collapse-->
-        <p class="col-4">
-            <a class="btn btn-secondary" data-toggle="collapse" href="#msg" role="button" aria-expanded="false" aria-controls="collapseExample">Inbox</a>
+        <p class="row justify-content-center">
+            <a class="btn btn-secondary w-25" data-toggle="collapse" href="#msg" role="button" aria-expanded="false" aria-controls="collapseExample">Inbox</a>
 
         </p>
-        <div class="collapse col-4" id="msg">
-            <div class="d-flex collapse col-lg-4">
-                <table  class="messageItem table table-hover table-dark ">
+        <div class="collapse" id="msg">
+            <div class="d-flex collapse">
+                <table  class="messageItem table table-hover table-dark mw-100 w-100">
                     <thead>
                     <tr>
                         <th scope="col">From:</th>
@@ -66,8 +66,8 @@
                                        th:href="${'#message-' + message.id}" role="tablist"
                                        th:aria-controls="${'message-' + message.id}"
                                        th:onclick="'javascript:markRead(' + ${message.id} + ')'">
-                                        <span th:if="${message.unread}" th:text="${#strings.abbreviate(message.message, 20)}" class="text-danger"></span>
-                                        <span th:unless="${message.unread}" th:text="${#strings.abbreviate(message.message, 20)}"></span>
+                                        <span th:if="${message.unread}" th:text="${#strings.abbreviate(message.message, 50)}" class="text-danger"></span>
+                                        <span th:unless="${message.unread}" th:text="${#strings.abbreviate(message.message, 50)}"></span>
                                     </a>
                                 </li>
                             </ul>
@@ -83,12 +83,12 @@
 <!--sent-->
     <div th:fragment="sentMessages" class="tab-pane fade show active " data-toggle="pill"   id="sentBox" role="tabpanel" aria-labelledby="sent-tab">
         <!--            collapse-->
-        <p class="col-4">
-            <a class="btn btn-secondary" data-toggle="collapse" href="#sentMsg" role="button" aria-expanded="false" aria-controls="collapseExample">Sent</a>
+        <p class="row justify-content-center mb-0">
+            <a class="btn btn-secondary w-25" data-toggle="collapse" href="#sentMsg" role="button" aria-expanded="false" aria-controls="collapseExample">Sent</a>
         </p>
-        <div class="collapse col-lg-4" id="sentMsg">
-            <div class="d-flex collapse col-4 ">
-                <table class="messageItem table table-hover table-dark ">
+        <div class="collapse" id="sentMsg">
+            <div class="d-flex collapse">
+                <table class="messageItem table table-hover table-dark mw-100 w-100 mt-3">
                     <thead>
                     <tr>
                         <th scope="col">From:</th>
@@ -104,7 +104,7 @@
                                        th:id="${'message-' + message.id + '-tab'}" data-toggle="tab"
                                        th:href="${'#message-' + message.id}" role="tab"
                                        th:aria-controls="${'message-' + message.id}"
-                                       th:text="${#strings.abbreviate(message.message, 20)}">
+                                       th:text="${#strings.abbreviate(message.message, 50)}">
                                     </a>
                                 </li>
                             </ul>
