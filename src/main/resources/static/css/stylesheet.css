@@ -389,6 +389,19 @@ ul li {
         margin-top: -200px;
     }
 }
+ol {
+
+}
+ol li {
+    /* or 'decimal-leading-zero', 'upper-alpha', 'lower-alpha'... */
+    list-style: decimal outside;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+li::marker{
+    font-size: 2em;/* gives 'room' for the numbers to appear in */
+}
+
 
 @media screen and (min-width: 1020px ) {
     .searchBar {
