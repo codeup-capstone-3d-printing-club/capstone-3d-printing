@@ -103,7 +103,6 @@
                         <input type="checkbox" class="form-check" th:id="${'setting' + setting.id}"
                                th:name="setting" th:value="${setting.id}" th:checked="${checked.contains(setting.id)}">
                         <span th:text="${setting.description}"></span>
-
                     </label>
                 </div>
             </div>
@@ -162,14 +161,14 @@
             <input id="private" class="form-check-input" type="checkbox" th:value="${user.private}"
                    th:field="*{private}" th:checked="*{private}"/>
         </div>
-        <div class="row">
+
             <button class="col-2 btn btn-outline-secondary whiteFont" type="button"
                     th:onclick="'javascript:saveDetails(' + ${user.id} + ')'" id="save-details">Save
             </button>
             <div class="col-auto d-flex align-items-center">
 
             <span class="col-auto d-none text-white" id="details">Changes saved</span>
-            </div>
+
 
 
         </div>
