@@ -68,7 +68,7 @@
                        th:text="${file.getOwner().username}" class="fs-4 mx-3 file-title-link"></a>
                     <span>
                         <span>created at <span
-                                th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></span><br>
+                                th:text="${#dates.format(file.createdAt,'yyyy-MM-dd')}"></span></span><br><br>
                         <span class="mx-auto">Last updated at <span
                                 th:text="${#dates.format(file.updatedAt, 'yyyy-MM-dd')}"></span></span>
                     </span>
@@ -156,7 +156,7 @@
             <hr>
             <div>
                 <h4>Description</h4>
-                <p th:text="${file.description}"></p>
+                <p class="mt-3 fs-5" th:text="${file.description}"></p>
             </div>
             <hr>
             <h4>Comments</h4>
