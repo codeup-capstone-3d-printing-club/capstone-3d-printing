@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded', function () {
     const options = {
         maxFiles: 20,
         uploadInBackground: false,
+        accept: [".stl"],
         onUploadDone: uploadFile
     };
     const picker = client.picker(options);
