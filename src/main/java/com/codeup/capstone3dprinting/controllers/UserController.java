@@ -50,7 +50,8 @@ class UserController {
     }
 
     @PostMapping("/users/follow/{id}")
-    public String followUser(@PathVariable long id,
+    @ResponseBody
+    public void followUser(@PathVariable long id,
                              @RequestParam(name = "following") boolean following) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -75,8 +76,6 @@ class UserController {
         }
 
         userDao.save(currentUser);
-
-        return "redirect:/profile/" + id;
     }
 
     @GetMapping("/profile/{id}")

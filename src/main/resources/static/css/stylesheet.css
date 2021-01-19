@@ -360,10 +360,21 @@ ul li {
         font-size: 3.7em;
     }
 
-    .
-    ar {
-        display: block;
-        text-align: center;
+    .searchbar{
+        display: none;
+    }
+    .searchbar2 {
+        display: flex!important;
+    }
+    .logoMain{
+        display: none;
+    }
+    .logoMobile{
+        display: block!important;
+
+    }
+    .logoSup{
+
     }
 
     .describe{
@@ -375,6 +386,12 @@ ul li {
     .searchBar {
         display: flex;
         justify-content: flex-end;
+    }
+    .searchbar2{
+        display: none;
+    }
+    .logoMobile{
+        display: none;
     }
     .categoryDiv {
         margin-top: 2em;
@@ -446,4 +463,12 @@ ul li {
 
 .navIconLink:active {
     color: darkgray !important;
+}
+
+.hoverColor:hover {
+    background: #407272;
+}
+
+.accordion-button {
+    color: white;
 }

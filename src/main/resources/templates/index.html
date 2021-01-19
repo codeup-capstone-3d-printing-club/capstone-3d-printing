@@ -6,24 +6,23 @@
 </head>
 <body class="colorBackground">
 <nav class="sticky-top" th:replace="partials/navbar :: navbar"></nav>
-
 <!--<h1 th:if="${requestedCategories == null}">All files</h1>-->
-
 <!--<h1 th:if="${requestedCategories != null}" th:text="${requestedCategories.category}"></h1>-->
-<section >
-<h1 class="mt-3 " style="margin-bottom: 2em" th:text="${pageTitle}" id="page-title"></h1>
-<div class="text-center mb-3" th:text="${results}"></div>
+<section>
+    <h1 class="mt-3 " style="margin-bottom: 2em" th:text="${pageTitle}" id="page-title"></h1>
+    <div class="text-center mb-3" th:text="${results}"></div>
 </section>
 <div class="container">
     <div class="row indexView display-flex justify-content-start align-content-center flex-wrap">
         <div class="col-12 col-md-3 mb-3 mt-0">
             <div id="categories-container" class=" list-group fs-5 border mt-0">
-                <div   onclick="allCategories()" style="cursor: pointer;"
-                      class="list-group-item list-group-item-action whiteFont backgroundDiv m-0 d-flex justify-content-between align-items-center rounded-0">
-                    All Categories<span class="badge whiteFont" th:text="${totalFileNumber}"></span></div>
+                <div onclick="allCategories()" style="cursor: pointer;"
+                     class="list-group-item list-group-item-action whiteFont backgroundDiv m-0 d-flex
+                     justify-content-between align-items-center rounded-0">
+                    <span class="whiteFont text-decoration-none">All Categories</span>
+                    <span class="badge whiteFont" th:text="${totalFileNumber}"></span></div>
                 <div th:each="categoryhash : ${categoryHashmap}" onclick="switchTo(this.dataset.category)"
                      style="cursor: pointer;"
-
                      class="list-group-item list-group-item-action backgroundDiv d-flex justify-content-between align-items-center m-0 rounded-0"
                      th:data-category="${categoryhash.key}">
                     <span class="whiteFont text-decoration-none" th:text="${categoryhash.key}"></span>
@@ -33,23 +32,24 @@
                 </div>
             </div>
         </div>
-
-
         <!--        file cards-->
         <div class="col d-flex flex-wrap ">
             <div class="fileCard card backgroundDiv p-1 mt-0 col-12 col-md-5 d-flex flex-column align-content-start justify-content-between fs-5"
                  th:each="file : ${files}" th:id="${'file' + file.id}">
-
+                <!--                title-->
+                <h2 class="card-header bg-light"><a style="font-weight: bold; color: #14560b"
+                                                    th:href="@{'/files/' + ${file.id}}"
+                                                    th:text="${file.title}"></a></h2>
+                <!--                image-->
+                <a class="py-2" th:href="@{'/files/' + ${file.id}}"><img th:if="${file.images.size()>0}"
+                                                                         th:src="${file.images.get(0).img_url}"
+                                                                         class="thumbnailPic d-block w-20"
+                                                                         alt="file img"/></a>
+                <!--                3d  -->
                 <div class="card-img" th:data-original-title="${file.fileUrl}" th:id="${'renderIndex' + file.id}">
                     <script type="module" th:src="@{/js/indexRender.js}"></script>
                 </div>
-<!--                title-->
-                <h2 class="card-header bg-light"><a style="font-weight: bold; color: #14560b" th:href="@{'/files/' + ${file.id}}"
-                                                    th:text="${file.title}"></a></h2>
-<!--                image-->
-                <a class="py-2" th:href="@{'/files/' + ${file.id}}"><img th:if="${file.images.size()>0}"
-                                                            th:src="${file.images.get(0).img_url}"
-                                                            class="thumbnailPic d-block w-20" alt="file img"/></a>
+                <!--                description-->
                 <p class="card-text text-left px-2" style="font-weight:lighter;"
                    th:text="${#strings.abbreviate(file.description, (file.description.length()>80 ? file.description.length() * 0.5 : 60 ))}"></p>
                 <div class="d-none" th:each="category : ${file.categories}">
@@ -71,13 +71,8 @@
         </div>
     </div>
 </div>
-<!--        **********************************
 
--->
-<!--    </div>-->
-<!--</div>-->
 
-<!--<script type="module" th:src="@{/js/indexRender.js}"></script>-->
 <footer th:replace="partials/footer_partial :: footer"></footer>
 <section th:replace="partials/partials_scripts :: script"></section>
 <script th:src="@{/js/categoryFilter.js}"></script>

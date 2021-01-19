@@ -1,8 +1,9 @@
 window.addEventListener('DOMContentLoaded', function () {
     const client = filestack.init(FILESTACK_API_KEY);
     const options = {
-        maxFiles: 20,
+        maxFiles: 1,
         uploadInBackground: false,
+        accept: [".stl"],
         onUploadDone: uploadFile
     };
     const picker = client.picker(options);
@@ -16,6 +17,6 @@ window.addEventListener('DOMContentLoaded', function () {
         console.log(fileData.mimeType);
         $('#pickedFile').val(fileData.url);
         $('#open').text(fileData.filename);
+        $('#uploadMessage').text('Upload Succeed!');
     }
-
 });
