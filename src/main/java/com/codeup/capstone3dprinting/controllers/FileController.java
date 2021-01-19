@@ -3,9 +3,6 @@ package com.codeup.capstone3dprinting.controllers;
 import com.codeup.capstone3dprinting.models.*;
 import com.codeup.capstone3dprinting.repos.*;
 import com.codeup.capstone3dprinting.services.ReCaptchaValidationService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -29,13 +26,14 @@ class FileController {
     private final SettingRepository settingDao;
     private final MessageRepository messageDao;
     private final ImagesRepository imageDao;
+    private final RatingRepository ratingsDao;
 
     @Autowired
     private ReCaptchaValidationService validator;
 
     public FileController(FileRepository fileDao, CommentRepository commentDao, UserRepository userDao,
                           RatingRepository ratingDao, CategoryRepository categoryDao, SettingRepository settingDao,
-                          MessageRepository messageDao, ImagesRepository imageDao) {
+                          MessageRepository messageDao, ImagesRepository imageDao, RatingRepository ratingsDao) {
         this.fileDao = fileDao;
         this.commentDao = commentDao;
         this.userDao = userDao;
@@ -44,6 +42,7 @@ class FileController {
         this.settingDao = settingDao;
         this.messageDao = messageDao;
         this.imageDao = imageDao;
+        this.ratingsDao = ratingsDao;
     }
 
     @GetMapping("/files")
@@ -253,7 +252,9 @@ class FileController {
         user = userDao.findByFiles(fileDao.getOne(id));
 
         if (currentUser.getId() == user.getId()) {
+            ratingsDao.deleteAll(ratingsDao.findAllByFile(file));
             file.setCategories(new ArrayList<>());
+
             fileDao.save(file);
             fileDao.delete(file);
         }
@@ -271,7 +272,8 @@ class FileController {
     }
 
     @PostMapping("/files/{id}/comment")
-    public String comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
+    @ResponseBody
+    public void comment(@PathVariable long id, @RequestParam(name = "commentText") String commentText) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
         File file = fileDao.getOne(id);
@@ -291,11 +293,11 @@ class FileController {
         newComment.setOwner(currentUser);
         commentDao.save(newComment);
 
-        return "redirect:/files/" + id;
     }
 
     @PostMapping("files/{id}/comment/{commentId}")
-    public String replyAComment(@PathVariable long id, @PathVariable long commentId, @RequestParam(name = "replyText") String replyText) {
+    @ResponseBody
+    public void replyAComment(@PathVariable long id, @PathVariable long commentId, @RequestParam(name = "replyText") String replyText) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = userDao.getOne(user.getId());
         File file = fileDao.getOne(id);
@@ -316,7 +318,6 @@ class FileController {
         newComment.setParent(currentComment);
         commentDao.save(newComment);
 
-        return "redirect:/files/" + id;
     }
 
     @PostMapping("/files/{id}/comment/{commentId}/delete")
@@ -360,7 +361,8 @@ class FileController {
     }
 
     @PostMapping("files/favorite/{id}")
-    public String favoritePost(@PathVariable long id,
+    @ResponseBody
+    public void favoritePost(@PathVariable long id,
                                @RequestParam(name = "favorited") boolean favorited) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -373,7 +375,7 @@ class FileController {
             currentUser.getFavorites().add(thisFile);
         }
         userDao.save(currentUser);
-        return "redirect:/files/" + id;
+
     }
 
     @GetMapping("files/search")
