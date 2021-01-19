@@ -7,9 +7,9 @@
 <body class="colorBackground">
 <nav th:replace="partials/navbar :: navbar"></nav>
 <div class="container mt-4">
-    <div class="row">
+    <div class="row d-flex flex-column align-items-center justify-content-center">
         <div class="col-12 col-sm-6 col-md-3">
-            <div class="backgroundDiv d-flex flex-column align-items-center justify-content-start">
+            <div class="backgroundDiv">
                 <h1><span th:text="${user.username}"></span> has a private profile, <a th:href="@{/privateRedirect/{id}(id=${user.id})}">log
                     in</a> to view this profile.
                 </h1>
