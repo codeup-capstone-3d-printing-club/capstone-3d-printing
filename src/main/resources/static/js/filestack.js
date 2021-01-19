@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', function () {
     const client = filestack.init(FILESTACK_API_KEY);
     const options = {
-        maxFiles: 20,
+        maxFiles: 1,
         uploadInBackground: false,
         accept: [".stl"],
         onUploadDone: uploadFile
