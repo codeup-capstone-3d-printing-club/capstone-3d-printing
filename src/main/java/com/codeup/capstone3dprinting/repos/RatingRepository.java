@@ -10,5 +10,6 @@ import java.util.List;
 public interface RatingRepository extends JpaRepository<Rating, Long> {
     List<Rating> getAllByFile_Id(long id);
     Rating findRatingByFileAndOwner(File file, User owner);
+    List<Rating> findAllByFile(File file);
 }
 
