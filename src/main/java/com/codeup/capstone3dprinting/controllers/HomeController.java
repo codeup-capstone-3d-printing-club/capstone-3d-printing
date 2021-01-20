@@ -28,7 +28,6 @@ public class HomeController {
 
 
 
-
         model.addAttribute("topRated", top5);
 //        model.addAttribute("imgFiles", images);
         return "home";

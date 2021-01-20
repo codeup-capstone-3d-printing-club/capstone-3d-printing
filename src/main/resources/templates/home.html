@@ -52,13 +52,12 @@
                                                                 th:src="${file.images.get(0).img_url}"
                                                                 class="thumbnailPic d-block w-20" alt="file img"/></a>
                     <h4>by: <span th:text="${file.owner.username}"></span></h4>
-                    <h2>Rating: <span style="color:#caba5b " class="ml-0" th:text="${file.averageRating}"></span></h2>
+                    <h2>Rating: <span style="color:#caba5b " class="ml-0"  th:text="${#numbers.formatDecimal(file.averageRating, 1, 'COMMA', 2, 'POINT')}"></span></h2>
                 </li>
             </ol>
         </div>
         </div>
     <hr>
-
 </section>
 
 
