@@ -346,7 +346,7 @@ class FileController {
 
         List<Rating> list = ratingDao.getAllByFile_Id(id);
 
-        double newSum = file.getAverageRating() * (list.size() - 1)  + Math.round(newRating.getRating() * 100.0) / 100.0;;
+        double newSum = file.getAverageRating() * (list.size() - 1) + newRating.getRating();
 
         System.out.println("file.getAverageRating() = " + file.getAverageRating());
         System.out.println("list.size() = " + list.size());
