@@ -336,10 +336,31 @@ ul li {
     background-color: #4c8c7f!important;
 }
 
+.profileBtn {
+    background-color: #407272;
+}
 
+.profileBtn:hover {
+    background-color: #2b4949;
+}
 
+a.fileHeader {
+    padding: 0;
+}
 
+.fileHeader>h2 {
+    color: #14560b;
+    font-weight: bold;
+    margin: 0;
+    position: relative;
+    left: 5%;
+    max-width: 95%;
+}
 
+.fileHeader:hover {
+    background: #4c8c7f!important;
+    color: white!important;
+}
 
 
 
@@ -493,3 +514,12 @@ li::marker{
 .accordion-button {
     color: white;
 }
+
+.accordion-button:hover {
+    background: #90a890;
+}
+
+.accordion-button.collapsed:hover {
+    background: #485248;
+}
+

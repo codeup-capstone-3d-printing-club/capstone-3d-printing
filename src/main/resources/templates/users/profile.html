@@ -40,8 +40,8 @@
                 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == user.id}">
                     <form th:action="@{/profile/{id}/changeAvatar(id=${user.id})}" class="d-flex flex-column"
                           th:method="post" id="submitAvatar">
-                        <button th:type="button" class="btn btn-outline-secondary whiteFont"
-                                style="background-color: #407272" onclick="showAvatarForm('AvatarFilePicker')">
+                        <button th:type="button" class="profileBtn btn btn-outline-secondary whiteFont"
+                                onclick="showAvatarForm('AvatarFilePicker')">
                             Change Avatar
                         </button>
                         <div style="display: none" id="AvatarFilePicker">
@@ -58,8 +58,7 @@
                     <form th:object="${user}" class="d-flex flex-column" th:action="@{/profile/{id}/edit(id=*{id})}"
                           th:value="*{id}"
                           method="get">
-                        <button type="submit" class="btn btn-outline-secondary whiteFont"
-                                style="background-color: #407272">
+                        <button type="submit" class="btn btn-outline-secondary whiteFont profileBtn">
                             Edit Profile
                         </button>
                     </form>
@@ -169,7 +168,7 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="files" role="tabpanel">
                         <div class="row">
-                            <h3 class="text-center"><span th:text="${user.username}"></span>'s uploaded files</h3>
+<!--                            <h3 class="text-center"><span th:text="${user.username}"></span>'s uploaded files</h3>-->
                             <div th:each="file : ${thisUsersFiles}" th:id="'file-' + ${file.id}" class="col-12 col-md-6">
                                 <div class="card backgroundDiv d-flex flex-column align-items-start justify-content-between">
                                     <div class="card-header">
