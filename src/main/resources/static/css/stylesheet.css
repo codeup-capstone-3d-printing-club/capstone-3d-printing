@@ -336,6 +336,13 @@ ul li {
     background-color: #4c8c7f!important;
 }
 
+.profileBtn {
+    background-color: #407272;
+}
+
+.profileBtn:hover {
+    background-color: #2b4949;
+}
 
 
 
@@ -493,3 +500,12 @@ li::marker{
 .accordion-button {
     color: white;
 }
+
+.accordion-button:hover {
+    background: #90a890;
+}
+
+.accordion-button.collapsed:hover {
+    background: #485248;
+}
+
