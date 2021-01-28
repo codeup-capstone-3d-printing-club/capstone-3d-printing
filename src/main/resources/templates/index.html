@@ -37,14 +37,13 @@
             <div class="fileCard card backgroundDiv p-1 mt-0 col-12 col-md-5 d-flex flex-column align-content-start justify-content-between fs-5"
                  th:each="file : ${files}" th:id="${'file' + file.id}">
                 <!--                title-->
-                <h2 class="card-header bg-light"><a style="font-weight: bold; color: #14560b"
-                                                    th:href="@{'/files/' + ${file.id}}"
-                                                    th:text="${file.title}"></a></h2>
+                <a class="card-header bg-light fileHeader" th:href="@{'/files/' + ${file.id}}">
+                    <h2 class="fileHeader" th:text="${file.title}"></h2>
+                </a>
                 <!--                image-->
-                <a class="py-2" th:href="@{'/files/' + ${file.id}}"><img th:if="${file.images.size()>0}"
-                                                                         th:src="${file.images.get(0).img_url}"
-                                                                         class="thumbnailPic d-block w-20"
-                                                                         alt="file img"/></a>
+                <a class="py-2" th:if="${file.images.size()>0}" th:href="@{'/files/' + ${file.id}}">
+                    <img th:src="${file.images.get(0).img_url}" class="thumbnailPic d-block w-20" alt="file img"/>
+                </a>
                 <!--                3d  -->
                 <div class="card-img" th:data-original-title="${file.fileUrl}" th:id="${'renderIndex' + file.id}">
                     <script type="module" th:src="@{/js/indexRender.js}"></script>
@@ -63,7 +62,7 @@
                     </script>
                 </div>
                 <div class="text-start px-2">
-                    <span>By: </span><a class="card-link whiteFont" th:href="@{'/profile/' + ${file.owner.id}}"
+                    <span class="text-muted">by: </span><a class="card-link whiteFont" th:href="@{'/profile/' + ${file.owner.id}}"
                                         th:text="${file.owner.username}"></a>
                 </div>
             </div>
