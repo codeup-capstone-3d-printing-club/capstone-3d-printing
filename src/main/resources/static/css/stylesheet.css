@@ -523,3 +523,6 @@ li::marker{
     background: #485248;
 }
 
+.searchBtn:hover {
+    cursor: pointer;
+}

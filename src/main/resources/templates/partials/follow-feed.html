@@ -19,7 +19,7 @@
                 <hr class="bg-light w-100 m-1">
                 <div class="d-flex w-100 justify-content-between">
                     <div class="card-footer" style="color: #b3efbd">
-                        posted by:
+                        by:
                         <a th:text="${file.owner.username}" th:href="@{/profile/{id}(id=*{file.owner.id})}"></a>
                     </div>
                 </div>

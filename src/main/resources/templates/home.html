@@ -43,20 +43,26 @@
         <hr>
         <div class="container ">
             <ol class="row m-2 p-0">
-                <li class=" col-sm-12 col-lg-3 fs-5 border mx-4 p-2 backgroundDiv" id="listNumber w-100" th:each="file : ${topRated}">
-                    <div>
-                    <h2 class="card-header bg-light m-0"><a class=" w-100 mt-0 px-0" style="color: #2190c8;" th:href="@{'/files/' + ${file.id}}" th:text="${file.title}"></a></h2>
+                <li class=" col-sm-12 col-lg-3 fs-5 border mx-4 p-2 backgroundDiv" id="listNumber w-100"
+                    th:each="file : ${topRated}">
+                    <div class="fileCard card">
+                        <a class="card-header bg-light fileHeader w-100 mt-0 px-0" style="color: #2190c8;" th:href="@{'/files/' + ${file.id}}">
+                            <h2 class="m-0 fileHeader align-middle" th:text="${file.title}"></h2>
+                        </a>
                     </div>
                     <h4 class="mt-1" th:text="${file.description}"></h4>
                     <a th:href="@{'/files/' + ${file.id}}"><img th:if="${file.images.size()>0}"
                                                                 th:src="${file.images.get(0).img_url}"
                                                                 class="thumbnailPic d-block w-20" alt="file img"/></a>
-                    <h4>by: <span th:text="${file.owner.username}"></span></h4>
-                    <h2>Rating: <span style="color:#caba5b " class="ml-0"  th:text="${#numbers.formatDecimal(file.averageRating, 1, 'COMMA', 2, 'POINT')}"></span></h2>
+                    <h4>by: <a th:href="@{'/profile/' + ${file.owner.id}}"><span
+                            th:text="${file.owner.username}"></span></a></h4>
+                    <h2>Rating: <span style="color:#caba5b " class="ml-0"
+                                      th:text="${#numbers.formatDecimal(file.averageRating, 1, 'COMMA', 2, 'POINT')}"></span>
+                    </h2>
                 </li>
             </ol>
         </div>
-        </div>
+    </div>
     <hr>
 </section>
 
