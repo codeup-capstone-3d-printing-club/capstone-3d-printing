@@ -353,7 +353,7 @@ a.fileHeader {
     font-weight: bold;
     margin: 0;
     position: relative;
-    left: 5%;
+    left: 2%;
     max-width: 95%;
 }
 
@@ -481,6 +481,10 @@ li::marker{
 
     }
 
+}
+
+.categoryTitle {
+    font-family: 'Alegreya SC', serif;
 }
 
 .file-title-link {
